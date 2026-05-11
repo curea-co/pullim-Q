@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>풀림 라이브러리 — 막힘 모먼트 레시피 검증 (ImpasseToShort 60s)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", sans-serif; }
+  .step-arrow { color: #94a3b8; font-size: 28px; line-height: 1; }
+  .json-block { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; line-height: 1.55; }
+  .signal-pulse { animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: 0.55 } }
+  .slide { aspect-ratio: 9/16; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+<div class="mx-auto max-w-6xl px-6 py-10">
+
+  <!-- 헤더 -->
+  <header class="mb-10">
+    <p class="text-xs font-bold tracking-[0.18em] text-blue-600 uppercase">풀림 라이브러리 · 레시피 검증 mock</p>
+    <h1 class="mt-1 text-3xl font-bold tracking-tight">막힘 모먼트 → 60초 숏츠</h1>
+    <p class="mt-2 max-w-2xl text-sm leading-relaxed text-slate-500">
+      Q 도메인의 오답 신호가 어떻게 라이브러리 레시피를 발화시키고, 학습자 시드 + 캐파시티 컷을 거쳐 60초 다국어 숏츠로 변환되는지 한 페이지에서 검증.
+      라이브러리의 정체성을 "자료 창고"가 아니라 "학습 모먼트 변환 엔진"으로 두는 1개 사례.
+    </p>
+    <div class="mt-3 flex flex-wrap gap-1.5 text-[10px] font-bold tracking-wider uppercase">
+      <span class="rounded-full bg-blue-100 px-2.5 py-1 text-blue-700">반응형 모먼트</span>
+      <span class="rounded-full bg-rose-100 px-2.5 py-1 text-rose-700">Push (자동 발화)</span>
+      <span class="rounded-full bg-amber-100 px-2.5 py-1 text-amber-700">캐파시티 컷 적용</span>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       플로우 다이어그램
+       ============================================================ -->
+  <section class="mb-12">
+    <h2 class="text-xs font-bold tracking-[0.18em] text-slate-400 uppercase">전체 흐름</h2>
+    <div class="mt-3 flex flex-wrap items-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 text-sm">
+      <div class="flex-1 min-w-[120px] rounded-lg bg-slate-50 px-3 py-2 text-center">
+        <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">1. 신호</p>
+        <p class="mt-0.5 font-bold">학생 풀이 흔적</p>
+      </div>
+      <span class="step-arrow">→</span>
+      <div class="flex-1 min-w-[120px] rounded-lg bg-slate-50 px-3 py-2 text-center">
+        <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">2. 트리거</p>
+        <p class="mt-0.5 font-bold">모먼트 발화</p>
+      </div>
+      <span class="step-arrow">→</span>
+      <div class="flex-1 min-w-[120px] rounded-lg bg-slate-50 px-3 py-2 text-center">
+        <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">3. 조건분기</p>
+        <p class="mt-0.5 font-bold">캐파/우선순위</p>
+      </div>
+      <span class="step-arrow">→</span>
+      <div class="flex-1 min-w-[120px] rounded-lg bg-blue-50 px-3 py-2 text-center">
+        <p class="text-[10px] font-bold tracking-wider text-blue-500 uppercase">4. 레시피</p>
+        <p class="mt-0.5 font-bold text-blue-700">ImpasseToShort 60s</p>
+      </div>
+      <span class="step-arrow">→</span>
+      <div class="flex-1 min-w-[120px] rounded-lg bg-emerald-50 px-3 py-2 text-center">
+        <p class="text-[10px] font-bold tracking-wider text-emerald-600 uppercase">5. 출력</p>
+        <p class="mt-0.5 font-bold text-emerald-700">60초 다국어 숏츠</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       1. 신호 (Signal)
+       ============================================================ -->
+  <section class="mb-10">
+    <div class="mb-3 flex items-baseline gap-3">
+      <span class="rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">step 1</span>
+      <h2 class="text-lg font-bold">학습자 신호 — Q 도메인에서 자동 인입</h2>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <!-- 학생 컨텍스트 -->
+      <div class="rounded-xl border border-slate-200 bg-white p-4">
+        <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">학생 컨텍스트</p>
+        <dl class="mt-2 space-y-1.5 text-sm">
+          <div class="flex justify-between"><dt class="text-slate-500">이름</dt><dd class="font-semibold">서연 (고2)</dd></div>
+          <div class="flex justify-between"><dt class="text-slate-500">과목</dt><dd class="font-semibold">수학 (미적분)</dd></div>
+          <div class="flex justify-between"><dt class="text-slate-500">시험 D-Day</dt><dd class="font-semibold">D-21 (모의고사)</dd></div>
+          <div class="flex justify-between"><dt class="text-slate-500">θ (능력치)</dt><dd class="font-semibold">0.34 (하위 38%)</dd></div>
+          <div class="flex justify-between"><dt class="text-slate-500">학습 언어</dt><dd class="font-semibold">한국어 (1차) / 영어 (자막 희망)</dd></div>
+        </dl>
+      </div>
+
+      <!-- 풀이 흔적 -->
+      <div class="rounded-xl border border-rose-200 bg-rose-50/50 p-4 signal-pulse">
+        <p class="text-[10px] font-bold tracking-wider text-rose-600 uppercase">풀이 흔적 (어제 21:14)</p>
+        <p class="mt-2 text-sm font-semibold">f(x) = x³ − 3x² + a 가 극값을 갖도록 하는 a의 범위는?</p>
+        <ol class="mt-2 space-y-1 text-xs text-slate-600">
+          <li class="flex gap-2"><span class="text-emerald-600">✓</span><span>f'(x) = 3x² − 6x → 0이 되는 x = 0, 2</span></li>
+          <li class="flex gap-2"><span class="text-rose-600">✗</span><span class="font-semibold text-rose-700">부호 변화 표 [생략]</span></li>
+          <li class="flex gap-2"><span class="text-rose-600">✗</span><span>최종 답: a 범위 못 찾음</span></li>
+        </ol>
+        <div class="mt-3 rounded-md bg-white px-2.5 py-1.5 text-[11px] text-slate-500">
+          <strong class="text-slate-700">패턴 감지:</strong> 도함수 부호 변화 표 생략 (과거 90일 내 3회 반복)
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       2. 트리거 (Moment Activation)
+       ============================================================ -->
+  <section class="mb-10">
+    <div class="mb-3 flex items-baseline gap-3">
+      <span class="rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">step 2</span>
+      <h2 class="text-lg font-bold">모먼트 발화 — 신호를 모먼트로 변환</h2>
+    </div>
+
+    <div class="rounded-xl border border-slate-200 bg-white p-5">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div>
+          <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">발화 모먼트</p>
+          <p class="mt-1.5 text-2xl font-bold text-blue-700">막힘</p>
+          <p class="text-xs text-slate-500">Impasse · 반응형</p>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">감지 도메인</p>
+          <p class="mt-1.5 text-sm font-bold">풀림 Q</p>
+          <p class="text-xs text-slate-500">/q/infinity 풀이 흔적 + xray</p>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">매칭 패턴 ID</p>
+          <p class="mt-1.5 font-mono text-xs font-bold">math.calc_diff.sign_change_missed</p>
+          <p class="text-xs text-slate-500">반복 3회 / 90일</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       3. 조건분기 (Capacity & Priority Gate)
+       ============================================================ -->
+  <section class="mb-10">
+    <div class="mb-3 flex items-baseline gap-3">
+      <span class="rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">step 3</span>
+      <h2 class="text-lg font-bold">조건분기 — 캐파시티 + 우선순위 게이트</h2>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <!-- 우선순위 점수 -->
+      <div class="rounded-xl border border-slate-200 bg-white p-5">
+        <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">우선순위 점수</p>
+        <div class="mt-3 space-y-2 text-sm">
+          <div class="flex items-center gap-3">
+            <span class="w-24 text-xs text-slate-500">영향도</span>
+            <div class="flex-1 h-2 rounded-full bg-slate-100">
+              <div class="h-2 rounded-full bg-blue-500" style="width:80%"></div>
+            </div>
+            <span class="w-10 text-right text-xs font-mono">0.32</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-24 text-xs text-slate-500">시급도</span>
+            <div class="flex-1 h-2 rounded-full bg-slate-100">
+              <div class="h-2 rounded-full bg-rose-500" style="width:90%"></div>
+            </div>
+            <span class="w-10 text-right text-xs font-mono">0.36</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-24 text-xs text-slate-500">시험 거리</span>
+            <div class="flex-1 h-2 rounded-full bg-slate-100">
+              <div class="h-2 rounded-full bg-amber-500" style="width:48%"></div>
+            </div>
+            <span class="w-10 text-right text-xs font-mono">0.19</span>
+          </div>
+        </div>
+        <div class="mt-3 border-t border-slate-100 pt-3 flex items-center justify-between">
+          <span class="text-xs text-slate-500">합산 우선순위</span>
+          <span class="text-lg font-bold text-blue-700">0.87</span>
+        </div>
+      </div>
+
+      <!-- 캐파시티 게이트 -->
+      <div class="rounded-xl border border-slate-200 bg-white p-5">
+        <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">학생 일일 캐파시티</p>
+        <p class="mt-1.5 text-sm font-semibold">서연 일일 슬롯: 5개 (페르소나 기본)</p>
+        <ul class="mt-3 space-y-1.5 text-xs">
+          <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-500"></span><span>슬롯 1 — [망각 위기] 정규분포 카드</span></li>
+          <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-500"></span><span>슬롯 2 — [첫 학습] 다음 단원 인포그래픽</span></li>
+          <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-500"></span><span>슬롯 3 — [정리] 주간 학습</span></li>
+          <li class="flex items-center gap-2 font-bold text-blue-700"><span class="h-2 w-2 rounded-full bg-blue-600 ring-2 ring-blue-200"></span><span>슬롯 4 — [막힘] ImpasseToShort 60s ← 신규 발화</span></li>
+          <li class="flex items-center gap-2 text-slate-400"><span class="h-2 w-2 rounded-full bg-slate-200"></span><span>슬롯 5 — 비어있음</span></li>
+        </ul>
+        <p class="mt-3 rounded-md bg-emerald-50 px-2.5 py-1.5 text-[11px] text-emerald-700"><strong>게이트 통과:</strong> 우선순위 0.87 ≥ 컷 0.50, 슬롯 4/5 → 즉시 발화</p>
+      </div>
+    </div>
+
+    <p class="mt-3 text-[11px] leading-relaxed text-slate-500">
+      ※ 만약 슬롯이 가득 찼다면 → 큐에 적재되어 익일 분산 발화. 우선순위가 컷보다 낮으면 → 한 주 후 재평가.
+      이 게이트가 "오답 폭발 학생"의 자료 폭주를 막는 핵심.
+    </p>
+  </section>
+
+  <!-- ============================================================
+       4. 레시피 (Recipe Definition)
+       ============================================================ -->
+  <section class="mb-10">
+    <div class="mb-3 flex items-baseline gap-3">
+      <span class="rounded-full bg-blue-600 px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">step 4</span>
+      <h2 class="text-lg font-bold">레시피 정의 — ImpasseToShort 60s</h2>
+    </div>
+
+    <div class="rounded-xl border-2 border-blue-200 bg-blue-50/40 p-5">
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <!-- 레시피 인풋 슬롯 -->
+        <div>
+          <p class="text-[10px] font-bold tracking-wider text-blue-600 uppercase">입력 슬롯</p>
+          <ul class="mt-2 space-y-1.5 text-xs">
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span class="text-slate-500">막힌 문제 ID</span><span class="font-mono font-semibold">prob_2026_calc_087</span></li>
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span class="text-slate-500">막힘 위치</span><span class="font-semibold">부호 변화 표 단계</span></li>
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span class="text-slate-500">학습자 θ</span><span class="font-mono font-semibold">0.34</span></li>
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span class="text-slate-500">학습 페르소나</span><span class="font-semibold">고2 / 시각 학습</span></li>
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span class="text-slate-500">출력 언어</span><span class="font-semibold">ko + en(자막)</span></li>
+            <li class="flex justify-between"><span class="text-slate-500">목적</span><span class="font-semibold">막힌 지점 복원</span></li>
+          </ul>
+        </div>
+
+        <!-- 출력 형태 -->
+        <div>
+          <p class="text-[10px] font-bold tracking-wider text-blue-600 uppercase">출력 형태</p>
+          <ul class="mt-2 space-y-1.5 text-xs">
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span class="text-slate-500">포맷</span><span class="font-semibold">세로 영상 (9:16)</span></li>
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span class="text-slate-500">길이</span><span class="font-semibold">60초 (±10)</span></li>
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span class="text-slate-500">톤</span><span class="font-semibold">친근 + 직진</span></li>
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span class="text-slate-500">강사</span><span class="font-semibold">없음 (수식 중심)</span></li>
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span class="text-slate-500">자막</span><span class="font-semibold">ko 본문 + en 부자막</span></li>
+            <li class="flex justify-between"><span class="text-slate-500">CTA</span><span class="font-semibold">[Q에서 다시 풀기]</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 구조 템플릿 -->
+      <div class="mt-5">
+        <p class="text-[10px] font-bold tracking-wider text-blue-600 uppercase">구조 템플릿</p>
+        <div class="mt-2 grid grid-cols-4 gap-2 text-[11px]">
+          <div class="rounded-md bg-white px-2.5 py-2 text-center">
+            <p class="font-bold text-slate-900">Hook (5s)</p>
+            <p class="mt-0.5 text-slate-500">"답 절반만 맞췄지?"</p>
+          </div>
+          <div class="rounded-md bg-white px-2.5 py-2 text-center">
+            <p class="font-bold text-slate-900">막힘 지점 (15s)</p>
+            <p class="mt-0.5 text-slate-500">부호 변화 표 강조</p>
+          </div>
+          <div class="rounded-md bg-white px-2.5 py-2 text-center">
+            <p class="font-bold text-slate-900">핵심 (30s)</p>
+            <p class="mt-0.5 text-slate-500">+ → − 의 의미</p>
+          </div>
+          <div class="rounded-md bg-white px-2.5 py-2 text-center">
+            <p class="font-bold text-slate-900">정리 (10s)</p>
+            <p class="mt-0.5 text-slate-500">다음 만나면 이 표부터</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 다국어 정책 -->
+      <div class="mt-5 rounded-md bg-white p-3 text-xs">
+        <p class="font-bold text-slate-900">다국어 정책</p>
+        <p class="mt-1 leading-relaxed text-slate-600">
+          본문 음성: 한국어 (TTS) · 부자막: 영어 (자동 번역, 수학 표준 용어사전 적용) · 검수: 자기학습용이라 자동 발행, 학급 공유 시 검수 필수.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       5. 출력 (Generated Output)
+       ============================================================ -->
+  <section class="mb-10">
+    <div class="mb-3 flex items-baseline gap-3">
+      <span class="rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">step 5</span>
+      <h2 class="text-lg font-bold">출력 미리보기 — 60초 숏츠 슬라이드</h2>
+    </div>
+
+    <!-- 언어 토글 -->
+    <div class="mb-3 inline-flex rounded-full border border-slate-200 bg-white p-0.5 text-xs font-bold">
+      <button id="lang-ko" class="rounded-full bg-slate-900 px-3 py-1 text-white">한국어 본문</button>
+      <button id="lang-en" class="rounded-full px-3 py-1 text-slate-500">English subtitle</button>
+      <button id="lang-zh" class="rounded-full px-3 py-1 text-slate-500">中文字幕</button>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <!-- Slide 1: Hook -->
+      <div class="slide flex flex-col justify-between rounded-2xl bg-gradient-to-br from-rose-500 to-rose-700 p-4 text-white">
+        <p class="text-[10px] font-bold tracking-wider uppercase opacity-80">00:00 - 00:05 · Hook</p>
+        <div>
+          <p class="text-xl font-bold leading-tight" data-ko="이 문제, 답 절반만 맞췄지?" data-en="You only got half right?" data-zh="你这题只答对一半？">이 문제, 답 절반만 맞췄지?</p>
+          <p class="mt-2 text-xs opacity-80" data-ko="3번 반복된 패턴" data-en="Pattern repeated 3 times" data-zh="重复出现3次的模式">3번 반복된 패턴</p>
+        </div>
+      </div>
+
+      <!-- Slide 2: Impasse Point -->
+      <div class="slide flex flex-col justify-between rounded-2xl bg-slate-900 p-4 text-white">
+        <p class="text-[10px] font-bold tracking-wider uppercase opacity-60">00:05 - 00:20 · 막힘 지점</p>
+        <div>
+          <p class="font-mono text-sm">f'(x) = 3x² − 6x</p>
+          <div class="mt-3 grid grid-cols-3 gap-1 text-center text-[10px] font-bold">
+            <div class="rounded bg-white/10 py-1">x &lt; 0</div>
+            <div class="rounded bg-white/10 py-1">0 &lt; x &lt; 2</div>
+            <div class="rounded bg-white/10 py-1">x &gt; 2</div>
+            <div class="rounded bg-emerald-500 py-1">+</div>
+            <div class="rounded bg-rose-500 py-1">−</div>
+            <div class="rounded bg-emerald-500 py-1">+</div>
+          </div>
+          <p class="mt-3 text-[11px] leading-snug opacity-80" data-ko="이 표를 안 그리고 답으로 갔지" data-en="You skipped this sign table" data-zh="你跳过了这张符号表">이 표를 안 그리고 답으로 갔지</p>
+        </div>
+      </div>
+
+      <!-- Slide 3: Core -->
+      <div class="slide flex flex-col justify-between rounded-2xl bg-blue-600 p-4 text-white">
+        <p class="text-[10px] font-bold tracking-wider uppercase opacity-80">00:20 - 00:50 · 핵심</p>
+        <div>
+          <p class="text-base font-bold leading-snug" data-ko="+ → − 바뀌는 점이 극대" data-en="+ → − sign change = local max" data-zh="+ → − 变号点即极大值">+ → − 바뀌는 점이 극대</p>
+          <p class="mt-1.5 text-base font-bold leading-snug" data-ko="− → + 바뀌는 점이 극소" data-en="− → + sign change = local min" data-zh="− → + 变号点即极小值">− → + 바뀌는 점이 극소</p>
+          <p class="mt-3 rounded-md bg-white/15 px-2 py-1.5 text-[11px] leading-snug" data-ko="부호 안 바뀌면 극값 아님" data-en="No sign change → no extremum" data-zh="不变号则无极值">부호 안 바뀌면 극값 아님</p>
+        </div>
+      </div>
+
+      <!-- Slide 4: Wrap -->
+      <div class="slide flex flex-col justify-between rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 p-4 text-white">
+        <p class="text-[10px] font-bold tracking-wider uppercase opacity-80">00:50 - 01:00 · 정리</p>
+        <div>
+          <p class="text-sm font-bold leading-snug" data-ko="다음에 도함수 문제 만나면" data-en="Next time you see a derivative" data-zh="下次遇到导数题">다음에 도함수 문제 만나면</p>
+          <p class="mt-1.5 text-base font-bold leading-snug" data-ko="부호 변화 표부터 그리기" data-en="Draw the sign table first" data-zh="先画符号变化表">부호 변화 표부터 그리기</p>
+          <button class="mt-3 w-full rounded-md bg-white py-1.5 text-[11px] font-bold text-emerald-700">
+            <span data-ko="Q에서 다시 풀기 →" data-en="Solve again in Q →" data-zh="去Q重做 →">Q에서 다시 풀기 →</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-3 text-[11px] text-slate-500">
+      위 4장 슬라이드는 실제 영상에서 5s · 15s · 30s · 10s 구간으로 합성. 음성은 한국어 TTS, 부자막은 선택 언어.
+    </p>
+  </section>
+
+  <!-- ============================================================
+       6. 레시피 mock 스키마 (raw)
+       ============================================================ -->
+  <section class="mb-10">
+    <div class="mb-3 flex items-baseline gap-3">
+      <span class="rounded-full bg-slate-700 px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">schema</span>
+      <h2 class="text-lg font-bold">레시피 mock 스키마</h2>
+    </div>
+
+    <details class="rounded-xl border border-slate-200 bg-slate-900 p-5 text-slate-100" open>
+      <summary class="text-xs font-bold tracking-wider text-slate-400 uppercase">recipe definition (TypeScript-ish)</summary>
+      <pre class="json-block mt-3 whitespace-pre-wrap text-emerald-200">{
+  id: "impasse-to-short-60s",
+  moment: "impasse",                // 막힘 (반응형)
+  group: "reactive",                // reactive | maintenance
+  triggerDomain: "q",               // q | memory | planner | class | time
+  triggerPattern: "math.calc_diff.sign_change_missed",
+
+  inputSlots: {
+    problemId:        { from: "q.attempt.last", required: true },
+    impasseStep:      { from: "q.xray.steps[stuck_index]", required: true },
+    learnerTheta:     { from: "irt.theta[subject]", required: true },
+    learnerPersona:   { from: "persona", required: true },
+    locales:          { from: "user.preferences.locales", default: ["ko"] },
+    purpose:          { fixed: "restore_impasse_step" },
+  },
+
+  output: {
+    format: "vertical_video",        // 9:16
+    durationSec: 60,
+    tolerance: 10,
+    tone: ["friendly", "direct"],
+    instructor: "none",              // 수식 중심 — 강사 없음
+    subtitle: { primary: "ko", secondary: "auto-from-locales" },
+    cta: { type: "back_to_q", problemId: "{{ inputSlots.problemId }}" },
+  },
+
+  structureTemplate: [
+    { name: "hook",     duration: 5,  prompt: "막힘 사실을 직설적으로 드러냄" },
+    { name: "impasse",  duration: 15, prompt: "막힌 단계의 미시 시각화" },
+    { name: "core",     duration: 30, prompt: "막힘 해소 핵심 1~2점" },
+    { name: "wrap",     duration: 10, prompt: "다음 만났을 때의 행동 지시" },
+  ],
+
+  i18nPolicy: {
+    voiceLang: "ko",
+    subtitleLangs: "from-locales",
+    glossary: "math-science-standard",
+    autoPublish: true,                 // 자기학습용
+    requireReviewWhen: ["share.class", "share.store"],
+  },
+
+  capacity: {
+    weight:        { impact: 0.4, urgency: 0.4, examDistance: 0.2 },
+    threshold:     0.50,                // 컷
+    onOverflow:    "queue.distribute",  // 큐에 분산
+    onUnderflow:   "skip",
+  },
+
+  pushPullPolicy: {
+    push:   { enabled: true, surface: "library.home.today" },
+    pull:   { enabled: true, surface: "library.create.from-impasse" },
+  },
+
+  reusableArtifacts: [                  // 출력 후 라이브러리에 어떻게 보존되는가
+    { kind: "short_video", retainDays: 60 },
+    { kind: "diagram",     retainDays: 180, source: "structureTemplate.impasse" },
+  ],
+}</pre>
+    </details>
+  </section>
+
+  <!-- ============================================================
+       검증 체크리스트
+       ============================================================ -->
+  <section class="mb-10 rounded-xl border border-slate-200 bg-white p-5">
+    <h2 class="text-base font-bold">이 mock으로 검증되는 것 / 안 되는 것</h2>
+    <div class="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div>
+        <p class="text-[10px] font-bold tracking-wider text-emerald-600 uppercase">검증되는 것</p>
+        <ul class="mt-2 space-y-1.5 text-xs">
+          <li class="flex gap-2"><span class="text-emerald-600">✓</span><span>모먼트 발화 → 캐파/우선순위 게이트 → 출력의 단방향 흐름이 성립</span></li>
+          <li class="flex gap-2"><span class="text-emerald-600">✓</span><span>레시피 단위 시드가 "재료"가 아니라 "변환 함수"임</span></li>
+          <li class="flex gap-2"><span class="text-emerald-600">✓</span><span>풀림 도메인(Q·메모리·플래너) 신호가 어떻게 인입되는지</span></li>
+          <li class="flex gap-2"><span class="text-emerald-600">✓</span><span>다국어가 출력 단계의 변형 차원으로 깔끔히 분리됨</span></li>
+          <li class="flex gap-2"><span class="text-emerald-600">✓</span><span>오답 폭발 학생의 자료 폭주가 캐파시티 게이트로 차단됨</span></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-[10px] font-bold tracking-wider text-amber-600 uppercase">아직 안 풀린 것</p>
+        <ul class="mt-2 space-y-1.5 text-xs">
+          <li class="flex gap-2"><span class="text-amber-600">?</span><span>유지형 모먼트(첫 학습/정리/출력)에서 같은 게이트가 잘 작동하는지</span></li>
+          <li class="flex gap-2"><span class="text-amber-600">?</span><span>롱폼 강의 레시피의 위저드 단계가 같은 스키마로 표현되는지</span></li>
+          <li class="flex gap-2"><span class="text-amber-600">?</span><span>학급 단위(교사 발화) 레시피의 RBAC·검수 흐름</span></li>
+          <li class="flex gap-2"><span class="text-amber-600">?</span><span>"흐른 자료" 보관함 검색·재방문 UX</span></li>
+          <li class="flex gap-2"><span class="text-amber-600">?</span><span>레시피 효과 누적 학습 (어떤 레시피가 잘 듣는지)</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="mt-12 border-t border-slate-200 pt-6 text-[11px] text-slate-400">
+    <p>풀림 라이브러리 / 막힘 모먼트 레시피 검증 mock · 2026-05-07</p>
+    <p class="mt-1">이 페이지의 검증 의도: "라이브러리 = 자료 창고"가 아니라 "라이브러리 = 학습 모먼트 변환 엔진"이라는 모델이 1개 사례에서 끝까지 그려지는지.</p>
+  </footer>
+
+</div>
+
+<script>
+  // 언어 토글
+  const langs = ["ko", "en", "zh"];
+  langs.forEach(l => {
+    document.getElementById("lang-" + l).addEventListener("click", () => {
+      langs.forEach(o => {
+        const btn = document.getElementById("lang-" + o);
+        if (o === l) {
+          btn.classList.add("bg-slate-900", "text-white");
+          btn.classList.remove("text-slate-500");
+        } else {
+          btn.classList.remove("bg-slate-900", "text-white");
+          btn.classList.add("text-slate-500");
+        }
+      });
+      document.querySelectorAll("[data-ko]").forEach(el => {
+        el.textContent = el.dataset[l];
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
