@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, BookmarkPlus, Share2, Star, Eye } from 'lucide-react';
+import { ArrowLeft, BookmarkPlus, Share2, Star, Eye, Target } from 'lucide-react';
 import {
   explainLibrary, explainSampleMathCalc, solveDeck, subjectLabels,
+  patternNameForSku,
 } from '@/lib/mock';
 import { AnchorNav } from '@/components/infinity/explain/anchor-nav';
 import {
@@ -121,22 +122,23 @@ export default async function ExplainDetailPage({ params }: Props) {
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <Link
-            href="/q/infinity/solve"
+            href={`/q/infinity/solve?kind=weak&subject=${entry.subject}&pattern=${encodeURIComponent(patternNameForSku(entry.sku) ?? entry.unit)}`}
             className="text-pullim-blue-700 inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2.5 text-sm font-bold transition-colors"
           >
-            친척 문제 풀어보기
+            <Target className="h-4 w-4" />
+            이 패턴으로 더 풀기
+          </Link>
+          <Link
+            href={`/q/infinity/solve?kind=retry&sku=${entry.sku}`}
+            className="bg-white/10 hover:bg-white/20 inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold text-white transition-colors"
+          >
+            이 문제 다시 풀기
           </Link>
           <Link
             href="/q/review"
             className="bg-white/10 hover:bg-white/20 inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold text-white transition-colors"
           >
             풀림 복습으로
-          </Link>
-          <Link
-            href="/q/review"
-            className="bg-white/10 hover:bg-white/20 inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold text-white transition-colors"
-          >
-            풀림 복습에 저장
           </Link>
         </div>
       </section>

@@ -1,11 +1,12 @@
 'use client';
 
-import { RefreshCw, Target, Unlock } from 'lucide-react';
+import { RefreshCw, Repeat, Target, Unlock } from 'lucide-react';
 import { subjectLabels, type SubjectKey } from '@/lib/mock';
 
 export type SolveSourceMeta =
   | { kind: 'free' }
-  | { kind: 'weak'; patternName: string };
+  | { kind: 'weak'; patternName: string }
+  | { kind: 'retry'; sku: string; patternName?: string };
 
 type Props = {
   subject: SubjectKey;
@@ -22,6 +23,14 @@ function SourceLabel({ source }: { source: SolveSourceMeta }) {
       <span className="inline-flex items-center gap-1">
         <Target className="h-3 w-3" aria-hidden />
         약점 보강 — {source.patternName}
+      </span>
+    );
+  }
+  if (source.kind === 'retry') {
+    return (
+      <span className="inline-flex items-center gap-1">
+        <Repeat className="h-3 w-3" aria-hidden />
+        오답 다시 풀기{source.patternName ? ` — ${source.patternName}` : ''}
       </span>
     );
   }

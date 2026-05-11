@@ -3,12 +3,13 @@
 import { Suspense, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Infinity, ArrowRight, ArrowLeft, BookOpen, Check, X } from 'lucide-react';
+import { Infinity, ArrowRight, ArrowLeft, BookOpen, Check, X, Target } from 'lucide-react';
 import { toast } from 'sonner';
 import {
   type SolveMode, type MockExam, solveDeck, modeFeatureMap, featureLabels,
   type FeatureKey, type SolveProblem,
   subjectLabels, type SubjectKey,
+  patternNameForSku, subjectForSku,
 } from '@/lib/mock';
 import { ModeToggle } from '@/components/infinity/mode-toggle';
 import { ExamConfirmDialog } from '@/components/infinity/exam-confirm-dialog';
@@ -29,10 +30,27 @@ type SolveSession = {
 };
 
 function deriveSessionFromParams(params: URLSearchParams): SolveSession | null {
-  const subject = params.get('subject') as SubjectKey | null;
   const kind = params.get('kind');
-  if (!subject || !kind) return null;
+  if (!kind) return null;
 
+  if (kind === 'retry') {
+    const sku = params.get('sku');
+    if (!sku) return null;
+    const sample = solveDeck.find(p => p.sku === sku);
+    const subject =
+      sample?.subject ?? (params.get('subject') as SubjectKey | null) ?? subjectForSku(sku) ?? null;
+    if (!subject) return null;
+    const pattern = patternNameForSku(sku);
+    return {
+      subject,
+      unitTitle: sample?.unit ?? pattern ?? '오답 다시 풀기',
+      source: { kind: 'retry', sku, patternName: pattern },
+      total: 1,
+    };
+  }
+
+  const subject = params.get('subject') as SubjectKey | null;
+  if (!subject) return null;
   const sample = solveDeck.find(p => p.subject === subject);
 
   if (kind === 'free') {
@@ -73,11 +91,20 @@ function InfinitySolveInner() {
   );
 
   const sessionKey = session
-    ? `${session.source.kind}:${session.subject}:${'patternName' in session.source ? session.source.patternName : 'free'}`
+    ? session.source.kind === 'retry'
+      ? `retry:${session.source.sku}`
+      : `${session.source.kind}:${session.subject}:${'patternName' in session.source ? session.source.patternName : 'free'}`
     : 'none';
 
   const sessionDeck: SolveProblem[] = useMemo(() => {
     if (!session) return [];
+    if (session.source.kind === 'retry') {
+      const sku = session.source.sku;
+      const found = solveDeck.find(p => p.sku === sku);
+      if (found) return [found];
+      const fallback = solveDeck.filter(p => p.subject === session.subject);
+      return fallback.length > 0 ? [fallback[0]!] : [];
+    }
     const filtered = solveDeck.filter(p => p.subject === session.subject);
     return filtered.length > 0 ? filtered : solveDeck;
   }, [session]);
@@ -264,6 +291,12 @@ function InfinitySolveInner() {
                   sku={problem.sku}
                   shortExplain={problem.shortExplanation}
                   correctIndex={problem.answerIndex}
+                  subject={problem.subject}
+                  patternName={patternNameForSku(problem.sku) ?? problem.unit}
+                  hideSimilarCta={
+                    session?.source.kind === 'weak' &&
+                    session.source.patternName === (patternNameForSku(problem.sku) ?? problem.unit)
+                  }
                 />
               )}
               <PracticeBottomBar
@@ -337,10 +370,13 @@ function InfinitySolveInner() {
 }
 
 function AnswerFeedback({
-  isCorrect, sku, shortExplain, correctIndex,
+  isCorrect, sku, shortExplain, correctIndex, subject, patternName, hideSimilarCta,
 }: {
   isCorrect: boolean; sku: string; shortExplain: string; correctIndex: number;
+  subject: SubjectKey; patternName: string; hideSimilarCta?: boolean;
 }) {
+  const similarHref =
+    `/q/infinity/solve?kind=weak&subject=${subject}&pattern=${encodeURIComponent(patternName)}`;
   return (
     <section
       className={
@@ -369,13 +405,29 @@ function AnswerFeedback({
       <p className="text-pullim-slate-700 mt-2 rounded bg-white p-2 text-xs leading-relaxed">
         <strong>한 줄 해설:</strong> {shortExplain}
       </p>
-      <Link
-        href={`/q/infinity/explain/${sku}`}
-        className="bg-pullim-blue-600 hover:bg-pullim-blue-700 mt-2 inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold text-white"
-      >
-        <BookOpen className="h-3 w-3" />
-        풀림 해설 12-섹션 자세히 보기
-      </Link>
+      <div className="mt-2 flex flex-wrap gap-1.5">
+        <Link
+          href={`/q/infinity/explain/${sku}`}
+          className="bg-pullim-blue-600 hover:bg-pullim-blue-700 inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold text-white"
+        >
+          <BookOpen className="h-3 w-3" />
+          풀림 해설 12-섹션 자세히 보기
+        </Link>
+        {!hideSimilarCta && (
+          <Link
+            href={similarHref}
+            className={
+              'inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ' +
+              (isCorrect
+                ? 'bg-pullim-slate-100 hover:bg-pullim-slate-200 text-pullim-slate-700'
+                : 'bg-pullim-warn hover:bg-pullim-warn/90 text-white')
+            }
+          >
+            <Target className="h-3 w-3" />
+            이 패턴 더 풀기
+          </Link>
+        )}
+      </div>
     </section>
   );
 }
