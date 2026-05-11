@@ -205,39 +205,46 @@ function QueueRow({ item, index }: { item: QueueItem; index: number }) {
   if (item.kind === 'leitner') {
     const meta = leitnerMeta[item.box];
     return (
-      <li
-        className={cn(
-          'group flex items-center gap-3 rounded-xl border p-3 transition-colors',
-          isOverdue
-            ? 'border-pullim-warn/40 bg-pullim-warn/5'
-            : 'bg-card hover:border-pullim-blue-300',
-        )}
-      >
-        <span className="bg-pullim-slate-100 text-pullim-slate-600 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold">
-          {index + 1}
-        </span>
-        <span className="bg-pullim-warn-bg text-pullim-warn inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold">
-          <Target className="h-2.5 w-2.5" />
-          오답
-        </span>
-        <div className="min-w-0 flex-1">
-          <div className="text-pullim-slate-900 truncate text-xs font-bold">{item.summary}</div>
-          <div className="mt-0.5 flex flex-wrap items-baseline gap-x-1.5">
-            <span className="text-pullim-slate-600 text-[11px] font-semibold">
-              BOX {item.box}
-            </span>
-            <span className="text-pullim-slate-300" aria-hidden>·</span>
-            <span className="text-pullim-slate-400 text-[10px]">
-              {subjectShort[item.subject] ?? item.subject} · {meta.interval}
-            </span>
+      <li>
+        <Link
+          href={`/q/infinity/solve?kind=retry&sku=${item.sku}`}
+          className={cn(
+            'group flex items-center gap-3 rounded-xl border p-3 transition-colors',
+            isOverdue
+              ? 'border-pullim-warn/40 bg-pullim-warn/5 hover:border-pullim-warn'
+              : 'bg-card hover:border-pullim-blue-300',
+          )}
+        >
+          <span className="bg-pullim-slate-100 text-pullim-slate-600 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold">
+            {index + 1}
+          </span>
+          <span className="bg-pullim-warn-bg text-pullim-warn inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold">
+            <Target className="h-2.5 w-2.5" />
+            오답
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="text-pullim-slate-900 truncate text-xs font-bold">{item.summary}</div>
+            <div className="mt-0.5 flex flex-wrap items-baseline gap-x-1.5">
+              <span className="text-pullim-slate-600 text-[11px] font-semibold">
+                BOX {item.box}
+              </span>
+              <span className="text-pullim-slate-300" aria-hidden>·</span>
+              <span className="text-pullim-slate-400 text-[10px]">
+                {subjectShort[item.subject] ?? item.subject} · {meta.interval}
+              </span>
+            </div>
           </div>
-        </div>
-        <span className={cn(
-          'shrink-0 font-mono text-[10px] font-semibold',
-          isOverdue ? 'text-pullim-warn' : 'text-pullim-slate-500',
-        )}>
-          {overdueLabel}
-        </span>
+          <span className={cn(
+            'shrink-0 font-mono text-[10px] font-semibold',
+            isOverdue ? 'text-pullim-warn' : 'text-pullim-slate-500',
+          )}>
+            {overdueLabel}
+          </span>
+          <span className="bg-pullim-blue-600 group-hover:bg-pullim-blue-700 text-white inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1 text-[10px] font-bold transition-colors">
+            <Repeat className="h-2.5 w-2.5" />
+            다시 풀기
+          </span>
+        </Link>
       </li>
     );
   }

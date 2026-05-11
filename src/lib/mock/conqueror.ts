@@ -149,6 +149,18 @@ export function todayCards(cards: LeitnerCard[] = leitnerCards): LeitnerCard[] {
   return cards.filter(c => c.nextReviewInHours >= 0 && c.nextReviewInHours <= 24);
 }
 
+/** SKU → 에러 패턴 이름 매핑 (오답 카드 기준) */
+export function patternNameForSku(sku: string): string | undefined {
+  const card = leitnerCards.find(c => c.problemSku === sku);
+  if (!card) return undefined;
+  return errorPatterns.find(p => p.id === card.errorPatternId)?.name;
+}
+
+/** SKU → 과목 매핑 (오답 카드 기준) */
+export function subjectForSku(sku: string): SubjectKey | undefined {
+  return leitnerCards.find(c => c.problemSku === sku)?.subject;
+}
+
 /** 누적 정복 통계 */
 export const conquestStats = {
   totalConquered: 23,

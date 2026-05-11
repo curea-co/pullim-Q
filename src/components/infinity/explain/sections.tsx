@@ -1,6 +1,7 @@
 'use client';
 
-import { AlertTriangle, Award, BookOpen, Calendar, Check, Compass, Eye, FlaskConical, Globe, Headphones, Heart, History, Mic, Pin, Scroll, Sparkles, Star, Target, Users } from 'lucide-react';
+import Link from 'next/link';
+import { AlertTriangle, ArrowRight, Award, BookOpen, Calendar, Check, Compass, Eye, FlaskConical, Globe, Headphones, Heart, History, Mic, Pin, Scroll, Sparkles, Star, Target, Users } from 'lucide-react';
 import {
   type ExplainContent, type SolutionPath, type ChoicePsychology,
   type TeacherVoice, type RelatedProblem,
@@ -322,13 +323,22 @@ export function PatternFamily({ data }: { data: ExplainContent }) {
 
 function RelatedCard({ item }: { item: RelatedProblem }) {
   return (
-    <li className="bg-pullim-slate-50 hover:bg-pullim-blue-50 rounded-xl border border-transparent p-3 transition-colors">
-      <header className="mb-1 flex items-center gap-1.5 text-[10px]">
-        <span className="bg-pullim-slate-900 rounded px-1.5 py-0.5 font-mono text-white font-bold">{item.source}</span>
-        {item.year && <span className="text-pullim-slate-500">{item.year}</span>}
-        <span className="text-pullim-slate-400 ml-auto font-mono">{item.sku}</span>
-      </header>
-      <p className="text-pullim-slate-800 line-clamp-2 text-sm font-semibold leading-snug">{item.summary}</p>
+    <li>
+      <Link
+        href={`/q/infinity/solve?kind=retry&sku=${item.sku}`}
+        className="group bg-pullim-slate-50 hover:bg-pullim-blue-50 hover:border-pullim-blue-300 flex h-full flex-col rounded-xl border border-transparent p-3 transition-colors"
+      >
+        <header className="mb-1 flex items-center gap-1.5 text-[10px]">
+          <span className="bg-pullim-slate-900 rounded px-1.5 py-0.5 font-mono text-white font-bold">{item.source}</span>
+          {item.year && <span className="text-pullim-slate-500">{item.year}</span>}
+          <span className="text-pullim-slate-400 ml-auto font-mono">{item.sku}</span>
+        </header>
+        <p className="text-pullim-slate-800 line-clamp-2 text-sm font-semibold leading-snug">{item.summary}</p>
+        <span className="text-pullim-blue-600 group-hover:text-pullim-blue-700 mt-2 inline-flex items-center gap-0.5 text-[10px] font-bold">
+          풀어보기
+          <ArrowRight className="h-2.5 w-2.5" />
+        </span>
+      </Link>
     </li>
   );
 }
