@@ -1,12 +1,15 @@
+'use client';
+
 import Link from 'next/link';
 import { Repeat, Brain, AlertTriangle, Award, Trophy, Flame, Target } from 'lucide-react';
 import {
   conquestStats, personalForgettingProfile,
-  overdueCards, todayCards, leitnerCards, leitnerMeta,
+  overdueCards, todayCards, leitnerMeta,
   dueItems, todayDue, memoryQueue, memorySourceMeta,
   forgettingCurve,
-  type MemoryItem, type LeitnerBox,
+  type MemoryItem, type LeitnerBox, type LeitnerCard,
 } from '@/lib/mock';
+import { useLeitnerStore } from '@/lib/store/leitner-store';
 import { PageHeader } from '@/components/shell/page-header';
 import { SectionHeading } from '@/components/shell/section-heading';
 import { ErrorPatternList } from '@/components/conqueror/error-pattern-list';
@@ -17,8 +20,8 @@ type QueueItem =
   | { kind: 'leitner'; key: string; sku: string; subject: string; summary: string; box: LeitnerBox; hours: number }
   | { kind: 'memory';  key: string; label: string; source: MemoryItem['source']; retention: number; hours: number };
 
-function unifiedQueue(): QueueItem[] {
-  const wrong: QueueItem[] = leitnerCards.map(c => ({
+function unifiedQueue(cards: LeitnerCard[]): QueueItem[] {
+  const wrong: QueueItem[] = cards.map(c => ({
     kind: 'leitner',
     key: `lc-${c.id}`,
     sku: c.problemSku,
@@ -46,11 +49,12 @@ const subjectShort: Record<string, string> = {
 };
 
 export default function ReviewPage() {
-  const overdueLeitner = overdueCards();
-  const todayLeitner = todayCards();
+  const cards = useLeitnerStore(s => s.cards);
+  const overdueLeitner = overdueCards(cards);
+  const todayLeitner = todayCards(cards);
   const overdueMemory = dueItems().filter(i => i.nextReviewInHours < 0);
   const dueMemory = todayDue();
-  const queue = unifiedQueue().slice(0, 8);
+  const queue = unifiedQueue(cards).slice(0, 8);
   const totalToday = todayLeitner.length + dueMemory.length;
 
   return (
@@ -290,9 +294,10 @@ function QueueRow({ item, index }: { item: QueueItem; index: number }) {
 /* ─────────────────────────  Leitner 5-Box 미니  ───────────────────────── */
 
 function LeitnerSummary() {
+  const cards = useLeitnerStore(s => s.cards);
   const counts: Record<LeitnerBox, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-  leitnerCards.forEach(c => { counts[c.box]++; });
-  const total = leitnerCards.length;
+  cards.forEach(c => { counts[c.box]++; });
+  const total = cards.length;
 
   // IRT 5단계 ramp + 마스터(BOX 5)는 레몬 단일 강조 (Layer 1: ≤4 색)
   const boxFill: Record<LeitnerBox, string> = {

@@ -10,7 +10,9 @@ import {
   type FeatureKey, type SolveProblem,
   subjectLabels, type SubjectKey,
   patternNameForSku, subjectForSku,
+  leitnerMeta, type LeitnerBox,
 } from '@/lib/mock';
+import { useLeitnerStore } from '@/lib/store/leitner-store';
 import { ModeToggle } from '@/components/infinity/mode-toggle';
 import { ExamConfirmDialog } from '@/components/infinity/exam-confirm-dialog';
 import { ExamStatusBar } from '@/components/infinity/exam-status-bar';
@@ -109,6 +111,8 @@ function InfinitySolveInner() {
     return filtered.length > 0 ? filtered : solveDeck;
   }, [session]);
 
+  const applyLeitnerResult = useLeitnerStore(s => s.applyResult);
+
   const [mode, setMode] = useState<SolveMode>('practice');
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [activeExam, setActiveExam] = useState<MockExam | null>(null);
@@ -118,6 +122,9 @@ function InfinitySolveInner() {
   const [marked, setMarked] = useState<Set<number>>(new Set());
   const [hintsByProblem, setHintsByProblem] = useState<Record<string, number>>({});
   const [prevSessionKey, setPrevSessionKey] = useState(sessionKey);
+  const [retryBoxMove, setRetryBoxMove] = useState<{
+    prevBox: LeitnerBox; newBox: LeitnerBox; isMaster: boolean; correct: boolean;
+  } | null>(null);
 
   if (prevSessionKey !== sessionKey) {
     setPrevSessionKey(sessionKey);
@@ -125,6 +132,7 @@ function InfinitySolveInner() {
     setAnswers({});
     setMarked(new Set());
     setHintsByProblem({});
+    setRetryBoxMove(null);
   }
 
   function handleAdvanceHint(sku: string, max: number) {
@@ -201,7 +209,39 @@ function InfinitySolveInner() {
   }
 
   function handleSelect(choiceIdx: number) {
+    const alreadyAnswered = answers[currentIdx] !== undefined;
     setAnswers(a => ({ ...a, [currentIdx]: choiceIdx }));
+
+    // retry 모드 — 첫 선택일 때만 Leitner 박스 전이 적용
+    if (
+      !alreadyAnswered &&
+      mode === 'practice' &&
+      session?.source.kind === 'retry' &&
+      problem
+    ) {
+      const correct = choiceIdx === problem.answerIndex;
+      const result = applyLeitnerResult(session.source.sku, correct);
+      if (result) {
+        setRetryBoxMove({ ...result, correct });
+        const meta = leitnerMeta[result.newBox];
+        if (result.isMaster) {
+          toast.success(`마스터 임박! BOX ${result.prevBox} → BOX 5`, {
+            description: `${meta.tag} · 다음 복습 ${meta.interval} 후`,
+            duration: 4500,
+          });
+        } else if (correct) {
+          toast.success(`BOX ${result.prevBox} → BOX ${result.newBox} 이동`, {
+            description: `정복 진행 · 다음 복습 ${meta.interval} 후`,
+            duration: 3500,
+          });
+        } else {
+          toast.warning(`BOX ${result.prevBox} → BOX 1 복귀`, {
+            description: `다음 복습 ${leitnerMeta[1].interval} 후 다시 풀어요`,
+            duration: 3500,
+          });
+        }
+      }
+    }
   }
 
   function handleToggleMark() {
@@ -297,6 +337,7 @@ function InfinitySolveInner() {
                     session?.source.kind === 'weak' &&
                     session.source.patternName === (patternNameForSku(problem.sku) ?? problem.unit)
                   }
+                  boxMove={session?.source.kind === 'retry' ? retryBoxMove : null}
                 />
               )}
               <PracticeBottomBar
@@ -370,10 +411,11 @@ function InfinitySolveInner() {
 }
 
 function AnswerFeedback({
-  isCorrect, sku, shortExplain, correctIndex, subject, patternName, hideSimilarCta,
+  isCorrect, sku, shortExplain, correctIndex, subject, patternName, hideSimilarCta, boxMove,
 }: {
   isCorrect: boolean; sku: string; shortExplain: string; correctIndex: number;
   subject: SubjectKey; patternName: string; hideSimilarCta?: boolean;
+  boxMove?: { prevBox: LeitnerBox; newBox: LeitnerBox; isMaster: boolean; correct: boolean } | null;
 }) {
   const similarHref =
     `/q/infinity/solve?kind=weak&subject=${subject}&pattern=${encodeURIComponent(patternName)}`;
@@ -402,6 +444,31 @@ function AnswerFeedback({
           정답 <span className="font-mono font-bold">{['①','②','③','④','⑤'][correctIndex]}</span>
         </span>
       </div>
+      {boxMove && (
+        <div
+          className={
+            'mt-2 flex items-center gap-2 rounded-lg border bg-white px-2.5 py-1.5 text-[11px] ' +
+            (boxMove.correct
+              ? 'border-pullim-success/40 text-pullim-success'
+              : 'border-pullim-warn/40 text-pullim-warn')
+          }
+        >
+          <Target className="h-3 w-3 shrink-0" />
+          {boxMove.isMaster ? (
+            <span>
+              <strong>마스터 임박!</strong> BOX {boxMove.prevBox} → BOX 5 · 다음 복습 {leitnerMeta[5].interval} 후
+            </span>
+          ) : boxMove.correct ? (
+            <span>
+              <strong>BOX {boxMove.prevBox} → BOX {boxMove.newBox}</strong> 이동 · 다음 복습 {leitnerMeta[boxMove.newBox].interval} 후
+            </span>
+          ) : (
+            <span>
+              <strong>BOX {boxMove.prevBox} → BOX 1</strong> 복귀 · 다음 복습 {leitnerMeta[1].interval} 후
+            </span>
+          )}
+        </div>
+      )}
       <p className="text-pullim-slate-700 mt-2 rounded bg-white p-2 text-xs leading-relaxed">
         <strong>한 줄 해설:</strong> {shortExplain}
       </p>
