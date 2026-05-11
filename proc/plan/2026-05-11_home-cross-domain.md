@@ -6,38 +6,38 @@
 ## 작업 항목
 
 ### 1. referrer 인식 인프라
-- [ ] [src/lib/mock/referrer.ts](src/lib/mock/referrer.ts) 신규 — `ReferrerKind`('studio'|'store'|'direct'), `ReferrerMeta` 유니온, `getReferrer(searchParams)` (URL > sessionStorage > localStorage > direct 순)
-- [ ] [src/lib/mock/domains.ts](src/lib/mock/domains.ts) 확장 — `PULLIM_DOMAINS.studio`·`store` (name + external href)
-- [ ] [src/lib/mock/index.ts](src/lib/mock/index.ts) barrel export 갱신
+- [x] [src/lib/mock/referrer.ts](src/lib/mock/referrer.ts) 신규 — `ReferrerKind`('studio'|'store'|'direct'), `ReferrerMeta` 유니온, `getReferrer(searchParams)` (URL > sessionStorage > localStorage > direct 순)
+- [x] [src/lib/mock/domains.ts](src/lib/mock/domains.ts) 확장 — `PULLIM_DOMAINS.studio`·`store` (name + external href)
+- [x] [src/lib/mock/index.ts](src/lib/mock/index.ts) barrel export 갱신
 
 ### 2. 외부 도메인 placeholder 라우트
-- [ ] `src/app/(student)/q/external/studio/page.tsx` — "곧 열려요" stub
-- [ ] `src/app/(student)/q/external/store/page.tsx` — 동일
+- [x] `src/app/(student)/q/external/studio/page.tsx` — "곧 열려요" stub
+- [x] `src/app/(student)/q/external/store/page.tsx` — 동일
 
 ### 3. 슬롯 컴포넌트
-- [ ] `src/components/q-hub/cross-domain-slot.tsx` 신규 — 컨테이너 + `TimelineHeading`("풀림에서 더 가져오기")
-- [ ] 같은 파일 내 `EntryContextCard` — referrer별 카피 분기 (studio-self / studio-teacher / store-owned / store-trial / direct-curation)
-- [ ] 같은 파일 내 `CrossDomainHintCard` — 반대 경로 안내, `target="_blank"` + `rel="noopener noreferrer"` + `ExternalLink` 아이콘
+- [x] `src/components/q-hub/cross-domain-slot.tsx` 신규 — 컨테이너 + `TimelineHeading`("풀림에서 더 가져오기")
+- [x] 같은 파일 내 `EntryContextCard` — referrer별 카피 분기 (studio-self / studio-teacher / store-owned / store-trial / direct-curation)
+- [x] 같은 파일 내 `CrossDomainHintCard` — 반대 경로 안내, `target="_blank"` + `rel="noopener noreferrer"` + `ExternalLink` 아이콘
 
 ### 4. `/q` 홈 통합
-- [ ] [src/app/(student)/q/page.tsx](src/app/(student)/q/page.tsx)에 `<CrossDomainSlot />` 끼우기 — `<TodayQueueSection />` 뒤, `<ThisWeekSection />` 앞
-- [ ] sessionStorage 접근 부분만 클라이언트 컴포넌트로 분리 (`'use client'`)
-- [ ] direct 진입 시 좌우 동등 노출 + localStorage `recentReferrers` 기반 정렬
+- [x] [src/app/(student)/q/page.tsx](src/app/(student)/q/page.tsx)에 `<CrossDomainSlot />` 끼우기 — `<TodayQueueSection />` 뒤, `<ThisWeekSection />` 앞
+- [x] sessionStorage 접근 부분만 클라이언트 컴포넌트로 분리 (`'use client'`)
+- [x] direct 진입 시 좌우 동등 노출 + localStorage `recentReferrers` 기반 정렬
 
 ### 5. 마이크로카피 (07-branding 톤)
-- [ ] 슬롯 헤더: "풀림에서 더 가져오기 — 새 문제도, 좋은 책도 풀러 와요"
-- [ ] 5개 referrer 시나리오별 EntryContextCard 카피 (자작/교사발신/구매/체험/direct)
-- [ ] 반대 경로 카드 카피 2종 (→Store / →Studio)
-- [ ] "구매" → "사기", "생성" → "만들기" — 한자어 정책 적용
+- [x] 슬롯 헤더: "풀림에서 더 가져오기 — 새 문제도, 좋은 책도 풀러 와요"
+- [x] 5개 referrer 시나리오별 EntryContextCard 카피 (자작/교사발신/구매/체험/direct)
+- [x] 반대 경로 카드 카피 2종 (→Store / →Studio)
+- [x] "구매" → "사기", "생성" → "만들기" — 한자어 정책 적용
 
 ### 6. 검증
-- [ ] `bunx tsc --noEmit && bun run lint && bun run build`
-- [ ] 5개 URL 시각 확인:
-  - [ ] `/q` (direct)
-  - [ ] `/q?from=studio` (자작)
-  - [ ] `/q?from=studio&kit=teacher&teacher=김수학` (교사 발신)
-  - [ ] `/q?from=store&product=pk-2026-math-mock1` (구매자)
-  - [ ] `/q?from=store&mode=trial&product=pk-2026-math-mock1` (체험)
+- [x] `bunx tsc --noEmit && bun run lint && bun run build`
+- [x] 5개 URL 시각 확인:
+  - [x] `/q` (direct)
+  - [x] `/q?from=studio` (자작)
+  - [x] `/q?from=studio&kit=teacher&teacher=김수학` (교사 발신)
+  - [x] `/q?from=store&product=pk-2026-math-mock1` (구매자)
+  - [x] `/q?from=store&mode=trial&product=pk-2026-math-mock1` (체험)
 
 ## 비범위 (이번에 안 함)
 - Studio/Store 실제 페이지·기능 (별도 도메인)

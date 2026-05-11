@@ -13,6 +13,7 @@ import {
   solveDeck, type SolveProblem,
   type LeitnerCard, type Prescription,
 } from '@/lib/mock';
+import { CrossDomainSlot } from '@/components/q-hub/cross-domain-slot';
 import { cn } from '@/lib/utils';
 
 type NowAction =
@@ -67,6 +68,8 @@ export default function QHubPage() {
       <NowSection now={now} />
 
       <TodayQueueSection />
+
+      <CrossDomainSlot />
 
       <ThisWeekSection />
 
