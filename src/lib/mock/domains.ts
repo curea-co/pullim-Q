@@ -36,3 +36,17 @@ export function findDomain(slug: string): Domain | undefined {
 export function getDomainRoute(_slug: Domain['slug']): string {
   return '/q';
 }
+
+/** 풀림 생태계 외부 도메인 — Q와 크로스 진입 */
+export type ExternalDomain = {
+  key: 'studio' | 'store';
+  name: string;
+  /** 실제 도메인 호스트 미정 — placeholder 라우트 */
+  href: string;
+  external: boolean;
+};
+
+export const PULLIM_DOMAINS: Record<'studio' | 'store', ExternalDomain> = {
+  studio: { key: 'studio', name: '풀림 스튜디오', href: '/q/external/studio', external: true },
+  store:  { key: 'store',  name: '풀림 스토어',   href: '/q/external/store',  external: true },
+};
