@@ -102,6 +102,30 @@ try {
   record('B. /q/review BOX 1 카운트 증가', afterB[1] === afterA[1] + 1, `${afterA[1]} → ${afterB[1]}`);
   await page.screenshot({ path: `${SHOTS}/05-review-after-B.png`, fullPage: true });
 
+  // ─── 시나리오 C: 마스터 임박 (Q-MATH-CALC-0025, box 4 → 5) ─────────────
+  // lc9 (Q-MATH-CALC-0025)는 nextReviewInHours=168이라 priority queue에 없음.
+  // → page.goto로 retry 라우트 직접 진입 (hard load — store가 seed로 리셋되나
+  //   lc9는 여전히 box 4 시작 상태이므로 정답 처리 시 box 4 → 5 전이.
+  //   solveDeck에 Q-MATH-CALC-0025 자체는 없으므로 fallback으로 같은 subject(math)
+  //   첫 문제(Q-MATH-CALC-0042, answerIndex=0)가 렌더됨. choice 0 클릭 = 정답).
+  // 한계: 카피만 검증, BOX 카운트 변화는 검증 X (hard load라 일관성 보장 불가).
+  await page.goto(`${BASE}/q/infinity/solve?kind=retry&sku=Q-MATH-CALC-0025`, { waitUntil: 'networkidle' });
+  await page.waitForSelector('ol > li > button');
+  await page.locator('ol > li > button').nth(0).click();
+  await page.waitForSelector('section.rounded-xl.border-2');
+
+  const fbC = await page.locator('section.rounded-xl.border-2').first().textContent();
+  record('C. AnswerFeedback "정답!" 노출', /정답!/.test(fbC), fbC?.slice(0, 80));
+  record('C. master copy "마스터 임박! BOX 4 → BOX 5"',
+    /마스터 임박!.*BOX 4.*BOX 5/.test(fbC),
+    fbC?.match(/마스터[^,]*5|BOX[^,]*이동|BOX[^,]*복귀/)?.[0] ?? 'no-match');
+
+  const toastC = await page.locator('[data-sonner-toast]').first().textContent({ timeout: 3000 }).catch(() => null);
+  record('C. toast 노출 + 마스터 임박 카피',
+    toastC && /마스터 임박!.*BOX 4.*BOX 5/.test(toastC),
+    toastC?.slice(0, 80) ?? '(none)');
+  await page.screenshot({ path: `${SHOTS}/06-retry-master.png`, fullPage: true });
+
 } catch (err) {
   record('예외 발생', false, err.message);
   await page.screenshot({ path: `${SHOTS}/99-error.png`, fullPage: true }).catch(() => {});
