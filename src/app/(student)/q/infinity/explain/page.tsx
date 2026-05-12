@@ -125,7 +125,7 @@ function ExplainCard({ entry }: { entry: ExplainEntry }) {
   return (
     <li>
       <Link
-        href={`/q/infinity/explain/${entry.sku}`}
+        href={`/q/analysis/${entry.sku}?from=library`}
         className={cn(
           'group bg-card relative flex h-full flex-col gap-2 rounded-xl border p-3.5 transition-all',
           entry.isSignature && 'ring-pullim-warn/40 ring-2',

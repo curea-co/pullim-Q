@@ -82,32 +82,49 @@ try {
     '',
   );
 
-  // 첫 카드 href는 SKU 경로
+  // 첫 카드 href는 /q/analysis/[sku] 경로
   const firstHref = await page
     .locator('section#recent-mistakes li > a')
     .first()
     .getAttribute('href');
   record(
-    '첫 카드 href = explain SKU 경로',
-    /^\/q\/infinity\/explain\/Q-/.test(firstHref ?? ''),
+    '첫 카드 href = /q/analysis/[sku]',
+    /^\/q\/analysis\/Q-/.test(firstHref ?? ''),
     firstHref ?? '없음',
   );
 
-  // ─── SPA 클릭 → 미시 허브 도달 ──────────────────────────
+  // ─── SPA 클릭 → 미시 학습 허브 도달 ──────────────────────────
   const firstCardLink = page.locator('section#recent-mistakes li > a').first();
   const targetHref = await firstCardLink.getAttribute('href');
   await Promise.all([
-    page.waitForURL(url => url.pathname.startsWith('/q/infinity/explain/'), { timeout: 8000 }),
+    page.waitForURL(url => /^\/q\/analysis\/Q-/.test(url.pathname), { timeout: 8000 }),
     firstCardLink.click(),
   ]);
   const reachedUrl = page.url();
   record(
-    '카드 클릭 시 explain 라우트 도달',
-    /\/q\/infinity\/explain\/Q-/.test(reachedUrl),
+    '카드 클릭 시 미시 학습 허브 도달',
+    /\/q\/analysis\/Q-/.test(reachedUrl),
     `target=${targetHref} reached=${reachedUrl}`,
   );
   await page.waitForLoadState('domcontentloaded');
-  await page.screenshot({ path: `${SHOTS}/02-explain-after-click.png`, fullPage: true });
+
+  // 허브 페이지 핵심 요소 — WrongReasonHero + 12-섹션 anchor
+  const heroSection = await page.locator('section[aria-label="오답 원인 진단"]').count();
+  record('미시 허브 — WrongReasonHero 노출', heroSection === 1, `${heroSection}개`);
+
+  const heroReasonChips = await page
+    .locator('section[aria-label="오답 원인 진단"] ul > li')
+    .count();
+  record('hero reason chip ≥ 1', heroReasonChips >= 1, `${heroReasonChips}개`);
+
+  const sectionTitles = await page.locator('section[id^="s"] h3').count();
+  record('미시 허브 — 12-섹션 본문 노출', sectionTitles === 12, `${sectionTitles}개`);
+
+  // "코치에게 더 묻기" 진입 링크
+  const coachLink = await page.locator('a[href^="/q/talk?context="]').count();
+  record('"코치에게 더 묻기" 링크 존재', coachLink >= 1, `${coachLink}개`);
+
+  await page.screenshot({ path: `${SHOTS}/02-question-hub.png`, fullPage: true });
 
   // 뒤로가기로 분석 페이지 복귀 시 두 섹션이 여전히 보이는지
   await Promise.all([
@@ -128,6 +145,20 @@ try {
   const mobileCards = await page.locator('section[aria-label="최근 오답 원인"] a').count();
   record('모바일 Top 3 카드 3개 유지', mobileCards === 3, `${mobileCards}개`);
   await page.screenshot({ path: `${SHOTS}/04-analysis-mobile.png`, fullPage: true });
+
+  // ─── 구 explain SKU 직링 → 308 redirect ──────────────────
+  await page.setViewportSize({ width: 1280, height: 800 });
+  const oldSku = 'Q-MATH-CALC-0042';
+  await page.goto(`${BASE}/q/infinity/explain/${oldSku}`, { waitUntil: 'networkidle' });
+  const redirectedUrl = page.url();
+  record(
+    '구 explain 직링 → /q/analysis 흡수',
+    new URL(redirectedUrl).pathname === `/q/analysis/${oldSku}`,
+    redirectedUrl,
+  );
+  const fromParam = new URL(redirectedUrl).searchParams.get('from');
+  record('redirect 후 from=library 보존', fromParam === 'library', `from=${fromParam}`);
+  await page.screenshot({ path: `${SHOTS}/05-redirect-from-explain.png`, fullPage: true });
 } catch (err) {
   record('예외 발생', false, err.message);
   await page.screenshot({ path: `${SHOTS}/99-error.png`, fullPage: true }).catch(() => {});
