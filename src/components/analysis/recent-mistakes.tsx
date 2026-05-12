@@ -41,7 +41,7 @@ export function RecentMistakes({ limit = 4 }: { limit?: number }) {
 
 function MistakeCard({ diagnosis }: { diagnosis: WrongAttemptDiagnosis }) {
   const meta = resolveMeta(diagnosis);
-  const href = `/q/infinity/explain/${diagnosis.sku}`;
+  const href = `/q/analysis/${diagnosis.sku}`;
 
   return (
     <li>
