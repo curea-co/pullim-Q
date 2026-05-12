@@ -105,7 +105,7 @@ function DDayHero({
             {persona.examLabel}까지 <strong className="text-pullim-lemon font-mono">D-{dday}</strong> · {persona.streakDays}일 연속 학습 중 · 오늘 {todaySession.problemsSolved}/{todaySession.totalToday}문항
           </p>
         </div>
-        <div className="bg-white/15 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold">
+        <div className="bg-white/15 inline-flex items-center gap-1.5 self-start rounded-full px-3 py-1.5 text-xs font-bold">
           <Flame className="text-pullim-lemon h-3.5 w-3.5" />
           연속 {persona.streakDays}일
         </div>
@@ -211,7 +211,7 @@ function ActionCard({
       <Link
         href={cta.href}
         className={cn(
-          'inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold whitespace-nowrap text-white transition-colors sm:mt-1 sm:w-auto',
+          'inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-full px-4 py-2.5 sm:py-2 text-sm font-bold whitespace-nowrap text-white transition-colors sm:mt-1 sm:w-auto min-h-11 sm:min-h-9',
           ctaClass,
         )}
       >

@@ -98,7 +98,7 @@ function EntryContextCard({
       <Link
         href={copy.cta.href}
         className={cn(
-          'mt-1 inline-flex items-center gap-1 self-start rounded-full px-4 py-2 text-sm font-bold text-white transition-colors',
+          'mt-1 inline-flex items-center gap-1 self-start rounded-full px-4 py-2.5 sm:py-2 text-sm font-bold text-white transition-colors min-h-11 sm:min-h-9',
           isTeacher
             ? 'bg-pullim-warn hover:bg-pullim-warn/90'
             : 'bg-pullim-blue-600 hover:bg-pullim-blue-700',
@@ -135,7 +135,7 @@ function CrossDomainHintCard({
         href={domainMeta.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="bg-pullim-slate-100 hover:bg-pullim-slate-200 text-pullim-slate-800 group mt-1 inline-flex items-center gap-1 self-start rounded-full px-4 py-2 text-sm font-bold transition-colors"
+        className="bg-pullim-slate-100 hover:bg-pullim-slate-200 text-pullim-slate-800 group mt-1 inline-flex items-center gap-1 self-start rounded-full px-4 py-2.5 sm:py-2 text-sm font-bold transition-colors min-h-11 sm:min-h-9"
       >
         {copy.cta}
         <ExternalLink className="h-3 w-3 transition-transform group-hover:translate-x-[1px] group-hover:-translate-y-[1px]" />
