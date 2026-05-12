@@ -83,7 +83,7 @@
 
 ### 1.7 채도·명도 조정 후보 (2026-05-12 audit, 결정 대기)
 
-출처: [proc/plan/2026-05-12_q-design-followup.md](../plan/2026-05-12_q-design-followup.md) §4. **이 표는 결정 전 후보안 — 본 PR에서는 토큰 값을 바꾸지 않음.** Hue 그대로 두고 채도·명도만 손봐 가독성·위계 강화.
+출처: [proc/plan/2026-05-12_q-design-followup.md](../plan/2026-05-12_q-design-followup.md) §4 (디자인 polish 트랙). advice 트랙([2026-05-12_question-hub-foundation.md](../plan/2026-05-12_question-hub-foundation.md))은 컬러 톤 직접 명세는 없음 — 이 후보안은 advice를 위반하지 않는 시각 폴리시 결정. **이 표는 결정 전 후보안 — 본 PR에서는 토큰 값을 바꾸지 않음.** Hue 그대로 두고 채도·명도만 손봐 가독성·위계 강화.
 
 사용 빈도 상위 토큰부터 우선 후보:
 

@@ -3,6 +3,8 @@
 ## 목표
 어제 14:30에 약속했지만 정식 산출물이 빠졌던 디자인 audit 정리 + 사용자 여정 기반 홈 재배치 + 색 톤(채도/명도) 조정을 묶어 마감한다. 같은 날 진행한 기억장치 라우트와 R값 디자인 시스템은 별도 plan/PR로 이미 처리됨 — 이 문서에서는 상태만 체크.
 
+> **트랙 관계**: 이 plan은 **디자인 polish 트랙**이며 advice 트랙([2026-05-12_question-hub-foundation.md](2026-05-12_question-hub-foundation.md))과 별도 갈래다. advice 명세 위반 보정은 [2026-05-12_advice-alignment-correction.md](2026-05-12_advice-alignment-correction.md) 참조.
+
 ## 📌 잔여 작업 스냅샷 (2026-05-12 EOD 직전)
 
 | 묶음 | 상태 |
