@@ -5,12 +5,12 @@ import {
   explainLibrary, explainSampleMathCalc, solveDeck, subjectLabels,
   patternNameForSku,
 } from '@/lib/mock';
-import { AnchorNav } from '@/components/infinity/explain/anchor-nav';
+import { AnchorNav } from '@/components/question-hub/anchor-nav';
 import {
   HeroRecap, Prologue, FourPathSpine, RootGraph, ErrorAnatomy,
   HundredChoices, VisualCanvas, PatternFamily, FeynmanChallenge,
   TeacherVoices, HistoryReal, MemoryAnchor,
-} from '@/components/infinity/explain/sections';
+} from '@/components/question-hub/sections';
 
 export function generateStaticParams() {
   // 데모는 첫 번째 SKU만 실제 12-섹션 구현, 나머지는 placeholder
