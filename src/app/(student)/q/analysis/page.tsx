@@ -3,6 +3,8 @@ import { ScanSearch, ArrowRight, AlertTriangle } from 'lucide-react';
 import { lastDiagnosis, myAbility, subjectLabels, metaDimensions, overallMeta } from '@/lib/mock';
 import { PageHeader } from '@/components/shell/page-header';
 import { SectionHeading } from '@/components/shell/section-heading';
+import { WrongReasonTop3 } from '@/components/analysis/wrong-reason-top3';
+import { RecentMistakes } from '@/components/analysis/recent-mistakes';
 
 export default function AnalysisIntroPage() {
   const topAbility = myAbility[0]!;
@@ -15,6 +17,8 @@ export default function AnalysisIntroPage() {
         title="내 실력, 두 각도로 보기"
         description={`마지막 진단 ${lastDiagnosis.daysAgo}일 전 · 단원별 실력 + 풀이 습관 종합`}
       />
+
+      <WrongReasonTop3 />
 
       <section>
         <SectionHeading
@@ -76,6 +80,8 @@ export default function AnalysisIntroPage() {
           </Link>
         </div>
       </section>
+
+      <RecentMistakes />
     </div>
   );
 }
