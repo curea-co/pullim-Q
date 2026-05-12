@@ -39,17 +39,17 @@
 홈은 referrer 슬롯(PR #4)까지 들어왔지만, 전체 섹션 순서·간격은 "오늘 풀이 큐 → 크로스 도메인 → 이번 주 → ..." 식의 큐 중심 흐름이 그대로. Studio→Q→Store 사용자 여정을 더 자연스럽게 안내하도록 재배치.
 
 #### 3.1 정보 구조 재검토
-- [ ] 현행 6블록 ([src/app/(student)/q/page.tsx](src/app/(student)/q/page.tsx)) 인벤토리: HeroBanner / NowSection / TodayQueueSection / CrossDomainSlot / ThisWeekSection / RecentSection (실제 명칭은 코드 확인)
-- [ ] referrer 시나리오 5종(studio-self / studio-teacher / store-owned / store-trial / direct)별 "다음 한 걸음" 우선순위 정리
+- [x] 현행 7블록 ([src/app/(student)/q/page.tsx](src/app/(student)/q/page.tsx)) 인벤토리: `DDayHero` / `NowSection` / `TodayQueueSection` / `CrossDomainSlot` / `ThisWeekSection` / `UpcomingSection` / `ExplainPicks`
+- [x] referrer 시나리오 5종 별 "다음 한 걸음" 우선순위 정리 — `EntryContextCard.pickEntryCopy` 가 5분기로 이미 카피·CTA 분기 처리 중. studio/store referrer는 자기 도메인 컨텍스트 진입이 1순위, direct는 인기 큐레이션 단서가 1순위.
 
 #### 3.2 섹션 순서·간격 조정
-- [ ] 진입 직후 컨텍스트(referrer EntryContextCard) 가시성 강화 — 첫 스크롤 안에 들어오도록
-- [ ] 큐 vs 둘러보기(크로스 도메인) 비율 검토 — 모바일 한 화면에서 둘 다 단서 보이는지
-- [ ] section 간 여백 통일 (`space-y-6` / `space-y-8` 혼재 정리)
+- [x] 진입 직후 컨텍스트(referrer EntryContextCard) 가시성 강화 — `<CrossDomainSlot />` 을 `<DDayHero />` 직후(position 2)로 승격. 모바일 viewport(844px) 기준 hero(~140px) + slot(~360px) 합쳐도 NowSection 상단이 첫 스크롤 안에 잡힘.
+- [x] 큐 vs 둘러보기(크로스 도메인) 비율 검토 — TodayQueueSection(#4) ↔ CrossDomainSlot(#2) 가 NowSection 으로 분리됐지만, "둘러보기는 진입 직후, 큐는 행동 직후" 라는 의도된 분할. 둘러보기는 어느 referrer든 첫 스크롤 안에 단서가 보임.
+- [x] section 간 여백 통일 — 최상위 `space-y-6` 유일, `space-y-8` 혼재 없음. 내부 `space-y-1.5`(큐 행) / `space-y-2`(다가오는 카드)는 row 간격이라 별개.
 
 #### 3.3 마이크로카피 다듬기
-- [ ] HeroBanner / TimeMarker 카피가 PR #8 헤딩 정리 결과(`text-base` 승격, eyebrow는 `<p text-sm>`)와 일치하는지 확인
-- [ ] "오늘 풀이 큐" / "이번 주" / "최근" 헤더가 같은 톤(시간 축)으로 묶여 읽히는지
+- [x] HeroBanner / TimeMarker 카피 — PR #8 결과대로 `TimelineHeading` 의 시간 라벨이 `<p text-sm>` (eyebrow), `DDayHero` 의 h1는 `text-2xl`. `CrossDomainSlot.SlotHeading` 은 의도적으로 `<h2 text-sm>` 진짜 섹션 헤딩으로 유지(시각은 timeline 과 동일하지만 시맨틱 구분). 변경 없음.
+- [x] "오늘 풀이 큐" / "이번 주" / "다가오는" / "더 깊이" 헤더 모두 `TimelineHeading` 으로 일관 — 시간 축 톤 묶임 OK.
 
 ### 4. 색상 톤 — 채도/명도만 조정
 색상(hue) 자체는 그대로 두고, [proc/spec/07-branding.md](proc/spec/07-branding.md) 팔레트의 **채도·명도**를 손봐 가독성·위계 강화.
