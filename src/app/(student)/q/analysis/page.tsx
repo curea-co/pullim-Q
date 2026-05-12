@@ -5,6 +5,7 @@ import { PageHeader } from '@/components/shell/page-header';
 import { SectionHeading } from '@/components/shell/section-heading';
 import { WrongReasonTop3 } from '@/components/analysis/wrong-reason-top3';
 import { RecentMistakes } from '@/components/analysis/recent-mistakes';
+import { TodayReviewPreview } from '@/components/analysis/today-review-preview';
 
 export default function AnalysisIntroPage() {
   const topAbility = myAbility[0]!;
@@ -82,6 +83,9 @@ export default function AnalysisIntroPage() {
       </section>
 
       <RecentMistakes />
+
+      {/* advice §5-1 마지막 [NEW] 블록 — 오늘의 복습 경로 (복습 탭 미리보기 2~3개) */}
+      <TodayReviewPreview />
     </div>
   );
 }

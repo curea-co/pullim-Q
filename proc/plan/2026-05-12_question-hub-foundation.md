@@ -33,6 +33,34 @@ advice §4 5개 기능을 현 코드와 매핑:
 
 핵심 관찰: **기능 2가 이미 깊이 있게 있어서, "신규 라우트를 또 만든다"보다 "기존 `/q/infinity/explain/[sku]`를 advice의 미시 학습 허브로 격상"이 더 빠르고 정합적**.
 
+### 12-섹션 ↔ advice §4 기능 2 7블록 매핑 (2026-05-12 EOD 보강)
+
+advice 기능 2가 명시한 7블록은 풀림 Q 기존 12-섹션 중 7개에 직접 대응한다. 나머지 5개는 **advice 비범위 — 풀림 Q 확장 기능**으로 둔다 (advice를 위반하지 않음, 기능 풍부화).
+
+| advice 7블록 | 풀림 Q 12-섹션 | 컴포넌트 | 비고 |
+|---|---|---|---|
+| 정답과 핵심 근거 | s1 — HeroRecap | `HeroRecap` | 문제+학생 답+정답 한 화면 |
+| 풀이 전 봐야 할 단서 | s2 — Prologue | `Prologue` | "이 문제를 보면 떠올려야 할 것" |
+| 단계별 풀이 | s3 — FourPathSpine | `FourPathSpine` | 4-step path 시각화 |
+| 선지별 판단 | s5 — ErrorAnatomy + s6 — HundredChoices | `ErrorAnatomy` / `HundredChoices` | 오답 함정 anatomy + 선지 100% breakdown |
+| 자주 하는 착각 | s5 — ErrorAnatomy (공유) | `ErrorAnatomy` | "자주 하는 착각"이 ErrorAnatomy 내부 카드 |
+| 같은 유형 풀이 전략 | s8 — PatternFamily | `PatternFamily` | + "이 유형으로 무한풀기" CTA (Phase 2.1) |
+| 3분 복습 요약 | s12 — MemoryAnchor | `MemoryAnchor` | 핵심 1줄 + 기억 트리거 |
+
+**advice 비범위 (풀림 Q 확장)**: s4 RootGraph(개념 그래프), s7 VisualCanvas(도식 그리기), s9 FeynmanChallenge(설명해보기), s10 TeacherVoices(교사 음성 멘트), s11 HistoryReal(실전 기출 변천)
+
+### 수준별 depth 매핑 (advice §4 기능 2)
+
+advice의 3-tier ↔ `depth.ts` `getDepthRule` 동작:
+
+| 등급 | advice 명시 펼침 | 현 코드 펼침 (`predictedGrade`) |
+|---|---|---|
+| 상위(1~2) | 정답 근거 + 같은 유형 전략 | s1, s8 + s6(선지 분석) |
+| 중위(3~4) | 단계별 풀이 + 선지별 판단 | s1, s3, s5, s8 |
+| 하위(5~9) | 배경지식 + 용어 | s1, s2, s3, s4, s5, s11, s12 |
+
+**알려진 차이**: advice는 상위에 "정답 근거 + 같은 유형 전략 2개만"을 명시했으나 현 코드는 +s6(HundredChoices)도 펼침. 의사 결정: **유지** — 상위권도 선지 100% breakdown은 1분 안에 확인 가능, 인지 부담이 낮음. advice 정신(상위는 답안만 빠르게)에서 크게 벗어나지 않음.
+
 ## 미리 결정해야 할 5가지 (advice §8)
 
 > 이 plan을 코드로 옮기기 전, 다음 5개는 별도 의사결정 라운드(또는 본 plan 리뷰)에서 못 박는다.

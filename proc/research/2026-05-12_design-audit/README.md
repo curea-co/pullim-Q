@@ -7,6 +7,11 @@ plan: [proc/plan/2026-05-12_q-design-followup.md](../../plan/2026-05-12_q-design
 ## 목적
 2026-05-11 ad-hoc audit으로 finding 10건을 뽑고 fix PR 4개(#5, #8, #9, #10)를 냈지만, **재현 가능한 캡처·문서가 없었음**. 후속 작업자가 동일 기준으로 비교·검증할 수 있도록 캡처와 finding 표를 한 폴더에 묶는다.
 
+## 🔗 advice 트랙과의 관계
+이 audit은 **디자인 polish 트랙**이며, advice 트랙([proc/plan/2026-05-12_question-hub-foundation.md](../../plan/2026-05-12_question-hub-foundation.md))과는 **다른 갈래**다. advice 트랙은 콘텐츠 IA / 미시 학습 허브 구현(PR #17·#18)에 집중하고, 이 audit은 그 위에서 시각·접근성·일관성 폴리시(PR #5·#8·#9·#10)에 집중. 두 트랙은 같은 페이지(`/q/analysis`, `/q/analysis/[sku]`)를 만지지만 관심사가 다르다.
+
+advice 명세 위반 fix(다음 학습 6장, 오늘의 복습 경로 블록)는 별도 plan [2026-05-12_advice-alignment-correction.md](../../plan/2026-05-12_advice-alignment-correction.md)에서 진행 — 이 audit research가 그 보정을 일으킨 결과물(머지된 PR 사이의 advice 정합 gap 검출).
+
 ## 캡처 인벤토리
 [scripts/qa-design-capture.mjs](../../../scripts/qa-design-capture.mjs) 로 자동 생성 — 6 페이지 × 2 viewport = 12장 [captures/](./captures/).
 

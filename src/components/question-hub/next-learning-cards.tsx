@@ -27,8 +27,10 @@ export function NextLearningCards({
   sku: string;
   subject: string;
 }) {
-  // 1) 같은 유형 쉬운 문제 — family 중 난이도 낮은 1개
-  const easySame = [...data.family].sort((a, b) => a.difficulty - b.difficulty)[0];
+  // 1) 같은 유형 쉬운 문제 — advice §4 기능 5: family 중 난이도 낮은 2개
+  const easySorted = [...data.family].sort((a, b) => a.difficulty - b.difficulty);
+  const easySame1 = easySorted[0];
+  const easySame2 = easySorted[1];
 
   // 2) 놓친 개념 카드 — memoryQueue 중 retention 가장 낮은 1개
   const missedConcept = [...memoryQueue].sort((a, b) => a.retention - b.retention)[0];
@@ -48,19 +50,30 @@ export function NextLearningCards({
       <header className="flex items-center gap-1.5">
         <Sparkles className="text-pullim-blue-600 h-4 w-4" aria-hidden />
         <h2 className="text-pullim-slate-900 text-base font-bold tracking-tight">다음 학습</h2>
-        <span className="text-pullim-slate-500 ml-auto text-[11px]">5개 추천 — 한 번에 다 안 해도 돼요</span>
+        <span className="text-pullim-slate-500 ml-auto text-[11px]">6개 추천 — 한 번에 다 안 해도 돼요</span>
       </header>
 
       <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-        {easySame && (
+        {easySame1 && (
           <Card
             kind="easy_same_type"
             icon={Target}
             tone="blue"
             title="같은 유형 쉬운 문제"
-            description={easySame.summary}
-            meta={`${easySame.source} · 난이도 ${easySame.difficulty.toFixed(2)}`}
-            href={`/q/infinity/solve?kind=retry&sku=${easySame.sku}`}
+            description={easySame1.summary}
+            meta={`${easySame1.source} · 난이도 ${easySame1.difficulty.toFixed(2)}`}
+            href={`/q/infinity/solve?kind=retry&sku=${easySame1.sku}`}
+          />
+        )}
+        {easySame2 && (
+          <Card
+            kind="easy_same_type"
+            icon={Target}
+            tone="blue"
+            title="같은 유형 쉬운 문제"
+            description={easySame2.summary}
+            meta={`${easySame2.source} · 난이도 ${easySame2.difficulty.toFixed(2)}`}
+            href={`/q/infinity/solve?kind=retry&sku=${easySame2.sku}`}
           />
         )}
         {missedConcept && (

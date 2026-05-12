@@ -93,6 +93,24 @@ try {
     firstHref ?? '없음',
   );
 
+  // ─── advice §5-1 — 오늘의 복습 경로 블록 ─────────────
+  const todayReviewSection = await page.locator('section#today-review-preview').count();
+  record('"오늘의 복습 경로" 섹션 존재 (advice §5-1)', todayReviewSection === 1, `${todayReviewSection}개`);
+
+  const todayReviewCards = await page.locator('section#today-review-preview li > a').count();
+  record('오늘의 복습 경로 카드 ≥ 2장', todayReviewCards >= 2, `${todayReviewCards}장`);
+
+  // 첫 카드 href는 /q/review 또는 /q/review/memory/[id]
+  const firstTodayHref = await page
+    .locator('section#today-review-preview li > a')
+    .first()
+    .getAttribute('href');
+  record(
+    '오늘 복습 첫 카드 href = /q/review 계열',
+    /^\/q\/review(\/memory\/m\d+)?$/.test(firstTodayHref ?? ''),
+    firstTodayHref ?? '없음',
+  );
+
   // ─── SPA 클릭 → 미시 학습 허브 도달 ──────────────────────────
   const firstCardLink = page.locator('section#recent-mistakes li > a').first();
   const targetHref = await firstCardLink.getAttribute('href');
@@ -225,7 +243,7 @@ try {
     .count();
   record('"복습 큐에서 보기" 링크 존재', noteToReview === 1, `${noteToReview}개`);
 
-  // ─── Phase 2.3 — 다음 학습 5종 카드 ──────────────────────
+  // ─── Phase 2.3 + advice 정합 — 다음 학습 6종 카드 ─────────
   const nextLearningSection = await page.locator('section[aria-label="다음 학습 카드"]').count();
   record('다음 학습 섹션 존재', nextLearningSection === 1, `${nextLearningSection}개`);
 
@@ -233,9 +251,17 @@ try {
     .locator('section[aria-label="다음 학습 카드"] a[data-kind]')
     .evaluateAll(els => els.map(el => el.dataset.kind));
   record(
-    '5종 카드 모두 노출',
-    nextCardKinds.length === 5,
+    '6장 카드 모두 노출 (advice §4 기능 5)',
+    nextCardKinds.length === 6,
     nextCardKinds.join(','),
+  );
+
+  // advice 원문 — easy_same_type 2장
+  const easySameCount = nextCardKinds.filter(k => k === 'easy_same_type').length;
+  record(
+    'easy_same_type 2장 (advice 원문)',
+    easySameCount === 2,
+    `${easySameCount}장`,
   );
 
   const hasMissedConcept = nextCardKinds.includes('missed_concept');
