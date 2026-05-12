@@ -18,7 +18,7 @@ export function MobileDrawer() {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
         aria-label="메뉴 열기"
-        className="hover:bg-pullim-slate-100 inline-flex h-9 w-9 items-center justify-center rounded-lg md:hidden"
+        className="hover:bg-pullim-slate-100 inline-flex h-11 w-11 items-center justify-center rounded-lg md:hidden"
       >
         <Menu className="h-5 w-5" />
       </SheetTrigger>

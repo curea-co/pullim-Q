@@ -41,17 +41,17 @@ export function AppHeader() {
           </Badge>
           <button
             aria-label="검색"
-            className="hover:bg-pullim-slate-100 relative inline-flex h-9 w-9 items-center justify-center rounded-lg"
+            className="hover:bg-pullim-slate-100 relative inline-flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-lg"
             title="검색 (⌘ K)"
           >
             <Search className="h-5 w-5" />
           </button>
           <button
             aria-label="알림"
-            className="hover:bg-pullim-slate-100 relative inline-flex h-9 w-9 items-center justify-center rounded-lg"
+            className="hover:bg-pullim-slate-100 relative inline-flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-lg"
           >
             <Bell className="h-5 w-5" />
-            <span className="bg-pullim-danger absolute top-1.5 right-1.5 inline-block h-2 w-2 rounded-full" />
+            <span className="bg-pullim-danger absolute top-2.5 right-2.5 sm:top-1.5 sm:right-1.5 inline-block h-2 w-2 rounded-full" />
           </button>
           <ProfileMenu />
         </div>
@@ -72,7 +72,7 @@ function ProfileMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger
         aria-label="프로필 메뉴 열기"
-        className="bg-pullim-blue-600 hover:bg-pullim-blue-700 hover:ring-pullim-blue-200 ml-1 inline-flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white transition-all hover:ring-2 focus-visible:ring-pullim-blue-300 focus-visible:ring-2 outline-none"
+        className="bg-pullim-blue-600 hover:bg-pullim-blue-700 hover:ring-pullim-blue-200 ml-1 inline-flex h-11 w-11 sm:h-8 sm:w-8 items-center justify-center rounded-full text-sm sm:text-xs font-bold text-white transition-all hover:ring-2 focus-visible:ring-pullim-blue-300 focus-visible:ring-2 outline-none"
       >
         {currentPersona.name[0]}
       </DropdownMenuTrigger>
