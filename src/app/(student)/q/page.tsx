@@ -65,11 +65,12 @@ export default function QHubPage() {
     <div className="space-y-6">
       <DDayHero persona={persona} dday={dday} />
 
+      {/* §3.2 — referrer EntryContextCard 가시성 강화: 첫 스크롤 안에 들어오도록 hero 직후로 승격 */}
+      <CrossDomainSlot />
+
       <NowSection now={now} />
 
       <TodayQueueSection />
-
-      <CrossDomainSlot />
 
       <ThisWeekSection />
 
