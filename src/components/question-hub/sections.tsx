@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { AlertTriangle, ArrowRight, Award, BookOpen, Calendar, Check, ChevronRight, Compass, Eye, FlaskConical, Globe, Headphones, Heart, History, Mic, Pin, Scroll, Sparkles, Star, Target, Users } from 'lucide-react';
 import {
+  patternNameForSku, subjectForSku,
   type ExplainContent, type SolutionPath, type ChoicePsychology,
   type TeacherVoice, type RelatedProblem,
 } from '@/lib/mock';
@@ -311,13 +312,32 @@ export function VisualCanvas({ data, defaultOpen }: { data: ExplainContent; defa
   );
 }
 
-/** 8. Pattern Family */
+/** 8. Pattern Family + 이 유형으로 무한풀기 sticky CTA */
 export function PatternFamily({ data, defaultOpen }: { data: ExplainContent; defaultOpen?: boolean }) {
+  const subject = subjectForSku(data.sku);
+  const pattern = patternNameForSku(data.sku) ?? '같은 유형';
+  // /q/infinity/solve?kind=weak&subject=...&pattern=... — Phase 2.1 의 명시 CTA
+  const cycleHref = subject
+    ? `/q/infinity/solve?kind=weak&subject=${subject}&pattern=${encodeURIComponent(pattern)}`
+    : null;
+
   return (
     <Section id="s8" title="Pattern Family" subtitle="같은 패턴의 친척 문제" defaultOpen={defaultOpen}>
       <ul className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
         {data.family.map(p => <RelatedCard key={p.sku} item={p} />)}
       </ul>
+      {cycleHref && (
+        <Link
+          href={cycleHref}
+          className="bg-pullim-blue-600 hover:bg-pullim-blue-700 mt-4 inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold text-white transition-colors"
+        >
+          <Target className="h-4 w-4" aria-hidden />
+          이 유형으로 무한풀기
+          <span className="bg-white/20 ml-1 rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide">
+            {pattern}
+          </span>
+        </Link>
+      )}
     </Section>
   );
 }

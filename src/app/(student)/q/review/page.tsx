@@ -7,6 +7,7 @@ import {
   overdueCards, todayCards, leitnerMeta,
   dueItems, todayDue, memorySourceMeta,
   forgettingCurve,
+  wrongAttemptDiagnoses, wrongReasonCatalog,
   type MemoryItem, type LeitnerBox, type LeitnerCard,
 } from '@/lib/mock';
 import { useLeitnerStore } from '@/lib/store/leitner-store';
@@ -239,6 +240,7 @@ function QueueRow({ item, index }: { item: QueueItem; index: number }) {
               <span className="text-pullim-slate-400 text-[10px]">
                 {subjectShort[item.subject] ?? item.subject} · {meta.interval}
               </span>
+              <WrongReasonChip sku={item.sku} />
             </div>
           </div>
           <span className={cn(
@@ -298,6 +300,21 @@ function QueueRow({ item, index }: { item: QueueItem; index: number }) {
         </span>
       </Link>
     </li>
+  );
+}
+
+/** Phase 2.2 — 우선 큐 leitner 행에 오답 원인 한 칩 노출 (메타 풍부화 확인용) */
+function WrongReasonChip({ sku }: { sku: string }) {
+  const diagnosis = wrongAttemptDiagnoses.find(d => d.sku === sku);
+  const code = diagnosis?.wrongReasonCodes[0];
+  if (!code) return null;
+  return (
+    <>
+      <span className="text-pullim-slate-300" aria-hidden>·</span>
+      <span className="bg-pullim-warn-bg text-pullim-warn inline-flex items-center rounded-full px-1.5 py-0.5 text-[9px] font-bold tracking-wide">
+        {wrongReasonCatalog[code].label}
+      </span>
+    </>
   );
 }
 

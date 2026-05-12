@@ -12,9 +12,11 @@ import {
   wrongAttemptDiagnoses,
 } from '@/lib/mock';
 import { AnchorNav } from '@/components/question-hub/anchor-nav';
+import { AutoNotePreview } from '@/components/question-hub/auto-note-preview';
 import { getDepthMeta, getDepthRule } from '@/components/question-hub/depth';
 import { LearningMaterialsPanel } from '@/components/question-hub/learning-materials-panel';
 import { MobilePanelTrigger } from '@/components/question-hub/mobile-panel-trigger';
+import { NextLearningCards } from '@/components/question-hub/next-learning-cards';
 import {
   HeroRecap, Prologue, FourPathSpine, RootGraph, ErrorAnatomy,
   HundredChoices, VisualCanvas, PatternFamily, FeynmanChallenge,
@@ -162,38 +164,34 @@ export default async function QuestionHubPage({ params, searchParams }: Props) {
       {/* 모바일 — 우측 패널 대신 sticky 트리거 + Sheet */}
       <MobilePanelTrigger data={data} sku={entry.sku} />
 
-      {/* 다음 행동 */}
-      <section className="from-pullim-blue-600 to-pullim-blue-500 rounded-2xl bg-gradient-to-br p-5 text-white">
-        <h2 className="text-lg font-bold tracking-tight">다음 행동</h2>
-        <p className="text-pullim-blue-100 mt-1 text-sm">
-          이 문제 단서를 더 굳히려면 같은 유형으로 더 풀거나, 막힌 부분은 코치에게 물어봐요.
+      {/* Phase 2.2 — 자동 오답노트 미리보기 */}
+      <AutoNotePreview
+        sku={entry.sku}
+        wrongReasonCodes={diagnosis?.wrongReasonCodes ?? []}
+      />
+
+      {/* Phase 2.3 — 다음 학습 5종 카드 */}
+      <NextLearningCards data={data} sku={entry.sku} subject={entry.subject} />
+
+      {/* 페이지 끝 — 다음 행동 컴팩트 footer (코치 + 복습 진입만) */}
+      <section className="from-pullim-blue-600 to-pullim-blue-500 flex flex-wrap items-center gap-3 rounded-2xl bg-gradient-to-br p-4 text-white">
+        <p className="text-pullim-blue-50 text-sm">
+          여기까지 봤다면 한 줄로 닫아요 — 코치에게 묻거나 복습 큐로 돌아가요.
         </p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <Link
-            href={`/q/infinity/solve?kind=weak&subject=${entry.subject}&pattern=${encodeURIComponent(patternNameForSku(entry.sku) ?? entry.unit)}`}
-            className="text-pullim-blue-700 inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2.5 text-sm font-bold transition-colors"
-          >
-            <Target className="h-4 w-4" />
-            이 유형으로 더 풀기
-          </Link>
-          <Link
-            href={`/q/infinity/solve?kind=retry&sku=${entry.sku}`}
-            className="bg-white/10 hover:bg-white/20 inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold text-white transition-colors"
-          >
-            이 문제 다시 풀기
-          </Link>
+        <div className="ml-auto flex flex-wrap gap-2">
           <Link
             href={`/q/talk?context=${encodeURIComponent(entry.sku)}`}
-            className="bg-white/10 hover:bg-white/20 inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold text-white transition-colors"
+            className="bg-white/10 hover:bg-white/20 inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold text-white transition-colors"
           >
-            <MessageCircleQuestion className="h-4 w-4" />
+            <MessageCircleQuestion className="h-3.5 w-3.5" />
             코치에게 더 묻기
           </Link>
           <Link
             href="/q/review"
-            className="bg-white/10 hover:bg-white/20 inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold text-white transition-colors"
+            className="text-pullim-blue-700 inline-flex items-center gap-1.5 rounded-xl bg-white px-3 py-2 text-xs font-bold transition-colors"
           >
             풀림 복습으로
+            <Target className="h-3.5 w-3.5" />
           </Link>
         </div>
       </section>
