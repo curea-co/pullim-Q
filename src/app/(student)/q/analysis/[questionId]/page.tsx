@@ -1,16 +1,20 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, BookmarkPlus, Share2, Star, Eye, Target, MessageCircleQuestion } from 'lucide-react';
+import { ArrowLeft, BookmarkPlus, GraduationCap, Share2, Star, Eye, Target, MessageCircleQuestion } from 'lucide-react';
 import {
   currentPersona,
   explainLibrary,
   explainSampleMathCalc,
+  myAbility,
   patternNameForSku,
   solveDeck,
   subjectLabels,
   wrongAttemptDiagnoses,
 } from '@/lib/mock';
 import { AnchorNav } from '@/components/question-hub/anchor-nav';
+import { getDepthMeta, getDepthRule } from '@/components/question-hub/depth';
+import { LearningMaterialsPanel } from '@/components/question-hub/learning-materials-panel';
+import { MobilePanelTrigger } from '@/components/question-hub/mobile-panel-trigger';
 import {
   HeroRecap, Prologue, FourPathSpine, RootGraph, ErrorAnatomy,
   HundredChoices, VisualCanvas, PatternFamily, FeynmanChallenge,
@@ -44,6 +48,12 @@ export default async function QuestionHubPage({ params, searchParams }: Props) {
   // 오답 원인 진단 매칭 — 같은 SKU의 최근 시도
   const diagnosis = wrongAttemptDiagnoses.find(d => d.sku === questionId);
   const primarySubject = currentPersona.focusSubjects[0];
+
+  // advice §4 기능 2 — 학생 등급별 depth 자동 펼침 (D2 결정 반영)
+  const ability = myAbility.find(a => a.subject === entry.subject);
+  const predictedGrade = ability?.expectedGrade ?? 5;
+  const depth = getDepthRule(predictedGrade);
+  const depthMeta = getDepthMeta(predictedGrade);
 
   const isFromLibrary = from === 'library';
 
@@ -109,8 +119,17 @@ export default async function QuestionHubPage({ params, searchParams }: Props) {
         />
       )}
 
-      {/* 12-섹션 본문 — 좌측 anchor nav + 가운데 본문 */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[200px_1fr]">
+      {/* 학생 등급 기반 펼침 상태 안내 */}
+      <p
+        aria-label="해설 펼침 자동 조절 안내"
+        className="text-pullim-slate-500 inline-flex items-center gap-1.5 text-[11px]"
+      >
+        <GraduationCap className="h-3 w-3" aria-hidden />
+        예상 {predictedGrade}등급 — {depthMeta.label} ({depthMeta.openLabels.length}개 섹션 자동 펼침)
+      </p>
+
+      {/* 12-섹션 본문 — 좌측 anchor / 가운데 본문 / 우측 학습 재료 */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[200px_1fr_300px]">
         <aside className="hidden lg:block">
           <div className="bg-card sticky top-12 rounded-xl border p-2">
             <div className="text-pullim-slate-500 px-2 py-1 text-[10px] font-bold tracking-wider uppercase">
@@ -121,20 +140,27 @@ export default async function QuestionHubPage({ params, searchParams }: Props) {
         </aside>
 
         <div className="space-y-4">
-          <HeroRecap data={data} problemStatement={statement} choices={choices} />
-          <Prologue data={data} />
-          <FourPathSpine paths={data.paths} />
-          <RootGraph data={data} />
-          <ErrorAnatomy data={data} />
-          <HundredChoices data={data} choices={choices} />
-          <VisualCanvas data={data} />
-          <PatternFamily data={data} />
-          <FeynmanChallenge data={data} />
-          <TeacherVoices data={data} />
-          <HistoryReal data={data} />
-          <MemoryAnchor data={data} />
+          <HeroRecap data={data} problemStatement={statement} choices={choices} defaultOpen={depth('s1')} />
+          <Prologue data={data} defaultOpen={depth('s2')} />
+          <FourPathSpine paths={data.paths} defaultOpen={depth('s3')} />
+          <RootGraph data={data} defaultOpen={depth('s4')} />
+          <ErrorAnatomy data={data} defaultOpen={depth('s5')} />
+          <HundredChoices data={data} choices={choices} defaultOpen={depth('s6')} />
+          <VisualCanvas data={data} defaultOpen={depth('s7')} />
+          <PatternFamily data={data} defaultOpen={depth('s8')} />
+          <FeynmanChallenge data={data} defaultOpen={depth('s9')} />
+          <TeacherVoices data={data} defaultOpen={depth('s10')} />
+          <HistoryReal data={data} defaultOpen={depth('s11')} />
+          <MemoryAnchor data={data} defaultOpen={depth('s12')} />
         </div>
+
+        <aside aria-label="학습 재료 패널" className="hidden lg:block">
+          <LearningMaterialsPanel data={data} sku={entry.sku} />
+        </aside>
       </div>
+
+      {/* 모바일 — 우측 패널 대신 sticky 트리거 + Sheet */}
+      <MobilePanelTrigger data={data} sku={entry.sku} />
 
       {/* 다음 행동 */}
       <section className="from-pullim-blue-600 to-pullim-blue-500 rounded-2xl bg-gradient-to-br p-5 text-white">
