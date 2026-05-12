@@ -288,6 +288,7 @@ function InfinitySolveInner() {
           unitTitle={session.unitTitle}
           source={session.source}
           current={Math.min(currentIdx + 1, session.total)}
+          answered={Object.keys(answers).length}
           total={session.total}
           onChange={handleChangeSession}
         />
