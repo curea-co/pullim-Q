@@ -8,7 +8,7 @@ import {
 } from '@/lib/mock';
 import { cn } from '@/lib/utils';
 
-/** 12 섹션 anchor 정의 */
+/** 12-섹션 anchor 정의 */
 export type SectionAnchor = {
   id: string;
   label: string;

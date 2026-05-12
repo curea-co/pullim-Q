@@ -63,7 +63,7 @@ export default function ExplainLibraryPage() {
             <div className="text-pullim-warn text-[10px] font-bold tracking-wider uppercase">
               풀림 해설의 12-섹션
             </div>
-            <h2 className="text-pullim-slate-900 mt-0.5 text-sm font-bold">
+            <h2 className="text-pullim-slate-900 mt-0.5 text-base font-bold">
               한 문제를 깊게 — 4개의 풀이 경로 + 100명의 선택 + 3가지 톤의 선생님 해설
             </h2>
             <p className="text-pullim-slate-600 mt-1 text-[11px] leading-relaxed">

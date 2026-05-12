@@ -43,12 +43,12 @@ export function SectionIntro({ identity, values, subRoutes, preview }: Props) {
           style={{ background: 'radial-gradient(circle, var(--color-pullim-lemon), transparent 70%)' }}
         />
         <div className="relative">
-          <h2 className="text-pullim-lemon text-[10px] font-bold tracking-wider uppercase">
+          <p className="text-pullim-lemon text-[10px] font-bold tracking-wider uppercase">
             이 섹션의 정체성
-          </h2>
-          <p className="mt-1.5 text-base font-semibold leading-relaxed text-white xl:text-lg">
-            {identity}
           </p>
+          <h2 className="mt-1.5 text-base font-semibold leading-relaxed text-white xl:text-lg">
+            {identity}
+          </h2>
 
           <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
             {values.map(v => (
@@ -68,7 +68,7 @@ export function SectionIntro({ identity, values, subRoutes, preview }: Props) {
 
       {/* Sub-route 진입 카드 */}
       <section>
-        <h3 className="text-pullim-slate-900 mb-2.5 text-sm font-bold tracking-tight">
+        <h3 className="text-pullim-slate-900 mb-2.5 text-base font-bold tracking-tight">
           이 섹션 안에서 할 수 있는 것
         </h3>
         <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">

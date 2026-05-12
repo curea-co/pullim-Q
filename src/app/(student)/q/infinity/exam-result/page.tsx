@@ -36,7 +36,7 @@ export default function ExamResultPage() {
 
       {/* 결과 분포 — 정답/오답/미응답 */}
       <section className="bg-card rounded-2xl border p-4">
-        <h2 className="text-pullim-slate-900 mb-3 text-sm font-bold">문항별 분포</h2>
+        <h2 className="text-pullim-slate-900 mb-3 text-base font-bold">문항별 분포</h2>
         <div className="grid grid-cols-3 gap-3">
           <DistCard count={r.correct}    total={r.problemCount} label="정답"    tone="success" />
           <DistCard count={r.wrong}      total={r.problemCount} label="오답"    tone="danger" />
@@ -51,7 +51,7 @@ export default function ExamResultPage() {
             <AlertTriangle className="h-3.5 w-3.5" />
           </span>
           <div>
-            <h2 className="text-pullim-slate-900 text-sm font-bold">오답 클러스터</h2>
+            <h2 className="text-pullim-slate-900 text-base font-bold">오답 클러스터</h2>
             <p className="text-pullim-slate-500 text-[11px]">AI가 패턴별로 묶었어요. 풀림 복습(정복)으로 일괄 보낼 수 있어요.</p>
           </div>
         </header>
@@ -97,7 +97,7 @@ export default function ExamResultPage() {
 
       {/* 다음 추천 */}
       <section className="bg-pullim-blue-50 border-pullim-blue-100 rounded-2xl border p-4">
-        <h2 className="text-pullim-blue-700 mb-3 text-sm font-bold tracking-tight">다음 추천</h2>
+        <h2 className="text-pullim-blue-700 mb-3 text-base font-bold tracking-tight">다음 추천</h2>
         <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
           <RecCard
             title="오답 12-섹션 해설"
