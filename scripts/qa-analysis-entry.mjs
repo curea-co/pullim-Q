@@ -117,12 +117,51 @@ try {
     .count();
   record('hero reason chip ≥ 1', heroReasonChips >= 1, `${heroReasonChips}개`);
 
-  const sectionTitles = await page.locator('section[id^="s"] h3').count();
+  const sectionTitles = await page.locator('details[id^="s"] summary h3').count();
   record('미시 허브 — 12-섹션 본문 노출', sectionTitles === 12, `${sectionTitles}개`);
 
   // "코치에게 더 묻기" 진입 링크
   const coachLink = await page.locator('a[href^="/q/talk?context="]').count();
   record('"코치에게 더 묻기" 링크 존재', coachLink >= 1, `${coachLink}개`);
+
+  // ─── Phase 1.2 — 등급별 depth 자동 펼침 ────────────────
+  // 학생 페르소나(서연)의 수학 expectedGrade=3 → 'middle' 룰: s1·s3·s5·s8만 open
+  // <details>의 open 속성으로 확인
+  const s1Open = await page.locator('details#s1').evaluate(el => el.open);
+  record('s1 (HeroRecap) defaultOpen', s1Open === true, `${s1Open}`);
+
+  const s3Open = await page.locator('details#s3').evaluate(el => el.open);
+  record('s3 (FourPathSpine) — 중위권 펼침', s3Open === true, `${s3Open}`);
+
+  const s5Open = await page.locator('details#s5').evaluate(el => el.open);
+  record('s5 (ErrorAnatomy) — 중위권 펼침', s5Open === true, `${s5Open}`);
+
+  const s8Open = await page.locator('details#s8').evaluate(el => el.open);
+  record('s8 (PatternFamily) — 중위권 펼침', s8Open === true, `${s8Open}`);
+
+  // 중위권에서 닫혀 있어야 하는 섹션
+  const s2Open = await page.locator('details#s2').evaluate(el => el.open);
+  record('s2 (Prologue) — 중위권 닫힘', s2Open === false, `${s2Open}`);
+
+  const s4Open = await page.locator('details#s4').evaluate(el => el.open);
+  record('s4 (RootGraph) — 중위권 닫힘', s4Open === false, `${s4Open}`);
+
+  const s12Open = await page.locator('details#s12').evaluate(el => el.open);
+  record('s12 (MemoryAnchor) — 중위권 닫힘', s12Open === false, `${s12Open}`);
+
+  // depth 안내 카피
+  const depthLabel = await page.locator('p[aria-label="해설 펼침 자동 조절 안내"]').textContent();
+  record('depth 안내 카피 노출', /예상 \d등급/.test(depthLabel ?? ''), depthLabel?.trim() ?? '없음');
+
+  // ─── Phase 1.3-panel — 데스크탑 우측 학습 재료 패널 ──────
+  const panelDesktop = await page.locator('aside[aria-label="학습 재료 패널"]').count();
+  record('데스크탑 우측 패널 존재', panelDesktop === 1, `${panelDesktop}개`);
+
+  // 패널 안에 코치 버튼 1개 + 개념행별 코치 아이콘 다수
+  const panelCoachCta = await page
+    .locator('aside[aria-label="학습 재료 패널"] a[href^="/q/talk?context="]')
+    .count();
+  record('패널 내 코치 진입 ≥ 2', panelCoachCta >= 2, `${panelCoachCta}개`);
 
   await page.screenshot({ path: `${SHOTS}/02-question-hub.png`, fullPage: true });
 
@@ -145,6 +184,12 @@ try {
   const mobileCards = await page.locator('section[aria-label="최근 오답 원인"] a').count();
   record('모바일 Top 3 카드 3개 유지', mobileCards === 3, `${mobileCards}개`);
   await page.screenshot({ path: `${SHOTS}/04-analysis-mobile.png`, fullPage: true });
+
+  // 모바일에서 sticky "학습 재료" 트리거 노출 (허브 페이지 진입 후)
+  await page.goto(`${BASE}/q/analysis/Q-MATH-CALC-0042`, { waitUntil: 'networkidle' });
+  const mobileTrigger = await page.locator('button[aria-label="학습 재료 보기"]').count();
+  record('모바일 sticky 패널 트리거 존재', mobileTrigger === 1, `${mobileTrigger}개`);
+  await page.screenshot({ path: `${SHOTS}/05-hub-mobile.png`, fullPage: true });
 
   // ─── 구 explain SKU 직링 → 308 redirect ──────────────────
   await page.setViewportSize({ width: 1280, height: 800 });
