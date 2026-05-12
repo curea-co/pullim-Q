@@ -91,13 +91,13 @@ export default async function ExplainDetailPage({ params }: Props) {
         <aside className="hidden lg:block">
           <div className="bg-card sticky top-12 rounded-xl border p-2">
             <div className="text-pullim-slate-500 px-2 py-1 text-[10px] font-bold tracking-wider uppercase">
-              12 섹션
+              12-섹션
             </div>
             <AnchorNav />
           </div>
         </aside>
 
-        {/* 우측 본문 — 12 섹션 순차 */}
+        {/* 우측 본문 — 12-섹션 순차 */}
         <div className="space-y-4">
           <HeroRecap data={data} problemStatement={statement} choices={choices} />
           <Prologue data={data} />

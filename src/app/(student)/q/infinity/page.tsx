@@ -87,7 +87,7 @@ export default function InfinityHomePage() {
             <header className="flex items-end justify-between border-b p-4">
               <h3 className="text-pullim-slate-900 inline-flex items-center gap-1 text-sm font-bold tracking-tight">
                 <Sparkles className="text-pullim-warn h-3.5 w-3.5" />
-                풀림 해설 — 추천 12섹션
+                풀림 해설 — 추천 12-섹션
               </h3>
               <Link href="/q/infinity/explain" className="text-pullim-blue-600 text-xs font-bold inline-flex items-center gap-0.5">
                 전체 보기 <ArrowRight className="h-3 w-3" />

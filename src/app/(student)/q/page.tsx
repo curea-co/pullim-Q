@@ -447,7 +447,7 @@ function ExplainPicks() {
         time="더 깊이"
         Icon={BookOpen}
         accent="primary"
-        sub="이번 주 인기 풀림 해설 — 한 문제 12섹션"
+        sub="이번 주 인기 풀림 해설 — 한 문제 12-섹션"
       />
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         {picks.map(e => (
@@ -501,7 +501,7 @@ function TimelineHeading({
     <div className="mb-2.5 flex items-center gap-2">
       <span className={cn('h-2 w-2 rounded-full', dotClass)} />
       <Icon className={cn('h-3.5 w-3.5', iconClass)} />
-      <h2 className="text-pullim-slate-900 text-sm font-bold tracking-tight">{time}</h2>
+      <p className="text-pullim-slate-900 text-sm font-bold tracking-tight">{time}</p>
       <span className="text-pullim-slate-400 text-[11px]">— {sub}</span>
     </div>
   );

@@ -7,10 +7,10 @@ export function ActivityTimeline() {
   return (
     <section className="bg-card flex h-full flex-col overflow-hidden rounded-2xl border">
       <header className="border-b p-3.5">
-        <div className="text-pullim-blue-600 text-[10px] font-bold tracking-wider uppercase">
+        <p className="text-pullim-blue-600 text-[10px] font-bold tracking-wider uppercase">
           오늘 코치가 본 것
-        </div>
-        <h2 className="text-pullim-slate-900 text-sm font-bold">
+        </p>
+        <h2 className="text-pullim-slate-900 text-base font-bold">
           {todayActivities.length}건 · 미확인 {todayActivities.filter(a => !a.acknowledged).length}건
         </h2>
       </header>
