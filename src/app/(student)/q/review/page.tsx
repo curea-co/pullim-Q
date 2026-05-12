@@ -101,7 +101,7 @@ function KpiBand({
 }) {
   return (
     <section className="bg-card rounded-2xl border p-4">
-      <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-4 sm:gap-3">
+      <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
         <Kpi
           Icon={AlertTriangle}
           label="시간 지남"
@@ -127,6 +127,7 @@ function KpiBand({
           label="30일 남은 기억"
           value={`${retention}%`}
           sub={`또래 +${retention - Math.round(personalForgettingProfile.retention30d.peer * 100)}p`}
+          accent="lemon"
         />
       </ul>
     </section>
