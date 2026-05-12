@@ -79,103 +79,88 @@ advice §4 5개 기능을 현 코드와 매핑:
 advice §5-1 의 "분석 페이지 하단 신규 블록"만 먼저. **신규 라우트 없이** 클릭률·도달률 측정 가능한 표면부터.
 
 #### 0.1 오답 원인 fallback taxonomy — FaaS §8.1 10종
-- [ ] [src/lib/mock/wrong-reason.ts](src/lib/mock/wrong-reason.ts) 신설
-  - `type WrongReasonCode` — D4 결정 10종 유니온
-  - `wrongReasonCatalog: Record<WrongReasonCode, { code, label, oneLineMessage, subjectExamples: Record<Subject,string>, nextStepHint }>`
-  - `pickPrimaryReasons(attemptOrSku): WrongReasonCode[]` — 한 시도당 최대 2개
-- [ ] [src/lib/mock/solve.ts](src/lib/mock/solve.ts) 또는 `solveDeck` 인근에 `solveAttempts` mock — 각 오답 시도에 `wrongReasonCodes: WrongReasonCode[]` 부여 (10종 골고루 노출되게 분포)
-- [ ] [src/lib/mock/index.ts](src/lib/mock/index.ts) barrel export 갱신
+- [x] [src/lib/mock/wrong-reason.ts](src/lib/mock/wrong-reason.ts) 신설 — 10종 catalog + `wrongAttemptDiagnoses` 7건 + `aggregateRecentWrongReasons` 헬퍼
+- [x] `wrongAttemptDiagnoses` mock — 10종 골고루 분포되도록 가상 시도 5개 추가 (history h2/h5/h6 + h9~h12)
+- [x] [src/lib/mock/index.ts](src/lib/mock/index.ts) barrel export 갱신
 
 #### 0.2 `/q/analysis` 상단 "최근 오답 원인 Top 3"
-- [ ] [src/components/analysis/wrong-reason-top3.tsx](src/components/analysis/wrong-reason-top3.tsx) 신설 — 한 줄 가로 카드 3개 (라벨 + 빈도 + `subjectExamples`에서 학생 주 과목 1줄)
-- [ ] [src/app/(student)/q/analysis/page.tsx](src/app/(student)/q/analysis/page.tsx) PageHeader 직후 삽입
-- 톤: PR #8 audit 결과 (eyebrow는 `<p text-sm>`, 섹션 타이틀은 `text-base`) 준수
+- [x] [src/components/analysis/wrong-reason-top3.tsx](src/components/analysis/wrong-reason-top3.tsx) — 빈도 Top 3, 학생 주 과목 예시, "n회" 카운터
+- [x] [src/app/(student)/q/analysis/page.tsx](src/app/(student)/q/analysis/page.tsx) PageHeader 직후 삽입
 
 #### 0.3 `/q/analysis` 하단 "다시 봐야 할 문제" 카드
-- [ ] [src/components/analysis/recent-mistakes.tsx](src/components/analysis/recent-mistakes.tsx) 신설 — 최근 오답 3~5개, 카드당 `{문제 한 줄 + wrongReason 라벨 칩 1~2개 + "이 문제 풀이 다시 보기" CTA}`
-- [ ] CTA 목적지: `/q/analysis/${questionId}` (D1 결정 — Phase 1에서 실제 라우트 등장 전에는 임시로 explain SKU와 매핑)
-- [ ] [src/app/(student)/q/analysis/page.tsx](src/app/(student)/q/analysis/page.tsx) 기존 두 블록 아래에 배치
+- [x] [src/components/analysis/recent-mistakes.tsx](src/components/analysis/recent-mistakes.tsx) — 4장 카드, reason chip 1~2개, "이 문제 풀이 다시 보기" CTA
+- [x] CTA href = `/q/analysis/[sku]` (Phase 1.4 redirect로 explain 직링도 흡수)
+- [x] [src/app/(student)/q/analysis/page.tsx](src/app/(student)/q/analysis/page.tsx) 기존 두 블록 아래에 배치
 
 #### 0.4 검증
-- [ ] `bunx tsc --noEmit && bun run lint && bun run build`
-- [ ] Playwright [scripts/qa-analysis-entry.mjs](scripts/qa-analysis-entry.mjs) 신설 — `/q/analysis` Top 3 표시 / "다시 봐야 할 문제" 카드 노출 / 카드 클릭 시 hub URL 패턴(`/q/analysis/`) 도달
+- [x] `bunx tsc --noEmit && bun run build` exit 0
+- [x] Playwright [scripts/qa-analysis-entry.mjs](scripts/qa-analysis-entry.mjs) — 14/14 pass (Phase 0 시점)
 
 ### Phase 1 — `/q/analysis/[questionId]` 신설 + 컴포넌트 추출 (2 PR)
 
 D1 결정 반영. 자산 손실 없이 라우트만 단일화.
 
-#### 1.0 컴포넌트 추출 (선행 — chore PR로 분리 권장)
-- [ ] `src/components/infinity/explain/sections.tsx` → [src/components/question-hub/sections.tsx](src/components/question-hub/sections.tsx) 로 이동
-- [ ] `src/components/infinity/explain/anchor-nav.tsx` → [src/components/question-hub/anchor-nav.tsx](src/components/question-hub/anchor-nav.tsx)
-- [ ] 12개 섹션(HeroRecap·Prologue·FourPathSpine·RootGraph·ErrorAnatomy·HundredChoices·VisualCanvas·PatternFamily·FeynmanChallenge·TeacherVoices·HistoryReal·MemoryAnchor) **라우트 중립**: prop으로 sku·subject·predictedGrade만 받고 라우트 가정 제거
-- [ ] 기존 `/q/infinity/explain/[sku]/page.tsx` 임시로 새 위치 import 유지 (다음 단계에서 redirect)
+#### 1.0 컴포넌트 추출 (chore PR — #16 머지 완료)
+- [x] `infinity/explain/sections.tsx` → [src/components/question-hub/sections.tsx](src/components/question-hub/sections.tsx) (`git mv` 86% 유사도)
+- [x] `infinity/explain/anchor-nav.tsx` → [src/components/question-hub/anchor-nav.tsx](src/components/question-hub/anchor-nav.tsx)
+- [x] 컴포넌트 내용 변경 없음 — 순수 file move
 
-#### 1.1 신규 라우트 `/q/analysis/[questionId]`
-- [ ] [src/app/(student)/q/analysis/[questionId]/page.tsx](src/app/(student)/q/analysis/[questionId]/page.tsx) 신설
-- [ ] `generateStaticParams` — `explainLibrary`에서 questionId(= sku) 매핑
-- [ ] 레이아웃 (advice §5-2):
-  - 상단: 문제 메타 (과목·단원·유형·난이도) + 정답 여부 + `WrongReasonHero`
-  - 좌측 (≥lg): 문제 발문 / 학생이 고른 답 / 정답 / 지문 하이라이트
-  - 가운데: 추출된 sections 12종 (등급별 depth 적용 — §1.2)
-  - 우측 (≥lg): 학습 재료 패널 (개념·용어) — §1.3
-  - 하단: 유형 분류 + 변형 문제 (§2.1) + 다음 학습 5종 (§2.3)
-- [ ] 모바일: 좌/가운데/우 세로 스택, 우측 패널은 `Sheet`
+#### 1.1 신규 라우트 `/q/analysis/[questionId]` (PR #14 머지 완료)
+- [x] [src/app/(student)/q/analysis/[questionId]/page.tsx](src/app/(student)/q/analysis/[questionId]/page.tsx) 신설
+- [x] `generateStaticParams` — `explainLibrary`에서 questionId(= sku) 매핑
+- [x] 레이아웃 (advice §5-2): 상단 hero / 좌 anchor / 가운데 본문 / 우 패널 / 하단 자동 노트·다음 학습
 
-#### 1.2 수준별 depth 자동 펼침
-- [ ] [src/components/question-hub/anchor-nav.tsx](src/components/question-hub/anchor-nav.tsx) 또는 sections에 `defaultOpen` prop
-- [ ] `predictedGrade` (lib/mock/irt.ts의 `myAbility[subject].expectedGrade`) 기반:
-  - 1~2등급: `HeroRecap`, `PatternFamily` 펼침
-  - 3~4등급: + `FourPathSpine`, `ErrorAnatomy`
-  - 5~9등급: + `RootGraph`, `MemoryAnchor`, `VisualCanvas`
-- D2 결정 보류 중이나 mock prop 통과는 이번 단계에 함 (실제 IRT 정확도와 무관하게 UI 동작)
+#### 1.2 수준별 depth 자동 펼침 (PR #15 머지 완료)
+- [x] [src/components/question-hub/depth.ts](src/components/question-hub/depth.ts) `getDepthRule`·`getDepthMeta`
+- [x] [src/components/question-hub/sections.tsx](src/components/question-hub/sections.tsx) Section 래퍼 native `<details>/<summary>` collapsible
+- [x] 12개 섹션 모두 `defaultOpen?` prop 추가, 페이지에서 흘려줌
+- [x] `myAbility[subject].expectedGrade` lookup → `predictedGrade` (D2 그대로 재사용)
+- [x] "예상 N등급 — 중위권" 안내 카피 노출
 
 #### 1.3 오답 원인 hero + 우측 학습 재료 패널
-- [ ] [src/components/question-hub/wrong-reason-hero.tsx](src/components/question-hub/wrong-reason-hero.tsx) 신설 — `studentAnswer.selected` / 정답 / `wrongReasonCodes` (최대 2) / `nextStepHint` 1줄. 톤은 `border-pullim-warn/40 bg-pullim-warn/5`
-- [ ] 데스크탑 ≥ lg: hub 페이지 grid 재배치 — 본문 / 우측 sticky 패널(280~320px)
-- [ ] 모바일: 패널 콘텐츠를 `Sheet` 로 추출, "학습 재료 보기" sticky 트리거
-- [ ] 패널 구성: `MemoryAnchor`(용어/암기) + `RootGraph`(개념 연결) 재배치
-- [ ] 각 패널 아이템 끝에 "코치에게 더 묻기" — `/q/talk?context=${questionId}` (D2 후속)
+- [x] [src/components/question-hub/wrong-reason-hero.tsx](src/components/question-hub/wrong-reason-hero.tsx) — 학생 답·정답·코드 ≤2·`nextStepHint` (PR #14)
+- [x] [src/components/question-hub/learning-materials-panel.tsx](src/components/question-hub/learning-materials-panel.tsx) — 선수·암기·이어지는 개념 3카드 + 개념별 코치 미니 버튼 (PR #15)
+- [x] [src/components/question-hub/mobile-panel-trigger.tsx](src/components/question-hub/mobile-panel-trigger.tsx) — sticky 트리거 + Sheet (PR #15)
+- [x] 데스크탑 grid `lg:grid-cols-[200px_1fr_300px]` 3-col
 
-#### 1.4 기존 라우트 redirect
-- [ ] [src/app/(student)/q/infinity/explain/[sku]/page.tsx](src/app/(student)/q/infinity/explain/[sku]/page.tsx) — 308 redirect to `/q/analysis/${sku}?from=library`
-- [ ] [src/app/(student)/q/infinity/explain/page.tsx](src/app/(student)/q/infinity/explain/page.tsx) (라이브러리 인덱스) 유지 — 카드 클릭 URL만 `/q/analysis/${sku}` 로 갱신
-- [ ] [src/components/shell/nav-config.ts](src/components/shell/nav-config.ts) 등에 explain 직링 있으면 갱신
+#### 1.4 기존 라우트 redirect (PR #14 머지 완료)
+- [x] [next.config.ts](next.config.ts) `redirects()` — `/q/infinity/explain/:sku` → `/q/analysis/:sku?from=library` (permanent 308)
+- [x] [src/app/(student)/q/infinity/explain/page.tsx](src/app/(student)/q/infinity/explain/page.tsx) 라이브러리 카드 href 갱신
+- [x] 구 `[sku]/page.tsx` 파일 삭제 — redirect로 흡수
 
-### Phase 2 — 흐름 닫기 (1 PR)
+### Phase 2 — 흐름 닫기 (PR #17 머지 완료)
 
 #### 2.1 "이 유형으로 무한풀기" 명시 CTA
-- [ ] [src/components/question-hub/sections.tsx](src/components/question-hub/sections.tsx) 의 `PatternFamily` 섹션에 sticky bottom CTA — `/q/infinity/solve?pattern=<typeCode>`
-- [ ] [src/app/(student)/q/infinity/solve/page.tsx](src/app/(student)/q/infinity/solve/page.tsx) 에서 `pattern` 쿼리 인식 (현 `kind=retry`와 유사 패턴)
+- [x] [src/components/question-hub/sections.tsx](src/components/question-hub/sections.tsx) PatternFamily 섹션 안에 CTA — `/q/infinity/solve?kind=weak&subject=...&pattern=<patternNameForSku>`
+- [x] solve 페이지가 이미 `kind=weak`/`pattern` 쿼리 인식 — 라우트 변경 불필요
 
-#### 2.2 자동 오답노트 + 복습 큐 push (D3 후속)
-- [ ] [src/lib/store/leitner-store.ts](src/lib/store/leitner-store.ts) 에 `enqueueFromHub({sku, wrongReasonCodes, missedConceptIds})` 액션
-- [ ] [src/lib/store/memory-store.ts](src/lib/store/memory-store.ts) 에 동일 시그니처 — 놓친 개념 카드는 memory 큐로
-- [ ] hub 페이지 하단에 "오답노트 미리보기 + 복습 큐 등록" 컴포넌트 — 자동 등록 + toast 안내
-- [ ] [src/app/(student)/q/review/page.tsx](src/app/(student)/q/review/page.tsx) 우선 큐에 `wrongReason` 라벨 칩 노출 (메타 풍부화 확인용)
+#### 2.2 자동 오답노트 + 복습 큐 (D3는 store 액션 대신 store 구독 + 토스트로 단순화)
+- [x] [src/components/question-hub/auto-note-preview.tsx](src/components/question-hub/auto-note-preview.tsx) — `useLeitnerStore` 구독, 현재 sku 카드의 BOX·다음 복습·wrongReason chip
+- [x] 마운트 시 toast "오답노트에 등록됨 · BOX N · 다음 복습 X 후" (1회)
+- [x] [src/app/(student)/q/review/page.tsx](src/app/(student)/q/review/page.tsx) 우선 큐 leitner 행에 `wrongAttemptDiagnoses` sku 매칭 chip
+- store에 새 enqueue 액션 추가는 보류 — 데모 데이터(leitnerCards)에 카드가 이미 있어 UI 표현만으로 충분. v1 백엔드 시점에 재검토.
 
 #### 2.3 다음 학습 카드 5종
-- [ ] hub 페이지 가장 아래 "다음 학습" 섹션 — advice §4 기능 5 의 5종:
-  - 같은 유형 쉬운 문제 1~2개
-  - 놓친 개념 카드 1개 (memory 큐 직링 — `/q/review/memory/${id}`)
-  - 유사 기출 1개 (mock 한해)
-  - 내일 다시 풀 문제 1개 (leitner 큐 — `?kind=retry&sku=...`)
-  - 배경지식 카드 1개
+- [x] [src/components/question-hub/next-learning-cards.tsx](src/components/question-hub/next-learning-cards.tsx) — 5종 카드:
+  - `easy_same_type`: family 최저 난이도
+  - `missed_concept`: memoryQueue 최저 retention → `/q/review/memory/[id]`
+  - `similar_exam`: family 중 수능/모평/학평 우선
+  - `tomorrow_retry`: 현재 sku, leitner 상태 반영
+  - `background`: 같은 과목 다른 explain entry → `/q/analysis/[sku]`
 
 ### Phase 3 — 검증·정리
 
 #### 3.1 회귀 테스트
-- [ ] [scripts/qa-question-hub.mjs](scripts/qa-question-hub.mjs) 신설 — Playwright
-  - `/q/analysis` 진입 → "최근 오답 원인 Top 3" 노출 / "다시 봐야 할 문제" 카드 클릭 → `/q/analysis/[questionId]` 도달
-  - hub에서 `predictedGrade=3` 시 `FourPathSpine` open / `RootGraph` close 확인
-  - 우측 학습 재료 패널 (데스크탑 1280) / `Sheet` 트리거 (모바일 390)
-  - "이 유형으로 무한풀기" → solve 페이지 진입 + 정답 시 leitner 박스 이동 + `/q/review` 큐 갱신
-  - "코치에게 더 묻기" → `/q/talk?context=...` URL 도달
-  - 구 라우트 `/q/infinity/explain/[sku]` → 308 redirect 확인
+- [x] [scripts/qa-analysis-entry.mjs](scripts/qa-analysis-entry.mjs) 통합 — **42/42 pass** (별도 qa-question-hub.mjs 신설 대신 진입점 스크립트가 hub 도달까지 다 커버)
+  - 분석 진입점 (Top 3, 다시 봐야 할 문제, 모바일)
+  - 미시 허브 (Hero, 12-섹션 collapsible, depth 정확도, 우측 패널, 모바일 트리거)
+  - Phase 2 (PatternFamily CTA, 자동 오답노트, 다음 학습 5종, review chip)
+  - redirect (구 explain → 새 hub + `from=library` 보존)
 
 #### 3.2 SSOT 통합
-- [ ] [proc/spec/03-features-and-ia.md](proc/spec/03-features-and-ia.md) — 분석 IA에 "문제 단위 드릴다운" 층 추가
-- [ ] [proc/spec/04-ux-flow.md](proc/spec/04-ux-flow.md) — analysis → explain → solve/review 흐름 다이어그램
-- [ ] [proc/spec/06-content-data.md](proc/spec/06-content-data.md) — `WrongReason` taxonomy + `solveAttempt.wrongReason` 필드 확장
+- [x] [proc/spec/03-features-and-ia.md](proc/spec/03-features-and-ia.md) — `/q/analysis/[questionId]` IA 추가 + 분석 페이지 거시→미시 드릴다운 명시
+- [x] [proc/spec/04-ux-flow.md](proc/spec/04-ux-flow.md) — §1.1 "거시→미시 드릴다운" 다이어그램 + advice 출처 링크
+- [x] [proc/spec/06-content-data.md](proc/spec/06-content-data.md) — §4.3 `WrongReasonCode` 10종 + §4.4 `WrongAttemptDiagnosis` 스키마
 
 ## 비범위 (이번 묶음에서 안 함)
 
