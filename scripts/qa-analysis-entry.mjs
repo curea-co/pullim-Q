@@ -191,6 +191,82 @@ try {
   record('모바일 sticky 패널 트리거 존재', mobileTrigger === 1, `${mobileTrigger}개`);
   await page.screenshot({ path: `${SHOTS}/05-hub-mobile.png`, fullPage: true });
 
+  // ─── Phase 2.1 — PatternFamily 내부 "이 유형으로 무한풀기" CTA ─────
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto(`${BASE}/q/analysis/Q-MATH-CALC-0042`, { waitUntil: 'networkidle' });
+
+  // PatternFamily(s8)은 중위권 룰로 펼쳐져 있어야 함
+  const patternCtaCount = await page
+    .locator('details#s8 a[href*="kind=weak"]')
+    .count();
+  record('PatternFamily 내부 무한풀기 CTA 존재', patternCtaCount === 1, `${patternCtaCount}개`);
+
+  const patternCtaHref = await page
+    .locator('details#s8 a[href*="kind=weak"]')
+    .first()
+    .getAttribute('href');
+  record(
+    'CTA href = solve?kind=weak&subject=math&pattern=...',
+    /\/q\/infinity\/solve\?kind=weak&subject=math&pattern=/.test(patternCtaHref ?? ''),
+    patternCtaHref ?? '없음',
+  );
+
+  // ─── Phase 2.2 — 자동 오답노트 미리보기 ──────────────────
+  const autoNote = await page.locator('section[aria-label="자동 오답노트"]').count();
+  record('자동 오답노트 섹션 존재', autoNote === 1, `${autoNote}개`);
+
+  const boxBadge = await page
+    .locator('section[aria-label="자동 오답노트"] span', { hasText: /^BOX \d$/ })
+    .count();
+  record('BOX 배지 노출', boxBadge >= 1, `${boxBadge}개`);
+
+  const noteToReview = await page
+    .locator('section[aria-label="자동 오답노트"] a[href="/q/review"]')
+    .count();
+  record('"복습 큐에서 보기" 링크 존재', noteToReview === 1, `${noteToReview}개`);
+
+  // ─── Phase 2.3 — 다음 학습 5종 카드 ──────────────────────
+  const nextLearningSection = await page.locator('section[aria-label="다음 학습 카드"]').count();
+  record('다음 학습 섹션 존재', nextLearningSection === 1, `${nextLearningSection}개`);
+
+  const nextCardKinds = await page
+    .locator('section[aria-label="다음 학습 카드"] a[data-kind]')
+    .evaluateAll(els => els.map(el => el.dataset.kind));
+  record(
+    '5종 카드 모두 노출',
+    nextCardKinds.length === 5,
+    nextCardKinds.join(','),
+  );
+
+  const hasMissedConcept = nextCardKinds.includes('missed_concept');
+  record('"놓친 개념 카드" kind 포함', hasMissedConcept === true);
+
+  const hasTomorrow = nextCardKinds.includes('tomorrow_retry');
+  record('"내일 다시 풀 문제" kind 포함', hasTomorrow === true);
+
+  // 놓친 개념 카드 클릭 → /q/review/memory/[id] 진입
+  const missedHref = await page
+    .locator('section[aria-label="다음 학습 카드"] a[data-kind="missed_concept"]')
+    .getAttribute('href');
+  record(
+    '놓친 개념 카드 → memory 라우트',
+    /^\/q\/review\/memory\/m\d+/.test(missedHref ?? ''),
+    missedHref ?? '없음',
+  );
+
+  await page.screenshot({ path: `${SHOTS}/06-phase2-bottom.png`, fullPage: true });
+
+  // ─── /q/review 우선 큐 wrongReason chip ──────────────────
+  await page.goto(`${BASE}/q/review`, { waitUntil: 'networkidle' });
+  // Q-MATH-CALC-0042 의 leitner 행에 "개념 혼동" 라벨 chip 노출
+  const reviewChip = await page
+    .locator('a[href*="kind=retry&sku=Q-MATH-CALC-0042"]')
+    .first()
+    .locator('span', { hasText: '개념 혼동' })
+    .count();
+  record('review 큐 leitner 행에 wrongReason chip', reviewChip >= 1, `${reviewChip}개`);
+  await page.screenshot({ path: `${SHOTS}/07-review-with-chips.png`, fullPage: true });
+
   // ─── 구 explain SKU 직링 → 308 redirect ──────────────────
   await page.setViewportSize({ width: 1280, height: 800 });
   const oldSku = 'Q-MATH-CALC-0042';
