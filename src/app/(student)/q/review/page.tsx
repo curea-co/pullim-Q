@@ -5,11 +5,12 @@ import { Repeat, Brain, AlertTriangle, Award, Trophy, Flame, Target } from 'luci
 import {
   conquestStats, personalForgettingProfile,
   overdueCards, todayCards, leitnerMeta,
-  dueItems, todayDue, memoryQueue, memorySourceMeta,
+  dueItems, todayDue, memorySourceMeta,
   forgettingCurve,
   type MemoryItem, type LeitnerBox, type LeitnerCard,
 } from '@/lib/mock';
 import { useLeitnerStore } from '@/lib/store/leitner-store';
+import { useMemoryStore } from '@/lib/store/memory-store';
 import { PageHeader } from '@/components/shell/page-header';
 import { SectionHeading } from '@/components/shell/section-heading';
 import { ErrorPatternList } from '@/components/conqueror/error-pattern-list';
@@ -18,9 +19,9 @@ import { cn } from '@/lib/utils';
 
 type QueueItem =
   | { kind: 'leitner'; key: string; sku: string; subject: string; summary: string; box: LeitnerBox; hours: number }
-  | { kind: 'memory';  key: string; label: string; source: MemoryItem['source']; retention: number; hours: number };
+  | { kind: 'memory';  key: string; id: string; label: string; source: MemoryItem['source']; retention: number; hours: number };
 
-function unifiedQueue(cards: LeitnerCard[]): QueueItem[] {
+function unifiedQueue(cards: LeitnerCard[], memoryItems: MemoryItem[]): QueueItem[] {
   const wrong: QueueItem[] = cards.map(c => ({
     kind: 'leitner',
     key: `lc-${c.id}`,
@@ -30,9 +31,10 @@ function unifiedQueue(cards: LeitnerCard[]): QueueItem[] {
     box: c.box,
     hours: c.nextReviewInHours,
   }));
-  const memory: QueueItem[] = memoryQueue.map(m => ({
+  const memory: QueueItem[] = memoryItems.map(m => ({
     kind: 'memory',
     key: `mq-${m.id}`,
+    id: m.id,
     label: m.label,
     source: m.source,
     retention: m.retention,
@@ -50,11 +52,12 @@ const subjectShort: Record<string, string> = {
 
 export default function ReviewPage() {
   const cards = useLeitnerStore(s => s.cards);
+  const memoryItems = useMemoryStore(s => s.items);
   const overdueLeitner = overdueCards(cards);
   const todayLeitner = todayCards(cards);
-  const overdueMemory = dueItems().filter(i => i.nextReviewInHours < 0);
-  const dueMemory = todayDue();
-  const queue = unifiedQueue(cards).slice(0, 8);
+  const overdueMemory = dueItems(memoryItems).filter(i => i.nextReviewInHours < 0);
+  const dueMemory = todayDue(memoryItems);
+  const queue = unifiedQueue(cards, memoryItems).slice(0, 8);
   const totalToday = todayLeitner.length + dueMemory.length;
 
   return (
@@ -254,39 +257,46 @@ function QueueRow({ item, index }: { item: QueueItem; index: number }) {
   }
   const sourceMeta = memorySourceMeta[item.source];
   return (
-    <li
-      className={cn(
-        'group flex items-center gap-3 rounded-xl border p-3 transition-colors',
-        isOverdue
-          ? 'border-pullim-warn/40 bg-pullim-warn/5'
-          : 'bg-card hover:border-pullim-blue-300',
-      )}
-    >
-      <span className="bg-pullim-slate-100 text-pullim-slate-600 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold">
-        {index + 1}
-      </span>
-      <span className="bg-pullim-blue-50 text-pullim-blue-700 inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold">
-        <Brain className="h-2.5 w-2.5" />
-        기억
-      </span>
-      <div className="min-w-0 flex-1">
-        <div className="text-pullim-slate-900 truncate text-xs font-bold">{item.label}</div>
-        <div className="mt-0.5 flex flex-wrap items-baseline gap-x-1.5">
-          <span className="text-pullim-slate-600 text-[11px] font-semibold">
-            남은 기억 {Math.round(item.retention * 100)}%
-          </span>
-          <span className="text-pullim-slate-300" aria-hidden>·</span>
-          <span className="text-pullim-slate-400 text-[10px]">
-            {sourceMeta.label}
-          </span>
+    <li>
+      <Link
+        href={`/q/review/memory/${item.id}`}
+        className={cn(
+          'group flex items-center gap-3 rounded-xl border p-3 transition-colors',
+          isOverdue
+            ? 'border-pullim-warn/40 bg-pullim-warn/5 hover:border-pullim-warn'
+            : 'bg-card hover:border-pullim-blue-300',
+        )}
+      >
+        <span className="bg-pullim-slate-100 text-pullim-slate-600 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold">
+          {index + 1}
+        </span>
+        <span className="bg-pullim-blue-50 text-pullim-blue-700 inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold">
+          <Brain className="h-2.5 w-2.5" />
+          기억
+        </span>
+        <div className="min-w-0 flex-1">
+          <div className="text-pullim-slate-900 truncate text-xs font-bold">{item.label}</div>
+          <div className="mt-0.5 flex flex-wrap items-baseline gap-x-1.5">
+            <span className="text-pullim-slate-600 text-[11px] font-semibold">
+              남은 기억 {Math.round(item.retention * 100)}%
+            </span>
+            <span className="text-pullim-slate-300" aria-hidden>·</span>
+            <span className="text-pullim-slate-400 text-[10px]">
+              {sourceMeta.label}
+            </span>
+          </div>
         </div>
-      </div>
-      <span className={cn(
-        'shrink-0 font-mono text-[10px] font-semibold',
-        isOverdue ? 'text-pullim-warn' : 'text-pullim-slate-500',
-      )}>
-        {overdueLabel}
-      </span>
+        <span className={cn(
+          'shrink-0 font-mono text-[10px] font-semibold',
+          isOverdue ? 'text-pullim-warn' : 'text-pullim-slate-500',
+        )}>
+          {overdueLabel}
+        </span>
+        <span className="bg-pullim-blue-600 group-hover:bg-pullim-blue-700 text-white inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1 text-[10px] font-bold transition-colors">
+          <Brain className="h-2.5 w-2.5" />
+          기억 학습
+        </span>
+      </Link>
     </li>
   );
 }
