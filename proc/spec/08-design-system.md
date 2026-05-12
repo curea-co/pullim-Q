@@ -81,6 +81,25 @@
 
 플래너 핸드오프 12.1 기반.
 
+### 1.7 채도·명도 조정 후보 (2026-05-12 audit, 결정 대기)
+
+출처: [proc/plan/2026-05-12_q-design-followup.md](../plan/2026-05-12_q-design-followup.md) §4. **이 표는 결정 전 후보안 — 본 PR에서는 토큰 값을 바꾸지 않음.** Hue 그대로 두고 채도·명도만 손봐 가독성·위계 강화.
+
+사용 빈도 상위 토큰부터 우선 후보:
+
+| 토큰 | 현재 HEX | 현재 HSL (H/S/L) | 사용 횟수 | 제안 | 사유 |
+|---|---|---|---|---|---|
+| `pullim-blue-50`  | `#EEF3FF` | 225° / 100 / 97 | 58 (bg) | L 97 → **93** (`#DAE3FB`) | 옅어서 카드 hover/배경 구분이 약함. 명도 한 단계 ↓ 로 인식 향상 |
+| `pullim-warn-bg`  | `#FEF3DB` | 40° / 95 / 92  | 22 (bg) | S 95 → **80** (`#F8EFD6`) | 채도가 강해 warn 전경(`#F59E0B`)과 톤이 너무 분리. 채도 ↓ 로 톤 패밀리 정합 |
+| `pullim-slate-300` | `#C4CBDA` | 222° / 18 / 81 | 31 (text) | L 81 → **76** | "비활성 텍스트"용인데 너무 밝아 1.5:1 대비. WCAG 보조 텍스트 3:1 기준 충족용 ↓ |
+| `pullim-success-bg` | `#E6F7EE` | 145° / 50 / 94 | 19 (bg) | S 50 → **38** | 배경인데 채도 강해 카드가 "성공 메시지처럼" 느껴짐. 채도 ↓ 로 차분하게 |
+| `pullim-danger-bg`  | `#FCE9EA` | 357° / 80 / 95 | 17 (bg) | S 80 → **62** | warn-bg와 같은 사유 |
+
+후속 조치:
+- 후보안 검증: 12장 audit 캡처([proc/research/2026-05-12_design-audit/captures/](../research/2026-05-12_design-audit/captures/))로 before/after 시각 비교
+- 합의 시 [src/app/globals.css](../../src/app/globals.css) 토큰 값 갱신 → 별도 PR (이 plan에서는 결정만)
+- 미반영 시 폐기 — 차주 design-followup 묶음에서 재검토
+
 ---
 
 ## 2. 라이트/다크 테마 매핑

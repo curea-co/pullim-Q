@@ -3,6 +3,19 @@
 ## 목표
 어제 14:30에 약속했지만 정식 산출물이 빠졌던 디자인 audit 정리 + 사용자 여정 기반 홈 재배치 + 색 톤(채도/명도) 조정을 묶어 마감한다. 같은 날 진행한 기억장치 라우트와 R값 디자인 시스템은 별도 plan/PR로 이미 처리됨 — 이 문서에서는 상태만 체크.
 
+## 📌 잔여 작업 스냅샷 (2026-05-12 EOD 직전)
+
+| 묶음 | 상태 |
+|---|---|
+| §1 기억장치 라우트 | ✅ PR #7 머지 (오전) |
+| §2 디자인 audit 정식 산출물 | 🔴 **미착수 — 이 plan 마지막 잔여 작업** |
+| §3 사용자 여정 기반 홈 재배치 | ✅ PR #20 생성 (머지 대기) |
+| §4 색 톤 채도/명도 | 🟡 차순위 (코드 변경 없는 문서화) |
+| §5 R값 디자인 시스템 | ✅ PR #11 머지 |
+| §6 검증 | §2·§4 완료 후 |
+
+**다음 한 걸음**: §2.1 캡처 하네스 → §2.2 finding 문서 → §2.3 PR #9/#10 상태 → §4 색 톤. §4는 시간 남으면 진행, 아니면 별도 plan으로 이월.
+
 ## 작업 항목
 
 ### 1. 기억장치 재학습 라우트 — `/q/review/memory/[id]` (선행 완료)
@@ -15,25 +28,21 @@
 어제 ad-hoc audit으로 F-1 ~ F-10 finding을 뽑고 fix PR(#8/#9/#10)을 냈지만, **캡처·재현 가능한 research 폴더가 없다**. 후속 작업자(또는 미래의 나)가 동일 기준으로 비교할 수 있도록 산출물만 따로 정리.
 
 #### 2.1 캡처 하네스
-- [ ] [scripts/qa-design-capture.mjs](scripts/qa-design-capture.mjs) 신설 — Playwright로 6 페이지 × desktop(1280) / mobile(390) = **12 캡처**
-  - 홈 `/q`
-  - 풀이 `/q/infinity/solve`
-  - 해설 `/q/infinity/solve` 의 정답 제출 후 상태 (또는 `/q/analysis`)
-  - 복습 `/q/review`
-  - 오답 `/q/review/conqueror` (또는 SKU retry 경로)
-  - 기억 `/q/review/memory/m2`
-- [ ] 저장 경로: `proc/research/2026-05-12_design-audit/captures/{page}-{viewport}.png`
-- [ ] 기존 [scripts/qa-memory-retry.mjs](scripts/qa-memory-retry.mjs)의 Playwright bootstrap 재사용 (port 3031)
+- [x] [scripts/qa-design-capture.mjs](scripts/qa-design-capture.mjs) 신설 — Playwright로 6 페이지 × desktop(1280) / mobile(390) = **12 캡처** (12/12 ok)
+  - 홈 `/q`, 풀이 `/q/infinity/solve`, 분석 `/q/analysis`, 복습 `/q/review`, 오답 `/q/review/conquer`, 기억 `/q/review/memory/m2`
+- [x] 저장 경로: `proc/research/2026-05-12_design-audit/captures/{page}-{viewport}.png`
+- [x] 기존 [scripts/qa-memory-retry.mjs](scripts/qa-memory-retry.mjs)의 Playwright bootstrap 재사용 (port 3031)
 
 #### 2.2 finding 정리 문서
-- [ ] [proc/research/2026-05-12_design-audit/README.md](proc/research/2026-05-12_design-audit/README.md) — 발견 사항 F-1 ~ F-10 표(상태·심각도·PR 링크), 발견 당시 캡처와 fix 후 캡처를 같이 묶음
-- [ ] 닫힌 finding: F-1(브랜드 통일), F-3(헤딩 시맨틱), F-4(KPI 모바일), F-5(banner chip 톤), F-6(터치타깃 44px), F-8(false positive — Next.js dev portal), F-10("12-섹션" 카피)
-- [ ] 미닫힘 finding: F-2(레이아웃 밀도), F-7(T2/Scope L3 전문용어), F-9(TOC 한/영 혼재) → §3·§4에서 일부 다루거나 별도 차순위
+- [x] [proc/research/2026-05-12_design-audit/README.md](proc/research/2026-05-12_design-audit/README.md) — F-1 ~ F-10 표 + 캡처 인벤토리 + commit/plan numbering 매핑 메모
+- [x] 닫힌 finding 명시: F-1 (PR #5), F-3·F-10 (PR #8), F-4·F-5 (PR #9), F-6·F-8 (PR #10)
+- [x] 미닫힘 finding 후속 처리 안내: F-2(밀도) / F-7(전문용어) / F-9(TOC 한영)
 
-#### 2.3 PR 상태 — 정보용
-- [x] PR #8 [feat/q-audit-typography](https://github.com/curea-co/pullim-Q/pull/8) (PR A — 헤딩·카피) 머지 완료
-- [ ] PR #9 [feat/q-audit-ux-clarity](https://github.com/curea-co/pullim-Q/pull/9) (PR B — UX 명확화 F-4·F-5·F-10) 머지 대기
-- [ ] PR #10 [feat/q-audit-mobile-polish](https://github.com/curea-co/pullim-Q/pull/10) (PR C — 모바일 폴리시 F-2·F-6) 머지 대기
+#### 2.3 PR 상태 — 정보용 (2026-05-12 확인)
+- [x] PR #5 — F-1 브랜드 통일 머지 완료 (commit `bad7da0`)
+- [x] PR #8 [feat/q-audit-typography](https://github.com/curea-co/pullim-Q/pull/8) (F-3 헤딩 + F-10 "12-섹션") 머지 완료
+- [ ] PR #9 [feat/q-audit-ux-clarity](https://github.com/curea-co/pullim-Q/pull/9) (F-4 KPI grid + F-5 accent) — state **OPEN**, 머지 대기
+- [ ] PR #10 [feat/q-audit-mobile-polish](https://github.com/curea-co/pullim-Q/pull/10) (F-6 터치 44px + F-8 false positive) — state **OPEN**, 머지 대기
 
 ### 3. 사용자 여정 기반 홈 재배치
 홈은 referrer 슬롯(PR #4)까지 들어왔지만, 전체 섹션 순서·간격은 "오늘 풀이 큐 → 크로스 도메인 → 이번 주 → ..." 식의 큐 중심 흐름이 그대로. Studio→Q→Store 사용자 여정을 더 자연스럽게 안내하도록 재배치.
@@ -55,13 +64,13 @@
 색상(hue) 자체는 그대로 두고, [proc/spec/07-branding.md](proc/spec/07-branding.md) 팔레트의 **채도·명도**를 손봐 가독성·위계 강화.
 
 #### 4.1 현황 점검
-- [ ] `--pullim-blue-*`, `--pullim-slate-*`, `--pullim-warn*`, `--pullim-success*`, `--pullim-danger*` 토큰을 [src/app/globals.css](src/app/globals.css) 에서 추출
-- [ ] 실제 사용 빈도 `grep -rn "text-pullim-\|bg-pullim-\|border-pullim-" src/ | sort | uniq -c | sort -rn` 으로 톤별 호출 수 측정
+- [x] `--pullim-blue-*`, `--pullim-slate-*`, `--pullim-warn*`, `--pullim-success*`, `--pullim-danger*` 토큰을 [src/app/globals.css](src/app/globals.css) 에서 추출 (49–82행)
+- [x] 실제 사용 빈도 측정 — `text-pullim-slate-900` 135회, `text-pullim-slate-500` 124회 등 상위 10개 통계 확보
 
 #### 4.2 조정안 (코드 변경 없이 먼저 문서화)
-- [ ] [proc/spec/08-design-system.md](proc/spec/08-design-system.md) §3 (Color)에 "현재 채도·명도 vs 제안" 표 추가
-- [ ] 우선 후보: `pullim-blue-50` 너무 옅음 → 명도 95 → 93, `pullim-warn-bg` 채도가 강함 → 채도 −15 식으로 후보안만
-- [ ] 후속 PR에서 실제 토큰값 조정 (이번 plan에서는 결정만)
+- [x] [proc/spec/08-design-system.md](proc/spec/08-design-system.md) **§1.7** (실제 컬러 섹션은 §1, plan의 §3 표기는 이전 구조 기준 — 신규 §1.7로 삽입) "채도·명도 조정 후보" 표 추가
+- [x] 우선 후보 5종: `pullim-blue-50` L↓, `pullim-warn-bg` S↓, `pullim-slate-300` L↓ (보조 텍스트 대비), `pullim-success-bg` S↓, `pullim-danger-bg` S↓
+- [x] 후속 PR에서 실제 토큰값 조정 (이번 plan에서는 결정만 — globals.css 변경 없음)
 
 ### 5. R값(반경) 디자인 시스템 (선행 완료)
 - [x] PR #11 [feat/q-design-system-radius](https://github.com/curea-co/pullim-Q/pull/11) — [proc/spec/08-design-system.md](proc/spec/08-design-system.md) §4 전면 개편 (보수: 코드 무변경, 가이드만)
