@@ -6,7 +6,6 @@ import {
   explainLibrary,
   explainSampleMathCalc,
   myAbility,
-  patternNameForSku,
   solveDeck,
   subjectLabels,
   wrongAttemptDiagnoses,
