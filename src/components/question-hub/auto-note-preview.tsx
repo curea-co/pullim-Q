@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { ArrowRight, Inbox, Repeat2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLeitnerStore } from '@/lib/store/leitner-store';
