@@ -22,7 +22,7 @@ export function ErrorPatternList() {
           <p className="text-pullim-blue-600 text-[10px] font-bold tracking-wider uppercase">
             AI 패턴 분석 · Tier 3
           </p>
-          <h2 className="text-pullim-slate-900 text-sm font-bold">내가 자주 틀리는 패턴</h2>
+          <h2 className="text-pullim-slate-900 text-base font-bold">내가 자주 틀리는 패턴</h2>
         </div>
         <span className="text-pullim-slate-400 text-[10px] font-mono">
           최근 30일

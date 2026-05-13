@@ -1,12 +1,17 @@
+'use client';
+
 import Link from 'next/link';
 import { Repeat, Brain, AlertTriangle, Award, Trophy, Flame, Target } from 'lucide-react';
 import {
   conquestStats, personalForgettingProfile,
-  overdueCards, todayCards, leitnerCards, leitnerMeta,
-  dueItems, todayDue, memoryQueue, memorySourceMeta,
+  overdueCards, todayCards, leitnerMeta,
+  dueItems, todayDue, memorySourceMeta,
   forgettingCurve,
-  type MemoryItem, type LeitnerBox,
+  wrongAttemptDiagnoses, wrongReasonCatalog,
+  type MemoryItem, type LeitnerBox, type LeitnerCard,
 } from '@/lib/mock';
+import { useLeitnerStore } from '@/lib/store/leitner-store';
+import { useMemoryStore } from '@/lib/store/memory-store';
 import { PageHeader } from '@/components/shell/page-header';
 import { SectionHeading } from '@/components/shell/section-heading';
 import { ErrorPatternList } from '@/components/conqueror/error-pattern-list';
@@ -15,10 +20,10 @@ import { cn } from '@/lib/utils';
 
 type QueueItem =
   | { kind: 'leitner'; key: string; sku: string; subject: string; summary: string; box: LeitnerBox; hours: number }
-  | { kind: 'memory';  key: string; label: string; source: MemoryItem['source']; retention: number; hours: number };
+  | { kind: 'memory';  key: string; id: string; label: string; source: MemoryItem['source']; retention: number; hours: number };
 
-function unifiedQueue(): QueueItem[] {
-  const wrong: QueueItem[] = leitnerCards.map(c => ({
+function unifiedQueue(cards: LeitnerCard[], memoryItems: MemoryItem[]): QueueItem[] {
+  const wrong: QueueItem[] = cards.map(c => ({
     kind: 'leitner',
     key: `lc-${c.id}`,
     sku: c.problemSku,
@@ -27,9 +32,10 @@ function unifiedQueue(): QueueItem[] {
     box: c.box,
     hours: c.nextReviewInHours,
   }));
-  const memory: QueueItem[] = memoryQueue.map(m => ({
+  const memory: QueueItem[] = memoryItems.map(m => ({
     kind: 'memory',
     key: `mq-${m.id}`,
+    id: m.id,
     label: m.label,
     source: m.source,
     retention: m.retention,
@@ -46,11 +52,13 @@ const subjectShort: Record<string, string> = {
 };
 
 export default function ReviewPage() {
-  const overdueLeitner = overdueCards();
-  const todayLeitner = todayCards();
-  const overdueMemory = dueItems().filter(i => i.nextReviewInHours < 0);
-  const dueMemory = todayDue();
-  const queue = unifiedQueue().slice(0, 8);
+  const cards = useLeitnerStore(s => s.cards);
+  const memoryItems = useMemoryStore(s => s.items);
+  const overdueLeitner = overdueCards(cards);
+  const todayLeitner = todayCards(cards);
+  const overdueMemory = dueItems(memoryItems).filter(i => i.nextReviewInHours < 0);
+  const dueMemory = todayDue(memoryItems);
+  const queue = unifiedQueue(cards, memoryItems).slice(0, 8);
   const totalToday = todayLeitner.length + dueMemory.length;
 
   return (
@@ -93,7 +101,7 @@ function KpiBand({
 }) {
   return (
     <section className="bg-card rounded-2xl border p-4">
-      <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-4 sm:gap-3">
+      <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
         <Kpi
           Icon={AlertTriangle}
           label="시간 지남"
@@ -119,6 +127,7 @@ function KpiBand({
           label="30일 남은 기억"
           value={`${retention}%`}
           sub={`또래 +${retention - Math.round(personalForgettingProfile.retention30d.peer * 100)}p`}
+          accent="lemon"
         />
       </ul>
     </section>
@@ -205,30 +214,78 @@ function QueueRow({ item, index }: { item: QueueItem; index: number }) {
   if (item.kind === 'leitner') {
     const meta = leitnerMeta[item.box];
     return (
-      <li
+      <li>
+        <Link
+          href={`/q/infinity/solve?kind=retry&sku=${item.sku}`}
+          className={cn(
+            'group flex items-center gap-3 rounded-xl border p-3 transition-colors',
+            isOverdue
+              ? 'border-pullim-warn/40 bg-pullim-warn/5 hover:border-pullim-warn'
+              : 'bg-card hover:border-pullim-blue-300',
+          )}
+        >
+          <span className="bg-pullim-slate-100 text-pullim-slate-600 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold">
+            {index + 1}
+          </span>
+          <span className="bg-pullim-warn-bg text-pullim-warn inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold">
+            <Target className="h-2.5 w-2.5" />
+            오답
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="text-pullim-slate-900 truncate text-xs font-bold">{item.summary}</div>
+            <div className="mt-0.5 flex flex-wrap items-baseline gap-x-1.5">
+              <span className="text-pullim-slate-600 text-[11px] font-semibold">
+                BOX {item.box}
+              </span>
+              <span className="text-pullim-slate-300" aria-hidden>·</span>
+              <span className="text-pullim-slate-400 text-[10px]">
+                {subjectShort[item.subject] ?? item.subject} · {meta.interval}
+              </span>
+              <WrongReasonChip sku={item.sku} />
+            </div>
+          </div>
+          <span className={cn(
+            'shrink-0 font-mono text-[10px] font-semibold',
+            isOverdue ? 'text-pullim-warn' : 'text-pullim-slate-500',
+          )}>
+            {overdueLabel}
+          </span>
+          <span className="bg-pullim-blue-600 group-hover:bg-pullim-blue-700 text-white inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1 text-[10px] font-bold transition-colors">
+            <Repeat className="h-2.5 w-2.5" />
+            다시 풀기
+          </span>
+        </Link>
+      </li>
+    );
+  }
+  const sourceMeta = memorySourceMeta[item.source];
+  return (
+    <li>
+      <Link
+        href={`/q/review/memory/${item.id}`}
         className={cn(
           'group flex items-center gap-3 rounded-xl border p-3 transition-colors',
           isOverdue
-            ? 'border-pullim-warn/40 bg-pullim-warn/5'
+            ? 'border-pullim-warn/40 bg-pullim-warn/5 hover:border-pullim-warn'
             : 'bg-card hover:border-pullim-blue-300',
         )}
       >
         <span className="bg-pullim-slate-100 text-pullim-slate-600 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold">
           {index + 1}
         </span>
-        <span className="bg-pullim-warn-bg text-pullim-warn inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold">
-          <Target className="h-2.5 w-2.5" />
-          오답
+        <span className="bg-pullim-blue-50 text-pullim-blue-700 inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold">
+          <Brain className="h-2.5 w-2.5" />
+          기억
         </span>
         <div className="min-w-0 flex-1">
-          <div className="text-pullim-slate-900 truncate text-xs font-bold">{item.summary}</div>
+          <div className="text-pullim-slate-900 truncate text-xs font-bold">{item.label}</div>
           <div className="mt-0.5 flex flex-wrap items-baseline gap-x-1.5">
             <span className="text-pullim-slate-600 text-[11px] font-semibold">
-              BOX {item.box}
+              남은 기억 {Math.round(item.retention * 100)}%
             </span>
             <span className="text-pullim-slate-300" aria-hidden>·</span>
             <span className="text-pullim-slate-400 text-[10px]">
-              {subjectShort[item.subject] ?? item.subject} · {meta.interval}
+              {sourceMeta.label}
             </span>
           </div>
         </div>
@@ -238,54 +295,37 @@ function QueueRow({ item, index }: { item: QueueItem; index: number }) {
         )}>
           {overdueLabel}
         </span>
-      </li>
-    );
-  }
-  const sourceMeta = memorySourceMeta[item.source];
-  return (
-    <li
-      className={cn(
-        'group flex items-center gap-3 rounded-xl border p-3 transition-colors',
-        isOverdue
-          ? 'border-pullim-warn/40 bg-pullim-warn/5'
-          : 'bg-card hover:border-pullim-blue-300',
-      )}
-    >
-      <span className="bg-pullim-slate-100 text-pullim-slate-600 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold">
-        {index + 1}
-      </span>
-      <span className="bg-pullim-blue-50 text-pullim-blue-700 inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold">
-        <Brain className="h-2.5 w-2.5" />
-        기억
-      </span>
-      <div className="min-w-0 flex-1">
-        <div className="text-pullim-slate-900 truncate text-xs font-bold">{item.label}</div>
-        <div className="mt-0.5 flex flex-wrap items-baseline gap-x-1.5">
-          <span className="text-pullim-slate-600 text-[11px] font-semibold">
-            남은 기억 {Math.round(item.retention * 100)}%
-          </span>
-          <span className="text-pullim-slate-300" aria-hidden>·</span>
-          <span className="text-pullim-slate-400 text-[10px]">
-            {sourceMeta.label}
-          </span>
-        </div>
-      </div>
-      <span className={cn(
-        'shrink-0 font-mono text-[10px] font-semibold',
-        isOverdue ? 'text-pullim-warn' : 'text-pullim-slate-500',
-      )}>
-        {overdueLabel}
-      </span>
+        <span className="bg-pullim-blue-600 group-hover:bg-pullim-blue-700 text-white inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1 text-[10px] font-bold transition-colors">
+          <Brain className="h-2.5 w-2.5" />
+          기억 학습
+        </span>
+      </Link>
     </li>
+  );
+}
+
+/** Phase 2.2 — 우선 큐 leitner 행에 오답 원인 한 칩 노출 (메타 풍부화 확인용) */
+function WrongReasonChip({ sku }: { sku: string }) {
+  const diagnosis = wrongAttemptDiagnoses.find(d => d.sku === sku);
+  const code = diagnosis?.wrongReasonCodes[0];
+  if (!code) return null;
+  return (
+    <>
+      <span className="text-pullim-slate-300" aria-hidden>·</span>
+      <span className="bg-pullim-warn-bg text-pullim-warn inline-flex items-center rounded-full px-1.5 py-0.5 text-[9px] font-bold tracking-wide">
+        {wrongReasonCatalog[code].label}
+      </span>
+    </>
   );
 }
 
 /* ─────────────────────────  Leitner 5-Box 미니  ───────────────────────── */
 
 function LeitnerSummary() {
+  const cards = useLeitnerStore(s => s.cards);
   const counts: Record<LeitnerBox, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-  leitnerCards.forEach(c => { counts[c.box]++; });
-  const total = leitnerCards.length;
+  cards.forEach(c => { counts[c.box]++; });
+  const total = cards.length;
 
   // IRT 5단계 ramp + 마스터(BOX 5)는 레몬 단일 강조 (Layer 1: ≤4 색)
   const boxFill: Record<LeitnerBox, string> = {

@@ -13,6 +13,7 @@ import {
   solveDeck, type SolveProblem,
   type LeitnerCard, type Prescription,
 } from '@/lib/mock';
+import { CrossDomainSlot } from '@/components/q-hub/cross-domain-slot';
 import { cn } from '@/lib/utils';
 
 type NowAction =
@@ -64,6 +65,9 @@ export default function QHubPage() {
     <div className="space-y-6">
       <DDayHero persona={persona} dday={dday} />
 
+      {/* §3.2 — referrer EntryContextCard 가시성 강화: 첫 스크롤 안에 들어오도록 hero 직후로 승격 */}
+      <CrossDomainSlot />
+
       <NowSection now={now} />
 
       <TodayQueueSection />
@@ -102,7 +106,7 @@ function DDayHero({
             {persona.examLabel}까지 <strong className="text-pullim-lemon font-mono">D-{dday}</strong> · {persona.streakDays}일 연속 학습 중 · 오늘 {todaySession.problemsSolved}/{todaySession.totalToday}문항
           </p>
         </div>
-        <div className="bg-white/15 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold">
+        <div className="bg-white/15 inline-flex items-center gap-1.5 self-start rounded-full px-3 py-1.5 text-xs font-bold">
           <Flame className="text-pullim-lemon h-3.5 w-3.5" />
           연속 {persona.streakDays}일
         </div>
@@ -208,7 +212,7 @@ function ActionCard({
       <Link
         href={cta.href}
         className={cn(
-          'inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold whitespace-nowrap text-white transition-colors sm:mt-1 sm:w-auto',
+          'inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-full px-4 py-2.5 sm:py-2 text-sm font-bold whitespace-nowrap text-white transition-colors sm:mt-1 sm:w-auto min-h-11 sm:min-h-9',
           ctaClass,
         )}
       >
@@ -444,7 +448,7 @@ function ExplainPicks() {
         time="더 깊이"
         Icon={BookOpen}
         accent="primary"
-        sub="이번 주 인기 풀림 해설 — 한 문제 12섹션"
+        sub="이번 주 인기 풀림 해설 — 한 문제 12-섹션"
       />
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         {picks.map(e => (
@@ -498,7 +502,7 @@ function TimelineHeading({
     <div className="mb-2.5 flex items-center gap-2">
       <span className={cn('h-2 w-2 rounded-full', dotClass)} />
       <Icon className={cn('h-3.5 w-3.5', iconClass)} />
-      <h2 className="text-pullim-slate-900 text-sm font-bold tracking-tight">{time}</h2>
+      <p className="text-pullim-slate-900 text-sm font-bold tracking-tight">{time}</p>
       <span className="text-pullim-slate-400 text-[11px]">— {sub}</span>
     </div>
   );

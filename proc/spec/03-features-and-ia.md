@@ -2,7 +2,7 @@
 
 ## 1. MoSCoW 분류
 
-### 1.1 풀림 스터디 14개 기능 (현 구현 도메인)
+### 1.1 풀림 Q 14개 기능 (현 구현 도메인)
 
 #### Must — Core 출시 필수 (5개)
 | # | 브랜드명 | 영문 코드 | 한 줄 가치 |
@@ -84,7 +84,8 @@
 │  │  ├─ /q/analysis/onboarding ← 분석 온보딩
 │  │  ├─ /q/analysis/ability   ← 능력치 (θ) — 별도 sub-route
 │  │  ├─ /q/analysis/process   ← 과정 (메타인지) — 별도 sub-route
-│  │  └─ /q/analysis/diagnose  ← 진단 (15문 적응형 IRT)
+│  │  ├─ /q/analysis/diagnose  ← 진단 (15문 적응형 IRT)
+│  │  └─ /q/analysis/[questionId] ← 문제 단위 학습 허브 (12-섹션 + 오답 원인 + 패널 + 다음 학습)
 │  │
 │  └─ /q/review                ← 풀림 복습 (오답정복+기억장치 통합)
 │     ├─ /q/review/onboarding  ← 복습 온보딩
@@ -186,7 +187,7 @@ AI 코칭  (2): 풀림 AI 대화 · 풀림 클래스봇 ▾
 ### 3.4 Breadcrumb 자동 생성
 
 `components/shell/nav-config.ts`의 그룹/항목/섹션 구조에서 파생:
-- 예: `풀림 스터디 > 풀림 플래너 > 일간 캘린더`
+- 예: `풀림 Q > 풀림 플래너 > 일간 캘린더`
 - 페이지가 자체 Breadcrumb을 만들지 말 것
 
 ### 3.5 섹션(Contextual Sidebar) 패턴
@@ -302,7 +303,19 @@ export const plannerSection: NavSubItem[] = [
 - 미구현 (사이드바 잠금만 표시): 마스터 졸업 카드 모음, 전체 기억 뷰 분리
 
 ### 4.7 풀림 분석 (`/q/analysis`)
-- **허브 페이지**: 분석 카테고리 진입점
+- **허브 페이지**: 분석 카테고리 진입점 + **거시→미시 드릴다운**
+  - 상단: 최근 오답 원인 Top 3 미니카드 (빈도 집계 + 학생 주 과목 예시)
+  - 가운데: 풀이 습관 종합 / 단원별 능력치 (기존 2블록)
+  - 하단: "다시 봐야 할 문제" 카드 3~5장 — 각 카드는 `/q/analysis/[questionId]` 진입점
+- **`/q/analysis/[questionId]`**: 문제 단위 학습 허브 (advice §5-2 + FaaS §8 매핑)
+  - 상단: 문제 메타 + 오답 원인 진단 hero (학생 답·정답·코드 최대 2개·다음 단계 힌트)
+  - 좌측 sticky: 12-섹션 anchor 네비
+  - 가운데: 12-섹션 collapsible 본문 — `predictedGrade` 기반 자동 펼침 (상위권/중위권/하위권 3단계)
+  - 우측 sticky (≥ lg): 학습 재료 패널 (선수 개념 / 한 줄 암기문 / 이어지는 개념 + 각 개념에 코치 직링)
+  - 모바일: 우측 패널 → sticky "학습 재료" 트리거 → Sheet
+  - 하단 ①: 자동 오답노트 미리보기 — Leitner 카드 BOX·다음 복습·wrongReason chip
+  - 하단 ②: 다음 학습 5종 카드 (같은 유형 쉬운 문제 / 놓친 개념 카드 / 유사 기출 / 내일 다시 풀 문제 / 배경지식)
+  - 구 `/q/infinity/explain/[sku]` 는 308 redirect 로 흡수 (단일 라우트 정책)
 - **`/q/analysis/ability`**: θ 레이더 차트 + 단원별 히트맵 (능력치)
 - **`/q/analysis/process`**: 메타인지 점수 + 풀이 시간 분포 (과정)
 - **`/q/analysis/diagnose`**: 15문 적응형 IRT 진단

@@ -18,7 +18,7 @@ function Inner() {
     <OnboardingTemplate
       featureName="풀림 무한풀기"
       Icon={Infinity}
-      identity="내 수준에 맞춘 문제부터 실전 모의고사까지. 한 문제 풀면 12섹션 깊이 해설로 끝까지 짚어줘요."
+      identity="내 수준에 맞춘 문제부터 실전 모의고사까지. 한 문제 풀면 12-섹션 깊이 해설로 끝까지 짚어줘요."
       estimatedMin={6}
       steps={[
         {

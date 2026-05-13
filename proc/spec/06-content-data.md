@@ -110,7 +110,45 @@ Mock 데이터 구현 위치: `web/lib/mock/`.
 
 각 문항은 12-섹션 해설 블롭과 1:1 매핑:
 - Section 1~12 (`03-features-and-ia.md` 4.5장 참조)
-- 시드 데모는 김수학의 오답 2건에 대해 풀-12섹션 작성
+- 시드 데모는 김수학의 오답 2건에 대해 풀-12-섹션 작성
+
+### 4.3 오답 원인 fallback taxonomy (advice §4 기능 1 + FaaS §8.1)
+
+```typescript
+type WrongReasonCode =
+  | '지문_근거_놓침' | '단어_의미_오해' | '선지_범위_과대해석'
+  | '조건_누락' | '개념_혼동' | '계산_실수'
+  | '자료_해석_순서_오류' | '유형_전략_모름'
+  | '배경지식_부족' | '문장_구조_해석_실패';
+
+type WrongReasonEntry = {
+  code: WrongReasonCode;
+  label: string;            // "지문 근거 놓침"
+  oneLineMessage: string;   // 학생 노출 한 줄
+  subjectExamples: Partial<Record<SubjectKey, string>>;
+  nextStepHint: string;     // "다음에 줄이는 방법" 1줄
+};
+```
+
+- 데모 위치: [src/lib/mock/wrong-reason.ts](../../src/lib/mock/wrong-reason.ts)
+- D4 결정 (2026-05-12): FaaS 정의서 §8.1 풀 10종 채택. 콘텐츠 파트너 v1 도착 시 `oneLineMessage`·`subjectExamples`·`nextStepHint` 만 덮어쓰면 코드 변경 없이 교체.
+
+### 4.4 시도 진단 (`WrongAttemptDiagnosis`)
+
+```typescript
+type WrongAttemptDiagnosis = {
+  attemptId: string;          // solveHistory.id 와 일치
+  sku: string;
+  selectedIndex: number;
+  correctIndex: number;
+  wrongReasonCodes: WrongReasonCode[];  // 최대 2개 (hero·top3 용)
+  summary: string;
+};
+```
+
+- 데모 시드는 `wrongAttemptDiagnoses` 7건 (10종 코드 골고루 분포)
+- `aggregateRecentWrongReasons(diagnoses, topN=3)` 헬퍼로 빈도 집계 → `/q/analysis` Top 3 미니카드 노출
+- review 큐 leitner 행에 sku로 lookup해 첫 코드 1개 chip 노출
 
 ---
 

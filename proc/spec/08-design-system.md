@@ -81,6 +81,22 @@
 
 플래너 핸드오프 12.1 기반.
 
+### 1.7 채도·명도 조정 (2026-05-12 후보 → 2026-05-13 적용 완료)
+
+출처: [proc/plan/2026-05-12_q-design-followup.md](../plan/2026-05-12_q-design-followup.md) §4 (디자인 polish 트랙). advice 트랙([2026-05-12_question-hub-foundation.md](../plan/2026-05-12_question-hub-foundation.md))은 컬러 톤 직접 명세는 없음 — 이 조정은 advice를 위반하지 않는 시각 폴리시 결정. Hue 그대로 두고 채도·명도만 손봐 가독성·위계 강화.
+
+**상태**: ✅ 적용 완료 (2026-05-13). [src/app/globals.css](../../src/app/globals.css) 토큰 값 갱신됨.
+
+| 토큰 | 이전 HEX | 적용 HEX | HSL 변경 | 사용 횟수 | 사유 |
+|---|---|---|---|---|---|
+| `pullim-blue-50`  | `#EEF3FF` | **`#DAE3FB`** | L 97 → 93 | 58 (bg) | 옅어서 카드 hover/배경 구분이 약함. 명도 한 단계 ↓ 로 인식 향상 |
+| `pullim-warn-bg`  | `#FEF3DB` | **`#F8EFD6`** | S 95 → 80 | 22 (bg) | 채도가 강해 warn 전경(`#F59E0B`)과 톤이 너무 분리. 채도 ↓ 로 톤 패밀리 정합 |
+| `pullim-slate-300` | `#C4CBDA` | **`#B7BDCD`** | L 81 → 76 | 31 (text) | "비활성 텍스트"용인데 너무 밝아 1.5:1 대비. WCAG 보조 텍스트 3:1 기준 충족용 ↓ |
+| `pullim-success-bg` | `#E6F7EE` | **`#EAF5EF`** | S 50 → 38 | 19 (bg) | 배경인데 채도 강해 카드가 "성공 메시지처럼" 느껴짐. 채도 ↓ 로 차분하게 |
+| `pullim-danger-bg`  | `#FCE9EA` | **`#FAEAEB`** | S 80 → 62 | 17 (bg) | warn-bg와 같은 사유 |
+
+before/after 비교 캡처: [proc/research/2026-05-13_color-tone-apply/](../research/2026-05-13_color-tone-apply/) (12장 desktop/mobile 비교). 기준 캡처는 [proc/research/2026-05-12_design-audit/captures/](../research/2026-05-12_design-audit/captures/).
+
 ---
 
 ## 2. 라이트/다크 테마 매핑
@@ -152,19 +168,54 @@
 
 ## 4. 라운드 (Border Radius)
 
-| 토큰 | 값 | 용도 |
-|------|------|------|
-| xs | `4px` | 작은 칩, 태그 |
-| sm | `6px` | 인풋, 버튼 small |
-| md | `10px` | 기본 카드, 버튼 |
-| lg | `14px` | 큰 카드, 모달 |
-| xl | `20px` | 히어로 카드 |
-| 2xl | `~18px` (calc) | 특수 |
-| 3xl | `~22px` (calc) | 특수 |
-| 4xl | `~26px` (calc) | 특수 |
-| pill | `9999px` | 칩, 둥근 버튼 |
+기준: `--radius: 0.625rem` (10px). 모든 토큰은 [src/app/globals.css](../../src/app/globals.css) 정의 기준.
 
-기준: `--radius: 0.625rem` (10px).
+### 4.1 토큰 카탈로그
+
+| 토큰 | 값 | Tailwind 클래스 |
+|------|------|---|
+| xs | `4px` | `rounded-xs` |
+| sm | `6px` | `rounded-sm` |
+| md | `10px` | `rounded-md` |
+| lg | `14px` | `rounded-lg` |
+| xl | `20px` | `rounded-xl` |
+| 2xl | `18px` (`calc(--radius × 1.8)`) | `rounded-2xl` |
+| 3xl | `22px` (`calc(--radius × 2.2)`) | `rounded-3xl` |
+| 4xl | `26px` (`calc(--radius × 2.6)`) | `rounded-4xl` |
+| pill | `9999px` | `rounded-full` |
+
+### 4.2 시맨틱 매핑 (실 코드 기반)
+
+| 컨텍스트 | 권장 토큰 | 픽셀 | 출현 빈도 | 예시 |
+|---|---|---|---|---|
+| **Section card** (`bg-card border` 큰 콘텐츠 블록) | `rounded-2xl` | 18px | 67회 | KPI 밴드, AI 코치 패널, 풀이 워크스페이스, 차트 카드 |
+| **Primary CTA + Interactive card** | `rounded-xl` | 20px | 98회 | "오답 정복하기" 같은 메인 버튼, 정복 세트 카드, AnswerFeedback |
+| **Secondary button + small chip-like container** | `rounded-lg` | 14px | 94회 | outline 버튼 ("이전 문제"), 작은 정보 패널, 사이드바 nav 아이템 |
+| **Mini box / icon container** | `rounded-md` | 10px | 20회 | 작은 highlight 박스 (`bg-slate-50 p-1.5`), 카드 안 아이콘 박스 |
+| **Atomic badge** | `rounded-sm` | 6px | 10회 | "T2 · Fast" 같은 micro badge, heatmap 정사각형 |
+| **Pill** (chip · avatar · FAB) | `rounded-full` | ∞ | 122회 | "연속 17일" chip, 아바타, "AI에게 묻기" FAB, kind 배지 |
+
+### 4.3 알려진 hierarchy 역전 (의도된 결정 / TODO)
+
+| 비교 | 값 | 시각 |
+|---|---|---|
+| `rounded-xl` (CTA·버튼) | 20px | **더 둥글** |
+| `rounded-2xl` (Section card) | 18px | 덜 둥글 |
+
+일반 디자인 원칙: 컨테이너(카드) > 버튼 (카드가 더 둥글어야 자연). 풀림 Q는 의도적으로 **버튼을 약간 더 둥글게** 두어 CTA 친근감을 강조. hierarchy 강화가 필요해지면 `--radius-2xl` 을 `calc(--radius × 2.4)` (24px)로 조정. **이번 PR 범위 밖**.
+
+### 4.4 신규 컴포넌트 가이드
+
+- **Section을 감싸는 카드** → `rounded-2xl` (`bg-card rounded-2xl border p-4|5`)
+- **Primary CTA 버튼** → `rounded-xl` (`bg-pullim-blue-600 rounded-xl px-4 py-2.5 ... font-bold text-white`)
+- **Secondary 버튼** (outline / muted) → `rounded-lg`
+- **작은 정보 토큰 / 작은 박스** → `rounded-md`
+- **칩 / 배지 / 아바타** → `rounded-full`
+- 위 범주 밖이면 **새 토큰 사용 자제** — 같은 의미는 같은 토큰으로
+
+### 4.5 부분 라운드 (선택)
+
+- `rounded-t`, `rounded-b`, `rounded-tl` 등 방향성 라운드는 sticky 헤더·바텀 시트·인접 영역 분리 등 특수 케이스에만 사용. 현재 10회 미만으로 제어된 상태.
 
 ---
 

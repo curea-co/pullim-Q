@@ -19,17 +19,17 @@ export default function QOnboardingPage() {
       steps={[
         {
           Icon: BookOpen,
-          title: '한 문제를 12섹션으로 깊게 풀어드려요',
+          title: '한 문제를 12-섹션으로 깊게 풀어드려요',
           description:
             '다른 문제집은 답 + 짧은 풀이로 끝. 풀림은 한 문제마다 4가지 풀이법, 같은 문제 푼 친구들의 선택 분포, 선생님 3명의 다른 톤 해설까지 — 한 문제를 끝까지 짚어줘요.',
           signature: true,
           bullets: [
             '연습 모드 — 막히면 5단계 힌트 (답을 바로 알려주지 않아요)',
             '시험 모드 — 모의고사처럼 OMR · 타이머 · 부정행위 자동 감지',
-            '풀고 나면 풀림 해설 12섹션이 자동으로 열려요',
+            '풀고 나면 풀림 해설 12-섹션이 자동으로 열려요',
           ],
           cta: { label: '문제 풀러 가기', href: '/q/infinity' },
-          screenshotCaption: '연습 모드 + 풀림 해설 12섹션',
+          screenshotCaption: '연습 모드 + 풀림 해설 12-섹션',
           screenshot: (
             <MockBrowser label="문제 풀이 화면">
               <section className="space-y-2">
@@ -50,7 +50,7 @@ export default function QOnboardingPage() {
                       풀림 해설
                     </div>
                     <div className="text-pullim-slate-900 truncate text-[11px] font-bold">
-                      답이 아니라 풀이 과정 12섹션
+                      답이 아니라 풀이 과정 12-섹션
                     </div>
                   </div>
                 </div>

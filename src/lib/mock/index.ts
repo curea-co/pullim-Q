@@ -14,3 +14,5 @@ export * from './infinity';
 export * from './coach';
 export * from './xray';
 export * from './phase1';
+export * from './referrer';
+export * from './wrong-reason';

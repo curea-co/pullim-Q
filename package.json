@@ -1,12 +1,12 @@
 {
-  "name": "web",
+  "name": "pullim-q-web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "lsof -ti:3030 | xargs -r kill -9 2>/dev/null || true",
-    "dev": "next dev -p 3030",
+    "predev": "lsof -ti:3031 | xargs -r kill -9 2>/dev/null || true",
+    "dev": "next dev -p 3031",
     "build": "next build",
-    "start": "next start -p 3030",
+    "start": "next start -p 3031",
     "lint": "eslint"
   },
   "dependencies": {
@@ -35,6 +35,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "playwright": "^1.59.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
