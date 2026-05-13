@@ -20,7 +20,7 @@
 
 ### 4. 검증
 - [x] `bunx tsc --noEmit && bun run lint && bun run build` 전부 exit 0
-- [ ] Playwright: retry 라우트 진입 → 정답 선택 → leitner 박스 이동 toast 표시 + /q/review 복귀 시 큐 갱신 확인 (수동 브라우저 확인 예정)
+- [x] Playwright 자동 회귀로 충족 — [scripts/qa-leitner-retry.mjs](../../scripts/qa-leitner-retry.mjs) **14/14 pass** (retry 진입 / 박스 이동 toast / `/q/review` 큐 갱신 — 시나리오 A·B·C 모두 자동화). 원 plan은 "수동 브라우저 확인 예정"이었으나 PR #6 머지와 동일 시점에 commit 50a06fb / 29481f7로 자동화 도입돼 manual 단계가 사라짐. *(2026-05-13 사후 메모)*
 
 ## 비범위
 - 실제 SRS 알고리즘(SuperMemo·FSRS)

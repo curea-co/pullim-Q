@@ -8,11 +8,11 @@
 ### 1. 단일 문제 재풀이 라우트
 - [x] [solve/page.tsx](src/app/(student)/q/infinity/solve/page.tsx)에 `?kind=retry&sku=<id>` 분기 추가 — 해당 SKU 한 문제만 큐로 구성 (URL은 기존 `kind=free|weak`와 통일)
 - [x] retry 모드일 때 [SolveSessionBar](src/components/infinity/solve-session-bar.tsx)에 "오답 다시 풀기 — <패턴>" 라벨 표시
-- [ ] 정답 처리 시 leitnerCards 박스 이동 시뮬레이션 — mock이 정적이라 보류
+- [x] 정답 처리 시 leitnerCards 박스 이동 시뮬레이션 — 다른 plan([2026-05-11_leitner-mutable-mock.md](2026-05-11_leitner-mutable-mock.md), PR #6)이 mock 가변화 + `applyResult` 액션 신설로 차단 해소. 본 plan 작성 시점(5-11)의 "정적이라 보류" 사유 사라짐. *(2026-05-13 사후 메모)*
 
 ### 2. 오답 카드 → 재풀이 연결
 - [x] [review/page.tsx](src/app/(student)/q/review/page.tsx) 우선 복습 큐 leitner row 전체를 `<Link>`로 감싸고 "다시 풀기" CTA 표시
-- [ ] memoryQueue 항목은 SKU가 없어 retry CTA 미적용 — 별도 메모리 재학습 라우트가 필요 (비범위)
+- [x] memoryQueue retry — 다른 plan([2026-05-11_memory-retry-route.md](../archive/2026-05-11_memory-retry-route.md), PR #7)이 `/q/review/memory/[id]` 단일 학습 라우트 신설로 다른 경로 해결. memoryQueue는 SKU 대신 id 기반 단일 학습 화면 제공 — 본 plan의 "비범위" 결정은 그대로 유효. *(2026-05-13 사후 메모)*
 - [x] 패턴 단위 정복은 기존 `/conquer` 유지, 단일 재풀이와 병행 노출
 
 ### 3. 유사문항 추천 CTA (풀이 직후)
@@ -24,7 +24,7 @@
 - [x] [sections.tsx](src/components/infinity/explain/sections.tsx) `RelatedCard`를 `<Link>` 카드로 변경 (기존 텍스트만 → 클릭 가능)
 - [x] 카드 클릭 시 `/q/infinity/solve?kind=retry&sku=...` (단일 풀이 라우트 재사용)
 - [x] `data.family`는 explain content가 미리 큐레이션 (현재 SKU는 원본 데이터에서 이미 제외됨)
-- [ ] `solveDeck` 자동 필터링은 보류 — 현재는 ExplainContent가 직접 family 큐레이션 (mock 레벨에서 충분)
+- [x] `solveDeck` 자동 필터링 — 데모 mock 단계에서는 `ExplainContent.family` 직접 큐레이션으로 충분 (어제 D5 "변형 문제 LLM vs 캐시" 결정과 같은 무빙). v1 백엔드 + 무한풀기 SLA 정의 시점에 재오픈 carry-over. *(2026-05-13 사후 메모)*
 
 ### 5. 해설 → 유사문항 단원 회귀 CTA
 - [x] [explain/[sku]/page.tsx](src/app/(student)/q/infinity/explain/[sku]/page.tsx) 하단에 "이 패턴으로 더 풀기" 고정 CTA
