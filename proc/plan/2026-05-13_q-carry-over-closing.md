@@ -25,16 +25,16 @@
 
 어제 [08-design-system.md §1.7](../spec/08-design-system.md)에 결정만 박은 후보안을 실 토큰으로 반영.
 
-- [ ] [src/app/globals.css](../../src/app/globals.css) 49–82행 — 5종 토큰 갱신
-  - `pullim-blue-50`: `#EEF3FF` → L 97→93 (`#DAE3FB`)
-  - `pullim-warn-bg`: `#FEF3DB` → S 95→80 (`#F8EFD6`)
-  - `pullim-slate-300`: `#C4CBDA` → L 81→76
-  - `pullim-success-bg`: `#E6F7EE` → S 50→38
-  - `pullim-danger-bg`: `#FCE9EA` → S 80→62
-- [ ] [proc/spec/08-design-system.md §1.7](../spec/08-design-system.md) 표 "제안 → 적용 완료" 상태로 갱신 + 적용 일자 명시
-- [ ] [scripts/qa-design-capture.mjs](../../scripts/qa-design-capture.mjs) 재실행 — 12/12 ok 확인 + 새 캡처는 `proc/research/2026-05-13_color-tone-apply/captures-after/` 로 별도 저장
-- [ ] before/after 캡처 6쌍 비교 — 12장 desktop/mobile 시각 회귀 확인
-- [ ] 회귀 3종 통과: `qa-memory-retry` 13/13 · `qa-leitner-retry` 14/14 · `qa-analysis-entry` 46/46
+- [x] [src/app/globals.css](../../src/app/globals.css) 5종 토큰 갱신
+  - `pullim-blue-50`: `#EEF3FF` → `#DAE3FB` (L 97→93)
+  - `pullim-warn-bg`: `#FEF3DB` → `#F8EFD6` (S 95→80)
+  - `pullim-slate-300`: `#C4CBDA` → `#B7BDCD` (L 81→76)
+  - `pullim-success-bg`: `#E6F7EE` → `#EAF5EF` (S 50→38)
+  - `pullim-danger-bg`: `#FCE9EA` → `#FAEAEB` (S 80→62)
+- [x] [proc/spec/08-design-system.md §1.7](../spec/08-design-system.md) — 표 헤더 "후보 (결정 대기)" → "후보 → 적용 완료" / 컬럼 "제안" → "적용 HEX" / before/after 캡처 경로 명시
+- [x] [scripts/qa-design-capture.mjs](../../scripts/qa-design-capture.mjs) `SHOTS_DIR` env var 지원 추가 → `SHOTS_DIR=proc/research/2026-05-13_color-tone-apply/captures-after` 로 12/12 ok 별도 저장
+- [x] before/after 6쌍 캡처 분리 저장 — 기준 `proc/research/2026-05-12_design-audit/captures/` ↔ 적용 `proc/research/2026-05-13_color-tone-apply/captures-after/`
+- [x] 회귀 3종 통과: `qa-memory-retry` 13/13 · `qa-leitner-retry` 14/14 · `qa-analysis-entry` 46/46
 
 ### 3. question-hub-foundation D2/D3/D5 의사결정 (트랙: advice / 콘텐츠 IA)
 
