@@ -11,7 +11,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const BASE = process.env.BASE_URL ?? 'http://localhost:3031';
-const OUT_DIR = path.resolve('proc/research/2026-05-12_design-audit/captures');
+const OUT_DIR = path.resolve(
+  process.env.SHOTS_DIR ?? 'proc/research/2026-05-12_design-audit/captures',
+);
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
 const targets = [
