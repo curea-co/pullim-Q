@@ -39,7 +39,7 @@ export default function AnalysisOnboardingPage() {
                   </div>
                   <div className="bg-pullim-slate-50 rounded p-1.5">
                     <div className="text-pullim-slate-500 text-[9px] font-bold tracking-wider uppercase">모델</div>
-                    <div className="text-pullim-blue-700 font-mono font-bold">T2 맞춤</div>
+                    <div className="text-pullim-blue-700 font-mono font-bold">AI 맞춤</div>
                   </div>
                 </div>
                 <div className="text-pullim-slate-400 text-[9px] italic text-center">

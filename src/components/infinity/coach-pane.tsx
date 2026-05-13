@@ -28,7 +28,7 @@ export function CoachPane({ problem, hintIndex, onAdvanceHint, disabled }: Props
           <div className="text-pullim-blue-600 text-[10px] font-bold tracking-wider uppercase">
             AI 풀이 코치
           </div>
-          <div className="text-pullim-slate-900 text-sm font-bold">풀림 튜터 — Scope L3</div>
+          <div className="text-pullim-slate-900 text-sm font-bold">풀림 튜터</div>
         </div>
         <button
           type="button"
@@ -44,7 +44,7 @@ export function CoachPane({ problem, hintIndex, onAdvanceHint, disabled }: Props
           className="rounded-sm px-1.5 py-0.5 font-mono text-[9px] font-bold"
           style={{ background: aiTierMeta.T2.bg, color: aiTierMeta.T2.color }}
         >
-          T2 · {aiTierMeta.T2.label}
+          빠른 응답
         </span>
       </header>
 

@@ -15,11 +15,14 @@
 
 [proc/plan/2026-05-12_q-design-followup.md](2026-05-12_q-design-followup.md) §2·§3에서 carry-over.
 
-- [ ] F-2 (레이아웃 밀도) — `/q/infinity/solve` / `/q/review` / `/q/review/conquer` 모바일 카드 밀도 점검. fix PR 또는 "차주 이월 사유" 작성
-- [ ] F-7 (T2/Scope L3 전문용어) — T2·Scope·L3 라벨 노출 지점 grep → 학생 카피로 치환 또는 [proc/spec/07-branding.md](../spec/07-branding.md) 마이크로카피 가이드에 흡수
-- [ ] F-9 (TOC 한·영 혼재) — "Pattern Family" vs "패턴 친척" 등 TOC 라벨 통일 정책 결정 + [proc/spec/04-ux-flow.md](../spec/04-ux-flow.md) 다이어그램 반영
-- [ ] 처리 결과를 [2026-05-12_q-design-followup.md](2026-05-12_q-design-followup.md) §2.2 미닫힘 줄에 `[x]` 또는 차주 이월 명시
-- [ ] [proc/research/2026-05-12_design-audit/README.md](../research/2026-05-12_design-audit/README.md) finding 표 상태 갱신
+- [x] F-2 (레이아웃 밀도) — **차주 이월**. 사유: 시각 정성 판단 필요. 모바일 `/q/infinity/solve` / `/q/review` / `/q/review/conquer` 카드 밀도는 page-by-page 비교가 필요하고 advice/FaaS 명세에 정량 기준 없음. 별도 plan으로 분리 — 차주 design-followup #2에서 캡처 기반 before/after 1쌍 만들고 결정.
+- [x] F-7 (T2/Scope L3 전문용어) — **fix 완료**. 5개 지점 학생 카피로 치환:
+  · `coach-pane.tsx`: "풀림 튜터 — Scope L3" → "풀림 튜터", "T2 · Fast" → "빠른 응답"
+  · `q/analysis/onboarding/page.tsx` + `q/analysis/diagnose/page.tsx`: "T2 맞춤" → "AI 맞춤"
+  · `q/infinity/onboarding/page.tsx`: "풀림 튜터 — Scope L3" → "풀림 튜터", "T2 · Fast" → "빠른 응답"
+- [x] F-9 (TOC 한·영 혼재) — **fix 완료**. [src/components/question-hub/sections.tsx](../../src/components/question-hub/sections.tsx) 12개 Section title + 12개 sectionAnchors label (총 24개) 모두 한글로 일관 (s6 "100명의 선택" 기존 유지). 매핑:
+  · s1 Hero Recap → 한눈에 보기 / s2 Prologue → 풀기 전 단서 / s3 4-Path Solution Spine → 4가지 풀이 흐름 / s4 Textbook Root Graph → 개념 뿌리 지도 / s5 Error Anatomy → 오답 해부 / s7 Visual Intuition Canvas → 시각 직관 / s8 Pattern Family → 패턴 친척 / s9 Feynman Challenge → 친구에게 설명하기 / s10 Teacher Voices → 선생님 3가지 톤 / s11 History + Real-World → 역사·실생활 / s12 Memory Anchor → 암기 닻
+- [x] 처리 결과를 [2026-05-12_q-design-followup.md](2026-05-12_q-design-followup.md) 와 [proc/research/2026-05-12_design-audit/README.md](../research/2026-05-12_design-audit/README.md) finding 표에 반영
 
 ### 2. 색 톤 5종 토큰 globals.css 실제 적용 (트랙: 디자인 polish)
 
