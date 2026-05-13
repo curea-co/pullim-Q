@@ -72,13 +72,15 @@ advice의 3-tier ↔ `depth.ts` `getDepthRule` 동작:
     2. **신규 라우트**: `src/app/(student)/q/analysis/[questionId]/page.tsx` — sections 재사용 + advice §5-2 레이아웃 (상단 오답 원인 hero / 좌·가운데·우 3분할 / 하단 유형·다음 학습)
     3. **기존 라우트 정리**: `/q/infinity/explain/page.tsx` (해설 라이브러리 인덱스)는 "browse-mode"로 유지. `/q/infinity/explain/[sku]/page.tsx`는 `/q/analysis/[questionId]?from=library`로 308 redirect — 자산 손실 0, 진입 경로만 단일화.
     4. **deep link 호환**: solve 종료 → analysis hub로 라우팅. 기존 explain 직링이 외부에 있어도 redirect로 흡수.
-- [ ] **D2. `predictedGrade` 재사용**
-  - 현재 `myAbility[].expectedGrade`가 `lib/mock/irt.ts`에 있음 → 그대로 hub 페이지 props로 흘려보낼지 결정
-  - 권고: 그대로 재사용. advice §4 기능 2의 "수준별 depth가 무료로 따라온다"가 정확히 이걸 가리킴.
-- [ ] **D3. 복습 큐 push API 형태**
-  - 현재 `useLeitnerStore.applyResult` / `useMemoryStore.applyResult` 가 박스/retention 갱신은 함
-  - 필요: `enqueueWithMeta({sku, wrongReason, missedConceptIds})` 같은 메타 동봉 push
-  - 권고: 두 store에 `enqueueFromHub` 액션 추가, 기존 applyResult 라인은 유지.
+- [x] **D2. `predictedGrade` 재사용 — 권고대로 채택** (2026-05-13 결정)
+  - 결정: `myAbility[].expectedGrade` 그대로 hub props 흘려보내기 채택. 이미 [src/lib/mock/irt.ts](../../src/lib/mock/irt.ts) 에 정의되어 있고, [src/app/(student)/q/analysis/[questionId]/page.tsx](../../src/app/(student)/q/analysis/[questionId]/page.tsx) 의 `ability?.expectedGrade ?? 5`로 lookup 후 `getDepthRule(predictedGrade)`로 흘려보내고 있음 — Phase 1.2 시점에 이미 구현됨.
+  - 결정 근거: advice §4 기능 2 "강점 분석 블록의 '예상 등급' 데이터를 그대로 재사용해서 깊이를 자동 조절할 수 있다 ... 수준별 depth가 별도 설문 없이 즉시 동작. 다른 학습 서비스 대비 풀림Q의 큰 무기" + FaaS 정의서 §8 기능 2의 3-tier(상위/중위/하위) 정합.
+  - 영향 받는 코드 라인: [src/components/question-hub/depth.ts](../../src/components/question-hub/depth.ts) `getDepthRule(predictedGrade)`, [src/app/(student)/q/analysis/[questionId]/page.tsx](../../src/app/(student)/q/analysis/[questionId]/page.tsx) lookup 라인. 신규 코드 변경 없음 — 결정만 박음.
+- [x] **D3. 복습 큐 push API 형태 — 데모 단계 보류, v1 백엔드 시점 재검토** (2026-05-13 결정)
+  - 결정: 현 `applyResult` 라인 유지. `enqueueFromHub({sku, wrongReason, missedConceptIds})` 메서드 신설은 **v1 백엔드 시점에 재검토**.
+  - 결정 근거: Phase 2.2 구현 시 이미 확인됨 — 데모 데이터(`leitnerCards`)에 카드가 이미 존재해 `AutoNotePreview`가 `useLeitnerStore.cards` 구독만으로 BOX·다음 복습·wrongReason chip 표시에 충분. mock 단계에서 enqueue API 신설은 over-engineering이 됨. v1 백엔드 SLA 정의 시점에 (a) FaaS 정의서 §19 데이터 스키마와 (b) `applyResult` 라인 영향도를 같이 본 후 결정.
+  - 영향 받는 코드 라인: [src/lib/store/leitner-store.ts](../../src/lib/store/leitner-store.ts) `applyResult` (유지), [src/lib/store/memory-store.ts](../../src/lib/store/memory-store.ts) `applyResult` (유지). 미래 시그니처 권고: `enqueueFromHub({sku, wrongReasonCodes, missedConceptIds})` (advice §8 권고 + advice §6 데이터 스키마 기반).
+  - carry-over: v1 백엔드 plan 시작 시점에 재오픈.
 - [x] **D4. 오답 원인 fallback taxonomy — FaaS 정의서 §8.1 풀 10종** (2026-05-12 결정)
   - 결정 근거: 사용자 방향성("advice 문서 최우선"). FaaS 정의서가 advice의 원본이고, 10종이 데모에서 다양한 오답 사례를 풍부하게 보일 수 있어 가치 검증에 유리. 콘텐츠 파트너 v1 도착 시 교체 전제.
   - 10종 코드 (FaaS 정의서 §8.1 그대로):
@@ -94,11 +96,13 @@ advice의 3-tier ↔ `depth.ts` `getDepthRule` 동작:
     10. `문장_구조_해석_실패` — 영어/국어 복잡한 문장의 구조 파악 실패
   - 산출물: [src/lib/mock/wrong-reason.ts](src/lib/mock/wrong-reason.ts) — `WrongReasonCode` 유니온, `wrongReasonCatalog` (각 항목당 `{code, label, oneLineMessage, subjectExamples: Record<Subject, string>, nextStepHint}`), `pickPrimaryReasons(attempt)` helper
   - 교체 인터페이스: 콘텐츠 파트너 v1 도착 시 `oneLineMessage`와 `subjectExamples`만 덮어쓰면 됨. 코드 변경 없음.
-- [ ] **D5. 변형 문제 — LLM 실시간 vs 사전 캐시**
-  - 데모는 mock이라 어느 쪽이든 동작은 함. 의사결정 의미는 "실제 백엔드 붙일 때 무한풀기 응답속도"
-  - 권고: 데모는 캐시(`patternFamily` 기존 mock 재사용), 실제 시점에 재검토.
+- [x] **D5. 변형 문제 — 데모 캐시 유지, v1 백엔드 시점 LLM 옵션 재검토** (2026-05-13 결정)
+  - 결정: 데모는 `patternFamily` 기존 mock 캐시 그대로 유지. LLM 실시간 호출 옵션은 **v1 백엔드 + 무한풀기 응답속도 SLA 정의 시점에 재검토**.
+  - 결정 근거: advice §8 권고 일치. FaaS 정의서 §8 기능 4 "변형 문제 생성 규칙·난이도 조절 기준"이 콘텐츠 파트너 산출물(§13 산출물 4·5)이라 LLM 도입 시점은 콘텐츠 트랙과 동기화 필요. 무한풀기 응답속도 SLA가 정의되기 전엔 LLM/캐시 분기 결정 의미 약함.
+  - 영향 받는 코드 라인: [src/components/question-hub/sections.tsx](../../src/components/question-hub/sections.tsx) `PatternFamily` (캐시 mock 유지), [src/app/(student)/q/infinity/solve/page.tsx](../../src/app/(student)/q/infinity/solve/page.tsx) `?kind=weak&pattern=` 핸들러 (변경 없음).
+  - carry-over: v1 백엔드 plan + 무한풀기 SLA 정의 시점에 재오픈.
 
-남은 결정: D2, D3, D5 — Phase 1 진행 중 결정 가능.
+남은 결정: 없음 — D1·D4 (2026-05-12) + D2·D3·D5 (2026-05-13) 모두 결정 마감. D3/D5는 v1 백엔드 시점 재검토 carry-over.
 
 ## 작업 항목
 
