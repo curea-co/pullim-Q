@@ -56,8 +56,8 @@ function Inner() {
                   <span className="bg-pullim-blue-600 flex h-6 w-6 items-center justify-center rounded-md text-white">
                     <Sparkles className="h-3 w-3" />
                   </span>
-                  <span className="text-pullim-slate-900 text-xs font-bold">풀림 튜터 — Scope L3</span>
-                  <span className="bg-pullim-blue-100 text-pullim-blue-700 ml-auto rounded-sm px-1.5 py-0.5 font-mono text-[9px] font-bold">T2 · Fast</span>
+                  <span className="text-pullim-slate-900 text-xs font-bold">풀림 튜터</span>
+                  <span className="bg-pullim-blue-100 text-pullim-blue-700 ml-auto rounded-sm px-1.5 py-0.5 font-mono text-[9px] font-bold">빠른 응답</span>
                 </header>
                 <div className="grid grid-cols-2 gap-1.5">
                   <button className="bg-pullim-blue-50 text-pullim-blue-700 inline-flex items-center gap-1 rounded-lg px-2 py-1.5 text-[10px] font-bold">

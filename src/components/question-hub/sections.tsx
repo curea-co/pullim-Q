@@ -18,18 +18,18 @@ export type SectionAnchor = {
 };
 
 export const sectionAnchors: SectionAnchor[] = [
-  { id: 's1',  label: 'Hero Recap',        Icon: Eye },
-  { id: 's2',  label: 'Prologue',          Icon: BookOpen },
-  { id: 's3',  label: '4-Path 풀이',       Icon: Compass, signature: true },
-  { id: 's4',  label: 'Root Graph',        Icon: BookOpen },
-  { id: 's5',  label: 'Error Anatomy',     Icon: Target },
+  { id: 's1',  label: '한눈에 보기',       Icon: Eye },
+  { id: 's2',  label: '풀기 전 단서',      Icon: BookOpen },
+  { id: 's3',  label: '4가지 풀이 흐름',   Icon: Compass, signature: true },
+  { id: 's4',  label: '개념 뿌리 지도',    Icon: BookOpen },
+  { id: 's5',  label: '오답 해부',         Icon: Target },
   { id: 's6',  label: '100명의 선택',      Icon: Users, signature: true },
-  { id: 's7',  label: 'Visual Canvas',     Icon: Sparkles },
-  { id: 's8',  label: 'Pattern Family',    Icon: FlaskConical },
-  { id: 's9',  label: 'Feynman Challenge', Icon: Mic },
-  { id: 's10', label: 'Teacher Voices',    Icon: Headphones, signature: true },
-  { id: 's11', label: 'History + Real',    Icon: History },
-  { id: 's12', label: 'Memory Anchor',     Icon: Heart },
+  { id: 's7',  label: '시각 직관',         Icon: Sparkles },
+  { id: 's8',  label: '패턴 친척',         Icon: FlaskConical },
+  { id: 's9',  label: '친구에게 설명하기', Icon: Mic },
+  { id: 's10', label: '선생님 3가지 톤',   Icon: Headphones, signature: true },
+  { id: 's11', label: '역사·실생활',       Icon: History },
+  { id: 's12', label: '암기 닻',           Icon: Heart },
 ];
 
 /** 1. Hero Recap */
@@ -42,7 +42,7 @@ export function HeroRecap({ data, problemStatement, choices, defaultOpen }: {
   const isCorrect = data.myAnswer === data.correctAnswer;
 
   return (
-    <Section id="s1" title="Hero Recap" subtitle="내 답 vs 정답" defaultOpen={defaultOpen}>
+    <Section id="s1" title="한눈에 보기" subtitle="내 답 vs 정답" defaultOpen={defaultOpen}>
       <div className="bg-pullim-slate-50 rounded-xl p-4">
         <p className="text-pullim-slate-800 mb-3 text-sm leading-relaxed">{problemStatement}</p>
         <div className="grid grid-cols-2 gap-3">
@@ -70,7 +70,7 @@ export function HeroRecap({ data, problemStatement, choices, defaultOpen }: {
 /** 2. Prologue */
 export function Prologue({ data, defaultOpen }: { data: ExplainContent; defaultOpen?: boolean }) {
   return (
-    <Section id="s2" title="Prologue" subtitle="왜 이 문제인가" defaultOpen={defaultOpen}>
+    <Section id="s2" title="풀기 전 단서" subtitle="왜 이 문제인가" defaultOpen={defaultOpen}>
       <p className="text-pullim-slate-700 leading-relaxed">{data.prologue}</p>
     </Section>
   );
@@ -79,7 +79,7 @@ export function Prologue({ data, defaultOpen }: { data: ExplainContent; defaultO
 /** 3. 4-Path Solution Spine — 시그니처 ★ */
 export function FourPathSpine({ paths, defaultOpen }: { paths: SolutionPath[]; defaultOpen?: boolean }) {
   return (
-    <Section id="s3" title="4-Path Solution Spine" subtitle="같은 답, 4개 독립 경로" signature defaultOpen={defaultOpen}>
+    <Section id="s3" title="4가지 풀이 흐름" subtitle="같은 답, 4개 독립 경로" signature defaultOpen={defaultOpen}>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
         {paths.map(p => <PathColumn key={p.id} path={p} />)}
       </div>
@@ -169,7 +169,7 @@ function RatingBar({ label, value, max }: { label: string; value: number; max: n
 export function RootGraph({ data, defaultOpen }: { data: ExplainContent; defaultOpen?: boolean }) {
   const g = data.rootGraph;
   return (
-    <Section id="s4" title="Textbook Root Graph" subtitle="이 개념이 어디서 와서 어디로 가는가" defaultOpen={defaultOpen}>
+    <Section id="s4" title="개념 뿌리 지도" subtitle="이 개념이 어디서 와서 어디로 가는가" defaultOpen={defaultOpen}>
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
         {/* 선수 */}
         <Tier label="선수 개념" tone="muted" items={g.prerequisites.map(p => p.label)} />
@@ -207,7 +207,7 @@ function Tier({ label, items, tone }: { label: string; items: string[]; tone: 'm
 /** 5. Error Anatomy */
 export function ErrorAnatomy({ data, defaultOpen }: { data: ExplainContent; defaultOpen?: boolean }) {
   return (
-    <Section id="s5" title="Error Anatomy" subtitle="네 풀이의 실수 지점" defaultOpen={defaultOpen}>
+    <Section id="s5" title="오답 해부" subtitle="네 풀이의 실수 지점" defaultOpen={defaultOpen}>
       <div className="bg-pullim-danger-bg border-pullim-danger/30 mb-3 rounded-lg border p-3 text-xs">
         <div className="text-pullim-danger inline-flex items-center gap-1 font-bold mb-1">
           <AlertTriangle className="h-3 w-3" aria-hidden />
@@ -294,7 +294,7 @@ function ChoiceRow({ choice, max, text }: { choice: ChoicePsychology; max: numbe
 /** 7. Visual Canvas (placeholder) */
 export function VisualCanvas({ data, defaultOpen }: { data: ExplainContent; defaultOpen?: boolean }) {
   return (
-    <Section id="s7" title="Visual Intuition Canvas" subtitle="인터랙티브 시각화" defaultOpen={defaultOpen}>
+    <Section id="s7" title="시각 직관" subtitle="인터랙티브 시각화" defaultOpen={defaultOpen}>
       <div className="bg-pullim-blue-50 border-pullim-blue-200 flex flex-col items-center gap-3 rounded-xl border-2 border-dashed p-8 text-center">
         <span className="bg-pullim-blue-600 flex h-12 w-12 items-center justify-center rounded-xl text-white text-xl">
           ✨
@@ -322,7 +322,7 @@ export function PatternFamily({ data, defaultOpen }: { data: ExplainContent; def
     : null;
 
   return (
-    <Section id="s8" title="Pattern Family" subtitle="같은 패턴의 친척 문제" defaultOpen={defaultOpen}>
+    <Section id="s8" title="패턴 친척" subtitle="같은 패턴의 친척 문제" defaultOpen={defaultOpen}>
       <ul className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
         {data.family.map(p => <RelatedCard key={p.sku} item={p} />)}
       </ul>
@@ -367,7 +367,7 @@ function RelatedCard({ item }: { item: RelatedProblem }) {
 /** 9. Feynman Challenge (placeholder) */
 export function FeynmanChallenge({ data, defaultOpen }: { data: ExplainContent; defaultOpen?: boolean }) {
   return (
-    <Section id="s9" title="Feynman Challenge" subtitle="2분 안에 친구에게 설명" defaultOpen={defaultOpen}>
+    <Section id="s9" title="친구에게 설명하기" subtitle="2분 안에 친구에게 설명" defaultOpen={defaultOpen}>
       <div className="bg-pullim-slate-950 rounded-xl p-5 text-white">
         <p className="text-pullim-slate-200 text-sm leading-relaxed">“{data.feynman.prompt}”</p>
         <div className="mt-4 flex flex-wrap items-center gap-3">
@@ -406,7 +406,7 @@ export function FeynmanChallenge({ data, defaultOpen }: { data: ExplainContent; 
 /** 10. Teacher Voices — 시그니처 ★ */
 export function TeacherVoices({ data, defaultOpen }: { data: ExplainContent; defaultOpen?: boolean }) {
   return (
-    <Section id="s10" title="Teacher Voices" subtitle="같은 해설, 3가지 톤" signature defaultOpen={defaultOpen}>
+    <Section id="s10" title="선생님 3가지 톤" subtitle="같은 해설, 3가지 톤" signature defaultOpen={defaultOpen}>
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
         {data.teacherVoices.map(v => <VoiceCard key={v.tone} voice={v} />)}
       </div>
@@ -435,7 +435,7 @@ function VoiceCard({ voice }: { voice: TeacherVoice }) {
 /** 11. History + Real-World */
 export function HistoryReal({ data, defaultOpen }: { data: ExplainContent; defaultOpen?: boolean }) {
   return (
-    <Section id="s11" title="History + Real-World" subtitle="개념의 역사 + 현실 응용" defaultOpen={defaultOpen}>
+    <Section id="s11" title="역사·실생활" subtitle="개념의 역사 + 현실 응용" defaultOpen={defaultOpen}>
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
         <div className="bg-pullim-slate-50 rounded-xl p-4">
           <div className="text-pullim-slate-500 mb-1 inline-flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
@@ -459,7 +459,7 @@ export function HistoryReal({ data, defaultOpen }: { data: ExplainContent; defau
 /** 12. Memory Anchor */
 export function MemoryAnchor({ data, defaultOpen }: { data: ExplainContent; defaultOpen?: boolean }) {
   return (
-    <Section id="s12" title="Memory Anchor" subtitle="암기 닻 + 다음 복습" defaultOpen={defaultOpen}>
+    <Section id="s12" title="암기 닻" subtitle="암기 닻 + 다음 복습" defaultOpen={defaultOpen}>
       <div className="from-pullim-blue-700 to-pullim-blue-500 relative overflow-hidden rounded-2xl bg-gradient-to-br p-6 text-white shadow-lg shadow-blue-500/20">
         <Pin className="absolute -right-8 -bottom-4 h-32 w-32 opacity-20" aria-hidden />
         <div className="relative">

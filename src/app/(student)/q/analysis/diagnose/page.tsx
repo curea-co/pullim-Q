@@ -231,7 +231,7 @@ export default function DiagnoseStartPage() {
           </div>
           <div className="bg-pullim-slate-50 rounded-lg px-2 py-1.5">
             <div className="text-[9px] font-bold tracking-wider uppercase">추정 모델</div>
-            <div className="font-mono text-sm font-bold" style={{ color: aiTierMeta.T2.color }}>T2 맞춤</div>
+            <div className="font-mono text-sm font-bold" style={{ color: aiTierMeta.T2.color }}>AI 맞춤</div>
           </div>
         </div>
       </section>
