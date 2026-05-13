@@ -3,9 +3,11 @@
 //   1. <title> 태그
 //   2. <meta name="description">
 //   3. <meta name="application-name">
-//   4. Open Graph (og:title, og:description, og:site_name, og:type, og:locale, og:image)
-//   5. Twitter Card (twitter:card, twitter:title, twitter:description)
-//   6. /opengraph-image 라우트가 1200x630 PNG 응답
+//   4. Open Graph (og:title, og:description, og:site_name, og:type, og:locale, og:url, og:image)
+//   5. Twitter Card (twitter:card, twitter:title, twitter:description, twitter:creator)
+//   6. /opengraph-image · /twitter-image 라우트 PNG 응답
+//   7. SEO/링크 임베드 보강: keywords / author / creator / publisher / robots
+//   8. PWA manifest: /manifest.webmanifest → application/manifest+json + name 검증
 //
 // 기준: "풀림 스터디" 텍스트가 어디에도 등장하면 FAIL.
 
@@ -73,9 +75,18 @@ try {
   checkMeta('og:site_name', expectBrandName, forbiddenLegacy);
   checkMeta('og:type', 'website', null);
   checkMeta('og:locale', 'ko_KR', null);
+  checkMeta('og:url', 'http', null); // 절대 URL 여부만 (http/https)
   checkMeta('twitter:card', 'summary_large_image', null);
   checkMeta('twitter:title', expectBrandName, forbiddenLegacy);
   checkMeta('twitter:description', expectBrandName, forbiddenLegacy);
+  checkMeta('twitter:creator', '@', null); // @핸들 형식
+
+  // SEO/링크 임베드 보강 메타
+  checkMeta('keywords', expectBrandName, forbiddenLegacy);
+  checkMeta('author', 'curea', null);
+  checkMeta('creator', 'curea', null);
+  checkMeta('publisher', 'curea', null);
+  checkMeta('robots', 'index', null);
 
   // og:image 존재 확인
   const ogImage = metas['og:image'];
@@ -84,12 +95,52 @@ try {
   } else {
     record('og:image present', true, ogImage);
 
-    // 6. og:image 페치 → PNG 응답 + 1200x630 검증
     const imgResp = await page.context().request.get(ogImage);
     const imgOk = imgResp.ok();
     const contentType = imgResp.headers()['content-type'] ?? '';
     record('og:image GET 200 + image/*', imgOk && contentType.startsWith('image/'),
            `status=${imgResp.status()} type=${contentType}`);
+  }
+
+  // twitter:image 존재 확인 + 페치
+  const twImage = metas['twitter:image'];
+  if (!twImage) {
+    record('twitter:image present', false, '(missing)');
+  } else {
+    record('twitter:image present', true, twImage);
+
+    const imgResp = await page.context().request.get(twImage);
+    const imgOk = imgResp.ok();
+    const contentType = imgResp.headers()['content-type'] ?? '';
+    record('twitter:image GET 200 + image/*', imgOk && contentType.startsWith('image/'),
+           `status=${imgResp.status()} type=${contentType}`);
+  }
+
+  // PWA manifest 검증
+  const manifestUrl = `${BASE}/manifest.webmanifest`;
+  const manifestResp = await page.context().request.get(manifestUrl);
+  const manifestOk = manifestResp.ok();
+  const manifestType = manifestResp.headers()['content-type'] ?? '';
+  record('manifest.webmanifest GET 200 + manifest+json',
+         manifestOk && manifestType.includes('manifest+json'),
+         `status=${manifestResp.status()} type=${manifestType}`);
+
+  if (manifestOk) {
+    let manifestJson;
+    try {
+      manifestJson = await manifestResp.json();
+    } catch (e) {
+      record('manifest JSON parsable', false, String(e));
+    }
+    if (manifestJson) {
+      const nameOk = typeof manifestJson.name === 'string'
+        && manifestJson.name.includes(expectBrandName)
+        && !manifestJson.name.includes(forbiddenLegacy);
+      record('manifest.name contains 풀림 Q', nameOk, JSON.stringify(manifestJson.name));
+      const themeOk = typeof manifestJson.theme_color === 'string'
+        && manifestJson.theme_color.length > 0;
+      record('manifest.theme_color set', themeOk, JSON.stringify(manifestJson.theme_color));
+    }
   }
 
   // HTML 본문에 "풀림 스터디" 한 번이라도 등장하면 fail
