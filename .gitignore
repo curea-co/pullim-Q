@@ -44,3 +44,6 @@ next-env.d.ts
 
 # claude code runtime
 .claude/scheduled_tasks.lock
+
+# daily outcome (personal reports, not tracked)
+/daily_outcome/

@@ -63,8 +63,8 @@ Vercel 배포 링크(`https://pullim-q.vercel.app`)를 카카오톡·슬랙·트
 
 - [x] `bunx tsc --noEmit && bun run build` 통과 (lint는 사전 존재 에러만 — 이번 변경 파일에는 0건)
 - [x] dev 서버에서 `verify-brand-meta.mjs` 27/27 pass
-- [ ] 커밋 + PR 생성 — `feat/q-link-embed-metadata` base `dev`
-- [ ] PR 머지 후 Vercel 자동 배포 확인 + 카카오톡 임베드 미리보기 실 캡처
+- [x] 커밋 + PR 생성 — [PR #24](https://github.com/curea-co/pullim-Q/pull/24) `feat/q-link-embed-metadata` 머지 완료 (2026-05-13). *(사후 [x] 메모)*
+- [x] PR #24 머지 후 Vercel 자동 배포 + 카카오톡 임베드 미리보기 확인 — 산출물: [proc/archive/2026-05-13_q-link-embed-deploy-retro.md](../archive/2026-05-13_q-link-embed-deploy-retro.md). *(사후 [x] 메모)*
 
 ## 비범위
 - `robots.ts` / `sitemap.ts` 추가 — 풀림 Q는 데모 도메인, SEO 노출 강화는 본격 배포 시점 별도 plan
