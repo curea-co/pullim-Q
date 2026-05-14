@@ -122,6 +122,6 @@ function baseClass(sub: SubRoute): string {
     sub.locked
       ? 'opacity-60 cursor-not-allowed border-dashed'
       : 'hover:border-pullim-blue-300 hover:shadow-pullim-md',
-    sub.signature && !sub.locked && 'ring-pullim-warn/30 ring-2',
+    sub.signature && !sub.locked && 'border-pullim-warn/40',
   );
 }
