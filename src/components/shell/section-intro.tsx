@@ -35,31 +35,26 @@ type Props = {
 export function SectionIntro({ identity, values, subRoutes, preview }: Props) {
   return (
     <div className="space-y-5">
-      {/* 정체성 + 핵심 가치 */}
-      <section className="from-pullim-blue-700 to-pullim-blue-500 relative overflow-hidden rounded-2xl bg-gradient-to-br p-5 text-white shadow-xl xl:p-6">
-        <div
-          aria-hidden
-          className="absolute -top-20 -right-20 h-56 w-56 rounded-full opacity-30 blur-3xl"
-          style={{ background: 'radial-gradient(circle, var(--color-pullim-lemon), transparent 70%)' }}
-        />
+      {/* 정체성 + 핵심 가치 — soft tonal (plan §4.1 옵션 A) */}
+      <section className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-2xl border p-5 xl:p-6">
         <div className="relative">
-          <p className="text-pullim-lemon text-[10px] font-bold tracking-wider uppercase">
+          <p className="text-pullim-blue-700 text-[10px] font-bold tracking-wider uppercase">
             이 섹션의 정체성
           </p>
-          <h2 className="mt-1.5 text-base font-semibold leading-relaxed text-white xl:text-lg">
+          <h2 className="text-pullim-slate-900 mt-1.5 text-base font-semibold leading-relaxed xl:text-lg">
             {identity}
           </h2>
 
           <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
             {values.map(v => (
-              <li key={v.label} className="bg-white/10 rounded-lg p-3 backdrop-blur">
+              <li key={v.label} className="bg-card border-pullim-blue-100 rounded-lg border p-3">
                 <div className="flex items-center gap-1.5">
-                  <v.Icon aria-hidden className="text-pullim-lemon h-4 w-4" />
-                  <span className="text-pullim-blue-100 text-[10px] font-bold tracking-wider uppercase">
+                  <v.Icon aria-hidden className="text-pullim-blue-600 h-4 w-4" />
+                  <span className="text-pullim-slate-600 text-[10px] font-bold tracking-wider uppercase">
                     {v.label}
                   </span>
                 </div>
-                <p className="mt-1 text-xs leading-snug text-white/90">{v.description}</p>
+                <p className="text-pullim-slate-700 mt-1 text-xs leading-snug">{v.description}</p>
               </li>
             ))}
           </ul>

@@ -173,21 +173,21 @@ export default async function QuestionHubPage({ params, searchParams }: Props) {
       <NextLearningCards data={data} sku={entry.sku} subject={entry.subject} />
 
       {/* 페이지 끝 — 다음 행동 컴팩트 footer (코치 + 복습 진입만) */}
-      <section className="from-pullim-blue-600 to-pullim-blue-500 flex flex-wrap items-center gap-3 rounded-2xl bg-gradient-to-br p-4 text-white">
-        <p className="text-pullim-blue-50 text-sm">
+      <section className="bg-pullim-blue-50 border-pullim-blue-100 flex flex-wrap items-center gap-3 rounded-2xl border p-4">
+        <p className="text-pullim-slate-700 text-sm">
           여기까지 봤다면 한 줄로 닫아요 — 코치에게 묻거나 복습 큐로 돌아가요.
         </p>
         <div className="ml-auto flex flex-wrap gap-2">
           <Link
             href={`/q/talk?context=${encodeURIComponent(entry.sku)}`}
-            className="bg-white/10 hover:bg-white/20 inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold text-white transition-colors"
+            className="bg-card border-pullim-blue-200 text-pullim-slate-700 hover:bg-pullim-blue-100 inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-bold transition-colors"
           >
             <MessageCircleQuestion className="h-3.5 w-3.5" />
             코치에게 더 묻기
           </Link>
           <Link
             href="/q/review"
-            className="text-pullim-blue-700 inline-flex items-center gap-1.5 rounded-xl bg-white px-3 py-2 text-xs font-bold transition-colors"
+            className="bg-pullim-blue-600 inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-pullim-blue-700"
           >
             풀림 복습으로
             <Target className="h-3.5 w-3.5" />

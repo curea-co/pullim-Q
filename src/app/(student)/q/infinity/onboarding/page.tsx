@@ -180,22 +180,22 @@ function Inner() {
           title: '시험 결과 + 풀이 이력으로 돌아보기',
           description:
             '시험 제출 후 즉시 채점 + 오답 클러스터(패턴별) + 다음 액션 카드. 이력 탭에선 풀어본 문제 검색·필터·북마크.',
-          screenshotCaption: '주황 그라데이션 결과 hero',
+          screenshotCaption: '시험 결과 hero',
           screenshot: (
             <MockBrowser label="시험 결과">
-              <section className="from-pullim-warn to-pullim-warn/80 rounded-xl bg-gradient-to-br p-3 text-white">
-                <div className="text-white/80 text-[9px] font-bold tracking-wider uppercase">
+              <section className="bg-pullim-warn-bg border-pullim-warn/30 rounded-xl border p-3">
+                <div className="text-pullim-slate-600 text-[9px] font-bold tracking-wider uppercase">
                   원점수
                 </div>
-                <div className="font-mono text-3xl font-bold leading-none tracking-tight">
-                  73<span className="text-base text-white/70">/100</span>
+                <div className="text-pullim-slate-900 font-mono text-3xl font-bold leading-none tracking-tight">
+                  73<span className="text-pullim-slate-500 text-base">/100</span>
                 </div>
-                <div className="mt-1 text-xs font-semibold">
+                <div className="text-pullim-slate-700 mt-1 text-xs font-semibold">
                   예상 등급 <span className="font-mono">3등급</span>
                 </div>
-                <div className="border-white/20 mt-2 flex items-center gap-2 border-t pt-2 text-[9px]">
-                  <Star className="h-3 w-3" />
-                  <span>실력 점수 0.35 → 0.42 (+0.07)</span>
+                <div className="border-pullim-warn/20 mt-2 flex items-center gap-2 border-t pt-2 text-[9px]">
+                  <Star className="text-pullim-warn h-3 w-3" />
+                  <span className="text-pullim-slate-600">실력 점수 0.35 → 0.42 (+0.07)</span>
                 </div>
               </section>
               <p className="text-pullim-slate-500 mt-2 text-[10px]">

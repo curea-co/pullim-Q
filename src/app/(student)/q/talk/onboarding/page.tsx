@@ -20,15 +20,15 @@ export default function CoachOnboardingPage() {
           screenshotCaption: '오늘 코치가 본 것',
           screenshot: (
             <MockBrowser label="코치 한 마디">
-              <section className="from-pullim-blue-600 to-pullim-blue-700 rounded-lg bg-gradient-to-br p-3 text-white">
-                <div className="text-pullim-lemon inline-flex items-center gap-1 text-[9px] font-bold tracking-wider uppercase">
+              <section className="bg-pullim-blue-50 border-pullim-blue-100 rounded-lg border p-3">
+                <div className="text-pullim-blue-700 inline-flex items-center gap-1 text-[9px] font-bold tracking-wider uppercase">
                   <Sparkles className="h-3 w-3" />
                   오늘 코치가 본 것
                 </div>
-                <h3 className="mt-1.5 text-sm font-bold tracking-tight">
+                <h3 className="text-pullim-slate-900 mt-1.5 text-sm font-bold tracking-tight">
                   오늘 두 가지를 챙겨주세요
                 </h3>
-                <p className="text-pullim-blue-100 mt-1.5 text-[11px] leading-relaxed">
+                <p className="text-pullim-slate-700 mt-1.5 text-[11px] leading-relaxed">
                   영어 빈칸 추론 +14p · 한 번 더 굳히기. <br />
                   미분 부호 변화 5번째 막힘 · 비주얼로 시각화 후 적응형 풀이.
                 </p>
