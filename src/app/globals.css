@@ -159,6 +159,9 @@
   --shadow-pullim-md: 0 4px 12px rgba(18, 22, 39, 0.06), 0 2px 4px rgba(18, 22, 39, 0.04);
   --shadow-pullim-lg: 0 12px 24px rgba(18, 22, 39, 0.08), 0 4px 8px rgba(18, 22, 39, 0.04);
   --shadow-pullim-glow: 0 0 0 4px rgba(59, 111, 246, 0.15);
+  /* 액션 강조 — primary CTA·FAB·active toggle 등 행위 영역만. 환경 chrome은 -md/-lg 사용 (plan §4.4) */
+  --shadow-pullim-accent: 0 8px 24px rgba(59, 111, 246, 0.18);
+  --shadow-pullim-accent-warn: 0 8px 24px rgba(245, 158, 11, 0.20);
 }
 
 .dark {

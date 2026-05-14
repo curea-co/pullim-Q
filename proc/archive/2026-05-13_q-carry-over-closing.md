@@ -8,6 +8,14 @@
 - [input/docs-archive/advice/pullim_learning_dashboard_faas_project_definition.md](../../input/docs-archive/advice/pullim_learning_dashboard_faas_project_definition.md) (이하 "FaaS 정의서")
 
 > 거버넌스 룰 (2026-05-12 EOD 발견 → 적용): 모든 plan/코드 작업은 advice 정독 후 시작. design polish 트랙(이 plan §1·§2)과 advice/콘텐츠 IA 트랙(§3)을 같은 문서 안에서 분리 표기.
+>
+> 같은 날 추가 plan (2026-05-14 회고적 backfill — cross-reference 룰 [feedback_carry_over_cross_reference.md](https://github.com/curea-co/pullim-Q/blob/dev/proc/archive/2026-05-13_q-carry-over-closing.md) 적용):
+> - proc/plan/2026-05-13_q-link-embed-metadata.md — PR #24 임베드 메타 풍부화 (당일 계획 외, EOD 추적 분산 원인)
+> - proc/plan/2026-05-13_q-color-saturation-rebalance.md — 색 채도 사용처 sweep 후속 plan (PR #26 토큰 적용 후속)
+> - proc/plan/2026-05-13_q-analysis-visual-redesign.md — /q/analysis 진입 비주얼 리디자인
+> - proc/plan/2026-05-13_review-priority-queue-scalable-layout.md — /q/review 큐 N=10,000 확장성 재기획
+> - proc/plan/2026-05-13_solve-resume-and-leave-guard.md — /q/infinity/solve 이어풀기 + 이탈 가드
+> - proc/plan/2026-05-13_curea-deep-pre-route-explainer-dialog.md — CUREA DEEP 이동 전 안내 다이얼로그
 
 ## 작업 항목
 

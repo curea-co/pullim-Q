@@ -20,7 +20,7 @@ export function CoachFab() {
     <Link
       href="/q/talk"
       aria-label="풀림 AI에게 질문하기"
-      className="bg-pullim-blue-500 hover:bg-pullim-blue-600 fixed right-4 bottom-20 z-40 flex h-13 items-center gap-2 rounded-full px-4 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-blue-500/50 md:bottom-6"
+      className="bg-pullim-blue-500 hover:bg-pullim-blue-600 shadow-pullim-accent fixed right-4 bottom-20 z-40 flex h-13 items-center gap-2 rounded-full px-4 text-sm font-semibold text-white transition-all md:bottom-6"
       style={{ height: 52 }}
     >
       <Sparkles className="h-4 w-4" />

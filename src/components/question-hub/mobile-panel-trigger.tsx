@@ -24,7 +24,7 @@ export function MobilePanelTrigger({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
-        className="bg-pullim-blue-600 hover:bg-pullim-blue-700 fixed right-4 bottom-20 z-30 inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-500/30 transition-colors lg:hidden"
+        className="bg-pullim-blue-600 hover:bg-pullim-blue-700 shadow-pullim-accent fixed right-4 bottom-20 z-30 inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-bold text-white transition-colors lg:hidden"
         aria-label="학습 재료 보기"
       >
         <BookOpen className="h-4 w-4" />

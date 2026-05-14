@@ -50,8 +50,8 @@ export function ModeToggle({ mode, onChange, onRequestExam, examInProgress }: Pr
               aria-pressed={active}
               className={cn(
                 'group flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all',
-                active && accent === 'blue' && 'bg-pullim-blue-600 text-white shadow-lg shadow-blue-500/30',
-                active && accent === 'warn' && 'bg-pullim-warn text-white shadow-lg shadow-amber-500/30',
+                active && accent === 'blue' && 'bg-pullim-blue-600 shadow-pullim-accent text-white',
+                active && accent === 'warn' && 'bg-pullim-warn shadow-pullim-accent-warn text-white',
                 !active && 'text-pullim-slate-700 hover:bg-white/60',
                 examInProgress && id === 'practice' && 'cursor-not-allowed opacity-50',
               )}

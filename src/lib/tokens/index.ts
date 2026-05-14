@@ -72,6 +72,9 @@ export const pullimShadow = {
   md:   '0 4px 12px rgba(18, 22, 39, 0.06), 0 2px 4px rgba(18, 22, 39, 0.04)',
   lg:   '0 12px 24px rgba(18, 22, 39, 0.08), 0 4px 8px rgba(18, 22, 39, 0.04)',
   glow: '0 0 0 4px rgba(59, 111, 246, 0.15)',
+  /** 액션 강조 — primary CTA·FAB·active toggle 등 행위 영역만 (plan §4.4) */
+  accent:     '0 8px 24px rgba(59, 111, 246, 0.18)',
+  accentWarn: '0 8px 24px rgba(245, 158, 11, 0.20)',
 } as const;
 
 /** 풀림 레몬 — 강조 CTA·스트릭·완료 인증 (플래너 핸드오프 12.1) */
