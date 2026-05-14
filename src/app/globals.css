@@ -111,6 +111,10 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* 섹션 리듬 — 페이지 최상위 섹션 간격 / 섹션 헤딩 → 콘텐츠 간격 */
+  --spacing-section: 1.5rem;          /* 24px — page.tsx 최상위 space-y */
+  --spacing-section-heading: 1rem;    /* 16px — SectionHeading 하단 mb */
 }
 
 :root {

@@ -59,7 +59,7 @@ export default function DiagnoseStartPage() {
     const thetaDelta = estimatedTheta - thetaBefore;
     const accuracyPct = total === 0 ? 0 : Math.round((correctCount / total) * 100);
     return (
-      <div className="space-y-5">
+      <div className="space-y-section">
         <PageHeader
           eyebrow={{ icon: Trophy, text: '진단 완료' }}
           title="실력 점수가 갱신됐어요"
@@ -128,7 +128,7 @@ export default function DiagnoseStartPage() {
   // 시작 전 인트로 화면
   if (!started) {
     return (
-      <div className="space-y-5">
+      <div className="space-y-section">
         <PageHeader
           eyebrow={{ icon: Activity, text: '진단 시작' }}
           title="15문항 맞춤 진단"

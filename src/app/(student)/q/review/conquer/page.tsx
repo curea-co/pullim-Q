@@ -85,7 +85,7 @@ export default function ConquerSetPage() {
     }).length;
 
     return (
-      <div className="space-y-5">
+      <div className="space-y-section">
         <header className="bg-pullim-blue-50 ring-pullim-blue-200 relative overflow-hidden rounded-2xl ring-2 p-6">
           <div className="text-pullim-blue-700 flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
             {conquered ? <><Trophy className="h-3 w-3" /> 패턴 정복!</> : <><Sparkles className="h-3 w-3" /> 세트 완료</>}

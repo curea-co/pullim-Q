@@ -15,7 +15,7 @@ export default function InfinityHomePage() {
   const signaturePicks = explainLibrary.filter(e => e.isSignature).slice(0, 3);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-section">
       <PageHeader
         eyebrow={{ icon: Infinity, text: '풀림 무한풀기' }}
         title="내 실력에 맞는 문제가 끊임없이 나와요"

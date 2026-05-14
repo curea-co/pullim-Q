@@ -62,7 +62,7 @@ export default function ReviewPage() {
   const totalToday = todayLeitner.length + dueMemory.length;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-section">
       <PageHeader
         eyebrow={{ icon: Repeat, text: '풀림 복습' }}
         title="틀린 것 + 잊을 위험 — 한 곳에서 한눈에"
