@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import { Sparkles, Target, Lightbulb } from 'lucide-react';
+import { Target, Lightbulb } from 'lucide-react';
 import { errorPatterns, subjectLabels } from '@/lib/mock';
 import { Progress } from '@/components/ui/progress';
+import { ConquerIntroDialog } from './conquer-intro-dialog';
 
 /**
  * 에러 패턴 TOP — Q 7.4.
@@ -63,13 +63,7 @@ export function ErrorPatternList() {
                   </span>
                 </div>
 
-                <Link
-                  href="/q/review/conquer"
-                  className="bg-pullim-blue-600 text-white hover:bg-pullim-blue-700 mt-2 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors"
-                >
-                  <Sparkles className="h-3 w-3" />
-                  CUREA DEEP — 패턴 맞춤 5문제 풀이
-                </Link>
+                <ConquerIntroDialog pattern={p} />
               </article>
             </li>
           );
