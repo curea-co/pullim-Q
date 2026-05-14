@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { GuardedLink as Link } from './leave-guard';
 import { usePathname } from 'next/navigation';
 import { studentBottomTabs } from './nav-config';
 import { cn } from '@/lib/utils';
