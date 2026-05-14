@@ -97,7 +97,7 @@ export default function ExamResultPage() {
 
       {/* 다음 추천 */}
       <section className="bg-pullim-blue-50 border-pullim-blue-100 rounded-2xl border p-4">
-        <h2 className="text-pullim-blue-700 mb-3 text-base font-bold tracking-tight">다음 추천</h2>
+        <h2 className="text-pullim-slate-900 mb-3 text-base font-bold tracking-tight">다음 추천</h2>
         <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
           <RecCard
             title="오답 12-섹션 해설"

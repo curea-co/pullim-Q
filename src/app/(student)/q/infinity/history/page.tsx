@@ -155,7 +155,7 @@ function HistoryRow({ entry }: { entry: SolveHistoryEntry }) {
           </div>
           <Link
             href={`/q/infinity/explain/${entry.sku}`}
-            className="text-pullim-blue-600 mt-0.5 inline-flex items-center gap-0.5 text-[10px] font-bold hover:underline"
+            className="text-pullim-slate-600 hover:text-pullim-blue-600 mt-0.5 inline-flex items-center gap-0.5 text-[10px] font-bold hover:underline underline-offset-3"
           >
             <Eye className="h-2.5 w-2.5" />
             해설

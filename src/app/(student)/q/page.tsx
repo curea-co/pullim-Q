@@ -45,7 +45,7 @@ const channelHrefMap: Record<Prescription['channel'], string> = {
  *  소스: 스튜디오 / 기출 / 오답 / AI 생성 */
 type QueueSource = 'studio' | 'past' | 'review' | 'ai';
 const queueSourceMeta: Record<QueueSource, { label: string; Icon: typeof Wrench; cls: string }> = {
-  studio: { label: '스튜디오', Icon: Wrench,     cls: 'bg-pullim-blue-50 text-pullim-blue-700' },
+  studio: { label: '스튜디오', Icon: Wrench,     cls: 'bg-pullim-blue-50 text-pullim-blue-600' },
   past:   { label: '기출 복원', Icon: ScrollText, cls: 'bg-pullim-slate-100 text-pullim-slate-700' },
   review: { label: '오답 보강', Icon: Target,    cls: 'bg-pullim-warn/10 text-pullim-warn' },
   ai:     { label: 'AI 생성',  Icon: Sparkles,  cls: 'bg-pullim-lemon/30 text-pullim-lemon-ink' },
@@ -393,7 +393,7 @@ function UpcomingSection({
               <Calendar className="h-4 w-4" />
             </span>
             <div className="min-w-0 flex-1">
-              <div className="text-pullim-blue-700 text-[10px] font-bold tracking-wider uppercase">
+              <div className="text-pullim-slate-600 text-[10px] font-bold tracking-wider uppercase">
                 D-{dday}
               </div>
               <h4 className="text-pullim-slate-900 mt-0.5 text-sm font-bold">{persona.examLabel}</h4>
@@ -413,7 +413,7 @@ function UpcomingSection({
                 <BookOpen className="h-4 w-4" />
               </span>
               <div className="min-w-0 flex-1">
-                <div className="text-pullim-blue-700 text-[10px] font-bold tracking-wider uppercase">
+                <div className="text-pullim-slate-600 text-[10px] font-bold tracking-wider uppercase">
                   추천
                 </div>
                 <h4 className="text-pullim-slate-900 mt-0.5 text-sm font-bold">

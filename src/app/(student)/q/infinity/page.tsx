@@ -38,7 +38,7 @@ export default function InfinityHomePage() {
             <div className="text-pullim-blue-900 text-sm font-bold">
               자유 풀이 시작하기
             </div>
-            <div className="text-pullim-blue-700 text-[11px]">
+            <div className="text-pullim-slate-600 text-[11px]">
               과목·단원을 직접 골라 풀 수 있어요.
             </div>
           </div>
@@ -57,7 +57,7 @@ export default function InfinityHomePage() {
               <h3 className="text-pullim-slate-900 text-sm font-bold tracking-tight">
                 최근 풀이 — 지난 24시간
               </h3>
-              <Link href="/q/infinity/history" className="text-pullim-blue-600 text-xs font-bold inline-flex items-center gap-0.5">
+              <Link href="/q/infinity/history" className="text-pullim-slate-600 hover:text-pullim-blue-600 text-xs font-bold inline-flex items-center gap-0.5 hover:underline underline-offset-3">
                 전체 이력 <ArrowRight className="h-3 w-3" />
               </Link>
             </header>
@@ -89,7 +89,7 @@ export default function InfinityHomePage() {
                 <Sparkles className="text-pullim-warn h-3.5 w-3.5" />
                 풀림 해설 — 추천 12-섹션
               </h3>
-              <Link href="/q/infinity/explain" className="text-pullim-blue-600 text-xs font-bold inline-flex items-center gap-0.5">
+              <Link href="/q/infinity/explain" className="text-pullim-slate-600 hover:text-pullim-blue-600 text-xs font-bold inline-flex items-center gap-0.5 hover:underline underline-offset-3">
                 전체 보기 <ArrowRight className="h-3 w-3" />
               </Link>
             </header>
