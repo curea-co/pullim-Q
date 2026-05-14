@@ -27,7 +27,7 @@ export function RecentMistakes({ limit = 4 }: { limit?: number }) {
   return (
     <section id="recent-mistakes" aria-label="다시 봐야 할 문제">
       <SectionHeading
-        title="다시 봐야 할 문제"
+        title={`다시 봐야 할 ${items.length}문제`}
         description="최근 오답을 한 문제씩 들여다보세요"
       />
       <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">

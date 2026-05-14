@@ -28,7 +28,7 @@ export function WrongReasonTop3() {
           최근 오답 원인 Top 3
         </h2>
         <span className="text-pullim-slate-400 text-[11px]">
-          — 한 문제씩 들여다볼 때 먼저 살펴봐요
+          — 분석에서 발견한 · 한 문제씩 들여다볼 때 먼저 살펴봐요
         </span>
       </div>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
