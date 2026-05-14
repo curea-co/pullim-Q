@@ -87,27 +87,22 @@ function DDayHero({
   persona, dday,
 }: { persona: typeof currentPersona; dday: number }) {
   return (
-    <section className="from-pullim-blue-700 to-pullim-blue-500 relative overflow-hidden rounded-2xl bg-gradient-to-br p-6 text-white shadow-xl">
-      <div
-        aria-hidden
-        className="absolute -right-24 -bottom-24 h-72 w-72 rounded-full opacity-25 blur-3xl"
-        style={{ background: 'radial-gradient(circle, var(--color-pullim-lemon), transparent 70%)' }}
-      />
+    <section className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-2xl border p-6">
       <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-pullim-lemon inline-flex items-center gap-1 text-[11px] font-bold tracking-wider uppercase">
+          <p className="text-pullim-blue-700 inline-flex items-center gap-1 text-[11px] font-bold tracking-wider uppercase">
             <Sparkles className="h-3 w-3" />
             오늘의 풀림 Q
           </p>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight">
+          <h1 className="text-pullim-slate-900 mt-1 text-2xl font-bold tracking-tight">
             {persona.name} 학생, 안녕하세요
           </h1>
-          <p className="text-pullim-blue-100 mt-1 text-sm">
-            {persona.examLabel}까지 <strong className="text-pullim-lemon font-mono">D-{dday}</strong> · {persona.streakDays}일 연속 학습 중 · 오늘 {todaySession.problemsSolved}/{todaySession.totalToday}문항
+          <p className="text-pullim-slate-700 mt-1 text-sm">
+            {persona.examLabel}까지 <strong className="text-pullim-blue-700 font-mono">D-{dday}</strong> · {persona.streakDays}일 연속 학습 중 · 오늘 {todaySession.problemsSolved}/{todaySession.totalToday}문항
           </p>
         </div>
-        <div className="bg-white/15 inline-flex items-center gap-1.5 self-start rounded-full px-3 py-1.5 text-xs font-bold">
-          <Flame className="text-pullim-lemon h-3.5 w-3.5" />
+        <div className="bg-card border-pullim-blue-200 text-pullim-slate-700 inline-flex items-center gap-1.5 self-start rounded-full border px-3 py-1.5 text-xs font-bold">
+          <Flame className="text-pullim-warn h-3.5 w-3.5" />
           연속 {persona.streakDays}일
         </div>
       </div>

@@ -460,18 +460,18 @@ export function HistoryReal({ data, defaultOpen }: { data: ExplainContent; defau
 export function MemoryAnchor({ data, defaultOpen }: { data: ExplainContent; defaultOpen?: boolean }) {
   return (
     <Section id="s12" title="암기 닻" subtitle="암기 닻 + 다음 복습" defaultOpen={defaultOpen}>
-      <div className="from-pullim-blue-700 to-pullim-blue-500 relative overflow-hidden rounded-2xl bg-gradient-to-br p-6 text-white shadow-lg shadow-blue-500/20">
-        <Pin className="absolute -right-8 -bottom-4 h-32 w-32 opacity-20" aria-hidden />
+      <div className="bg-pullim-blue-50 border-pullim-blue-200 relative overflow-hidden rounded-2xl border p-6">
+        <Pin className="text-pullim-blue-300 absolute -right-8 -bottom-4 h-32 w-32 opacity-30" aria-hidden />
         <div className="relative">
-          <div className="text-pullim-lemon text-[10px] font-bold tracking-wider uppercase">한 줄 암기문</div>
-          <p className="mt-2 text-2xl font-bold tracking-tight">{data.memoryAnchor.line}</p>
+          <div className="text-pullim-blue-700 text-[10px] font-bold tracking-wider uppercase">한 줄 암기문</div>
+          <p className="text-pullim-slate-900 mt-2 text-2xl font-bold tracking-tight">{data.memoryAnchor.line}</p>
 
           <div className="mt-5 flex flex-wrap items-center gap-3 text-xs">
-            <span className="bg-white/15 inline-flex items-center gap-1 rounded-full px-3 py-1 font-bold">
+            <span className="bg-pullim-blue-600 inline-flex items-center gap-1 rounded-full px-3 py-1 font-bold text-white">
               <Calendar className="h-3 w-3" aria-hidden />
               다음 복습 {data.memoryAnchor.nextReviewIn}
             </span>
-            <span className="text-white/80">
+            <span className="text-pullim-slate-600">
               자동으로 풀림 복습 큐에 등록됨
             </span>
           </div>

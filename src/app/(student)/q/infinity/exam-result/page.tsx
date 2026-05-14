@@ -17,15 +17,15 @@ export default function ExamResultPage() {
         description={`제출 ${new Date(r.submittedAt).toLocaleString('ko-KR')} · 응시 ${r.totalMinutes}분 / ${r.duration}분 · AI 감독관 이벤트 ${r.proctorEvents}건`}
       />
 
-      {/* 점수 hero */}
-      <section className="from-pullim-warn to-pullim-warn/80 grid grid-cols-1 gap-3 rounded-2xl bg-gradient-to-br p-5 text-white shadow-lg shadow-amber-500/20 lg:grid-cols-4">
+      {/* 점수 hero — warn 풀톤 → warn-bg 톤다운 (plan §4.2) */}
+      <section className="bg-pullim-warn-bg border-pullim-warn/30 grid grid-cols-1 gap-3 rounded-2xl border p-5 lg:grid-cols-4">
         <div className="lg:col-span-2">
-          <div className="text-white/80 text-[10px] font-bold tracking-wider uppercase">원점수</div>
-          <div className="font-mono text-5xl font-bold tracking-tight">
+          <div className="text-pullim-slate-600 text-[10px] font-bold tracking-wider uppercase">원점수</div>
+          <div className="text-pullim-slate-900 font-mono text-5xl font-bold tracking-tight">
             {r.rawScore}
-            <span className="text-2xl text-white/70">/ 100</span>
+            <span className="text-pullim-slate-500 text-2xl">/ 100</span>
           </div>
-          <div className="mt-1 text-sm font-semibold">예상 등급 <strong className="font-mono">{r.estimatedGrade}등급</strong></div>
+          <div className="text-pullim-slate-700 mt-1 text-sm font-semibold">예상 등급 <strong className="font-mono">{r.estimatedGrade}등급</strong></div>
         </div>
 
         <ResultStat label="정답"       value={`${r.correct}/${r.problemCount}`} sub={`${accuracyPct}%`} />
@@ -129,13 +129,13 @@ function ResultStat({
   Icon?: React.ComponentType<{ className?: string }>;
 }) {
   return (
-    <div className="bg-white/10 rounded-xl p-3">
-      <div className="text-white/70 inline-flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
+    <div className="bg-card border-pullim-warn/20 rounded-xl border p-3">
+      <div className="text-pullim-slate-600 inline-flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
         {Icon && <Icon className="h-3 w-3" />}
         {label}
       </div>
-      <div className="font-mono text-2xl font-bold mt-0.5">{value}</div>
-      <div className="text-white/70 text-[10px]">{sub}</div>
+      <div className="text-pullim-slate-900 font-mono text-2xl font-bold mt-0.5">{value}</div>
+      <div className="text-pullim-slate-500 text-[10px]">{sub}</div>
     </div>
   );
 }

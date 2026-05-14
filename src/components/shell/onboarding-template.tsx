@@ -42,28 +42,23 @@ export function OnboardingTemplate({
 }: Props) {
   return (
     <div className="space-y-5">
-      {/* 헤더 */}
-      <header className="from-pullim-blue-700 to-pullim-blue-500 relative overflow-hidden rounded-2xl bg-gradient-to-br p-6 text-white shadow-xl">
-        <div
-          aria-hidden
-          className="absolute -top-20 -right-20 h-56 w-56 rounded-full opacity-30 blur-3xl"
-          style={{ background: 'radial-gradient(circle, var(--color-pullim-lemon), transparent 70%)' }}
-        />
+      {/* 헤더 — soft tonal (plan §4.1 옵션 A) */}
+      <header className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-2xl border p-6">
         <div className="relative">
           <div className="flex items-center gap-2 text-[10px] font-bold tracking-wider uppercase">
-            <span className="bg-white/15 inline-flex items-center gap-1 rounded-full px-2 py-0.5">
+            <span className="bg-pullim-blue-600 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-white">
               <Icon className="h-3 w-3" />
               소개하기
             </span>
-            <span className="text-pullim-lemon inline-flex items-center gap-0.5">
+            <span className="text-pullim-slate-600 inline-flex items-center gap-0.5">
               <Clock className="h-2.5 w-2.5" />
               {estimatedMin}분 가이드
             </span>
           </div>
-          <h1 className="mt-2 text-2xl font-bold tracking-tight">
+          <h1 className="text-pullim-slate-900 mt-2 text-2xl font-bold tracking-tight">
             {featureName} 처음이라면
           </h1>
-          <p className="text-pullim-blue-100 mt-1.5 text-sm leading-relaxed">{identity}</p>
+          <p className="text-pullim-slate-700 mt-1.5 text-sm leading-relaxed">{identity}</p>
         </div>
       </header>
 
@@ -76,15 +71,15 @@ export function OnboardingTemplate({
         ))}
       </ol>
 
-      {/* 최종 CTA */}
-      <section className="from-pullim-blue-600 to-pullim-blue-500 rounded-2xl bg-gradient-to-br p-5 text-center text-white">
-        <h2 className="text-lg font-bold tracking-tight">준비됐어요</h2>
-        <p className="text-pullim-blue-100 mt-1 text-sm">
+      {/* 최종 CTA — soft 배경 + 단일 primary CTA (plan §4.1 옵션 A · §2 원칙 1) */}
+      <section className="bg-pullim-blue-50 border-pullim-blue-100 rounded-2xl border p-5 text-center">
+        <h2 className="text-pullim-slate-900 text-lg font-bold tracking-tight">준비됐어요</h2>
+        <p className="text-pullim-slate-700 mt-1 text-sm">
           이제 직접 사용해 보세요. 막히면 언제든 이 페이지로 돌아올 수 있어요.
         </p>
         <Link
           href={finalCta.href}
-          className="text-pullim-blue-700 mt-3 inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-sm font-bold shadow-sm hover:scale-[1.02] transition-transform"
+          className="bg-pullim-blue-600 mt-3 inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:scale-[1.02] transition-transform"
         >
           {finalCta.label}
           <ArrowRight className="h-4 w-4" />
