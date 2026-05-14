@@ -101,5 +101,11 @@ export const pullimSubjectColors = {
   history: '#F59E0B',          // 한국사 — 보조 앰버
 } as const;
 
+/** 섹션 리듬 — 페이지 최상위 섹션 간격 / 섹션 헤딩 → 콘텐츠 간격 */
+export const pullimSpacing = {
+  section: '1.5rem',        // 24px
+  sectionHeading: '1rem',   // 16px
+} as const;
+
 export type PullimIrtLevel = 1 | 2 | 3 | 4 | 5;
 export type PullimHeatLevel = 0 | 1 | 2 | 3 | 4 | 5;

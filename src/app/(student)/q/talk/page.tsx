@@ -6,7 +6,7 @@ import { ActivityTimeline } from '@/components/coach/activity-timeline';
 
 export default function CoachPage() {
   return (
-    <div className="space-y-5">
+    <div className="space-y-section">
       <PageHeader
         eyebrow={{ icon: Users, text: '풀림 코치' }}
         title="공부 전반을 봐주는 한 명의 친구"

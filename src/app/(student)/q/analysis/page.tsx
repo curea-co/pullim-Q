@@ -12,7 +12,7 @@ export default function AnalysisIntroPage() {
   const weakDim = metaDimensions.find(d => d.tone === 'warn' || d.tone === 'improve');
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-section">
       <PageHeader
         eyebrow={{ icon: ScanSearch, text: '풀림 분석' }}
         title="내 실력, 두 각도로 보기"
