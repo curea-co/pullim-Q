@@ -140,7 +140,7 @@ function FrontCard({
   return (
     <section className="bg-card rounded-2xl border p-5 space-y-4">
       <div className="space-y-2">
-        <span className="text-pullim-blue-600 text-[10px] font-bold tracking-wider uppercase">
+        <span className="text-pullim-slate-500 text-[10px] font-bold tracking-wider uppercase">
           질문
         </span>
         <p className="text-pullim-slate-900 text-base leading-relaxed font-medium">

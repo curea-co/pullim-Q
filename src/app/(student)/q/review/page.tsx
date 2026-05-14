@@ -340,7 +340,7 @@ function LeitnerSummary() {
     <article className="bg-card rounded-2xl border p-4">
       <header className="flex items-end justify-between">
         <div>
-          <p className="text-pullim-blue-600 text-[10px] font-bold tracking-wider uppercase">
+          <p className="text-pullim-slate-600 text-[10px] font-bold tracking-wider uppercase">
             Leitner 5-Box
           </p>
           <h3 className="text-pullim-slate-900 mt-0.5 text-sm font-bold">틀린 문제 정복 진행도</h3>
@@ -403,7 +403,7 @@ function ForgettingSummary() {
     <article className="bg-card rounded-2xl border p-4">
       <header className="flex items-end justify-between">
         <div>
-          <p className="text-pullim-blue-600 text-[10px] font-bold tracking-wider uppercase">
+          <p className="text-pullim-slate-600 text-[10px] font-bold tracking-wider uppercase">
             망각 곡선 — 30일 후
           </p>
           <h3 className="text-pullim-slate-900 mt-0.5 text-sm font-bold">
