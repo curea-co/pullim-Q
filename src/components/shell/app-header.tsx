@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { GuardedLink as Link } from './leave-guard';
 import { Bell, Search, Flame, User as UserIcon, LogOut } from 'lucide-react';
 import { toast } from 'sonner';
 import { PullimLogo } from '@/components/brand/logo';

@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { GuardedLink as Link } from './leave-guard';
 import { usePathname } from 'next/navigation';
 import { Lock } from 'lucide-react';
 import {

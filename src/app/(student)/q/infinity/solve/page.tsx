@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Infinity, ArrowRight, ArrowLeft, BookOpen, Check, X, Target } from 'lucide-react';
@@ -13,6 +13,8 @@ import {
   leitnerMeta, type LeitnerBox,
 } from '@/lib/mock';
 import { useLeitnerStore } from '@/lib/store/leitner-store';
+import { useSolveSessionStore } from '@/lib/store/solve-session-store';
+import { SolveResumeCard } from '@/components/infinity/solve-resume-card';
 import { ModeToggle } from '@/components/infinity/mode-toggle';
 import { ExamConfirmDialog } from '@/components/infinity/exam-confirm-dialog';
 import { ExamStatusBar } from '@/components/infinity/exam-status-bar';
@@ -112,6 +114,10 @@ function InfinitySolveInner() {
   }, [session]);
 
   const applyLeitnerResult = useLeitnerStore(s => s.applyResult);
+  const saveSnapshot = useSolveSessionStore(s => s.saveSnapshot);
+  const clearSnapshot = useSolveSessionStore(s => s.clearSnapshot);
+  const setInProgress = useSolveSessionStore(s => s.setInProgress);
+  const persistedSnapshot = useSolveSessionStore(s => s.snapshot);
 
   const [mode, setMode] = useState<SolveMode>('practice');
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -128,12 +134,60 @@ function InfinitySolveInner() {
 
   if (prevSessionKey !== sessionKey) {
     setPrevSessionKey(sessionKey);
-    setCurrentIdx(0);
-    setAnswers({});
-    setMarked(new Set());
-    setHintsByProblem({});
+    // sessionKey 가 저장된 snapshot 과 정확히 일치하면 자동 복원, 아니면 리셋.
+    if (persistedSnapshot && persistedSnapshot.sessionKey === sessionKey) {
+      setCurrentIdx(persistedSnapshot.currentIdx);
+      setAnswers(persistedSnapshot.answers);
+      setMarked(new Set(persistedSnapshot.marked));
+      setHintsByProblem(persistedSnapshot.hintsByProblem);
+    } else {
+      setCurrentIdx(0);
+      setAnswers({});
+      setMarked(new Set());
+      setHintsByProblem({});
+    }
     setRetryBoxMove(null);
   }
+
+  // plan §3 — 풀이 중일 때만 LeaveGuard 활성. 연습+세션 모드일 때.
+  const isResumableSession =
+    !!session &&
+    mode === 'practice' &&
+    (session.source.kind === 'free' || session.source.kind === 'weak');
+
+  useEffect(() => {
+    if (!isResumableSession) {
+      setInProgress(false);
+      return;
+    }
+    setInProgress(true);
+    return () => setInProgress(false);
+  }, [isResumableSession, setInProgress]);
+
+  // 풀이 상태 변경 시 snapshot 저장 (연습+세션 모드 한정).
+  useEffect(() => {
+    if (!isResumableSession || !session) return;
+    // 진행이 전혀 없는 빈 시작 상태는 굳이 저장 안 함 (오류 시 stale 노출 방지)
+    if (currentIdx === 0 && Object.keys(answers).length === 0) return;
+    saveSnapshot({
+      sessionKey,
+      subject: session.subject,
+      unitTitle: session.unitTitle,
+      source: session.source,
+      currentIdx,
+      answers,
+      marked: Array.from(marked),
+      hintsByProblem,
+      total: session.total,
+    });
+  }, [isResumableSession, session, sessionKey, currentIdx, answers, marked, hintsByProblem, saveSnapshot]);
+
+  // 마지막 문제 완답 시 snapshot 폐기.
+  useEffect(() => {
+    if (!isResumableSession || !session) return;
+    const answered = Object.keys(answers).length;
+    if (answered >= session.total) clearSnapshot();
+  }, [answers, isResumableSession, session, clearSnapshot]);
 
   function handleAdvanceHint(sku: string, max: number) {
     setHintsByProblem(prev => {
@@ -307,6 +361,11 @@ function InfinitySolveInner() {
         onConfirm={handleEnterExam}
         currentSubject={session?.subject}
       />
+
+      {/* 연습 모드 — 세션 없고 저장된 세션 있으면 이어풀기 카드 (plan §2 분기 2) */}
+      {mode === 'practice' && !session && persistedSnapshot && (
+        <SolveResumeCard snapshot={persistedSnapshot} />
+      )}
 
       {/* 연습 모드 — 세션 없으면 picker */}
       {mode === 'practice' && !session && (

@@ -4,6 +4,7 @@ import { AppSidebar } from './app-sidebar';
 import { BottomNav } from './bottom-nav';
 import { CoachFab } from './coach-fab';
 import { Breadcrumb } from './breadcrumb';
+import { LeaveGuardProvider } from './leave-guard';
 
 type Props = {
   children: ReactNode;
@@ -21,6 +22,7 @@ const CONTENT_MAX = 'mx-auto w-full max-w-[1280px]';
 
 export function AppShell({ children }: Props) {
   return (
+    <LeaveGuardProvider>
     <div className="bg-pullim-slate-50 flex h-screen flex-col">
       <AppHeader />
 
@@ -46,5 +48,6 @@ export function AppShell({ children }: Props) {
       <CoachFab />
       <BottomNav />
     </div>
+    </LeaveGuardProvider>
   );
 }
