@@ -499,7 +499,7 @@ function Section({
       open={defaultOpen}
       className={cn(
         'bg-card group scroll-mt-24 rounded-2xl border',
-        signature && 'ring-pullim-warn/30 ring-2',
+        signature && 'border-pullim-warn/40',
       )}
     >
       <summary className="hover:bg-pullim-slate-50/60 flex cursor-pointer list-none flex-wrap items-baseline gap-2 rounded-2xl p-5 transition-colors [&::-webkit-details-marker]:hidden">

@@ -96,7 +96,7 @@ function StepCard({ step, index }: { step: OnboardingStep; index: number }) {
     <article
       className={cn(
         'bg-card relative rounded-2xl border p-4 transition-all',
-        step.signature && 'ring-pullim-warn/30 ring-2',
+        step.signature && 'border-pullim-warn/40',
       )}
     >
       <div className={cn(
