@@ -58,7 +58,12 @@ export default function ReviewPage() {
   const todayLeitner = todayCards(cards);
   const overdueMemory = dueItems(memoryItems).filter(i => i.nextReviewInHours < 0);
   const dueMemory = todayDue(memoryItems);
-  const queue = unifiedQueue(cards, memoryItems).slice(0, 8);
+  // plan 2026-05-13_review-priority-queue-scalable-layout §4.1 — 노출 6개 고정 + 잔여는 overflow 지표로 분리.
+  // 페이지네이션·필터·전체 큐 화면은 후속 단계 (본 PR 은 8 하드컷 제거 + 골격까지).
+  const fullQueue = unifiedQueue(cards, memoryItems);
+  const VISIBLE_LIMIT = 6;
+  const queue = fullQueue.slice(0, VISIBLE_LIMIT);
+  const queueOverflow = Math.max(0, fullQueue.length - VISIBLE_LIMIT);
   const totalToday = todayLeitner.length + dueMemory.length;
 
   return (
@@ -76,7 +81,7 @@ export default function ReviewPage() {
         retention={Math.round(personalForgettingProfile.retention30d.me * 100)}
       />
 
-      <PriorityQueue queue={queue} />
+      <PriorityQueue queue={queue} overflow={queueOverflow} totalQueue={fullQueue.length} />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <LeitnerSummary />
@@ -173,12 +178,24 @@ function Kpi({
 
 /* ─────────────────────────  지금 우선 큐  ───────────────────────── */
 
-function PriorityQueue({ queue }: { queue: QueueItem[] }) {
+function PriorityQueue({
+  queue,
+  overflow,
+  totalQueue,
+}: {
+  queue: QueueItem[];
+  overflow: number;
+  totalQueue: number;
+}) {
   return (
     <section>
       <SectionHeading
         title="지금 복습할 것"
-        description="시간 지난 오답 + 잊을 위험이 큰 항목을 한 큐로 정렬"
+        description={
+          totalQueue > 0
+            ? `시간 지난 오답 + 잊을 위험이 큰 항목 총 ${totalQueue}개 중 우선 ${queue.length}개`
+            : '시간 지난 오답 + 잊을 위험이 큰 항목을 한 큐로 정렬'
+        }
         action={
           <Link
             href="/q/review/conquer"
@@ -194,9 +211,21 @@ function PriorityQueue({ queue }: { queue: QueueItem[] }) {
           오늘 복습할 항목이 없어요. 새 문제 풀러 가세요.
         </div>
       ) : (
-        <ol className="space-y-1.5">
-          {queue.map((item, i) => <QueueRow key={item.key} item={item} index={i} />)}
-        </ol>
+        <>
+          <ol className="space-y-1.5">
+            {queue.map((item, i) => <QueueRow key={item.key} item={item} index={i} />)}
+          </ol>
+          {overflow > 0 && (
+            <div className="text-pullim-slate-500 mt-2 flex items-center justify-between rounded-lg border border-dashed px-3 py-2 text-[11px]">
+              <span>
+                + {overflow}개 더 있어요 · 총 {totalQueue}개
+              </span>
+              <span className="text-pullim-slate-400 text-[10px]">
+                전체 큐 화면은 후속 단계에서 열려요
+              </span>
+            </div>
+          )}
+        </>
       )}
     </section>
   );
