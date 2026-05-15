@@ -48,6 +48,7 @@ export function useLeaveGuard(): LeaveGuardContextValue {
 export function LeaveGuardProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const inProgress = useSolveSessionStore((s) => s.inProgress);
+  const setInProgress = useSolveSessionStore((s) => s.setInProgress);
   const [open, setOpen] = useState(false);
   const pending = useRef<{ href: string; replace?: boolean } | null>(null);
   const popstateBlocked = useRef(false);
@@ -70,16 +71,11 @@ export function LeaveGuardProvider({ children }: { children: ReactNode }) {
   const handleStay = useCallback(() => {
     pending.current = null;
     setOpen(false);
-  }, []);
-
-  const handleLeave = useCallback(() => {
-    const target = pending.current;
-    pending.current = null;
-    setOpen(false);
-    if (!target) return;
-    if (target.replace) router.replace(target.href);
-    else router.push(target.href);
-  }, [router]);
+    // popstate 로 sentinel 이 이미 빠진 상태라면 재push 해서 다음 뒤로가기도 가드 안에 머무름
+    if (inProgress) {
+      window.history.pushState({ __pullimGuard: true }, '');
+    }
+  }, [inProgress]);
 
   // beforeunload — 탭 닫기 / 새로고침
   useEffect(() => {
@@ -92,25 +88,29 @@ export function LeaveGuardProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('beforeunload', handler);
   }, [inProgress]);
 
-  // popstate — 브라우저 뒤로가기 1차 차단 + dialog
+  // popstate — 브라우저 뒤로가기 1차 차단 + dialog.
+  // sentinel pushState 는 effect 진입 시 1회만. handler 는 dialog 만 띄우고 재push 안 함
+  // (재push 가 누적되면 __back__ 분기에서 가둠 버그 발생). 사용자 선택은:
+  //   - 계속 풀기 → handleStay 에서 sentinel 재push
+  //   - 나가기 → setInProgress(false) 로 effect cleanup → 다음 frame 에 history.back() 으로 실제 이탈
   useEffect(() => {
     if (!inProgress) {
       popstateBlocked.current = false;
       return;
     }
-    // 가드 활성 시 history 에 더미 state 1회 push — 뒤로가기 1회는 dummy 만 빠짐
     window.history.pushState({ __pullimGuard: true }, '');
     popstateBlocked.current = true;
 
     function handler() {
       if (!popstateBlocked.current) return;
-      // 한번 더 dummy 를 push 해서 뒤로가기 직전 위치 유지
-      window.history.pushState({ __pullimGuard: true }, '');
       pending.current = { href: '__back__' };
       setOpen(true);
     }
     window.addEventListener('popstate', handler);
-    return () => window.removeEventListener('popstate', handler);
+    return () => {
+      window.removeEventListener('popstate', handler);
+      popstateBlocked.current = false;
+    };
   }, [inProgress]);
 
   const handleLeaveOrBack = useCallback(() => {
@@ -119,13 +119,17 @@ export function LeaveGuardProvider({ children }: { children: ReactNode }) {
     setOpen(false);
     if (!target) return;
     if (target.href === '__back__') {
-      popstateBlocked.current = false;
-      window.history.back();
+      // sentinel 은 직전 popstate 로 이미 빠진 상태. 가드 해제 → 다음 frame 에 실제 페이지로 한 번 더 back
+      setInProgress(false);
+      requestAnimationFrame(() => {
+        window.history.back();
+      });
       return;
     }
+    setInProgress(false);
     if (target.replace) router.replace(target.href);
     else router.push(target.href);
-  }, [router]);
+  }, [router, setInProgress]);
 
   const value = useMemo<LeaveGuardContextValue>(
     () => ({ isActive, confirmNavigate }),
