@@ -5,6 +5,8 @@
 > **게이트키퍼**: G1 (시각 정성 판단·밀도 기준 합의) + G4 (반응형 회귀).
 >
 > **출처**: [proc/archive/2026-05-13_q-carry-over-closing.md §1 F-2](../archive/2026-05-13_q-carry-over-closing.md) — 정량 기준 부재로 차주 이월. 본 plan 이 그 carry-over 의 단독 후속.
+>
+> 같은 날 추가 산출: [proc/research/2026-05-14_ux-audit/](../research/2026-05-14_ux-audit/) — 본인 오전 머지본(PR #40·#41·#42) UX audit 자기검증 (cross-reference 룰 첫 적용)
 
 ## 1. 배경 / 문제 정의
 
