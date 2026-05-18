@@ -3,6 +3,8 @@
 > **대응 src/ 파일** (2026-05-14 기준): 현재 working tree 변경 0개. §5에 명시된 파일이 작업 시 신규로 잡힘 — `q/review/page.tsx` 재구성 + `q/review/queue/page.tsx`·`queue-row.tsx`·`queue-filters.tsx`·`queue-paginator.tsx` 신규 + `leitner.ts`·`memory.ts` 픽스처 확장. `q/review/page.tsx` 는 spacing plan에서 `space-y-section` 적용 중 → spacing plan 머지 후 본 plan 진입.
 >
 > **게이트키퍼**: G3 (페이지네이션 API 시그니처·서버 페치 가정 합의) + G4 (가상화 임계·UI 회귀) + G1 (필터·정렬 디폴트 정책).
+>
+> **carry-over 추적**: [2026-05-18_daily-rollup.md](2026-05-18_daily-rollup.md) §5 — 두 번째 이월 plan 첫 단계 (PR #46 머지 후) → 다음 단계(페이지네이션 본격·필터·정렬) G1 합의 대기.
 
 ## 1. 배경 / 문제 정의
 
