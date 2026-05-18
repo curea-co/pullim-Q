@@ -135,16 +135,23 @@ export type AgentActivity = {
   message: string;
   /** 학생이 인지함 */
   acknowledged: boolean;
+  /** 이 활동이 권하는 다음 액션 — 학생이 흐름을 닫을 수 있게 in-line CTA */
+  cta?: { label: string; href: string };
 };
 
 export const todayActivities: AgentActivity[] = [
   { id: 'a1',  agentId: 'motivation',   timestamp: '07:55', message: '🌅 좋은 아침! 17일 연속 시작하기', acknowledged: true },
-  { id: 'a2',  agentId: 'curation',     timestamp: '09:15', message: '📚 오답 정복 큐 3개 만기 — 우선순위 1순위는 영어 빈칸 추론', acknowledged: true },
-  { id: 'a3',  agentId: 'analysis',     timestamp: '11:42', message: '📈 영어 정답률 78% 돌파 — 4월 첫 진단 대비 +12p', acknowledged: true },
+  { id: 'a2',  agentId: 'curation',     timestamp: '09:15', message: '📚 오답 정복 큐 3개 만기 — 우선순위 1순위는 영어 빈칸 추론', acknowledged: true,
+    cta: { label: '복습 큐 보기', href: '/q/review' } },
+  { id: 'a3',  agentId: 'analysis',     timestamp: '11:42', message: '📈 영어 정답률 78% 돌파 — 4월 첫 진단 대비 +12p', acknowledged: true,
+    cta: { label: '능력치 자세히', href: '/q/analysis/ability' } },
   { id: 'a4',  agentId: 'planning',     timestamp: '14:45', message: '📅 오후 컨디션 보통 → 어려운 블록 18:25로 자동 이동', acknowledged: true },
-  { id: 'a5',  agentId: 'tutor',        timestamp: '17:32', message: '💡 도함수 부호 변화 누락 패턴 — 5번째 막힘. 비주얼 추천 준비됨', acknowledged: false },
-  { id: 'a6',  agentId: 'orchestrator', timestamp: '18:10', message: '🎼 영어 vs 수학 균형 권장 — 오늘 영어 1시간, 수학 2시간 배분 검토', acknowledged: false },
-  { id: 'a7',  agentId: 'motivation',   timestamp: '19:00', message: '🔥 미분 모의 시작 직전 — 컨디션 점검할 타이밍', acknowledged: false },
+  { id: 'a5',  agentId: 'tutor',        timestamp: '17:32', message: '💡 도함수 부호 변화 누락 패턴 — 5번째 막힘. 비주얼 추천 준비됨', acknowledged: false,
+    cta: { label: '같은 패턴 다시 풀기', href: '/q/infinity/solve?kind=weak&subject=math' } },
+  { id: 'a6',  agentId: 'orchestrator', timestamp: '18:10', message: '🎼 영어 vs 수학 균형 권장 — 오늘 영어 1시간, 수학 2시간 배분 검토', acknowledged: false,
+    cta: { label: '메타인지 과정 보기', href: '/q/analysis/process' } },
+  { id: 'a7',  agentId: 'motivation',   timestamp: '19:00', message: '🔥 미분 모의 시작 직전 — 컨디션 점검할 타이밍', acknowledged: false,
+    cta: { label: '시험 모드 시작', href: '/q/infinity/solve?mode=exam' } },
   { id: 'a8',  agentId: 'curation',     timestamp: '19:18', message: '✦ 적분 시각화 VLM 3종 자동 추천 (스튜디오 김수학)', acknowledged: false },
 ];
 
