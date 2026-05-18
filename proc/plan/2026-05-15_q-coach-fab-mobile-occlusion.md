@@ -68,9 +68,9 @@ FAB 본인은 학습 집중 화면(`/q/talk`, `/q/infinity/solve`, `/q/review/co
 - [ ] base=dev PR 머지
 
 **G4 가 안2 선택 시**:
-- [ ] `coach-fab.tsx` 라벨 hide + 44×44 축소
-- [ ] 모바일 360 캡처 회귀 (가린 픽셀 측정)
-- [ ] base=dev PR 머지
+- [x] `coach-fab.tsx` 라벨 hide + 44×44 축소 — 모바일 `h-[44px] w-[44px]` icon-only, desktop `md:h-[52px] md:w-auto md:px-4` + 라벨 `md:inline` 복원. inline `style={{ height: 52 }}` 제거 → Tailwind arbitrary values 로 통일
+- [x] 측정 회귀: `scripts/qa-coach-fab-occlusion-2026-05-18.mjs` 의 `fab-44` 변형이 실제 구현과 동일한 DOM (44×44 + 텍스트 hide) 을 모사 → 2288px² 측정값 그대로 사실 반영
+- [x] base=dev PR 머지 (PR #50)
 
 **G4 응답 지연**: 본 plan 본문 §5 에 "결정 대기 중" 명시 + 익일 이월. PR 미생성.
 
@@ -78,3 +78,4 @@ FAB 본인은 학습 집중 화면(`/q/talk`, `/q/infinity/solve`, `/q/review/co
 
 - 2026-05-15 — plan 신설. G4 응답 대기. 자료 산출은 본 plan 결정 무관하게 오늘 선행.
 - 2026-05-18 — §4.1 자료 산출 마감(캡처 18장 + 측정표). §3 캡처 경로 `2026-05-15_…` → `2026-05-18_…` 정정. G4 송부 대기.
+- 2026-05-18 (오후) — **G4 안2 결정**. 사유: lead time 짧음(coach-fab.tsx 1파일), nav IA 안전, 가린 면적 -63%. 안1(BottomNav 5번째 슬롯 통합)은 별도 "모바일 AI 1st-class 진입점" plan 으로 분리. PR #50 머지.

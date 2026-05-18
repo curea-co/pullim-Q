@@ -20,11 +20,10 @@ export function CoachFab() {
     <Link
       href="/q/talk"
       aria-label="풀림 AI에게 질문하기"
-      className="bg-pullim-blue-500 hover:bg-pullim-blue-600 shadow-pullim-accent fixed right-4 bottom-20 z-40 flex h-13 items-center gap-2 rounded-full px-4 text-sm font-semibold text-white transition-all md:bottom-6"
-      style={{ height: 52 }}
+      className="bg-pullim-blue-500 hover:bg-pullim-blue-600 shadow-pullim-accent fixed right-4 bottom-20 z-40 flex h-[44px] w-[44px] items-center justify-center rounded-full text-white transition-all md:h-[52px] md:w-auto md:gap-2 md:bottom-6 md:px-4 md:text-sm md:font-semibold"
     >
       <Sparkles className="h-4 w-4" />
-      AI에게 묻기
+      <span className="hidden md:inline">AI에게 묻기</span>
     </Link>
   );
 }
