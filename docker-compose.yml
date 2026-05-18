@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: pullim-q-postgres
+    restart: unless-stopped
+    # 5433 — pullim-planner(5432)와 동시 기동 가능하도록 다른 포트 사용
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: pullim
+      POSTGRES_PASSWORD: pullim_local
+      POSTGRES_DB: pullim_q
+      LANG: C.UTF-8
+    volumes:
+      - ./.docker/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pullim -d pullim_q"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
