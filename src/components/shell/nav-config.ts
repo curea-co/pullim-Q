@@ -50,7 +50,6 @@ export const infinitySection: NavSubItem[] = [
   { href: '/q/infinity/explain',     label: '풀림 해설',    icon: Eye,     description: '12-섹션 시그니처 해설' },
   { href: '/q/infinity/exam-result', label: '시험 결과',    icon: Award,   description: '제출 후 채점·분석' },
   { href: '/q/infinity/history',     label: '풀이 이력',    icon: History, description: '풀어본 문제 + 북마크' },
-  { href: '/q/infinity/onboarding',  label: '소개하기',       icon: BookOpen, description: '6분 사용법 가이드' },
 ];
 
 /** 풀림 Q · 분석 — 평가 차원 */
@@ -60,7 +59,6 @@ export const analysisSection: NavSubItem[] = [
   { href: '/q/analysis/process',   label: '과정',         icon: Brain,    description: '메타인지 · 시간 분포 · 패턴' },
   { href: '/q/analysis/diagnose',  label: '진단 시작',     icon: Activity, description: '15문항 적응형 진단' },
   { href: '/q/analysis/history',   label: '진단 이력',     icon: History,  description: '이전 진단 비교', locked: true },
-  { href: '/q/analysis/onboarding', label: '소개하기',       icon: BookOpen, description: '4분 사용법 가이드' },
 ];
 
 /** 풀림 Q · 복습 — 오답 정복 + 망각 곡선 통합 */
@@ -68,13 +66,11 @@ export const reviewSection: NavSubItem[] = [
   { href: '/q/review',            label: '홈',            icon: Home,     description: '오늘 우선 큐 + Leitner + 망각 곡선 한눈에' },
   { href: '/q/review/conquer',    label: '정복 세트 풀이', icon: Target,   description: '패턴 맞춤 5문제 풀이' },
   { href: '/q/review/master',     label: '마스터 갤러리',  icon: Award,    description: '정복 완료 패턴 + 스탬프', locked: true },
-  { href: '/q/review/onboarding', label: '소개하기',       icon: BookOpen, description: '4분 사용법 가이드' },
 ];
 
 /** 풀림 Q · 코치 */
 export const talkSection: NavSubItem[] = [
   { href: '/q/talk',            label: '홈',      icon: Home,     description: '오늘 통합 메시지 + 채팅' },
-  { href: '/q/talk/onboarding', label: '소개하기', icon: BookOpen, description: '3분 사용법 가이드' },
 ];
 
 /** 풀림 Q 허브 children — 4 서브도메인 진입 */
@@ -84,7 +80,6 @@ export const qSection: NavSubItem[] = [
   { href: '/q/talk',       label: '코치',     icon: Users,         description: '공부 전반을 봐주는 친구 — 채팅 + 통합 메시지' },
   { href: '/q/analysis',   label: '분석',     icon: ScanSearch,    description: '능력치 + 메타인지 두 차원' },
   { href: '/q/review',     label: '복습',     icon: Repeat,        description: 'Leitner + 망각곡선 통합' },
-  { href: '/q/onboarding', label: '소개하기', icon: BookOpen,      description: '4분 사용법 가이드' },
 ];
 
 /** 사이드바 최상단 별도 항목 — 풀림 Q 메인 */
