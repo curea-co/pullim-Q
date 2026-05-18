@@ -5,7 +5,7 @@
 
 import {
   Home, Infinity, Activity, Target, Brain, Repeat,
-  Users, ScanSearch, User,
+  Users, ScanSearch,
   Pencil, Eye, History, Award, BookOpen,
   type LucideIcon,
 } from 'lucide-react';
@@ -103,13 +103,12 @@ export function navForRole(_role: Role): NavGroup[] {
   return studentNav;
 }
 
-/** 모바일 하단 4탭 */
+/** 모바일 하단 4탭 (학생 도메인 핵심 4) — /me placeholder 는 룰 D 위반으로 제거 */
 export const studentBottomTabs = [
   { href: '/q',           label: 'Q 홈',      icon: Home,       matchPrefix: ['/q'] },
   { href: '/q/infinity',  label: '무한풀기',  icon: Infinity,   matchPrefix: ['/q/infinity'] },
   { href: '/q/analysis',  label: '분석',      icon: ScanSearch, matchPrefix: ['/q/analysis'] },
   { href: '/q/review',    label: '복습',      icon: Repeat,     matchPrefix: ['/q/review'] },
-  { href: '/me',          label: '내정보',    icon: User,       matchPrefix: ['/me'] },
 ] as const;
 
 /** 현재 pathname이 어떤 섹션 안에 있는지 — sidebar swap 판단 */

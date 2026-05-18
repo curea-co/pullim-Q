@@ -8,7 +8,7 @@
 
 | 영역 | 경로 |
 |---|---|
-| **풀림 Q 페이지** | `src/app/(student)/q/{infinity,talk,analysis,review,onboarding}/` |
+| **풀림 Q 페이지** | `src/app/(student)/q/{infinity,talk,analysis,review}/` |
 | **풀림 Q 컴포넌트** | `src/components/{infinity,coach,conqueror,memory,study-index,xray}/` |
 | **풀림 Q mock** | `src/lib/mock/{infinity,coach,tutor,conqueror,memory,irt,xray,phase1}.ts` |
 
@@ -16,9 +16,8 @@
 
 ## 2. 공유 영역 (자유롭게 편집)
 
-- `src/components/shell/*` — AppHeader, AppSidebar, BottomNav, nav-config 등 셸 골격 (Q 전용으로 단순화됨)
+- `src/components/shell/*` — AppHeader, AppSidebar, BottomNav (4탭), nav-config 등 셸 골격 (Q 전용으로 단순화됨)
 - `src/components/ui/*` — shadcn/ui 프리미티브
-- `src/components/study/coming-soon.tsx` — `/me` 페이지 placeholder (다른 study 컴포넌트는 모두 제거)
 - `src/components/brand/*` — 로고
 - `src/lib/mock/{features,domains,persona,curriculum}.ts` — Q 메타 + 공통 데이터
 - `src/lib/tokens/*`, `src/lib/utils.ts`

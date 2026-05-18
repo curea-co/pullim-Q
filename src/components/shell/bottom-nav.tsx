@@ -13,7 +13,7 @@ export function BottomNav() {
       aria-label="풀림 Q 메인 네비게이션"
       className="bg-background/95 sticky bottom-0 z-30 border-t backdrop-blur-md md:hidden"
     >
-      <ul className="grid grid-cols-5">
+      <ul className="grid grid-cols-4">
         {studentBottomTabs.map(item => {
           const Icon = item.icon;
           const active = item.matchPrefix.some(
