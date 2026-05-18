@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { todayActivities } from '@/lib/mock';
 import { cn } from '@/lib/utils';
 
@@ -35,6 +37,20 @@ export function ActivityTimeline() {
             <p className="text-pullim-slate-700 text-[11px] leading-relaxed">
               {activity.message}
             </p>
+            {activity.cta && (
+              <Link
+                href={activity.cta.href}
+                className={cn(
+                  'mt-1.5 inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-bold transition-colors',
+                  activity.acknowledged
+                    ? 'text-pullim-slate-600 hover:bg-pullim-slate-100 hover:text-pullim-blue-700'
+                    : 'bg-pullim-blue-600 text-white hover:bg-pullim-blue-700',
+                )}
+              >
+                {activity.cta.label}
+                <ArrowRight className="h-2.5 w-2.5" />
+              </Link>
+            )}
           </li>
         ))}
       </ul>
