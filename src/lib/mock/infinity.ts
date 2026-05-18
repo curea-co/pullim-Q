@@ -619,12 +619,19 @@ export type ExamResult = {
   /** 시간 활용 */
   timeUsedMin: number;
   proctorEvents: number;     // 탭 이탈 등
+  /**
+   * 제출 후 며칠 지났는지 (mock 고정값).
+   * `Date.now() - submittedAt` 계산을 Server Component 안에서 하면 빌드 시각에 frozen 되므로
+   * 데모 안정성을 위해 mock 데이터에 직접 박음.
+   */
+  daysSinceExam: number;
 };
 
 export const lastExamResult: ExamResult = {
   examId: 'me1',
   examTitle: '2025 6월 모의평가 — 수학',
   submittedAt: '2026-04-26T15:42:00',
+  daysSinceExam: 5,
   duration: 100,
   totalMinutes: 92,
   problemCount: 30,

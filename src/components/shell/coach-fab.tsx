@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { GuardedLink as Link } from './leave-guard';
 import { Sparkles } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 

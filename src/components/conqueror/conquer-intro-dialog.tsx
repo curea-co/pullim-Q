@@ -12,7 +12,8 @@ import {
 } from '@/components/ui/dialog';
 import type { ErrorPattern } from '@/lib/mock';
 
-const DISMISS_KEY = 'pullim.q.conquer.intro.dismissed';
+// v1 suffix — 다이얼로그 내용·정책 변경 시 키 bump 해서 새 안내가 다시 노출되게.
+const DISMISS_KEY = 'pullim.q.conquer.intro.v1.dismissed';
 
 function isDismissed(): boolean {
   if (typeof window === 'undefined') return false;

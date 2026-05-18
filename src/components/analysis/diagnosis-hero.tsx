@@ -116,7 +116,7 @@ function DiagnoseCTA() {
           {overdue ? '지금 받기 권장' : '진단'}
         </div>
         <h4 className="text-pullim-slate-900 mt-0.5 text-sm font-bold">
-          {overdue ? '진단 다시 받기' : '진단 다시 받기'}
+          {overdue ? '지금 진단 받기' : '진단 다시 받기'}
         </h4>
         <div className="text-pullim-slate-500 text-[11px]">
           {overdue

@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { GuardedLink as Link } from './leave-guard';
 import { ChevronRight } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { buildBreadcrumb } from './nav-config';

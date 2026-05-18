@@ -5,7 +5,7 @@
  */
 
 export const pullimBlue = {
-  50:  '#EEF3FF',
+  50:  '#DAE3FB',
   100: '#DCE6FF',
   200: '#B8CDFF',
   300: '#8BAEFF',

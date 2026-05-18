@@ -13,11 +13,9 @@ import { cn } from '@/lib/utils';
 export default function InfinityHomePage() {
   const recent = solveHistory.slice(0, 5);
   const signaturePicks = explainLibrary.filter(e => e.isSignature).slice(0, 3);
-  // §2.5 flow audit — "최근 시험 결과" 는 시험 후 7일 이내만 노출 (시험 안 본 학생 dead UI 제거)
-  const daysSinceExam = Math.floor(
-    (Date.now() - new Date(lastExamResult.submittedAt).getTime()) / (1000 * 60 * 60 * 24),
-  );
-  const recentExam = daysSinceExam <= 7;
+  // §2.5 flow audit — "최근 시험 결과" 는 시험 후 7일 이내만 노출 (시험 안 본 학생 dead UI 제거).
+  // Date.now() 를 Server Component 안에서 쓰면 정적 prerender 시 빌드 시각에 frozen 되므로 mock 필드 사용.
+  const recentExam = lastExamResult.daysSinceExam <= 7;
 
   return (
     <div className="space-y-section">

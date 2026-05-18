@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import {
   Target, ArrowRight, ArrowLeft, Trophy, Flame, Check, X as XIcon, AlertTriangle,
   TrendingUp, BarChart3, Sparkles, Lightbulb,
@@ -15,10 +16,31 @@ import { cn } from '@/lib/utils';
 /**
  * 정복 세트 풀이 — 다크 테마 워크룸.
  * 3회 연속 정답 시 정복 스탬프.
+ *
+ * ConquerIntroDialog 가 `?patternId=` 으로 라우트 → 선택 패턴 메타로 표시 override.
+ * 정복 정책(threshold, totalQuestions)은 공통.
  */
 export default function ConquerSetPage() {
-  const set = todayConquestSet;
-  const pattern = errorPatterns.find(p => p.id === set.patternId)!;
+  return (
+    <Suspense fallback={null}>
+      <ConquerSetContent />
+    </Suspense>
+  );
+}
+
+function ConquerSetContent() {
+  const searchParams = useSearchParams();
+  const requestedId = searchParams.get('patternId') ?? todayConquestSet.patternId;
+  const pattern =
+    errorPatterns.find(p => p.id === requestedId)
+    ?? errorPatterns.find(p => p.id === todayConquestSet.patternId)!;
+  // 선택 패턴에 맞춰 표시 정보 override — threshold/totalQuestions 등 정복 정책은 공통
+  const set = {
+    ...todayConquestSet,
+    patternId: pattern.id,
+    patternName: pattern.name,
+    patternRoot: pattern.rootCause,
+  };
 
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
