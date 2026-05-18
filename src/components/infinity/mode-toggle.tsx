@@ -66,14 +66,7 @@ export function ModeToggle({ mode, onChange, onRequestExam, examInProgress }: Pr
                 <Icon className="h-5 w-5" />
               </span>
               <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-sm font-bold whitespace-nowrap">{meta.label}</span>
-                  {active && (
-                    <span className="rounded-sm bg-white/25 px-1 py-0.5 font-mono text-[8px] font-bold tracking-wider whitespace-nowrap">
-                      {meta.badge}
-                    </span>
-                  )}
-                </div>
+                <span className="text-sm font-bold whitespace-nowrap">{meta.label}</span>
                 <div className={cn(
                   'mt-0.5 text-[11px] leading-snug line-clamp-2',
                   active ? 'opacity-90' : 'text-pullim-slate-500',

@@ -77,9 +77,6 @@ export function AgentCard({ agent, large }: { agent: Agent; large?: boolean }) {
             isOrchestrator ? 'text-white' : 'text-pullim-slate-900',
           )}>
             {agent.name}
-            {isOrchestrator && (
-              <span className="text-pullim-lemon ml-1.5 text-[10px] font-normal opacity-90">Orchestrator</span>
-            )}
           </h3>
         </div>
       </header>

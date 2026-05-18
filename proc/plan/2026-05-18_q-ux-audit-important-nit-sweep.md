@@ -7,8 +7,10 @@
 ## 0. 진행 현황 (2026-05-18)
 
 - [x] I1 — review-conquer "연속 정답 0회" 빨강 제거 ([src/app/(student)/q/review/conquer/page.tsx](../../src/app/\(student\)/q/review/conquer/page.tsx) `Stat` tone 분기 streak 기반)
-- [ ] I2 / I3 / I4 / I5 — 아래 §1
-- [ ] N1 / N2 / N3 / N4 — 아래 §2
+- [x] I3 — mode-toggle `badge` "PRACTICE"/"EXAM" 영문 약어 필드 자체 제거 (G1 위임 → PM 결정)
+- [x] N1 — `agent-card.tsx:81` `<span>Orchestrator</span>` 라벨 삭제 (G1 위임 → PM 결정)
+- [ ] I2 / I4 / I5 — 아래 §1
+- [ ] N2 / N3 / N4 — 아래 §2
 
 ## 1. Important (5건)
 
@@ -25,11 +27,11 @@
 - **변경**: `w-0.5` (1px) → `w-1` (2px) + `outline-1 outline-white` 또는 `ring-1 ring-white` stroke 추가
 - **즉시 가능** (1파일 ≤5줄)
 
-### I3 — infinity-solve-picker "PRACTICE / EXAM" 영문 약어
+### I3 — infinity-solve-picker "PRACTICE / EXAM" 영문 약어 (✅ 2026-05-18)
 
-- **위치**: [src/components/infinity/mode-toggle.tsx](../../src/components/infinity/mode-toggle.tsx)
-- **변경**: 영문 약어 제거 또는 한글 부제로 대체 ("맞춤 문제 + AI 코치" / "랜덤 셔플 + 정답률" 같은 형태)
-- **G4 카피 검토 필요** (학생 친화 가이드 §11.1)
+- **위치**: [src/lib/mock/infinity.ts](../../src/lib/mock/infinity.ts) `solveModeMeta.badge` + [src/components/infinity/mode-toggle.tsx](../../src/components/infinity/mode-toggle.tsx) L71-75
+- **변경**: `badge` 필드 자체 제거 — `label`(연습/시험 모드) + `description`(상세 한글) + 배경 색상으로 이미 3겹 신호, badge 는 redundant. 활성 모드 시 mock-data pill 렌더 제거
+- **결정**: G1 위임 → PM (a) badge 자체 제거 채택. 학생 친화 가이드 §11.1 부합
 
 ### I4 — /q/analysis 모바일 hero viewport 절반 점유
 
@@ -45,17 +47,14 @@
 
 ## 2. Nit (4건)
 
-### N1 — AI 코치 패널 헤더 영문 라벨 잔재 확인 (2026-05-18 grep 완료)
+### N1 — AI 코치 패널 헤더 영문 라벨 잔재 확인 (✅ 2026-05-18)
 
-- **사전 조사 결과** (2026-05-18, `coach/` · `conqueror/` · `infinity/` · `app/(student)/q/talk/` grep): 사용자 노출 영문 라벨 **1건** 발견
+- **사전 조사 결과** (2026-05-18 grep `coach/` · `conqueror/` · `infinity/` · `app/(student)/q/talk/`): 사용자 노출 영문 라벨 **1건**만 발견
   - [src/components/coach/agent-card.tsx:81](../../src/components/coach/agent-card.tsx#L81) — `<span>Orchestrator</span>` (`isOrchestrator` 분기 tier 뱃지)
   - 다른 영문 잔재 없음: `coach-pane.tsx` "풀림 튜터" + "빠른 응답" / `coach-hero.tsx` / `coach-chat.tsx` / `activity-timeline.tsx` 모두 한글 OK
   - audit 가 짚은 "T3 · Deep" 은 코드에서 확인 안 됨 — `aiTierMeta.T2.bg` 같은 데이터 키 참조뿐, 노출 라벨 X
-- **변경 후보** (G1 카피 결정 필요):
-  - (a) "메인 코치" 또는 "총괄 코치" — 한글 직역
-  - (b) "오케스트레이터" — 음차 (브랜드 톤 유지)
-  - (c) 라벨 삭제 — 상단 큰 카드 자체가 orchestrator 신호 운반 시 redundant
-- **진행**: G1 카피 결정 1턴 후 1파일 ≤2줄 머지. I3 (`PRACTICE`/`EXAM`) 와 묶어 한 PR (G1 카피 sweep) 권장.
+- **변경**: G1 위임 → PM (c) 라벨 삭제 채택. 사유: 카드 자체가 `isOrchestrator ? 'text-white'` + accent 배경으로 이미 orchestrator 신호 운반 → 10px 영문 라벨은 정보 0, 노이즈만
+- **결과**: `agent-card.tsx:80-82` `isOrchestrator && (<span>Orchestrator</span>)` 블록 제거
 
 ### N2 — q-home "D-21" blue-700 텍스트 색 → 시급도 분기
 
@@ -78,7 +77,7 @@
 ## 3. 진행 전략
 
 - **단발 PR 묶음**: I2 + N3 + N4 한 PR (즉시 가능 3건, 1파일 ≤5줄씩 — `chore/q-ux-audit-quick-polish`)
-- **카피 검토 PR**: I3 + N1 (G1 카피 sweep 한 PR — 한 번의 카피 결정 1턴으로 처리)
+- **카피 검토 PR**: ✅ 완료 — I3 + N1 G1 카피 sweep 한 PR 머지 (G1 위임 → PM 채택)
 - **중간 규모 PR**: I4 (캡처 회귀 동반)
 - **별도 plan**: I5 — `2026-05-DD_q-memory-single-screen-density.md` 신설
 - **사전 조사**: N1 — 영문 라벨 grep 후 별도 PR 또는 본 sweep 동봉
@@ -94,3 +93,4 @@
 
 - 2026-05-18 — sweep plan 신설. I1 본 PR 동봉 머지. 잔여 8건은 §3 진행 전략대로 분할.
 - 2026-05-18 (오후) — N1 사전 조사 완료. `agent-card.tsx:81` `Orchestrator` 1건 hit. I3 와 묶어 "G1 카피 sweep" 1 PR 로 처리 권장.
+- 2026-05-18 (오후, G1 위임) — N1 + I3 PM 채택: 둘 다 영문 라벨/badge 단순 삭제. 사유: 시각 처리·라벨·description 이 이미 신호 운반, 영문은 redundant.
