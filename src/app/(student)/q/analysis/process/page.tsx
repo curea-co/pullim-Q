@@ -21,13 +21,23 @@ export default function ProcessPage() {
         description="한국 에듀테크 첫 시도 · 풀이 시간·선지 변경·읽기 패턴 등 풀이 과정 자체를 데이터화"
       />
 
-      <Link
-        href="/q/analysis"
-        className="text-pullim-slate-500 hover:text-pullim-blue-600 inline-flex items-center gap-1 text-xs font-semibold"
-      >
-        <ArrowLeft className="h-3 w-3" />
-        분석 소개로
-      </Link>
+      <div className="flex items-center gap-3">
+        <Link
+          href="/q/analysis"
+          className="text-pullim-slate-500 hover:text-pullim-blue-600 inline-flex items-center gap-1 text-xs font-semibold"
+        >
+          <ArrowLeft className="h-3 w-3" />
+          분석 소개로
+        </Link>
+        {/* §2.7 flow audit — 능력치 ↔ 과정 lateral 이동 */}
+        <Link
+          href="/q/analysis/ability"
+          className="text-pullim-blue-600 hover:text-pullim-blue-700 inline-flex items-center gap-1 text-xs font-semibold ml-auto"
+        >
+          능력치 보기
+          <ArrowLeft className="h-3 w-3 rotate-180" />
+        </Link>
+      </div>
 
       <MetaHero />
       <MetaDetailCards />

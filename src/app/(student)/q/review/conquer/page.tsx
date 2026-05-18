@@ -121,12 +121,13 @@ export default function ConquerSetPage() {
               <BarChart3 className="h-4 w-4" />
               분석에서 갱신 확인
             </Link>
+            {/* §2.8 flow audit — 정복 완료 후 momentum 유지 CTA (다른 패턴 도전) */}
             <Link
               href="/q/review"
               className="border-pullim-blue-300 text-pullim-blue-700 hover:bg-pullim-blue-100 inline-flex items-center gap-1.5 rounded-lg border px-4 py-2.5 text-sm font-bold transition-colors"
             >
-              <ArrowRight className="h-4 w-4" />
-              복습 홈으로
+              <Target className="h-4 w-4" />
+              다른 패턴 도전
             </Link>
           </div>
         </header>
