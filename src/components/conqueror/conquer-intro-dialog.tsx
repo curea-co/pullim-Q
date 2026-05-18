@@ -9,7 +9,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import type { ErrorPattern } from '@/lib/mock';
 
@@ -41,17 +40,13 @@ export function ConquerIntroDialog({ pattern }: { pattern: ErrorPattern }) {
   const [dontShow, setDontShow] = useState(false);
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const onTriggerClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (isDismissed()) {
-        e.preventDefault();
-        router.push(`/q/review/conquer?patternId=${pattern.id}`);
-        return;
-      }
-      // 다이얼로그가 열리도록 그대로 통과 (DialogTrigger 가 처리)
-    },
-    [router, pattern.id],
-  );
+  const onTriggerClick = useCallback(() => {
+    if (isDismissed()) {
+      router.push(`/q/review/conquer?patternId=${pattern.id}`);
+      return;
+    }
+    setOpen(true);
+  }, [router, pattern.id]);
 
   // 다이얼로그 오픈 시 default focus = "취소" 버튼
   useEffect(() => {
@@ -68,13 +63,14 @@ export function ConquerIntroDialog({ pattern }: { pattern: ErrorPattern }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger
+      <button
+        type="button"
         onClick={onTriggerClick}
         className="bg-pullim-blue-600 text-white hover:bg-pullim-blue-700 mt-2 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors"
       >
         <Sparkles className="h-3 w-3" />
         패턴 맞춤 5문제 정복 시작
-      </DialogTrigger>
+      </button>
 
       <DialogContent className="max-w-sm">
         <DialogHeader>
