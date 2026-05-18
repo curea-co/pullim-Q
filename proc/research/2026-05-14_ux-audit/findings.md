@@ -61,6 +61,8 @@
 
 → **수정 필요 (defensive)**
 
+→ **✅ 해결 (2026-05-18, PR #47)** — `DialogTrigger` → `<button type="button" onClick>` 교체, `setOpen(true)` 명시 분기.
+
 ---
 
 ## 🟡 Important
