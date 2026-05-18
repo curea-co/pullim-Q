@@ -12,19 +12,16 @@ export const solveModeMeta: Record<SolveMode, {
   label: string;
   shortLabel: string;
   description: string;
-  badge: string;
 }> = {
   practice: {
     label: '연습 모드',
     shortLabel: '연습',
     description: '내 실력에 맞는 적응형 문제 · AI 코치 상시 가능 · 정답·해설 즉시',
-    badge: 'PRACTICE',
   },
   exam: {
     label: '시험 모드',
     shortLabel: '시험',
     description: '실전 모의고사 · 타이머 일시정지 불가 · AI 코치·힌트·해설 차단',
-    badge: 'EXAM',
   },
 };
 
