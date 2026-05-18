@@ -156,3 +156,9 @@
   - 완화: 키 prefix `pullim.q.` 유지. 신규 키는 모두 이 prefix 강제 (CLAUDE.md/AGENTS.md 가이드 적용).
 - **위험**: "다음부터 보지 않기" 체크 후 학생이 규칙을 잊고 잘못 진입.
   - 완화: 정복 모드 워크룸 내부 헤더에 이미 규칙 요약(3회 연속 정답 → 정복) 노출되어 있음([src/app/(student)/q/review/conquer/page.tsx:181-205](../../src/app/(student)/q/review/conquer/page.tsx#L181-L205)) — 게이트 우회해도 규칙은 다시 보임.
+
+## 10. 클로저 (2026-05-18)
+
+- ✅ **PR #40** (`e94a918` 풀림 Q feat — CUREA DEEP 이동 전 안내 다이얼로그) 머지로 §3 다이얼로그 명세 + §4 접근성 + §5 적용 범위 전부 완료
+- ✅ **PR #47** (`d907ac8` C3 ConquerIntroDialog race fix) — UX audit C3 사후 defensive 수정. `DialogTrigger` → `<button onClick>` 교체로 race 차단
+- §7 후속 (CTA 라벨 "CUREA DEEP" 제거 / 진행도 1줄 추가) 은 별도 plan 후보로 남겨둠 (학생 친화 가이드 sweep 후속 — 2026-05-18 sweep plan I3/N1 처럼 영문 약어 정리 라인에서 자연 흡수 가능)
