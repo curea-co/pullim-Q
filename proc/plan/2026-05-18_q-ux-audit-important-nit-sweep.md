@@ -45,11 +45,17 @@
 
 ## 2. Nit (4건)
 
-### N1 — AI 코치 패널 헤더 "T3 · Deep" 영문 라벨 잔재 확인
+### N1 — AI 코치 패널 헤더 영문 라벨 잔재 확인 (2026-05-18 grep 완료)
 
-- **위치**: [src/components/coach/](../../src/components/coach/) 패널 헤더
-- **변경**: 영문 라벨 잔재 grep + 한글화
-- **사전 조사 필요** — 실제 영문 라벨 존재 여부 확인 후 진입
+- **사전 조사 결과** (2026-05-18, `coach/` · `conqueror/` · `infinity/` · `app/(student)/q/talk/` grep): 사용자 노출 영문 라벨 **1건** 발견
+  - [src/components/coach/agent-card.tsx:81](../../src/components/coach/agent-card.tsx#L81) — `<span>Orchestrator</span>` (`isOrchestrator` 분기 tier 뱃지)
+  - 다른 영문 잔재 없음: `coach-pane.tsx` "풀림 튜터" + "빠른 응답" / `coach-hero.tsx` / `coach-chat.tsx` / `activity-timeline.tsx` 모두 한글 OK
+  - audit 가 짚은 "T3 · Deep" 은 코드에서 확인 안 됨 — `aiTierMeta.T2.bg` 같은 데이터 키 참조뿐, 노출 라벨 X
+- **변경 후보** (G1 카피 결정 필요):
+  - (a) "메인 코치" 또는 "총괄 코치" — 한글 직역
+  - (b) "오케스트레이터" — 음차 (브랜드 톤 유지)
+  - (c) 라벨 삭제 — 상단 큰 카드 자체가 orchestrator 신호 운반 시 redundant
+- **진행**: G1 카피 결정 1턴 후 1파일 ≤2줄 머지. I3 (`PRACTICE`/`EXAM`) 와 묶어 한 PR (G1 카피 sweep) 권장.
 
 ### N2 — q-home "D-21" blue-700 텍스트 색 → 시급도 분기
 
@@ -72,7 +78,7 @@
 ## 3. 진행 전략
 
 - **단발 PR 묶음**: I2 + N3 + N4 한 PR (즉시 가능 3건, 1파일 ≤5줄씩 — `chore/q-ux-audit-quick-polish`)
-- **카피 검토 PR**: I3 (G4 카피 합의 후)
+- **카피 검토 PR**: I3 + N1 (G1 카피 sweep 한 PR — 한 번의 카피 결정 1턴으로 처리)
 - **중간 규모 PR**: I4 (캡처 회귀 동반)
 - **별도 plan**: I5 — `2026-05-DD_q-memory-single-screen-density.md` 신설
 - **사전 조사**: N1 — 영문 라벨 grep 후 별도 PR 또는 본 sweep 동봉
@@ -87,3 +93,4 @@
 ## 5. 결정 로그
 
 - 2026-05-18 — sweep plan 신설. I1 본 PR 동봉 머지. 잔여 8건은 §3 진행 전략대로 분할.
+- 2026-05-18 (오후) — N1 사전 조사 완료. `agent-card.tsx:81` `Orchestrator` 1건 hit. I3 와 묶어 "G1 카피 sweep" 1 PR 로 처리 권장.
