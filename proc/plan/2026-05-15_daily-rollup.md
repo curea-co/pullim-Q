@@ -2,6 +2,7 @@
 
 > **출처**: [daily_outcome/2026-05-15.md](../../daily_outcome/2026-05-15.md) 09:30 약속 6건
 > **활성 게이트키퍼**: G1 / G3 / G4
+> **carry-over 추적**: [2026-05-18_daily-rollup.md](2026-05-18_daily-rollup.md) — 5-15 미머지 항목(CoachFab 머지·C3 race·UX audit 잔여·룰화 3건)이 5-18 약속으로 이월됨.
 
 ## 목표
 
