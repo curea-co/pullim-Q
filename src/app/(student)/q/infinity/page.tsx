@@ -13,6 +13,11 @@ import { cn } from '@/lib/utils';
 export default function InfinityHomePage() {
   const recent = solveHistory.slice(0, 5);
   const signaturePicks = explainLibrary.filter(e => e.isSignature).slice(0, 3);
+  // §2.5 flow audit — "최근 시험 결과" 는 시험 후 7일 이내만 노출 (시험 안 본 학생 dead UI 제거)
+  const daysSinceExam = Math.floor(
+    (Date.now() - new Date(lastExamResult.submittedAt).getTime()) / (1000 * 60 * 60 * 24),
+  );
+  const recentExam = daysSinceExam <= 7;
 
   return (
     <div className="space-y-section">
@@ -120,30 +125,32 @@ export default function InfinityHomePage() {
         </div>
       </section>
 
-      <section className="bg-pullim-warn/5 border-pullim-warn/30 flex items-center gap-4 rounded-2xl border p-4">
-        <span className="bg-pullim-warn flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white">
-          <Award className="h-5 w-5" />
-        </span>
-        <div className="flex-1">
-          <div className="text-pullim-warn text-[10px] font-bold tracking-wider uppercase">
-            최근 시험 결과
+      {recentExam && (
+        <section className="bg-pullim-warn/5 border-pullim-warn/30 flex items-center gap-4 rounded-2xl border p-4">
+          <span className="bg-pullim-warn flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white">
+            <Award className="h-5 w-5" />
+          </span>
+          <div className="flex-1">
+            <div className="text-pullim-warn text-[10px] font-bold tracking-wider uppercase">
+              최근 시험 결과
+            </div>
+            <div className="text-pullim-slate-900 text-sm font-bold">
+              {lastExamResult.examTitle} — <span className="font-mono">{lastExamResult.rawScore}점</span> · 예상 {lastExamResult.estimatedGrade}등급
+            </div>
+            <div className="text-pullim-slate-500 text-[11px]">
+              실력 {lastExamResult.thetaBefore.toFixed(2)} → {lastExamResult.thetaAfter.toFixed(2)}
+              <span className="text-pullim-success font-bold ml-1">(+{(lastExamResult.thetaAfter - lastExamResult.thetaBefore).toFixed(2)})</span>
+            </div>
           </div>
-          <div className="text-pullim-slate-900 text-sm font-bold">
-            {lastExamResult.examTitle} — <span className="font-mono">{lastExamResult.rawScore}점</span> · 예상 {lastExamResult.estimatedGrade}등급
-          </div>
-          <div className="text-pullim-slate-500 text-[11px]">
-            실력 {lastExamResult.thetaBefore.toFixed(2)} → {lastExamResult.thetaAfter.toFixed(2)}
-            <span className="text-pullim-success font-bold ml-1">(+{(lastExamResult.thetaAfter - lastExamResult.thetaBefore).toFixed(2)})</span>
-          </div>
-        </div>
-        <Link
-          href="/q/infinity/exam-result"
-          className="border-pullim-warn/40 text-pullim-warn hover:bg-pullim-warn/10 shrink-0 inline-flex items-center gap-1.5 rounded-lg border px-4 py-2.5 text-sm font-semibold transition-colors"
-        >
-          상세 분석
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </section>
+          <Link
+            href="/q/infinity/exam-result"
+            className="border-pullim-warn/40 text-pullim-warn hover:bg-pullim-warn/10 shrink-0 inline-flex items-center gap-1.5 rounded-lg border px-4 py-2.5 text-sm font-semibold transition-colors"
+          >
+            상세 분석
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </section>
+      )}
     </div>
   );
 }

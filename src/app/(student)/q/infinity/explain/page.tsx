@@ -177,6 +177,14 @@ function ExplainCard({ entry }: { entry: ExplainEntry }) {
           <ArrowRight className="text-pullim-slate-300 group-hover:text-pullim-blue-500 h-3 w-3 transition-colors" />
         </footer>
       </Link>
+      {/* §2.6 flow audit — 해설 본 김에 같은 패턴 retry 진입 인라인 CTA */}
+      <Link
+        href={`/q/infinity/solve?kind=retry&sku=${entry.sku}`}
+        className="border-pullim-slate-200 text-pullim-slate-600 hover:bg-pullim-blue-50 hover:border-pullim-blue-300 hover:text-pullim-blue-700 mt-1 inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[10px] font-bold transition-colors"
+      >
+        같은 패턴 다시 풀기
+        <ArrowRight className="h-2.5 w-2.5" />
+      </Link>
     </li>
   );
 }
