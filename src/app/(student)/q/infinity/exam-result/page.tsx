@@ -98,7 +98,7 @@ export default function ExamResultPage() {
       {/* 다음 추천 */}
       <section className="bg-pullim-blue-50 border-pullim-blue-100 rounded-2xl border p-4">
         <h2 className="text-pullim-slate-900 mb-3 text-base font-bold tracking-tight">다음 추천</h2>
-        <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-3">
           <RecCard
             title="오답 12-섹션 해설"
             desc="틀린 문제부터 풀림 해설로"
@@ -108,6 +108,12 @@ export default function ExamResultPage() {
             title="비슷한 시험 한 번 더"
             desc="AI 맞춤 — 약점 반영"
             href="/q/infinity/solve"
+          />
+          {/* §3.2 flow audit — /q/infinity/history lateral entry (이전 시도 비교) */}
+          <RecCard
+            title="이전 시도와 비교"
+            desc="풀이 이력에서 같은 패턴 다시 보기"
+            href="/q/infinity/history"
           />
         </div>
       </section>

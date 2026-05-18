@@ -134,27 +134,29 @@
 
 **제안**: ConquestHero 의 정복 완료 분기 또는 별도 컴포넌트에서 `/q/review` 의 다른 ErrorPattern 카드로 진입 권유. patternId 다른 값으로 재진입.
 
-### 2.9 (🟡) `/me` placeholder + BottomNav 5번째 슬롯
+### 2.9 (🟡) ~~`/me` placeholder + BottomNav 5번째 슬롯~~ → ✅ PR #59 해결
 
-**증상**: 풀림 Q 단독 워크스페이스에 학생 내정보 콘텐츠 0 — `/me` 는 [src/components/study/coming-soon.tsx](../../src/components/study/coming-soon.tsx) placeholder. BottomNav 5탭 中 1탭 차지.
+**원래 증상**: 풀림 Q 단독 워크스페이스에 학생 내정보 콘텐츠 0 — `/me` 는 `src/components/study/coming-soon.tsx` placeholder. BottomNav 5탭 中 1탭 차지.
 
-**제안**: CoachFab plan 안1 (BottomNav 5번째 슬롯을 "코치" 로 통합) 검토 시점에 자연 해소 가능. 현재로는 학생이 5탭 中 1탭이 빈 페이지 → 모바일 동선 비효율.
+**해결 (PR #59)**: 룰 D 일관 적용. `/me/page.tsx` + `src/components/study/` 디렉토리 제거. `studentBottomTabs` 에서 `/me` 슬롯 제거 (4탭). `bottom-nav.tsx` `grid-cols-5` → `grid-cols-4`. `User` 아이콘 import + CLAUDE.md 참조 정리.
+
+향후 학생 내정보 구현 시점에 in-page CTA 동반해 다시 추가 (룰 D §6.D).
 
 ---
 
 ## 3. 🟢 Nit (정합성)
 
-### 3.1 `/q/analysis/[questionId]` 진입 경로 부족
+### 3.1 ~~`/q/analysis/[questionId]` 진입 경로 부족~~ → ✅ 이미 해결
 
-next-learning-cards · explain 외 진입 경로 부족. RecentMistakes 컴포넌트 클릭 동작 확인 필요 — 카드 클릭으로 진입하는지, 별도 CTA 없는지.
+[src/components/analysis/recent-mistakes.tsx:44](../../../src/components/analysis/recent-mistakes.tsx#L44) 의 `MistakeCard` 가 `<Link href={/q/analysis/${diagnosis.sku}}>` 로 진입 CTA 제공. audit 작성 시 컴포넌트 클릭 동작 미확인 → 이후 grep 으로 확인. **별도 조치 불필요**.
 
-### 3.2 `/q/infinity/history` 진입 1곳뿐
+### 3.2 `/q/infinity/history` 진입 1곳뿐 → ✅ PR #59 해결
 
-`/q/infinity` 의 "전체 이력" 링크 1곳만. 학생이 다른 흐름에서 이력 보고 싶을 때 진입점 부족. 예: 정복 완료 후 "내가 푼 비슷한 문제 보기" 같은 lateral 이동.
+`/q/infinity/exam-result` "다음 추천" 섹션에 `<RecCard title="이전 시도와 비교" href="/q/infinity/history" />` 추가. grid `lg:grid-cols-2` → `lg:grid-cols-3` 로 확장.
 
-### 3.3 `/q` 홈 첫 화면에 외부 도메인 카드 (§2.4 와 연결)
+### 3.3 `/q` 홈 첫 화면에 외부 도메인 카드 → ✅ Phase 4 (PR #57) 에서 해결
 
-§2.4 의 placeholder 라우트가 학생 홈 첫 화면에서 노출됨. 풀림 Q 단독 환경에서는 노이즈.
+§2.4 의 CrossDomainSlot 제거로 자연 해소.
 
 ---
 
