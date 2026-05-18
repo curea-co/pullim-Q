@@ -13,7 +13,6 @@ import {
   solveDeck, type SolveProblem,
   type LeitnerCard, type Prescription,
 } from '@/lib/mock';
-import { CrossDomainSlot } from '@/components/q-hub/cross-domain-slot';
 import { cn } from '@/lib/utils';
 
 type NowAction =
@@ -64,9 +63,6 @@ export default function QHubPage() {
   return (
     <div className="space-y-section">
       <DDayHero persona={persona} dday={dday} />
-
-      {/* §3.2 — referrer EntryContextCard 가시성 강화: 첫 스크롤 안에 들어오도록 hero 직후로 승격 */}
-      <CrossDomainSlot />
 
       <NowSection now={now} />
 
