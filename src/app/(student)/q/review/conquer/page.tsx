@@ -191,7 +191,7 @@ export default function ConquerSetPage() {
             label="연속 정답"
             value={`${streak}회`}
             sub={`정복까지 ${Math.max(0, set.conquestThreshold - streak)}회`}
-            tone="lemon"
+            tone={streak >= 1 ? 'success' : undefined}
           />
           <Stat label="이번 주 시도" value={`${set.attemptsToday}회`} sub="이 패턴" />
         </div>
@@ -295,13 +295,20 @@ export default function ConquerSetPage() {
 function Stat({
   label, value, sub, tone,
 }: {
-  label: string; value: string; sub?: string; tone?: 'lemon';
+  label: string; value: string; sub?: string; tone?: 'lemon' | 'success';
 }) {
-  const valueClass = tone === 'lemon' ? 'text-pullim-lemon-ink' : 'text-pullim-slate-900';
+  const valueClass =
+    tone === 'lemon' ? 'text-pullim-lemon-ink'
+    : tone === 'success' ? 'text-pullim-success'
+    : 'text-pullim-slate-900';
+  const valueWrap =
+    tone === 'success'
+      ? `bg-pullim-success-bg inline-flex items-center rounded-md px-1.5 py-0.5 font-mono text-base font-bold ${valueClass}`
+      : `font-mono text-base font-bold ${valueClass}`;
   return (
     <div>
       <div className="text-pullim-slate-500 text-[10px] font-bold tracking-wider uppercase">{label}</div>
-      <div className={`mt-0.5 font-mono text-base font-bold ${valueClass}`}>{value}</div>
+      <div className={`mt-0.5 ${valueWrap}`}>{value}</div>
       {sub && <div className="text-pullim-slate-400 text-[10px]">{sub}</div>}
     </div>
   );
