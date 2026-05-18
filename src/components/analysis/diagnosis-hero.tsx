@@ -1,4 +1,5 @@
-import { ScanSearch, AlertTriangle, Sparkles } from 'lucide-react';
+import Link from 'next/link';
+import { ScanSearch, AlertTriangle, Sparkles, ArrowRight } from 'lucide-react';
 import {
   metaCognitionReport,
   lastDiagnosis,
@@ -8,6 +9,7 @@ import {
   subjectLabels,
   wrongAttemptDiagnoses,
 } from '@/lib/mock';
+import { cn } from '@/lib/utils';
 
 /**
  * /q/analysis 진입 시 학습자 정체성·데이터 소스·4 stat 을 5초 안에 전달.
@@ -66,8 +68,71 @@ export function DiagnosisHero() {
             tone="primary"
           />
         </ul>
+
+        <DiagnoseCTA />
       </div>
     </section>
+  );
+}
+
+/**
+ * 진단 다시 받기 CTA — 분석 홈에서 /q/analysis/diagnose 진입 동선.
+ *
+ * 기준: lastDiagnosis.daysAgo vs nextRecommendedIn
+ *  · overdue (>=) → 강한 톤 "지금 받기 권장"
+ *  · 미충족  (<)  → 잔잔한 톤 "진단 다시 받기"
+ *
+ * audit: proc/research/2026-05-18_flow-audit/findings.md §2.2 (Critical)
+ */
+function DiagnoseCTA() {
+  const overdue = lastDiagnosis.daysAgo >= lastDiagnosis.nextRecommendedIn;
+  return (
+    <Link
+      href="/q/analysis/diagnose"
+      className={cn(
+        'mt-4 group flex items-center gap-3 rounded-xl border p-3 transition-colors',
+        overdue
+          ? 'border-pullim-blue-300 bg-pullim-blue-50 hover:bg-pullim-blue-100'
+          : 'bg-card border-pullim-blue-100 hover:border-pullim-blue-300',
+      )}
+    >
+      <span
+        className={cn(
+          'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg',
+          overdue
+            ? 'bg-pullim-blue-600 text-white'
+            : 'bg-pullim-blue-50 text-pullim-blue-700',
+        )}
+      >
+        <ScanSearch className="h-4 w-4" />
+      </span>
+      <div className="min-w-0 flex-1">
+        <div
+          className={cn(
+            'text-[10px] font-bold tracking-wider uppercase',
+            overdue ? 'text-pullim-blue-700' : 'text-pullim-slate-600',
+          )}
+        >
+          {overdue ? '지금 받기 권장' : '진단'}
+        </div>
+        <h4 className="text-pullim-slate-900 mt-0.5 text-sm font-bold">
+          {overdue ? '진단 다시 받기' : '진단 다시 받기'}
+        </h4>
+        <div className="text-pullim-slate-500 text-[11px]">
+          {overdue
+            ? `마지막 진단 ${lastDiagnosis.daysAgo}일 전 · 권장 주기 ${lastDiagnosis.nextRecommendedIn}일 경과`
+            : `마지막 진단 ${lastDiagnosis.daysAgo}일 전 · 18분이면 끝나요`}
+        </div>
+      </div>
+      <ArrowRight
+        className={cn(
+          'mt-1 h-4 w-4 shrink-0 transition-colors',
+          overdue
+            ? 'text-pullim-blue-500 group-hover:text-pullim-blue-700'
+            : 'text-pullim-slate-300 group-hover:text-pullim-blue-500',
+        )}
+      />
+    </Link>
   );
 }
 
