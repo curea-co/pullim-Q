@@ -84,56 +84,31 @@
 ## 작업 항목
 
 ### 1단계 — DiagnosisHero
-- [ ] [src/components/analysis/diagnosis-hero.tsx](src/components/analysis/diagnosis-hero.tsx) 신규
-  - import: `metaCognitionReport`, `lastDiagnosis`, `overallMeta`, `myAbility`, `metaDimensions`, `subjectLabels`, `wrongAttemptDiagnoses`
-  - 상단: eyebrow `풀림 분석` (ScanSearch) + H1 `metaCognitionReport.learnerType`
-  - 서브: `최근 {questionsAnswered}문항 · {durationMin}분 풀이 · {daysAgo}일 전 진단 + 지난 7일 데이터`
-  - Stat strip 4 chip:
-    1. 메타 점수: `{overallMeta.score} / 100` + trend
-    2. 강한 과목: `{subjectLabels[topAbility.subject]} +{theta.toFixed(2)}` + 등급
-    3. 살펴볼 차원: `metaDimensions.find(d => d.tone === 'warn')` 라벨 + 점수 vs peer
-    4. 다시 볼 문제: `wrongAttemptDiagnoses.length`문제
-  - 반응형: `sm` 미만 chip 2×2, `sm` 이상 가로 4
+- [x] [src/components/analysis/diagnosis-hero.tsx](src/components/analysis/diagnosis-hero.tsx) 신규 (PR #41)
 
 ### 2단계 — AnalysisTwoAxis
-- [ ] [src/components/analysis/analysis-two-axis.tsx](src/components/analysis/analysis-two-axis.tsx) 신규
-  - 컨테이너: `grid grid-cols-1 gap-3 lg:grid-cols-2`
-  - **좌측** "어떻게 푸나":
-    - 카드 헤더 + Link `/q/analysis/process` 전체 wrap (또는 하단 CTA만 Link)
-    - `metaDimensions.map`으로 4행 막대 렌더
-    - tone 색 분기 + warn 차원만 insight 1줄
-  - **우측** "무엇이 강한가":
-    - `myAbility.map`으로 3행 양방향 막대
-    - θ 숫자, delta24h(↑/↓), 등급 표시
-    - 하단 CTA `/q/analysis/ability`
-  - 내부에 `<HorizontalBar score peer tone label />`, `<BipolarBar theta label delta grade />` 인라인 sub-컴포넌트
+- [x] [src/components/analysis/analysis-two-axis.tsx](src/components/analysis/analysis-two-axis.tsx) 신규 (PR #41)
 
 ### 3단계 — page.tsx 재구성
-- [ ] [src/app/(student)/q/analysis/page.tsx](src/app/(student)/q/analysis/page.tsx)
-  - 제거: `PageHeader` 사용부 + 기존 "내 실력 한눈에" `<section>` 전체
-  - 추가: `<DiagnosisHero />`, `<AnalysisTwoAxis />`
-  - 최종 순서:
-    1. `<DiagnosisHero />`
-    2. `<AnalysisTwoAxis />`
-    3. `<WrongReasonTop3 />`
-    4. `<RecentMistakes />`
-    5. `<TodayReviewPreview />`
-  - import 정리 (Link, PageHeader, ScanSearch, AlertTriangle 등 미사용 제거)
+- [x] [src/app/(student)/q/analysis/page.tsx](src/app/(student)/q/analysis/page.tsx) `PageHeader` + 기존 "내 실력 한눈에" 섹션 제거, 신규 두 컴포넌트 + 기존 3 섹션 순서 적용 (PR #41)
 
 ### 4단계 — 카피 보강
-- [ ] [wrong-reason-top3.tsx](src/components/analysis/wrong-reason-top3.tsx) — 부제 span 텍스트 갱신
-- [ ] [recent-mistakes.tsx](src/components/analysis/recent-mistakes.tsx) — `SectionHeading title`에 `items.length` 동적 삽입
+- [x] [wrong-reason-top3.tsx](src/components/analysis/wrong-reason-top3.tsx) 부제 갱신 (PR #41)
+- [x] [recent-mistakes.tsx](src/components/analysis/recent-mistakes.tsx) 동적 카운트 title (PR #41)
 
 ### 5단계 — 검증
-- [ ] `bunx tsc --noEmit && bun run lint && bun run build`
-- [ ] `bun dev` (포트 3031) — `/q/analysis` 수동 확인:
-  1. 첫 화면(viewport `sm`·`lg` 둘 다)에서 "정독·신중형 + 메타 67 + 강과학 + 약 인지부하 + 다시볼 4문제"가 즉시 보이는가
-  2. 두 축 막대가 또래 비교선(메타) / 중앙선(θ) 기준으로 한눈에 읽히는가
-  3. "풀이 습관 자세히 / 단원별 자세히" CTA가 각각 `/q/analysis/process`, `/q/analysis/ability`로 이동
-  4. 모바일(`<sm`)에서 stat chip 2×2, 두 축 세로 stack 확인
+- [x] `bunx tsc --noEmit && bun run lint && bun run build` PR #41 통과
+- [x] `bun dev` 수동 확인 — `/q/analysis` 첫 화면 정독·신중형 + 메타 67 + 강과학 + 다시볼 4문제 즉시 표시, 모바일 chip 2×2 / 데스크탑 가로 4 정상 (PR #41 머지 시 검증)
 
 ## 비범위 (이번 작업 아님)
 - `/q/analysis/process`, `/q/analysis/ability` 하위 페이지 — CTA만 유지
 - 새 mock 추가 — 기존 데이터만 사용
 - 차트 라이브러리(recharts/visx) — CSS 막대로 충분
 - 다른 분석 섹션(`<TodayReviewPreview />` 등) 시각화 — 다음 PR
+
+## 클로저 (2026-05-18)
+
+- ✅ **PR #41** (`7cdd90e` 풀림 Q feat — /q/analysis 진입 비주얼 리디자인) 머지로 5 단계 전부 완료
+- 후속 발견: 2026-05-18 UX audit sweep plan §2.N4 — DiagnosisHero trend 색 분기 (`+N` success / `-N` danger) 미구현. 별도 sweep PR 후보 (이 plan 범위 밖, 2026-05-18 sweep 으로 이관됨)
+- 후속 발견: 2026-05-18 UX audit sweep plan §1.I2 — AnalysisTwoAxis peer 마커 `w-0.5` 가시성 약함 (2026-05-18 sweep 으로 이관됨)
+- 후속 발견: 2026-05-18 UX audit sweep plan §1.I4 — 모바일 hero viewport 절반 점유 (2026-05-18 sweep 으로 이관됨)

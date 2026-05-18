@@ -223,3 +223,16 @@ D-day는 "남은 시험일까지의 시급도"를 표시하는 의미 운반 영
 ---
 
 **다음 한 걸음**: §6 open question 3개에 의사결정 → PR-A 착수.
+
+## 10. 클로저 (2026-05-18)
+
+- ✅ **PR-A 흡수형 머지**: **PR #34** hero 그라디언트 소프트화 + warn 그라디언트 흡수 (PR-C 범위 일부 포함)
+- ✅ **PR-B**: **PR #36** 환경 텍스트 톤다운
+- ✅ **PR-D**: **PR #35** Shadow 토큰 도입 (`--shadow-pullim-accent` 추가)
+- ✅ **PR-E 범위 치환**: **PR #39** 시그니처 ring 데코 제거 (계획의 "온보딩 CTA 단일화" 와 의제 치환)
+- ✅ **PR-C 잔여 단독**: **PR #44** `infinity/explain` 시그니처 카드 `from-warn-* → warn-bg` sweep
+- §6 open questions:
+  - 6.1 D-day hero — PR-A 적용 결과 소프트 톤으로 자연 통일. 별도 후속 불필요
+  - 6.2 lemon CTA 위치 — 권장안 ("정복 액션 + 스트릭 메달에만") 으로 PR-A·B 머지에서 sweep 반영
+  - 6.3 Onboarding Leitner 데모 박스 — §5.x 회고대로 PR-A 의 hero 톤다운으로 자연 도드라짐 충족
+- **이월**: 계획상 PR-E "온보딩 CTA 단일화" 자체는 미수행. /q/{analysis,infinity,talk}/onboarding 의 강한 색 CTA 1개 축소는 후속 plan 후보로 별도 트래킹 (현재 카드 시각 임팩트 자체는 충분, 우선순위 낮음)

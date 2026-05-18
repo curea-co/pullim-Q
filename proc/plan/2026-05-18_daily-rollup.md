@@ -2,7 +2,7 @@
 
 > **출처**: [daily_outcome/2026-05-18.md](../../daily_outcome/2026-05-18.md) 09:30 약속 6건 (룰화 3건 묶음 포함)
 > **활성 게이트키퍼**: G1 / G3 / G4
-> **선행 carry-over plan**: [2026-05-15_q-coach-fab-mobile-occlusion.md](2026-05-15_q-coach-fab-mobile-occlusion.md) · [2026-05-13_review-priority-queue-scalable-layout.md](2026-05-13_review-priority-queue-scalable-layout.md) · [2026-05-15_daily-rollup.md](2026-05-15_daily-rollup.md)
+> **선행 carry-over plan**: [2026-05-15_q-coach-fab-mobile-occlusion.md](2026-05-15_q-coach-fab-mobile-occlusion.md) · [2026-05-13_review-priority-queue-scalable-layout.md](2026-05-13_review-priority-queue-scalable-layout.md) · [2026-05-15_daily-rollup.md](../archive/2026-05-15_daily-rollup.md)
 
 ## 목표
 
@@ -13,7 +13,7 @@
 ### 1. CoachFab plan §4.1 자료 산출 (1순위, G4 결정 전 차단 해제)
 - [x] [src/components/shell/coach-fab.tsx](../../src/components/shell/coach-fab.tsx) 동작 확인 후 `scripts/qa-coach-fab-occlusion-2026-05-18.mjs` 신설해 6 라우트(`/q`, `/q/infinity`, `/q/analysis`, `/q/review`, `/q/analysis/diagnose`, `/q/onboarding`) 모바일 360 캡처 — **FAB 있을 때 / 없을 때 / 44×44 축소 시** 3종 변형 (DOM 변형으로 코드 수정 없이)
 - [x] [proc/research/2026-05-18_coach-fab-occlusion/captures/](../research/2026-05-18_coach-fab-occlusion/captures/) 18장 + [measurements.md](../research/2026-05-18_coach-fab-occlusion/measurements.md) — 그대로 6238px²(2.34%) / 44×44 2288px²(0.86%) / 제거 0px²
-- [x] [proc/plan/2026-05-15_q-coach-fab-mobile-occlusion.md](2026-05-15_q-coach-fab-mobile-occlusion.md) §3 캡처 경로(`2026-05-15_coach-fab-occlusion` → `2026-05-18_coach-fab-occlusion`) 정정 + §4.1 자료 산출 [x] 마감 + §5 결정 로그 backfill
+- [x] [proc/plan/2026-05-15_q-coach-fab-mobile-occlusion.md](../archive/2026-05-15_q-coach-fab-mobile-occlusion.md) §3 캡처 경로(`2026-05-15_coach-fab-occlusion` → `2026-05-18_coach-fab-occlusion`) 정정 + §4.1 자료 산출 [x] 마감 + §5 결정 로그 backfill
 - [ ] G4에 자료 + 안1/안2 트레이드오프 제출 → 결정 시 머지 PR, 미응답 시 자료 제출까지로 완료선 박음 (PM 송부 대기)
 
 ### 2. C3 ConquerIntroDialog preventDefault race fix (단독 PR 머지)
