@@ -41,14 +41,14 @@ export function ActivityTimeline() {
               <Link
                 href={activity.cta.href}
                 className={cn(
-                  'mt-1.5 inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-bold transition-colors',
+                  'mt-1.5 inline-flex min-h-8 items-center gap-1 rounded-md px-2 py-1.5 text-[11px] font-bold transition-colors',
                   activity.acknowledged
                     ? 'text-pullim-slate-600 hover:bg-pullim-slate-100 hover:text-pullim-blue-700'
                     : 'bg-pullim-blue-600 text-white hover:bg-pullim-blue-700',
                 )}
               >
                 {activity.cta.label}
-                <ArrowRight className="h-2.5 w-2.5" />
+                <ArrowRight className="h-3 w-3" />
               </Link>
             )}
           </li>

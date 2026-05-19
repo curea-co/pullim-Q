@@ -67,7 +67,7 @@ export function ConquerIntroDialog({ pattern }: { pattern: ErrorPattern }) {
       <button
         type="button"
         onClick={onTriggerClick}
-        className="bg-pullim-blue-600 text-white hover:bg-pullim-blue-700 mt-2 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors"
+        className="bg-pullim-blue-600 text-white hover:bg-pullim-blue-700 mt-2 inline-flex min-h-9 items-center gap-1 rounded-full px-3 py-1.5 text-[11px] font-bold transition-colors"
       >
         <Sparkles className="h-3 w-3" />
         패턴 맞춤 5문제 정복 시작

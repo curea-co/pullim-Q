@@ -113,6 +113,19 @@ export function LeaveGuardProvider({ children }: { children: ReactNode }) {
     };
   }, [inProgress]);
 
+  // bfcache 복원 — Safari/Firefox 등에서 페이지가 BFCache 에서 되살아나면 useEffect 재실행 안 됨.
+  // sentinel 이 history 에 남아 있어도 popstateBlocked ref 와 어긋날 수 있어 1회 더 push 해서 일관성 확보.
+  useEffect(() => {
+    if (!inProgress) return;
+    function handler(e: PageTransitionEvent) {
+      if (!e.persisted) return;
+      window.history.pushState({ __pullimGuard: true }, '');
+      popstateBlocked.current = true;
+    }
+    window.addEventListener('pageshow', handler);
+    return () => window.removeEventListener('pageshow', handler);
+  }, [inProgress]);
+
   const handleLeaveOrBack = useCallback(() => {
     const target = pending.current;
     pending.current = null;

@@ -1,9 +1,21 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Play, X, Repeat, Target, Unlock } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { subjectLabels } from '@/lib/mock';
-import { useSolveSessionStore, type SolveSessionSnapshot } from '@/lib/store/solve-session-store';
+import {
+  useSolveSessionStore,
+  type SolveSessionSnapshot,
+  SNAPSHOT_TTL_HOURS,
+} from '@/lib/store/solve-session-store';
 
 function relativeTime(savedAt: number): string {
   const diff = Date.now() - savedAt;
@@ -11,8 +23,8 @@ function relativeTime(savedAt: number): string {
   if (mins < 1) return '방금';
   if (mins < 60) return `${mins}분 전`;
   const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}시간 전`;
-  return '24시간 이상 전';
+  if (hrs < SNAPSHOT_TTL_HOURS) return `${hrs}시간 전`;
+  return `${SNAPSHOT_TTL_HOURS}시간 이상 전`;
 }
 
 function sourceUrl(snap: SolveSessionSnapshot): string {
@@ -49,10 +61,17 @@ function sourceLabel(source: SolveSessionSnapshot['source']): string {
  * 이어풀기 / 새 세션 / 저장 버리기 3택.
  *
  * plan §3 — 이어풀기 진입 분기 2번.
+ * "저장 버리기" 는 컨트롤드 Dialog 로 확인 (iOS 네이티브 confirm 의 a11y/ESC 부재 회피).
  */
 export function SolveResumeCard({ snapshot }: { snapshot: SolveSessionSnapshot }) {
   const router = useRouter();
   const clearSnapshot = useSolveSessionStore((s) => s.clearSnapshot);
+  const [discardOpen, setDiscardOpen] = useState(false);
+
+  function handleConfirmDiscard() {
+    clearSnapshot();
+    setDiscardOpen(false);
+  }
 
   return (
     <section className="bg-pullim-blue-50 border-pullim-blue-200 rounded-2xl border p-4">
@@ -82,7 +101,7 @@ export function SolveResumeCard({ snapshot }: { snapshot: SolveSessionSnapshot }
         <button
           type="button"
           onClick={() => router.replace(sourceUrl(snapshot))}
-          className="bg-pullim-blue-600 hover:bg-pullim-blue-700 inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-bold text-white"
+          className="bg-pullim-blue-600 hover:bg-pullim-blue-700 inline-flex min-h-11 items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-bold text-white"
         >
           <Play className="h-3.5 w-3.5" />
           이어풀기
@@ -90,21 +109,48 @@ export function SolveResumeCard({ snapshot }: { snapshot: SolveSessionSnapshot }
         <button
           type="button"
           onClick={() => clearSnapshot()}
-          className="border-pullim-slate-200 text-pullim-slate-700 hover:bg-pullim-slate-50 inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-semibold"
+          className="border-pullim-slate-200 text-pullim-slate-700 hover:bg-pullim-slate-50 inline-flex min-h-11 items-center gap-1.5 rounded-xl border px-3 py-2.5 text-sm font-semibold"
         >
           새 세션
         </button>
         <button
           type="button"
-          onClick={() => {
-            if (window.confirm('저장된 진행을 버릴까요? 되돌릴 수 없어요.')) clearSnapshot();
-          }}
+          onClick={() => setDiscardOpen(true)}
           className="text-pullim-slate-500 hover:text-pullim-danger inline-flex items-center gap-1 text-xs font-semibold"
         >
           <X className="h-3 w-3" />
           저장 버리기
         </button>
       </div>
+
+      <Dialog open={discardOpen} onOpenChange={setDiscardOpen}>
+        <DialogContent className="max-w-xs">
+          <DialogHeader>
+            <DialogTitle className="text-pullim-slate-900 text-base font-bold tracking-tight">
+              저장된 진행을 버릴까요?
+            </DialogTitle>
+            <DialogDescription className="text-pullim-slate-600 mt-1 text-xs">
+              이어풀기 카드가 사라지고 되돌릴 수 없어요.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setDiscardOpen(false)}
+              className="border-pullim-slate-200 text-pullim-slate-700 hover:bg-pullim-slate-50 flex-1 inline-flex min-h-11 items-center justify-center rounded-xl border px-3 py-2.5 text-sm font-semibold"
+            >
+              취소
+            </button>
+            <button
+              type="button"
+              onClick={handleConfirmDiscard}
+              className="bg-pullim-danger text-white hover:bg-pullim-danger/90 flex-1 inline-flex min-h-11 items-center justify-center rounded-xl px-3 py-2.5 text-sm font-bold"
+            >
+              버리기
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
