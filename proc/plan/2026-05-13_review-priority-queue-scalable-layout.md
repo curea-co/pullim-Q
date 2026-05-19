@@ -6,6 +6,36 @@
 >
 > **carry-over 추적**: [2026-05-18_daily-rollup.md](2026-05-18_daily-rollup.md) §5 — 두 번째 이월 plan 첫 단계 (PR #46 머지 후) → 다음 단계(페이지네이션 본격·필터·정렬) G1 합의 대기.
 
+## 0. 진행 현황
+
+### 0.1 룰 C 발동 (2026-05-19, 5일차)
+
+G1 합의 5일 연속 미도착(2026-05-13 ~ 2026-05-19). 룰 본문 "두 번째 이월" 임계 초과 사실로 **룰 C 강제 발동**.
+
+**발동 결정 근거**:
+- 5-13 plan 작성 후 G1 합의 0회 도착
+- 5-18 daily-rollup §5에 carry-over 1차 명시
+- 5-19 daily_outcome §3에 "룰 C 강제 발동" 명시 (사용자 결정)
+- 5-19 EOD 시점에 5일차 미발동 시 룰 본문 무력화 위험
+
+**룰 C 발동 시 G1 합의 미수신 항목 → 기본값 잠정 락인**:
+- 기본 정렬: `급한 순` (hours 오름차순)
+- 기본 필터: `전체`
+- 페이지 사이즈: 20개/page (mock 환경 client-side slice)
+- 가상화 임계: N > 500 (서버 페치 시 재합의)
+
+G1 합의 도착 시 본 락인은 무효화되고 합의안으로 교체. 잠정 락인 자체는 §6 G1 합의 도착 전까지 동작 가능한 디폴트.
+
+### 0.2 1단계 — `/q/review/queue` 라우트 진입점 (2026-05-19)
+
+- [x] `src/lib/review/unified-queue.ts` 추출 (review/page.tsx 인라인 헬퍼 → 공용 모듈)
+- [x] `src/app/(student)/q/review/queue/page.tsx` 신규 (route stub, 큐 전체 표시)
+- [x] `PriorityQueue` overflow placeholder → `/q/review/queue` 링크로 교체
+- [ ] 필터/정렬 컨트롤 (`queue-filters.tsx`) — 2단계
+- [ ] 페이지네이션 (`queue-paginator.tsx`) — 2단계
+- [ ] mock fixture 50/500/5000 토글 — 2단계
+- [ ] 가상화 임계 N>500 자동 발동 — 3단계
+
 ## 1. 배경 / 문제 정의
 
 `/q/review` 의 시그니처 섹션 "지금 복습할 것"([src/app/(student)/q/review/page.tsx:174-203](../../src/app/(student)/q/review/page.tsx#L174-L203)) 은 현재:
