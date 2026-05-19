@@ -26,6 +26,7 @@
 - [x] AI 위임: findings.md Important 5 + Nit 4 추출 → 즉시 가능 항목(I1·I2·N3·N4) 분류 (sweep plan §1·§2 에 반영)
 - [x] 즉시 가능 I1 머지 — review-conquer "연속 정답 0회" 빨강 → streak 분기(0=slate, ≥1=success pill). sweep plan [x] 마감
 - [x] 본 daily-rollup의 1·2·5번 plan들에 cross-reference 1줄 backfill — CoachFab plan(§1) / review-priority plan(§5) / 5-15 daily-rollup / findings.md(sweep plan 링크) 4곳
+- [x] EOD `/review` 결과 → [2026-05-18_q-review-followup.md](2026-05-18_q-review-followup.md) 신설 (Critical 5 + Important 4 일괄 처리, dev 누적 14 PR retrospective)
 
 ### 4. C2 hotfix e2e 시험 모드 시나리오 추가 (G3 단답 후)
 - [ ] G3에 "C2 hotfix e2e에 시험 모드(`mode=exam`) 회귀 시나리오 필요한지" 단답 요청 (5-15 carry-over)

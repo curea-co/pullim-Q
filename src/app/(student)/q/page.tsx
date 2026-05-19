@@ -2,7 +2,7 @@ import Link from 'next/link';
 import {
   ArrowRight, AlertTriangle, Clock, Target, Sparkles, TrendingUp, Trophy,
   Flame, Calendar, Award, BookOpen, GraduationCap, Pencil,
-  Wrench, ScrollText, Star,
+  ScrollText, Star,
 } from 'lucide-react';
 import {
   todaySession, lastExamResult, explainLibrary, subjectLabels,
@@ -41,17 +41,16 @@ const channelHrefMap: Record<Prescription['channel'], string> = {
 };
 
 /** 오늘 풀이 큐 — 5문항 인터리빙 (Q doc §4.1).
- *  소스: 스튜디오 / 기출 / 오답 / AI 생성 */
-type QueueSource = 'studio' | 'past' | 'review' | 'ai';
-const queueSourceMeta: Record<QueueSource, { label: string; Icon: typeof Wrench; cls: string }> = {
-  studio: { label: '스튜디오', Icon: Wrench,     cls: 'bg-pullim-blue-50 text-pullim-blue-600' },
+ *  소스: 기출 / 오답 / AI 생성 (스튜디오 도메인 정리 후 3종으로 좁힘) */
+type QueueSource = 'past' | 'review' | 'ai';
+const queueSourceMeta: Record<QueueSource, { label: string; Icon: typeof ScrollText; cls: string }> = {
   past:   { label: '기출 복원', Icon: ScrollText, cls: 'bg-pullim-slate-100 text-pullim-slate-700' },
   review: { label: '오답 보강', Icon: Target,    cls: 'bg-pullim-warn/10 text-pullim-warn' },
   ai:     { label: 'AI 생성',  Icon: Sparkles,  cls: 'bg-pullim-lemon/30 text-pullim-lemon-ink' },
 };
 
 function todayQueue(): { problem: SolveProblem; source: QueueSource }[] {
-  const sources: QueueSource[] = ['studio', 'past', 'review', 'studio', 'ai'];
+  const sources: QueueSource[] = ['past', 'review', 'ai', 'past', 'review'];
   return solveDeck.slice(0, 5).map((p, i) => ({ problem: p, source: sources[i]! }));
 }
 
@@ -227,7 +226,7 @@ function TodayQueueSection() {
         time="오늘 풀이 큐"
         Icon={Pencil}
         accent="primary"
-        sub={`5문항 인터리빙 — 스튜디오·기출·오답 자동 섞임 · 오늘 복습 ${todayDueLeitnerCount + todayDueMemoryCount}건 별도`}
+        sub={`5문항 인터리빙 — 기출·오답·AI 생성 자동 섞임 · 오늘 복습 ${todayDueLeitnerCount + todayDueMemoryCount}건 별도`}
       />
       <ol className="space-y-1.5">
         {queue.map(({ problem, source }, i) => {

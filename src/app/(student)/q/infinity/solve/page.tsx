@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense, useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import { GuardedLink as Link } from '@/components/shell/leave-guard';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Infinity, ArrowRight, ArrowLeft, BookOpen, Check, X, Target } from 'lucide-react';
 import { toast } from 'sonner';

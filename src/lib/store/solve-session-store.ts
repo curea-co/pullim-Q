@@ -79,6 +79,12 @@ export const useSolveSessionStore = create<SolveSessionState & SolveSessionActio
       storage: createJSONStorage(() => localStorage),
       // inProgress 는 휘발성 — 새로고침 시 false 로 시작
       partialize: (s) => ({ snapshot: s.snapshot }),
+      // SolveSessionSnapshot 스키마 변경 시 기존 localStorage 가 폐기되도록 version 박음.
+      version: 1,
+      migrate: (_persisted, version) => {
+        if (version !== 1) return { snapshot: null };
+        return _persisted as { snapshot: SolveSessionSnapshot | null };
+      },
     },
   ),
 );

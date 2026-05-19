@@ -1,5 +1,13 @@
 import { test, expect } from '@playwright/test';
 
+// solve-session-store 의 persist 가 localStorage 에 snapshot 을 남기면
+// 이전 run 의 resume-card 분기가 살아 있어서 가드 분기 판정이 어긋남.
+test.beforeEach(async ({ context }) => {
+  await context.addInitScript(() => {
+    try { window.localStorage.removeItem('pullim-q.solve-session.v1'); } catch {}
+  });
+});
+
 test('Q infinity solve: 브라우저 back 으로 풀이 이탈 가능 (LeaveGuard popstate 사이클 회귀)', async ({ page }) => {
   // free 모드 진입 — isResumableSession=true → setInProgress(true)
   await page.goto('/q/infinity');
