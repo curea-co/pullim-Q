@@ -7,9 +7,10 @@
 ## 0. 진행 현황 (2026-05-18)
 
 - [x] I1 — review-conquer "연속 정답 0회" 빨강 제거 ([src/app/(student)/q/review/conquer/page.tsx](../../src/app/\(student\)/q/review/conquer/page.tsx) `Stat` tone 분기 streak 기반)
+- [x] I2 — AnalysisTwoAxis 또래 마커 `w-0.5`→`w-1` + slate-0 outline-1 + slate-500→slate-700 (2026-05-19)
 - [x] I3 — mode-toggle `badge` "PRACTICE"/"EXAM" 영문 약어 필드 자체 제거 (G1 위임 → PM 결정)
 - [x] N1 — `agent-card.tsx:81` `<span>Orchestrator</span>` 라벨 삭제 (G1 위임 → PM 결정)
-- [ ] I2 / I4 / I5 — 아래 §1
+- [ ] I4 / I5 — 아래 §1
 - [ ] N2 / N3 / N4 — 아래 §2
 
 ## 1. Important (5건)
@@ -21,11 +22,11 @@
 - **결과**: streak 0 → 중립 slate, ≥1 → success 톤 pill. 시작 시점 "실패" 오신호 제거
 - **PR**: #48 (본 sweep plan 동봉)
 
-### I2 — AnalysisTwoAxis 또래 마커 가시성
+### I2 — AnalysisTwoAxis 또래 마커 가시성 (✅ 2026-05-19)
 
-- **위치**: [src/components/analysis/analysis-two-axis.tsx](../../src/components/analysis/analysis-two-axis.tsx) L85-89
-- **변경**: `w-0.5` (1px) → `w-1` (2px) + `outline-1 outline-white` 또는 `ring-1 ring-white` stroke 추가
-- **즉시 가능** (1파일 ≤5줄)
+- **위치**: [src/components/analysis/analysis-two-axis.tsx](../../src/components/analysis/analysis-two-axis.tsx) L85-90
+- **변경**: `w-0.5` (1px) → `w-1` (2px), `bg-pullim-slate-500` → `bg-pullim-slate-700` (콘트라스트), `outline-1 outline-pullim-slate-0` (흰색 stroke 1px) 추가
+- **PR**: 별도 sweep (design audit PR-1~5 미흡수, daily 2026-05-19 carry-over)
 
 ### I3 — infinity-solve-picker "PRACTICE / EXAM" 영문 약어 (✅ 2026-05-18)
 

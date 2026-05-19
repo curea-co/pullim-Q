@@ -82,9 +82,9 @@ function HorizontalBar({ dim }: { dim: MetaDimension }) {
           style={{ width: `${dim.score}%` }}
           aria-hidden
         />
-        {/* 또래 마커 */}
+        {/* UX audit I2: w-1 + slate-0(white) outline 으로 가시성 확보 */}
         <div
-          className="bg-pullim-slate-500 absolute top-1/2 h-3 w-0.5 -translate-y-1/2"
+          className="bg-pullim-slate-700 outline-pullim-slate-0 absolute top-1/2 h-3 w-1 -translate-y-1/2 outline-1"
           style={{ left: `${dim.peer}%` }}
           aria-label={`또래 평균 ${dim.peer}`}
         />
