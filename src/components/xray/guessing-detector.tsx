@@ -8,7 +8,7 @@ export function GuessingDetector() {
   const g = guessDetection;
 
   return (
-    <section className="bg-card rounded-2xl border p-4">
+    <section className="bg-card rounded-xl border p-4">
       <header className="mb-3 flex items-center gap-2">
         <span className="bg-pullim-danger flex h-9 w-9 items-center justify-center rounded-xl text-white">
           <Dice5 className="h-4 w-4" />

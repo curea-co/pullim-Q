@@ -110,16 +110,18 @@
   --color-pullim-heat-4: #2854D8;
   --color-pullim-heat-5: #0E1F54;
 
-  /* 라운드 */
+  /* 라운드 — 권장: xs/sm/md/lg/xl/pill 6단계 (08-design-system.md §4.3) */
   --radius-xs: 4px;
   --radius-sm: 6px;
   --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
+  --radius-lg: 14px;       /* secondary 버튼·작은 카드·인풋 */
+  --radius-xl: 20px;       /* primary CTA·section card·hero (★ 표준) */
   --radius-pill: 9999px;
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  /* deprecate (2026-05-19 audit) — 신규 사용 금지. xl 또는 lg로 마이그레이션.
+     CSS 변수 자체는 외부 사용 가능성을 위해 보존, Ph2에서 제거 검토. */
+  --radius-2xl: calc(var(--radius) * 1.8);   /* DEPRECATED */
+  --radius-3xl: calc(var(--radius) * 2.2);   /* DEPRECATED */
+  --radius-4xl: calc(var(--radius) * 2.6);   /* DEPRECATED */
 
   /* 섹션 리듬 — 페이지 최상위 섹션 간격 / 섹션 헤딩 → 콘텐츠 간격 */
   --spacing-section: 1.5rem;          /* 24px — page.tsx 최상위 space-y */

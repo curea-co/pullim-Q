@@ -14,7 +14,7 @@ const formatIcon: Record<'flashcard' | 'cloze' | 'mcq' | 'rephrase', LucideIcon>
  */
 export function ReviewFormats() {
   return (
-    <section className="bg-card rounded-2xl border p-4">
+    <section className="bg-card rounded-xl border p-4">
       <header className="mb-3">
         <p className="text-pullim-blue-600 text-[10px] font-bold tracking-wider uppercase">
           복습 형태 — 4종 다양화

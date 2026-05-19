@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
  */
 export function AbilityHero() {
   return (
-    <section className="bg-card rounded-2xl border overflow-hidden">
+    <section className="bg-card rounded-xl border overflow-hidden">
       <div className="border-b p-4">
         <div className="flex items-end justify-between">
           <div>

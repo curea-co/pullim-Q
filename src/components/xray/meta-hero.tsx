@@ -30,7 +30,7 @@ export function MetaHero() {
   const angle = (overallMeta.score / 100) * 360;
 
   return (
-    <section className="bg-card relative overflow-hidden rounded-2xl border p-5">
+    <section className="bg-card relative overflow-hidden rounded-xl border p-5">
       <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-[auto_1fr]">
         {/* 종합 도넛 */}
         <div className="flex flex-col items-center gap-2">

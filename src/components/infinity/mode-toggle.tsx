@@ -24,7 +24,7 @@ const modes: { id: SolveMode; Icon: typeof Pencil }[] = [
 export function ModeToggle({ mode, onChange, onRequestExam, examInProgress }: Props) {
   return (
     <section className={cn(
-      'rounded-2xl border-2 p-1.5 transition-colors',
+      'rounded-xl border-2 p-1.5 transition-colors',
       mode === 'exam'
         ? 'border-pullim-warn/40 bg-pullim-warn/5'
         : 'border-pullim-blue-200 bg-pullim-blue-50/40',

@@ -37,7 +37,7 @@ export function ExamStatusBar({ totalSec, remainingSec, onTimeout, proctorAlert 
   const isLowTime = secs < 5 * 60;
 
   return (
-    <section className="bg-pullim-slate-950 relative overflow-hidden rounded-2xl text-white">
+    <section className="bg-pullim-slate-950 relative overflow-hidden rounded-xl text-white">
       {/* 진행 바 */}
       <div
         aria-hidden

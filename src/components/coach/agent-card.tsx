@@ -37,7 +37,7 @@ export function AgentCard({ agent, large }: { agent: Agent; large?: boolean }) {
   const inner = (
     <article
       className={cn(
-        'group relative flex h-full flex-col gap-3 rounded-2xl border p-4 transition-all',
+        'group relative flex h-full flex-col gap-3 rounded-xl border p-4 transition-all',
         isOrchestrator
           ? 'from-pullim-slate-900 to-pullim-blue-900 bg-gradient-to-br border-pullim-blue-600/30 text-white shadow-xl'
           : 'bg-card hover:border-pullim-blue-300 hover:shadow-pullim-md',

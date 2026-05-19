@@ -82,7 +82,7 @@ function DDayHero({
   persona, dday,
 }: { persona: typeof currentPersona; dday: number }) {
   return (
-    <section className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-2xl border p-6">
+    <section className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-xl border p-6">
       <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-pullim-blue-700 inline-flex items-center gap-1 text-[11px] font-bold tracking-wider uppercase">
@@ -189,7 +189,7 @@ function ActionCard({
       : 'bg-pullim-blue-600 hover:bg-pullim-blue-700';
 
   return (
-    <article className={cn('flex flex-col gap-3 rounded-2xl border-2 p-4 sm:flex-row sm:items-start sm:gap-4 sm:p-5', containerClass)}>
+    <article className={cn('flex flex-col gap-3 rounded-xl border-2 p-4 sm:flex-row sm:items-start sm:gap-4 sm:p-5', containerClass)}>
       <div className="flex w-full items-start gap-3 sm:w-auto sm:flex-1 sm:gap-4">
         <span className={cn('flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white', iconClass)}>
           <Icon className="h-5 w-5" />

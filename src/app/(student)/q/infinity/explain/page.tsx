@@ -54,7 +54,7 @@ export default function ExplainLibraryPage() {
       />
 
       {/* 시그니처 강조 카드 — warn 그라디언트 → warn-bg (plan §4.2 PR-C sweep) */}
-      <section className="bg-pullim-warn-bg border-pullim-warn/30 rounded-2xl border p-4">
+      <section className="bg-pullim-warn-bg border-pullim-warn/30 rounded-xl border p-4">
         <div className="flex items-start gap-3">
           <span className="bg-pullim-warn flex h-10 w-10 items-center justify-center rounded-xl text-white">
             <Sparkles className="h-4 w-4" />

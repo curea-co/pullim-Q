@@ -55,7 +55,7 @@ export default function InfinityHomePage() {
           description="지난 24시간 기록과 풀림 해설 추천"
         />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <article className="bg-card rounded-2xl border">
+          <article className="bg-card rounded-xl border">
             <header className="flex items-end justify-between border-b p-4">
               <h3 className="text-pullim-slate-900 text-sm font-bold tracking-tight">
                 최근 풀이 — 지난 24시간
@@ -86,7 +86,7 @@ export default function InfinityHomePage() {
             </ul>
           </article>
 
-          <article className="bg-card rounded-2xl border">
+          <article className="bg-card rounded-xl border">
             <header className="flex items-end justify-between border-b p-4">
               <h3 className="text-pullim-slate-900 inline-flex items-center gap-1 text-sm font-bold tracking-tight">
                 <Sparkles className="text-pullim-warn h-3.5 w-3.5" />
@@ -124,7 +124,7 @@ export default function InfinityHomePage() {
       </section>
 
       {recentExam && (
-        <section className="bg-pullim-warn/5 border-pullim-warn/30 flex items-center gap-4 rounded-2xl border p-4">
+        <section className="bg-pullim-warn/5 border-pullim-warn/30 flex items-center gap-4 rounded-xl border p-4">
           <span className="bg-pullim-warn flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white">
             <Award className="h-5 w-5" />
           </span>

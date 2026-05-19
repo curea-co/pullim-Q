@@ -74,7 +74,7 @@ export function SolveResumeCard({ snapshot }: { snapshot: SolveSessionSnapshot }
   }
 
   return (
-    <section className="bg-pullim-blue-50 border-pullim-blue-200 rounded-2xl border p-4">
+    <section className="bg-pullim-blue-50 border-pullim-blue-200 rounded-xl border p-4">
       <header className="mb-2 flex items-baseline gap-2">
         <span className="text-pullim-blue-700 inline-flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
           <Play className="h-3 w-3" />

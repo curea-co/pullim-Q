@@ -21,7 +21,7 @@ const WEAK_RECOMMENDATIONS: { subject: SubjectKey; patternName: string; count: n
 
 export function SolveSessionPicker({ onPickFree, onPickWeak }: Props) {
   return (
-    <section className="bg-card space-y-4 rounded-2xl border-2 border-dashed p-5">
+    <section className="bg-card space-y-4 rounded-xl border-2 border-dashed p-5">
       <header>
         <p className="text-pullim-blue-600 text-[11px] font-bold tracking-wider uppercase">
           풀이 세션 선택

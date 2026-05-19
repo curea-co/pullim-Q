@@ -16,7 +16,7 @@ export function CrossAppTimeline() {
   const sumOfSources = sortedSources.reduce((s, x) => s + x.count, 0);
 
   return (
-    <section className="bg-card rounded-2xl border">
+    <section className="bg-card rounded-xl border">
       <header className="border-b p-4">
         <p className="text-pullim-blue-600 text-[10px] font-bold tracking-wider uppercase">
           크로스앱 이벤트 버스

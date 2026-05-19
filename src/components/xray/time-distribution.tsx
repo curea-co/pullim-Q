@@ -19,7 +19,7 @@ export function TimeDistributionChart() {
   const guesses = timeDistribution.filter(d => d.isGuess).length;
 
   return (
-    <section className="bg-card rounded-2xl border">
+    <section className="bg-card rounded-xl border">
       <header className="flex items-end justify-between border-b p-4">
         <div>
           <p className="text-pullim-blue-600 flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
