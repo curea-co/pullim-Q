@@ -46,6 +46,11 @@
 - [x] 신설: CONVENTION.md §6 단일 위치로 통합. MEMORY 인덱스 갱신 불필요(프로젝트 워크플로우 룰은 CONVENTION 전속)
 - [x] [daily_outcome/2026-05-15.md](../../daily_outcome/2026-05-15.md) §4 배운 점에 룰 A/B/C 결정 결과 1줄 backfill
 
+### 7. BE 셋업 (09:30 외 신규, 오후 추가 요청 — Ph1/Ph2 PR 분리)
+- [x] cross-ref backfill — 신규 plan: BE 인프라(Drizzle + Docker Postgres + mock seed). 입력 문서: [input/2026-05-18_be-setup-handoff.md](../../input/2026-05-18_be-setup-handoff.md) (sister project pullim-planner 패턴 차용). spec: [proc/spec/2026-05-18_q-be-api-design.md](../spec/2026-05-18_q-be-api-design.md) · 가이드: [proc/research/2026-05-18_q-be-setup-guide.md](../research/2026-05-18_q-be-setup-guide.md)
+- [ ] Ph1 PR (`feat/q-be-ph1-schema-docker`) base=dev — 10 테이블 스키마 + Docker 5433 + drizzle.config + setup guide + api spec
+- [ ] Ph2 PR (`feat/q-be-ph2-seed`) base=dev — `scripts/seed.ts` (10테이블 idempotent) + output handoff
+
 ## AI 우선 위임
 
 - `scripts/qa-audit-2026-05-14.mjs` 재사용해 6 라우트 모바일 360 캡처 자동화 (FAB 3종 변형) + 가린 픽셀 측정값 산출
