@@ -25,7 +25,11 @@ export type SolveSessionSnapshot = {
   savedAt: number; // epoch ms
 };
 
-const SNAPSHOT_TTL_MS = 24 * 60 * 60 * 1000; // 24h
+/** snapshot 보존 시간 (hour). 결합된 UI 카피("24시간 이상 전")도 본 상수로부터 derive. */
+export const SNAPSHOT_TTL_HOURS = 24;
+const SNAPSHOT_TTL_MS = SNAPSHOT_TTL_HOURS * 60 * 60 * 1000;
+
+const STORAGE_KEY = 'pullim-q.solve-session.v1';
 
 type SolveSessionState = {
   snapshot: SolveSessionSnapshot | null;
@@ -75,10 +79,19 @@ export const useSolveSessionStore = create<SolveSessionState & SolveSessionActio
       },
     }),
     {
-      name: 'pullim-q.solve-session.v1',
+      name: STORAGE_KEY,
       storage: createJSONStorage(() => localStorage),
       // inProgress 는 휘발성 — 새로고침 시 false 로 시작
       partialize: (s) => ({ snapshot: s.snapshot }),
     },
   ),
 );
+
+// Cross-tab 1차 동기화 — 다른 탭에서 snapshot 변경 시 현재 탭이 stale 한 채로 머무는 걸 막음.
+// 본격적인 충돌 해소 (per-tab UUID, last-writer warning) 는 후속 작업.
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if (e.key !== STORAGE_KEY) return;
+    void useSolveSessionStore.persist.rehydrate();
+  });
+}
