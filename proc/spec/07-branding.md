@@ -212,6 +212,39 @@
 - shell 1건: `components/shell/nav-config.ts:63` description — [2026-05-07 copy-cleanup-shell-global plan](../archive/2026-05-07_copy-cleanup-shell-global.md)
 - 라이브러리·클래스봇 도메인은 § 5.2 grep 0건 — 신규 회귀 없음.
 
+### 5.3 풀림 해설 12-섹션 라벨 영↔한 매핑 (2026-05-19 audit 반영)
+
+해설 페이지의 12-섹션 라벨이 영문 단독으로 노출돼 학생에게 "차갑고 외계어처럼" 느껴진다는 audit 발견([input/design-system/private-q.md §2](../../input/design-system/private-q.md)). § 5.1 "영문 코드명 노출 금지" 원칙을 해설 섹션 라벨에도 확장 적용한다.
+
+**표기 규약**: "**영문 · 한글**" 페어. 영문 12px, 한글 18px ([08-design-system.md § 3.4](08-design-system.md)). 검색·SEO·내부 참조를 위해 영문은 보존.
+
+| 영문 라벨 (보존) | 한글 라벨 (UI 강조) | 페이즈 ([04 § 6.2.1](04-ux-flow.md)) |
+|---|---|---|
+| Hero Recap | 핵심 한눈에 | 1 · 이해하기 |
+| Root Graph | 원인 트리 | 1 · 이해하기 |
+| Visual Canvas | 그림으로 보기 | 1 · 이해하기 |
+| Error Anatomy | 오답의 해부 | 2 · 다시 풀어보기 |
+| Step Replay | 풀이 단계 | 2 · 다시 풀어보기 |
+| Try Again | 비슷한 1문항 | 2 · 다시 풀어보기 |
+| Concept Deep | 개념 보강 | 3 · 더 단단히 |
+| Similar Set | 유사문항 3 | 3 · 더 단단히 |
+| Feynman Challenge | 셀프 설명 2분 | 3 · 더 단단히 |
+| Common Traps | 자주 틀리는 길 | 3 · 더 단단히 |
+| Drill Pack | 오늘의 드릴 | 3 · 더 단단히 |
+| Memory Anchor / For Teacher | 메모리 카드 · 강사에게 보내기 | 3 · 더 단단히 |
+
+#### 5.3.1 다른 영문 노출 회귀 점검 대상 (2026-05-19 시점 — 미처리)
+
+audit이 발견한 그 외 영문 jargon 노출:
+
+| 노출 위치 | 영문 | 권장 한글 |
+|---|---|---|
+| AI 코치 Scope 라벨 | `Scope L1~L5` | "코치 모드 1~5단계" 또는 "도움 깊이 1~5" |
+| 분석 페이지 | `7대 교육학 엔진` (영문 잔재) | "풀림 코칭 엔진" 또는 한국어 풀어쓰기 |
+| 분석/onboarding | `Hero Recap` 등 영문 단독 | § 5.3 본 표 적용 |
+
+처리 PR은 별도 (`/copy-cleanup-explain-labels` 가칭).
+
 ---
 
 ## 6. UX Writing — 한자어 · 표현 절감

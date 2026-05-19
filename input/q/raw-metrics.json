@@ -1,0 +1,974 @@
+{
+  "desktop": {
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "consoleErrors": [],
+    "meta": {
+      "title": "풀림 Q — 문제 풀이·해설·오답·유사문항",
+      "url": "https://pullim-q.vercel.app/q",
+      "html": 113931,
+      "lang": "ko",
+      "viewport": "width=device-width, initial-scale=1, maximum-scale=5",
+      "themeColor": "#3B6FF6",
+      "bodyClasses": "bg-background text-foreground min-h-full font-sans",
+      "bodyStyle": {
+        "backgroundColor": "rgb(255, 255, 255)",
+        "color": "rgb(18, 22, 39)",
+        "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "24px"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "서연 학생, 안녕하세요",
+          "fontSize": "24px",
+          "fontWeight": "700",
+          "lineHeight": "32px",
+          "color": "rgb(255, 255, 255)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H2",
+          "text": "풀림에서 더 가져오기",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H3",
+          "text": "스토어 인기 문제집 둘러보기",
+          "fontSize": "16px",
+          "fontWeight": "700",
+          "lineHeight": "24px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H3",
+          "text": "내가 풀고 싶은 문제, 직접 만들기",
+          "fontSize": "16px",
+          "fontWeight": "700",
+          "lineHeight": "24px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H3",
+          "text": "오답 3개, 복습 시간이 지났어요",
+          "fontSize": "16px",
+          "fontWeight": "700",
+          "lineHeight": "24px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "함수 f(x) = x³ − 3x + 1의 극댓값과 극솟값을 구하시오.",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "다음 빈칸에 들어갈 말로 가장 적절한 것은? \"Innovation is rarely linear; it is, however, ____ in the sense that ideas ",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "확률변수 X가 정규분포 N(50, 10²)을 따를 때, P(X ≥ 70)의 근삿값은?",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "엘리베이터가 위 방향으로 등가속도 a로 운동할 때, 질량 m인 사람에게 작용하는 수직항력 N의 크기는?",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "Choose the best word: \"She made a difficult ____ to leave the company.\"",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "2025 6월 모의평가 — 수학",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "6월 모의평가",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(18, 22, 39)",
+          "borderRadius": "14px",
+          "padding": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "border": "0px solid rgb(221, 226, 236)",
+          "boxShadow": "none",
+          "w": 0,
+          "h": 0
+        },
+        {
+          "text": "",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(18, 22, 39)",
+          "borderRadius": "14px",
+          "padding": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "border": "0px solid rgb(221, 226, 236)",
+          "boxShadow": "none",
+          "w": 36,
+          "h": 36
+        },
+        {
+          "text": "",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(18, 22, 39)",
+          "borderRadius": "14px",
+          "padding": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "border": "0px solid rgb(221, 226, 236)",
+          "boxShadow": "none",
+          "w": 36,
+          "h": 36
+        },
+        {
+          "text": "서",
+          "bg": "rgb(40, 84, 216)",
+          "color": "rgb(255, 255, 255)",
+          "borderRadius": "3.35544e+07px",
+          "padding": "0px",
+          "fontSize": "12px",
+          "fontWeight": "700",
+          "border": "0px solid rgb(221, 226, 236)",
+          "boxShadow": "none",
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "inputs": [],
+      "colorPalette": [
+        {
+          "token": "color:rgb(18, 22, 39)",
+          "count": 167
+        },
+        {
+          "token": "color:rgb(74, 83, 106)",
+          "count": 67
+        },
+        {
+          "token": "color:rgb(0, 0, 0)",
+          "count": 63
+        },
+        {
+          "token": "color:rgb(255, 255, 255)",
+          "count": 44
+        },
+        {
+          "token": "color:rgb(40, 84, 216)",
+          "count": 37
+        },
+        {
+          "token": "color:rgb(107, 116, 137)",
+          "count": 32
+        },
+        {
+          "token": "color:rgb(151, 160, 180)",
+          "count": 31
+        },
+        {
+          "token": "color:rgb(29, 63, 168)",
+          "count": 30
+        },
+        {
+          "token": "color:rgb(245, 158, 11)",
+          "count": 21
+        },
+        {
+          "token": "color:rgb(183, 189, 205)",
+          "count": 19
+        },
+        {
+          "token": "border:rgb(221, 226, 236)",
+          "count": 15
+        },
+        {
+          "token": "color:rgb(52, 59, 80)",
+          "count": 10
+        },
+        {
+          "token": "color:rgb(230, 255, 76)",
+          "count": 9
+        },
+        {
+          "token": "bg:rgb(218, 227, 251)",
+          "count": 8
+        },
+        {
+          "token": "bg:rgb(237, 240, 245)",
+          "count": 8
+        },
+        {
+          "token": "bg:rgb(255, 255, 255)",
+          "count": 6
+        },
+        {
+          "token": "bg:rgb(245, 158, 11)",
+          "count": 6
+        },
+        {
+          "token": "color:rgb(92, 107, 10)",
+          "count": 6
+        },
+        {
+          "token": "color:rgb(59, 111, 246)",
+          "count": 5
+        },
+        {
+          "token": "bg:rgb(59, 111, 246)",
+          "count": 5
+        },
+        {
+          "token": "color:rgb(32, 38, 58)",
+          "count": 5
+        },
+        {
+          "token": "color:rgb(18, 178, 107)",
+          "count": 5
+        },
+        {
+          "token": "bg:rgb(40, 84, 216)",
+          "count": 4
+        },
+        {
+          "token": "bg:rgb(220, 230, 255)",
+          "count": 2
+        },
+        {
+          "token": "bg:rgb(245, 247, 251)",
+          "count": 1
+        },
+        {
+          "token": "bg:oklab(0.999994 0.0000455678 0.0000200868 / 0.85)",
+          "count": 1
+        },
+        {
+          "token": "border:rgb(220, 230, 255)",
+          "count": 1
+        },
+        {
+          "token": "bg:rgb(229, 72, 77)",
+          "count": 1
+        },
+        {
+          "token": "bg:lab(97.1635 -0.153184 -2.17012 / 0.8)",
+          "count": 1
+        },
+        {
+          "token": "color:rgb(220, 230, 255)",
+          "count": 1
+        }
+      ],
+      "fontSizes": [
+        [
+          "16px",
+          303
+        ],
+        [
+          "12px",
+          83
+        ],
+        [
+          "10px",
+          63
+        ],
+        [
+          "11px",
+          52
+        ],
+        [
+          "14px",
+          46
+        ],
+        [
+          "24px",
+          4
+        ],
+        [
+          "15.84px",
+          1
+        ]
+      ],
+      "borderRadii": [
+        [
+          "3.35544e+07px",
+          29
+        ],
+        [
+          "14px",
+          22
+        ],
+        [
+          "20px",
+          14
+        ],
+        [
+          "18px",
+          4
+        ],
+        [
+          "26px",
+          1
+        ]
+      ],
+      "shadows": [
+        [
+          "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.1) 0px 8px 10px -6px",
+          1
+        ],
+        [
+          "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, lab(72.7914 26.933 75.4338 / 0.2) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          1
+        ],
+        [
+          "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.622989 -0.0378532 -0.210606 / 0.3) 0px 10px 15px -3px, oklab(0.622989 -0.0378532 -0.210606 / 0.3) 0px 4px 6px -4px",
+          1
+        ]
+      ],
+      "links": [
+        {
+          "href": "/q",
+          "text": "풀림Q"
+        },
+        {
+          "href": "/q",
+          "text": "풀림 Q"
+        },
+        {
+          "href": "/q",
+          "text": "홈"
+        },
+        {
+          "href": "/q/infinity",
+          "text": "무한풀기"
+        },
+        {
+          "href": "/q/talk",
+          "text": "코치"
+        },
+        {
+          "href": "/q/analysis",
+          "text": "분석"
+        },
+        {
+          "href": "/q/review",
+          "text": "복습"
+        },
+        {
+          "href": "/q/onboarding",
+          "text": "소개하기"
+        },
+        {
+          "href": "/q/external/store",
+          "text": "스토어 가보기"
+        },
+        {
+          "href": "/q/external/studio",
+          "text": "스튜디오 가보기"
+        },
+        {
+          "href": "/q/review",
+          "text": "오답 정복하기"
+        },
+        {
+          "href": "/q/infinity/solve?kind=free&subject=math",
+          "text": "1스튜디오수학 · 미적분 / 도함수의 활용함수 f(x) = x³ − 3x + 1의 극댓값과"
+        },
+        {
+          "href": "/q/infinity/solve?kind=free&subject=english",
+          "text": "2기출 복원영어 · 독해 / 빈칸 추론다음 빈칸에 들어갈 말로 가장 적절한 것은? \"Inn"
+        },
+        {
+          "href": "/q/infinity/solve?kind=free&subject=math",
+          "text": "3오답 보강수학 · 확률과 통계 / 확률분포확률변수 X가 정규분포 N(50, 10²)을 따"
+        },
+        {
+          "href": "/q/infinity/solve?kind=free&subject=science",
+          "text": "4스튜디오과학 · 물리Ⅰ / 역학과 에너지엘리베이터가 위 방향으로 등가속도 a로 운동할 때"
+        },
+        {
+          "href": "/q/infinity/solve?kind=free&subject=english",
+          "text": "5AI 생성영어 · 어휘 / 연어Choose the best word: \"She made "
+        },
+        {
+          "href": "/q/infinity/exam-result",
+          "text": "지난 시험 결과2025 6월 모의평가 — 수학73점 · 3등급·실력 0.35 → 0.42("
+        },
+        {
+          "href": "/q/infinity/explain/Q-MATH-CALC-0042",
+          "text": "f(x) = x³ − 3x + 1의 극값수학·4.8·2,401회"
+        },
+        {
+          "href": "/q/infinity/explain/Q-ENG-RDG-1208",
+          "text": "cumulative — innovation 빈칸영어·4.6·1,820회"
+        },
+        {
+          "href": "/q/infinity/explain/Q-SCI-PHY-0231",
+          "text": "엘리베이터 수직항력과학·4.7·980회"
+        },
+        {
+          "href": "/q/talk",
+          "text": "AI에게 묻기"
+        },
+        {
+          "href": "/q",
+          "text": "Q 홈"
+        },
+        {
+          "href": "/q/infinity",
+          "text": "무한풀기"
+        },
+        {
+          "href": "/q/analysis",
+          "text": "분석"
+        },
+        {
+          "href": "/q/review",
+          "text": "복습"
+        },
+        {
+          "href": "/me",
+          "text": "내정보"
+        }
+      ],
+      "bodyText": "풀림\nQ\n17일째\n서\n풀림 Q\n홈\n무한풀기\n코치\n분석\n복습\n소개하기\n\n오늘의 풀림 Q\n\n서연 학생, 안녕하세요\n\n6월 모의평가까지 D-22 · 17일 연속 학습 중 · 오늘 12/30문항\n\n연속 17일\n풀림에서 더 가져오기\n— 새 문제도, 좋은 책도 풀러 와요\n이번 주 인기\n스토어 인기 문제집 둘러보기\n\n풀림 검증 + 사용자 평점 높은 책\n\n스토어 가보기\n풀림 스튜디오\n내가 풀고 싶은 문제, 직접 만들기\n\n약점 보강 문제를 만들어 Q에서 바로 풀이\n\n스튜디오 가보기\n\n지금\n\n— 가장 먼저 챙겨야 할 것\n오답 3개, 복습 시간이 지났어요\n\n예: 「빈칸 추론 — therefore 지시 대상」 · 「빈칸 추론 — however 뒤 주장 방향」\n\n오답 정복하기\n\n오늘 풀이 큐\n\n— 5문항 인터리빙 — 스튜디오·기출·오답 자동 섞임 · 오늘 복습 10건 별도\n1\n스튜디오\n수학 · 미적분 / 도함수의 활용\n함수 f(x) = x³ − 3x + 1의 극댓값과 극솟값을 구하시오.\n2\n기출 복원\n영어 · 독해 / 빈칸 추론\n다음 빈칸에 들어갈 말로 가장 적절한 것은? \"Innovation is rarely linear; it is, however, ____ in the sense that ideas accumulate before producing breakthroughs.\"\n3\n오답 보강\n수학 · 확률과 통계 / 확률분포\n확률변수 X가 정규분포 N(50, 10²)을 따를 때, P(X ≥ 70)의 근삿값은?\n4\n스튜디오\n과학 · 물리Ⅰ / 역학과 에너지\n엘리베이터가 위 방향으로 등가속도 a로 운동할 때, 질량 m인 사람에게 작용하는 수직항력 N의 크기는?\n5\nAI 생성\n영어 · 어휘 / 연어\nChoose the best word: \"She made a difficult ____ to leave the company.\"\n\n이번 주\n\n— 지난 7일 동안 일어난 변화\n실력 점수 변화\n+0.05\n수학 +0.07 · 영어 +0.02 · 과학 +0.05\n패턴 정복\n6개\n누적 23개 · 성공률 64%\n마스터 코앞\n1개\nBOX 5에서 5회 연속 성공 시 마스터\n\n다가오는\n\n— 지나온 시험 + 앞으로의 큰 일정\n지난 시험 결과\n2025 6월 모의평가 — 수학\n73점 · 3등급\n·\n실력 0.35 → 0.42\n(+0.07)\nD-22\n6월 모의평가\n남은 학습 시간 약 88시간 (주 28시간 기준)\n\n더 깊이\n\n— 이번 주 인기 풀림 해설 — 한 문제 12-섹션\nf(x) = x³ − 3x + 1의 극값\n수학\n·\n4.8\n·\n2,401회\ncumulative — innovation 빈칸\n영어\n·\n4.6\n·\n1,820회\n엘리베이터 수직항력\n과학\n·\n4.7\n·\n980회\nAI에게 묻기",
+      "images": [],
+      "focusable": 38
+    }
+  },
+  "mobile": {
+    "status": 200,
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "consoleErrors": [],
+    "meta": {
+      "title": "풀림 Q — 문제 풀이·해설·오답·유사문항",
+      "url": "https://pullim-q.vercel.app/q",
+      "html": 113809,
+      "lang": "ko",
+      "viewport": "width=device-width, initial-scale=1, maximum-scale=5",
+      "themeColor": "#3B6FF6",
+      "bodyClasses": "bg-background text-foreground min-h-full font-sans",
+      "bodyStyle": {
+        "backgroundColor": "rgb(255, 255, 255)",
+        "color": "rgb(18, 22, 39)",
+        "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "24px"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "서연 학생, 안녕하세요",
+          "fontSize": "24px",
+          "fontWeight": "700",
+          "lineHeight": "32px",
+          "color": "rgb(255, 255, 255)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H2",
+          "text": "풀림에서 더 가져오기",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H3",
+          "text": "스토어 인기 문제집 둘러보기",
+          "fontSize": "16px",
+          "fontWeight": "700",
+          "lineHeight": "24px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H3",
+          "text": "내가 풀고 싶은 문제, 직접 만들기",
+          "fontSize": "16px",
+          "fontWeight": "700",
+          "lineHeight": "24px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H3",
+          "text": "오답 3개, 복습 시간이 지났어요",
+          "fontSize": "16px",
+          "fontWeight": "700",
+          "lineHeight": "24px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "함수 f(x) = x³ − 3x + 1의 극댓값과 극솟값을 구하시오.",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "다음 빈칸에 들어갈 말로 가장 적절한 것은? \"Innovation is rarely linear; it is, however, ____ in the sense that ideas ",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "확률변수 X가 정규분포 N(50, 10²)을 따를 때, P(X ≥ 70)의 근삿값은?",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "엘리베이터가 위 방향으로 등가속도 a로 운동할 때, 질량 m인 사람에게 작용하는 수직항력 N의 크기는?",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "Choose the best word: \"She made a difficult ____ to leave the company.\"",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "2025 6월 모의평가 — 수학",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        },
+        {
+          "tag": "H4",
+          "text": "6월 모의평가",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "20px",
+          "color": "rgb(18, 22, 39)",
+          "fontFamily": "\"Pretendard Variable\", Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, sans-serif"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(18, 22, 39)",
+          "borderRadius": "14px",
+          "padding": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "border": "0px solid rgb(221, 226, 236)",
+          "boxShadow": "none",
+          "w": 44,
+          "h": 44
+        },
+        {
+          "text": "",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(18, 22, 39)",
+          "borderRadius": "14px",
+          "padding": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "border": "0px solid rgb(221, 226, 236)",
+          "boxShadow": "none",
+          "w": 44,
+          "h": 44
+        },
+        {
+          "text": "",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(18, 22, 39)",
+          "borderRadius": "14px",
+          "padding": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "border": "0px solid rgb(221, 226, 236)",
+          "boxShadow": "none",
+          "w": 44,
+          "h": 44
+        },
+        {
+          "text": "서",
+          "bg": "rgb(40, 84, 216)",
+          "color": "rgb(255, 255, 255)",
+          "borderRadius": "3.35544e+07px",
+          "padding": "0px",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "border": "0px solid rgb(221, 226, 236)",
+          "boxShadow": "none",
+          "w": 44,
+          "h": 44
+        }
+      ],
+      "inputs": [],
+      "colorPalette": [
+        {
+          "token": "color:rgb(18, 22, 39)",
+          "count": 167
+        },
+        {
+          "token": "color:rgb(74, 83, 106)",
+          "count": 67
+        },
+        {
+          "token": "color:rgb(0, 0, 0)",
+          "count": 61
+        },
+        {
+          "token": "color:rgb(255, 255, 255)",
+          "count": 44
+        },
+        {
+          "token": "color:rgb(40, 84, 216)",
+          "count": 37
+        },
+        {
+          "token": "color:rgb(107, 116, 137)",
+          "count": 32
+        },
+        {
+          "token": "color:rgb(151, 160, 180)",
+          "count": 31
+        },
+        {
+          "token": "color:rgb(29, 63, 168)",
+          "count": 30
+        },
+        {
+          "token": "color:rgb(245, 158, 11)",
+          "count": 21
+        },
+        {
+          "token": "color:rgb(183, 189, 205)",
+          "count": 19
+        },
+        {
+          "token": "border:rgb(221, 226, 236)",
+          "count": 15
+        },
+        {
+          "token": "color:rgb(52, 59, 80)",
+          "count": 10
+        },
+        {
+          "token": "color:rgb(230, 255, 76)",
+          "count": 9
+        },
+        {
+          "token": "bg:rgb(218, 227, 251)",
+          "count": 8
+        },
+        {
+          "token": "bg:rgb(237, 240, 245)",
+          "count": 8
+        },
+        {
+          "token": "bg:rgb(255, 255, 255)",
+          "count": 6
+        },
+        {
+          "token": "bg:rgb(245, 158, 11)",
+          "count": 6
+        },
+        {
+          "token": "color:rgb(92, 107, 10)",
+          "count": 6
+        },
+        {
+          "token": "color:rgb(59, 111, 246)",
+          "count": 5
+        },
+        {
+          "token": "bg:rgb(59, 111, 246)",
+          "count": 5
+        },
+        {
+          "token": "color:rgb(32, 38, 58)",
+          "count": 5
+        },
+        {
+          "token": "color:rgb(18, 178, 107)",
+          "count": 5
+        },
+        {
+          "token": "bg:rgb(40, 84, 216)",
+          "count": 4
+        },
+        {
+          "token": "bg:rgb(220, 230, 255)",
+          "count": 2
+        },
+        {
+          "token": "bg:rgb(245, 247, 251)",
+          "count": 1
+        },
+        {
+          "token": "bg:oklab(0.999994 0.0000455678 0.0000200868 / 0.85)",
+          "count": 1
+        },
+        {
+          "token": "border:rgb(220, 230, 255)",
+          "count": 1
+        },
+        {
+          "token": "bg:rgb(229, 72, 77)",
+          "count": 1
+        },
+        {
+          "token": "bg:lab(97.1635 -0.153184 -2.17012 / 0.8)",
+          "count": 1
+        },
+        {
+          "token": "color:rgb(220, 230, 255)",
+          "count": 1
+        }
+      ],
+      "fontSizes": [
+        [
+          "16px",
+          301
+        ],
+        [
+          "12px",
+          82
+        ],
+        [
+          "10px",
+          63
+        ],
+        [
+          "11px",
+          52
+        ],
+        [
+          "14px",
+          47
+        ],
+        [
+          "24px",
+          4
+        ],
+        [
+          "15.84px",
+          1
+        ]
+      ],
+      "borderRadii": [
+        [
+          "3.35544e+07px",
+          29
+        ],
+        [
+          "14px",
+          22
+        ],
+        [
+          "20px",
+          14
+        ],
+        [
+          "18px",
+          4
+        ],
+        [
+          "26px",
+          1
+        ]
+      ],
+      "shadows": [
+        [
+          "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.1) 0px 8px 10px -6px",
+          1
+        ],
+        [
+          "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, lab(72.7914 26.933 75.4338 / 0.2) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          1
+        ],
+        [
+          "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.622989 -0.0378532 -0.210606 / 0.3) 0px 10px 15px -3px, oklab(0.622989 -0.0378532 -0.210606 / 0.3) 0px 4px 6px -4px",
+          1
+        ]
+      ],
+      "links": [
+        {
+          "href": "/q",
+          "text": "풀림Q"
+        },
+        {
+          "href": "/q",
+          "text": "풀림 Q"
+        },
+        {
+          "href": "/q",
+          "text": "홈"
+        },
+        {
+          "href": "/q/infinity",
+          "text": "무한풀기"
+        },
+        {
+          "href": "/q/talk",
+          "text": "코치"
+        },
+        {
+          "href": "/q/analysis",
+          "text": "분석"
+        },
+        {
+          "href": "/q/review",
+          "text": "복습"
+        },
+        {
+          "href": "/q/onboarding",
+          "text": "소개하기"
+        },
+        {
+          "href": "/q/external/store",
+          "text": "스토어 가보기"
+        },
+        {
+          "href": "/q/external/studio",
+          "text": "스튜디오 가보기"
+        },
+        {
+          "href": "/q/review",
+          "text": "오답 정복하기"
+        },
+        {
+          "href": "/q/infinity/solve?kind=free&subject=math",
+          "text": "1스튜디오수학 · 미적분 / 도함수의 활용함수 f(x) = x³ − 3x + 1의 극댓값과"
+        },
+        {
+          "href": "/q/infinity/solve?kind=free&subject=english",
+          "text": "2기출 복원영어 · 독해 / 빈칸 추론다음 빈칸에 들어갈 말로 가장 적절한 것은? \"Inn"
+        },
+        {
+          "href": "/q/infinity/solve?kind=free&subject=math",
+          "text": "3오답 보강수학 · 확률과 통계 / 확률분포확률변수 X가 정규분포 N(50, 10²)을 따"
+        },
+        {
+          "href": "/q/infinity/solve?kind=free&subject=science",
+          "text": "4스튜디오과학 · 물리Ⅰ / 역학과 에너지엘리베이터가 위 방향으로 등가속도 a로 운동할 때"
+        },
+        {
+          "href": "/q/infinity/solve?kind=free&subject=english",
+          "text": "5AI 생성영어 · 어휘 / 연어Choose the best word: \"She made "
+        },
+        {
+          "href": "/q/infinity/exam-result",
+          "text": "지난 시험 결과2025 6월 모의평가 — 수학73점 · 3등급·실력 0.35 → 0.42("
+        },
+        {
+          "href": "/q/infinity/explain/Q-MATH-CALC-0042",
+          "text": "f(x) = x³ − 3x + 1의 극값수학·4.8·2,401회"
+        },
+        {
+          "href": "/q/infinity/explain/Q-ENG-RDG-1208",
+          "text": "cumulative — innovation 빈칸영어·4.6·1,820회"
+        },
+        {
+          "href": "/q/infinity/explain/Q-SCI-PHY-0231",
+          "text": "엘리베이터 수직항력과학·4.7·980회"
+        },
+        {
+          "href": "/q/talk",
+          "text": "AI에게 묻기"
+        },
+        {
+          "href": "/q",
+          "text": "Q 홈"
+        },
+        {
+          "href": "/q/infinity",
+          "text": "무한풀기"
+        },
+        {
+          "href": "/q/analysis",
+          "text": "분석"
+        },
+        {
+          "href": "/q/review",
+          "text": "복습"
+        },
+        {
+          "href": "/me",
+          "text": "내정보"
+        }
+      ],
+      "bodyText": "풀림\n서\n\n오늘의 풀림 Q\n\n서연 학생, 안녕하세요\n\n6월 모의평가까지 D-22 · 17일 연속 학습 중 · 오늘 12/30문항\n\n연속 17일\n풀림에서 더 가져오기\n— 새 문제도, 좋은 책도 풀러 와요\n이번 주 인기\n스토어 인기 문제집 둘러보기\n\n풀림 검증 + 사용자 평점 높은 책\n\n스토어 가보기\n풀림 스튜디오\n내가 풀고 싶은 문제, 직접 만들기\n\n약점 보강 문제를 만들어 Q에서 바로 풀이\n\n스튜디오 가보기\n\n지금\n\n— 가장 먼저 챙겨야 할 것\n오답 3개, 복습 시간이 지났어요\n\n예: 「빈칸 추론 — therefore 지시 대상」 · 「빈칸 추론 — however 뒤 주장 방향」\n\n오답 정복하기\n\n오늘 풀이 큐\n\n— 5문항 인터리빙 — 스튜디오·기출·오답 자동 섞임 · 오늘 복습 10건 별도\n1\n스튜디오\n수학 · 미적분 / 도함수의 활용\n함수 f(x) = x³ − 3x + 1의 극댓값과 극솟값을 구하시오.\n2\n기출 복원\n영어 · 독해 / 빈칸 추론\n다음 빈칸에 들어갈 말로 가장 적절한 것은? \"Innovation is rarely linear; it is, however, ____ in the sense that ideas accumulate before producing breakthroughs.\"\n3\n오답 보강\n수학 · 확률과 통계 / 확률분포\n확률변수 X가 정규분포 N(50, 10²)을 따를 때, P(X ≥ 70)의 근삿값은?\n4\n스튜디오\n과학 · 물리Ⅰ / 역학과 에너지\n엘리베이터가 위 방향으로 등가속도 a로 운동할 때, 질량 m인 사람에게 작용하는 수직항력 N의 크기는?\n5\nAI 생성\n영어 · 어휘 / 연어\nChoose the best word: \"She made a difficult ____ to leave the company.\"\n\n이번 주\n\n— 지난 7일 동안 일어난 변화\n실력 점수 변화\n+0.05\n수학 +0.07 · 영어 +0.02 · 과학 +0.05\n패턴 정복\n6개\n누적 23개 · 성공률 64%\n마스터 코앞\n1개\nBOX 5에서 5회 연속 성공 시 마스터\n\n다가오는\n\n— 지나온 시험 + 앞으로의 큰 일정\n지난 시험 결과\n2025 6월 모의평가 — 수학\n73점 · 3등급\n·\n실력 0.35 → 0.42\n(+0.07)\nD-22\n6월 모의평가\n남은 학습 시간 약 88시간 (주 28시간 기준)\n\n더 깊이\n\n— 이번 주 인기 풀림 해설 — 한 문제 12-섹션\nf(x) = x³ − 3x + 1의 극값\n수학\n·\n4.8\n·\n2,401회\ncumulative — innovation 빈칸\n영어\n·\n4.6\n·\n1,820회\n엘리베이터 수직항력\n과학\n·\n4.7\n·\n980회\nAI에게 묻기\nQ 홈\n무한풀기\n분석\n복습\n내정보",
+      "images": [],
+      "focusable": 38
+    }
+  }
+}

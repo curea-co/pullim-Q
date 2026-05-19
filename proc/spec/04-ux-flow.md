@@ -288,6 +288,40 @@ L4: 거의 정답 ("맞아! 그럼 여기서 a, b, C에 해당하는 값은?")
 
 [03-features-and-ia.md 4.5장](03-features-and-ia.md) 참조. 학생은 12-섹션을 **순차 또는 비순차**로 탐색 가능.
 
+#### 6.2.1 3페이즈 묶음 (2026-05-19 audit 반영)
+
+12-섹션을 학생 멘탈 모델("이해 → 재시도 → 강화")에 맞춰 3페이즈로 그룹화한다. 출처: [input/design-system/private-q.md §2](../../input/design-system/private-q.md). 기존 12-섹션 정의([03-features-and-ia.md 4.5장](03-features-and-ia.md))는 유지하되, 페이지 구조에서 페이즈 grouping을 적용한다.
+
+```
+PHASE 1 · 이해하기            ← 펼침 default
+├ Section 1  Hero Recap · 핵심 한눈에
+├ Section 2  Root Graph  · 원인 트리
+└ Section 7  Visual Canvas · 그림으로 보기
+
+PHASE 2 · 다시 풀어보기        ← 펼침 default
+├ Section 5  Error Anatomy · 오답의 해부
+├ Section 3  Step Replay  · 풀이 단계 (4-Path RECOMMENDED 경로)
+└ Section 6  Try Again    · 비슷한 1문항
+
+PHASE 3 · 더 단단히            ← 접힘 default
+├ Section 4  Concept Deep · 개념 보강
+├ Section 8  Similar Set  · 유사문항 3
+├ Section 9  Feynman Challenge · 셀프 설명 2분
+├ Section 10 Common Traps · 자주 틀리는 길
+├ Section 11 Drill Pack   · 오늘의 드릴
+└ Section 12 Memory Anchor / For Teacher
+```
+
+#### 6.2.2 규약
+
+- **각 페이즈 H2 = 20/600**, 페이즈 안 섹션 H3 = 18/600 ([08-design-system.md § 3.4](08-design-system.md))
+- 모든 영문 라벨은 **"영문 · 한글" 페어 표기** (예: `Hero Recap · 핵심 한눈에`). 영문 12px, 한글 18px ([07-branding.md § 5.3](07-branding.md) 매핑)
+- **PHASE 3 기본 접힘** + "더 단단히 다지기" CTA — 진행 부담 완화
+- 페이즈 사이 `4px brand.100` 구분선 + 페이즈 번호 큰 숫자(48px ghost) 좌측
+- 페이즈 펼침/접힘 모션: `M8` (240ms standard) — [08 § 10.3](08-design-system.md)
+- 수준별 자동 펼침 룰(1~2등급 2섹션 / 3~4등급 4섹션 / 5~9등급 7섹션)은 페이즈 묶음과 직교: 펼침 default 페이즈 안에서 등급 룰을 적용
+- `/q/infinity/explain` ID 미제공 시 fallback 페이지(404 금지) — [input/design-system/private-q.md §2](../../input/design-system/private-q.md) 회귀 사례
+
 ### 6.3 라이브러리 미디어 생성 → 학습 연결
 
 ```
@@ -409,6 +443,94 @@ L4: 거의 정답 ("맞아! 그럼 여기서 a, b, C에 해당하는 값은?")
   - 가로 스크롤 미발생
 - **베이스 컴포넌트 책임**: `components/ui/{dialog,sheet,popover,dropdown-menu,select}.tsx`는 본 규칙을 기본 동작으로 충족해야 한다. 페이지·도메인 컴포넌트가 매번 `max-h`를 덧붙이는 구조는 회귀 위험이 큼 — 베이스에서 처리.
 - **다이얼로그 footer는 sticky + opaque (`bg-muted`)**: 본문 스크롤 시 footer 뒤로 콘텐츠가 비치지 않도록 불투명 배경 유지 ([2026-05-07 dialog footer cleanup plan](../archive/2026-05-07_dialog-footer-bg-cleanup.md) 처리 완료).
+
+### 6.7 Solve 화면 캔버스 (2026-05-19 audit 반영)
+
+**컨텍스트**: 2026-05-19 1차 audit에서 `/q/infinity/solve` 진입 시 라우트가 카테고리 선택 화면만 노출하고 **실제 문항 풀이 UI(선지 카드·타이머·math 렌더)가 비어 있음**을 발견 ([input/design-system/private-q.md §1](../../input/design-system/private-q.md), [input/q/private/](../../input/q/private/)). 학생 핵심 동선의 가장 큰 결손. 본 절은 Solve 풀이 캔버스 최소 UI 명세.
+
+#### 6.7.1 레이아웃 (목표 시각)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  [← 나가기] 수학·수열 · 23/30                  [⏱ 02:14] [⋯] │  ← top bar, sticky
+├─────────────────────────────────────────────────────────────┤
+│  ─── 문항 24                                       난이도 ★★★ │
+│  다음 수열 {aₙ}이 …                                          │  ← stem
+│    aₙ = 2n² + 1                                              │  ← KaTeX
+│  이때 a₅ 의 값을 구하시오.                                    │
+│  ┌─────────────────────────────────────┐                    │
+│  │ ①  21    [선택됨 ●]                  │  ← radio card 64h │
+│  └─────────────────────────────────────┘                    │
+│  ┌─ ② 43 ─┐ ┌─ ③ 51 ─┐ ┌─ ④ 67 ─┐ ┌─ ⑤ 73 ─┐                │
+│  [📌 북마크] [⚠ 신고] [💡 힌트(1/3)]            [정답 제출 →]│  ← bottom action
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### 6.7.2 컴포넌트 규약
+
+| 영역 | 규약 |
+|---|---|
+| **Top bar** | sticky top, 높이 56(데스크탑)/52(모바일), 좌: 나가기 + 컨텍스트(과목·진행), 우: 타이머 + 메뉴 |
+| **타이머** | `font.mono` (Geist Mono) — `--font-mono` 토큰. 마지막 30초부터 `M3` 모션 (color → `live.fg` + 0.5s pulse) |
+| **문항 stem** | `text-base` (Compact 16px / Comfortable 16px), `line-height: 1.7`, 수식은 KaTeX 렌더 (`react-katex`) |
+| **선지 카드** | radius `rounded-lg`(14px), 1px border, 카드 높이 ≥ 56(모바일)/64(데스크탑). 좌측 24px 체크 아이콘 + 보기 텍스트 16px |
+| **선지 선택 상태** | `bg-pullim-blue-50` + `border-2 border-pullim-blue-600`. 선택 변경은 radio 패턴 (단일 선택) |
+| **선지 정답/오답 reveal** | `M1` (정답) / `M2` (오답) 모션 ([08 § 10.3](08-design-system.md)) |
+| **하단 액션** | 좌: 북마크·신고·힌트(잔여 카운트 pill `bg-pullim-blue-50`), 우: Primary CTA (`rounded-xl bg-pullim-blue-600`) — [08 § 7.3.3](08-design-system.md) |
+| **힌트 시스템** | 잔여 횟수 뱃지(`pill, bg brand.50`). 사용 시 점수 가중치 `-X%` **사전 고지** (확인 다이얼로그). 모션 `M9` |
+| **풀스크린 모드** | `F` 키 토글: 사이드바·헤더 숨김, 문항 영역만 노출 (집중 모드). 시험 직전 학생용. ESC로 해제 |
+
+#### 6.7.3 시험 모드 vs 연습 모드
+
+| 항목 | 연습 모드 (기본) | 시험 모드 |
+|---|---|---|
+| 타이머 | 누적·표시 (압박 없음) | 카운트다운 + `M3` 펄스 |
+| 힌트 | 가능 (잔여 횟수) | 차단 (Scope L1, AI 코치 비활성) |
+| 정답 reveal | 즉시 (`M1`/`M2`) | 제출 후 일괄 |
+| 우측 패널 | AI 코치 (코치 모드) | 숨김 또는 OMR 미니맵 |
+| 진입 다이얼로그 | 없음 | 시험 세트·룰 박스 다이얼로그 (§ 6.6.3) |
+
+#### 6.7.4 a11y / 인터랙션
+
+- 선지 키보드 네비: `↑↓` 또는 `1~5` 숫자키
+- `Enter` 제출 (선지 선택 시), `Space` 선지 토글
+- `Esc` 풀스크린 해제
+- 선지 카드 hit-area ≥ 44pt ([08 § 6.4](08-design-system.md))
+- 모션 감소(`prefers-reduced-motion`) 시 `M1`/`M2` 비활성
+
+#### 6.7.5 데이터·라우트 가드
+
+- `/q/infinity/solve` 라우트가 비어 있으면 **카테고리 픽커로 fallback** (현 동작 유지)
+- `/q/infinity/explain` ID 없이 직접 진입 → 가장 최근 정복 카드의 해설로 리다이렉트 또는 빈 상태(404 금지) — § 6.2.2 회귀 룰
+- 백엔드 게이트 풀리는 시점은 [10-roadmap.md](10-roadmap.md) Phase 진행에 의존. 본 명세는 풀린 직후 즉시 적용 가능한 디자인 계약
+
+### 6.8 복습 3-bucket 그룹화 (2026-05-19 audit 반영)
+
+`/q/review`는 1차 audit에서 헤딩 위계가 가장 양호한 페이지이나, 모든 오답을 일렬로 노출해 학생이 "어디서 시작할지" 결정 부담이 큼. [input/design-system/private-q.md §4](../../input/design-system/private-q.md) 권고에 따라 만료시간 기반 3-bucket 그룹화.
+
+#### 6.8.1 Bucket 정의
+
+| Bucket | 조건 | H2 라벨 | 좌측 막대 |
+|---|---|---|---|
+| **지금 즉시** | 만료 시각 ≤ 현재 | "지금 즉시 — N건 · 모두 만료" | 5px `danger.fg` |
+| **오늘 안에** | 만료 ≤ 24h 후 | "오늘 안에 — N건 · 만료 12h 이내" | 5px `warning.cta-bg` |
+| **이번 주** | 만료 ≤ 7d 후 | "이번 주 — N건" | 5px `brand.400` |
+
+- bucket 안 1차 정렬: 만료시간 임박순
+- bucket 비면 섹션 자체 숨김 (빈 카드 회피)
+- 빈 상태(모든 bucket 0건): "복습할 게 없어요! 멋져요 ✨" empty state
+
+#### 6.8.2 행 규약
+
+- **행 높이 80px 고정** (두 줄 텍스트), `lg` viewport에서만 96px 확장 허용
+- 행 구성: 좌측 컬러 막대(5px) + 만료 인디케이터(`🔴 -2일 지남` 또는 `🟡 12h 남음`) + 문항 stem 1줄 + 우측 [복습 →] 버튼
+- 행 hover 시 `bg-pullim-blue-50`
+- 행 hit-area 전체 클릭 가능 (모바일 fat-finger)
+
+#### 6.8.3 Sticky bottom CTA
+
+- "전체 복습 시작" sticky bottom — 첫 bucket부터 순서대로 자동 진행
+- bucket이 1개 이하일 때만 노출 (UI 복잡도 절감)
 
 ---
 
