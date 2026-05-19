@@ -173,7 +173,7 @@ export function ExamConfirmDialog({
               onConfirm(selected);
               onOpenChange(false);
             }}
-            className="bg-pullim-warn hover:bg-pullim-warn/90 disabled:opacity-50 disabled:pointer-events-none rounded-lg px-3.5 py-2 text-sm font-bold text-white"
+            className="bg-pullim-warn-cta-bg hover:bg-pullim-warn-cta-bg/90 disabled:opacity-50 disabled:pointer-events-none rounded-lg px-3.5 py-2 text-sm font-bold text-white"
           >
             시험 시작{selected ? ` (${selected.duration}분)` : ''}
           </button>

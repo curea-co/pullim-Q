@@ -80,11 +80,11 @@ export function OmrSheet({ total, current, answers, marked, onJump, onSubmit }: 
         <button
           type="button"
           onClick={onSubmit}
-          className="bg-pullim-warn hover:bg-pullim-warn/90 w-full rounded-lg py-2.5 text-sm font-bold text-white"
+          className="bg-pullim-warn-cta-bg hover:bg-pullim-warn-cta-bg/90 w-full rounded-lg py-2.5 text-sm font-bold text-white"
         >
           제출하기 ({answered}/{total} 마킹됨)
         </button>
-        <p className="text-pullim-slate-400 mt-1.5 text-center text-[10px]">
+        <p className="text-pullim-slate-500 mt-1.5 text-center text-[10px]">
           제출하면 자동 채점·풀림 해설이 즉시 공개돼요
         </p>
       </footer>

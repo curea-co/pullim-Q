@@ -58,7 +58,7 @@ export function SolveSessionBar({
           {subjectLabel[0]}
         </span>
         <div className="min-w-0 flex-1">
-          <div className="text-pullim-slate-400 text-[10px] font-bold tracking-wider uppercase">
+          <div className="text-pullim-slate-500 text-[10px] font-bold tracking-wider uppercase">
             지금 풀고 있어요
           </div>
           <h3 className="text-pullim-slate-900 mt-0.5 truncate text-sm font-bold tracking-tight">
@@ -73,7 +73,7 @@ export function SolveSessionBar({
             <div className="text-pullim-slate-900 font-mono text-sm font-bold tabular-nums">
               {current}/{total}
             </div>
-            <div className="text-pullim-slate-400 text-[10px]">{pct}% 완료</div>
+            <div className="text-pullim-slate-500 text-[10px]">{pct}% 완료</div>
           </div>
           <button
             type="button"

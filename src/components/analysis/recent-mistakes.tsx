@@ -52,7 +52,7 @@ function MistakeCard({ diagnosis }: { diagnosis: WrongAttemptDiagnosis }) {
         )}
       >
         <div className="flex items-center gap-1.5">
-          <span className="text-pullim-slate-400 font-mono text-[10px] tracking-wider uppercase">
+          <span className="text-pullim-slate-500 font-mono text-[10px] tracking-wider uppercase">
             {meta.skuLabel}
           </span>
           <span className="text-pullim-slate-500 text-[11px]">

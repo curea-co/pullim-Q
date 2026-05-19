@@ -19,7 +19,8 @@ type Props = {
  * 메타데이터 2-단계 렌더러 — Layer 1 §14.1 "메타 hierarchy 2단계" 룰 준수.
  *
  * - primary: slate-700 (light) / slate-200 (dark) — 스캔 시 먼저 잡혀야 할 핵심
- * - secondary: slate-400 (light) / slate-500 (dark) — 부가 정보
+ * - secondary: slate-500 (light) / slate-500 (dark) — 부가 정보
+ *   (light slate-400은 <14px 메타에서 3.0:1 대비 미달, §1.2.1 룰에 따라 slate-500)
  *
  * 카드/리스트 행에서 ≥3 메타 항목을 한 단계 회색으로 늘어놓던 패턴을
  * "primary · secondary"로 분리하기 위한 공통 컴포넌트.
@@ -35,7 +36,7 @@ export function MetaRow({
   const primaryCls =
     tone === 'dark' ? 'text-pullim-slate-200' : 'text-pullim-slate-700';
   const secondaryCls =
-    tone === 'dark' ? 'text-pullim-slate-500' : 'text-pullim-slate-400';
+    tone === 'dark' ? 'text-pullim-slate-500' : 'text-pullim-slate-500';
   const sepCls =
     tone === 'dark' ? 'text-pullim-slate-700' : 'text-pullim-slate-300';
   const primarySize = size === 'sm' ? 'text-xs' : 'text-[11px]';

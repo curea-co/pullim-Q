@@ -74,7 +74,7 @@ export function MetaCognitionReport() {
           </div>
         </div>
 
-        <p className="text-pullim-slate-400 border-pullim-slate-100 border-t pt-3 text-[10px] italic text-center">
+        <p className="text-pullim-slate-500 border-pullim-slate-100 border-t pt-3 text-[10px] italic text-center">
           {r.signature}
         </p>
       </div>

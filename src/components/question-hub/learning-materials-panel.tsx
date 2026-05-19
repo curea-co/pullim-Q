@@ -84,7 +84,7 @@ function Card({
       <header className="mb-2 flex items-center gap-1.5">
         <Icon className="text-pullim-blue-600 h-3.5 w-3.5" aria-hidden />
         <h4 className="text-pullim-slate-900 text-xs font-bold tracking-tight">{title}</h4>
-        <span className="text-pullim-slate-400 ml-auto text-[10px]">{subtitle}</span>
+        <span className="text-pullim-slate-500 ml-auto text-[10px]">{subtitle}</span>
       </header>
       {children}
     </section>

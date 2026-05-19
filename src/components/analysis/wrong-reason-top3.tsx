@@ -27,7 +27,7 @@ export function WrongReasonTop3() {
         <h2 className="text-pullim-slate-900 text-sm font-bold tracking-tight">
           최근 오답 원인 Top 3
         </h2>
-        <span className="text-pullim-slate-400 text-[11px]">
+        <span className="text-pullim-slate-500 text-[11px]">
           — 분석에서 발견한 · 한 문제씩 들여다볼 때 먼저 살펴봐요
         </span>
       </div>
@@ -75,7 +75,7 @@ function ReasonCard({
         <span className="text-pullim-slate-900 text-sm font-bold tracking-tight">
           {entry.label}
         </span>
-        <span className="text-pullim-slate-400 ml-auto font-mono text-[11px]">
+        <span className="text-pullim-slate-500 ml-auto font-mono text-[11px]">
           {count}회
         </span>
       </div>

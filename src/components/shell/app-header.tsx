@@ -26,7 +26,7 @@ export function AppHeader() {
 
         <Link href="/q" className="flex items-center gap-1.5 shrink-0">
           <PullimLogo size={22} />
-          <span className="text-pullim-slate-400 hidden text-[10px] font-bold uppercase md:inline">
+          <span className="text-pullim-slate-500 hidden text-[10px] font-bold uppercase md:inline">
             Q
           </span>
         </Link>

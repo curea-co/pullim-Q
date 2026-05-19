@@ -95,14 +95,14 @@ export function SolveSessionPicker({ onPickFree, onPickWeak }: Props) {
               <span className="bg-pullim-slate-100 text-pullim-slate-400 flex h-10 w-10 items-center justify-center rounded-xl">
                 <Lock className="h-3.5 w-3.5" />
               </span>
-              <span className="text-pullim-slate-400 text-xs font-bold">
+              <span className="text-pullim-slate-500 text-xs font-bold">
                 {subjectLabels[s]}
               </span>
-              <span className="text-pullim-slate-400 text-[9px]">준비 중</span>
+              <span className="text-pullim-slate-500 text-[9px]">준비 중</span>
             </div>
           ))}
         </div>
-        <p className="text-pullim-slate-400 mt-1 text-[10px]">
+        <p className="text-pullim-slate-500 mt-1 text-[10px]">
           자유 풀이는 AI가 내 실력에 맞게 단원을 자동 섞어줘요.
         </p>
       </div>

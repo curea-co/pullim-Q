@@ -24,7 +24,7 @@ export function ErrorPatternList() {
           </p>
           <h2 className="text-pullim-slate-900 text-base font-bold">내가 자주 틀리는 패턴</h2>
         </div>
-        <span className="text-pullim-slate-400 text-[10px] font-mono">
+        <span className="text-pullim-slate-500 text-[10px] font-mono">
           최근 30일
         </span>
       </header>
@@ -39,7 +39,7 @@ export function ErrorPatternList() {
                   <span className="bg-pullim-blue-100 text-pullim-blue-700 rounded-full px-1.5 py-0.5 text-[9px] font-bold tracking-wider uppercase">
                     {subjectLabels[p.subject]}
                   </span>
-                  <span className="text-pullim-slate-400 font-mono text-[9px]">
+                  <span className="text-pullim-slate-500 font-mono text-[9px]">
                     {p.code}
                   </span>
                   <span className="text-pullim-danger ml-auto inline-flex items-baseline gap-0.5 font-mono text-xs font-bold">
