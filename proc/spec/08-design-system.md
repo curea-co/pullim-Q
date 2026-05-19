@@ -17,12 +17,14 @@
 | 200 | `#B8CDFF` | 비활성 강조 |
 | 300 | `#8BAEFF` | 보조 차트 |
 | 400 | `#5A8BFF` | 보조 강조, 다크모드 primary |
-| **500** | **`#3B6FF6`** | **메인 Primary, CTA** |
-| 600 | `#2854D8` | hover/active, 슬라이더 thumb |
+| **500** | **`#3B6FF6`** | **메인 Primary, CTA** (Q 의도) |
+| 600 | `#2854D8` | hover/active, 슬라이더 thumb · 3앱 통합 audit Primary 권고 (§ 1.1 노트) |
 | 700 | `#1D3FA8` | accent foreground (라이트) |
 | 800 | `#152E7A` | 어두운 강조 |
 | 900 | `#0E1F54` | 다크 배경 강조 |
 | 950 | `#070F2C` | 가장 어두운 |
+
+> **교차 참조 노트 (2026-05-19)**: [input/design-system/DESIGN_SYSTEM.md §3](../../input/design-system/DESIGN_SYSTEM.md)의 Planner/Q/Classbot 3앱 통합 audit는 공통 Primary CTA로 `#2854D8`(blue-600)을 권고. 풀림 Q는 의도적으로 `#3B6FF6`(blue-500)을 Primary로 유지 — 통합 토큰화는 별도 워크스페이스(3앱 모노레포) 결정 사항이며 본 spec 범위 외. 두 톤 모두 활성 토큰으로 유지.
 
 ### 1.2 풀림 슬레이트 (중립)
 
@@ -34,21 +36,46 @@
 | 100 | `#EDF0F5` | secondary |
 | 200 | `#DDE2EC` | border |
 | 300 | `#C4CBDA` | 비활성 텍스트 |
-| 400 | `#97A0B4` | 다크 muted-foreground |
-| 500 | `#6B7489` | muted-foreground |
+| 400 | `#97A0B4` | 다크 muted-foreground (라이트에서는 **§ 1.2.1 사용 룰** 참조) |
+| 500 | `#6B7489` | muted-foreground (라이트 본문 메타 최소선) |
 | 600 | `#4A536A` | 보조 텍스트 |
 | 700 | `#343B50` | 강조 텍스트 |
 | 800 | `#20263A` | secondary-foreground (라이트) |
 | 900 | `#121627` | foreground (라이트) |
 | 950 | `#080B18` | 다크 배경 |
 
+#### 1.2.1 slate-400 (`#97A0B4`) 사용 룰 (2026-05-19 audit 반영)
+
+흰 배경 위 `#97A0B4`는 명도 대비 ~3.0:1로 WCAG AA 본문(4.5:1) 미달. [input/design-system/DESIGN_SYSTEM.md §4.1](../../input/design-system/DESIGN_SYSTEM.md) 권고에 따라 라이트 모드에서 다음 룰을 적용:
+
+| 사용처 | 정책 |
+|---|---|
+| ≥ 14px 텍스트 | 허용 — 3:1 대형 텍스트 룰 충족 (대비 OK) |
+| < 14px 메타·캡션 텍스트 | **금지** — `pullim-slate-500 #6B7489`로 대체 |
+| 다크 모드 muted-foreground | 그대로 사용 (다크 위에서는 대비 OK) |
+
+> 회귀 사례: Q 1차 audit가 `/q` 홈·`/q/analysis` 메타 10~11px에서 `#97A0B4` 사용을 발견 ([input/q/private/private-metrics.json](../../input/q/private/private-metrics.json), [private-q.md §0](../../input/design-system/private-q.md)). 후속 코드 grep + 치환 PR은 별도.
+
 ### 1.3 시맨틱
 
-| 토큰 | HEX | 배경 (-bg) | 용도 |
-|------|-----|-----------|------|
-| success | `#12B26B` | `#E6F7EE` | 성공·정답·완료 |
-| warn | `#F59E0B` | `#FEF3DB` | 경고·주의 |
-| danger | `#E5484D` | `#FCE9EA` | 오답·삭제·destructive |
+| 토큰 | 텍스트 fg | 배경 bg | CTA bg (흰글자 위) | 용도 |
+|------|---|---|---|------|
+| success | `#0E8C56` | `#E6F7EE` | `#0E8C56` | 성공·정답·완료 |
+| warn    | `#B7791F` | `#FEF3DB` | `#D97706` | 경고·주의 |
+| danger  | `#C03B3F` | `#FCE9EA` | `#C03B3F` | 오답·삭제·destructive |
+| live    | `#E5484D` | `#FFE9EA` | — | 시험 모드·LIVE 뱃지 (큰 라벨만) |
+
+#### 1.3.1 AA 대비 분리 룰 (2026-05-19 audit 반영)
+
+본 절은 [input/design-system/DESIGN_SYSTEM.md §4.1](../../input/design-system/DESIGN_SYSTEM.md) 권고를 Q에 반영한 결과다. 의도: 흰 배경 위 텍스트와 흰글자 위 CTA 배경의 대비 책임을 분리한다.
+
+| 색상 | 대비 사실 | 정책 |
+|---|---|---|
+| `#F59E0B` 위 흰글자 | 2.6:1 (AA 미달) | **CTA 배경 금지**. CTA는 `warn.cta-bg #D97706`(4.5:1) 또는 amber 배경 + 짙은 갈색(`#3F2A00`) 텍스트로 페어 |
+| `#12B26B` 위 흰글자 | 4.0:1 (경계) | 텍스트 fg는 `#0E8C56`로 한 톤 낮춤. 배경 토큰 자체는 그대로 |
+| `#E5484D` 위 흰글자 | 3.7:1 (경계) | 본문 텍스트는 `danger.fg #C03B3F` 사용. `#E5484D`는 큰 라벨·뱃지에서만 |
+
+> SPEC은 위 fg/bg/cta-bg 분리를 권장 정책으로 명시한다. 실제 코드 토큰([src/app/globals.css](../../src/app/globals.css)) 갱신은 후속 PR로 분리 — 본 명세 변경은 정책 합의가 선행.
 
 ### 1.4 IRT 난이도 (5단계)
 
@@ -162,6 +189,17 @@ before/after 비교 캡처: [proc/research/2026-05-13_color-tone-apply/](../rese
 
 > Compact 본문 16px 하한은 iOS Safari 자동 줌 방지 + 학생 가독성 보장 (Layer 1 베이스라인).
 
+#### 3.4.1 금지 사이즈 (2026-05-19 audit 반영)
+
+다음 사이즈는 풀림 Q 학생 UI에서 **사용 금지**한다. 시각 디자인 회귀 방지 + a11y 보호 목적.
+
+| 금지 사이즈 | 사유 |
+|---|---|
+| 9px / 10px / 10.5px / 11px / 12.5px | 학생 가독성 미달. 캘린더 시각 라벨·차트 축·뱃지 메타에서도 12px 이상으로 통일 |
+| 흰 배경 위 12px 메타 `font-weight < 500` | 시각 무게 부족 — 메타는 `font-weight ≥ 500` 강제 |
+
+> 출처: [input/design-system/DESIGN_SYSTEM.md §4.2](../../input/design-system/DESIGN_SYSTEM.md) "size.* 금지" 절. Q 회귀 사례는 `/q/analysis` 차트 축 라벨 11px·`/q` 홈 메타 10px ([input/design-system/private-q.md](../../input/design-system/private-q.md) §0 a~b 항).
+
 수식 렌더링: **KaTeX** (`react-katex`).
 
 ---
@@ -195,14 +233,32 @@ before/after 비교 캡처: [proc/research/2026-05-13_color-tone-apply/](../rese
 | **Atomic badge** | `rounded-sm` | 6px | 10회 | "T2 · Fast" 같은 micro badge, heatmap 정사각형 |
 | **Pill** (chip · avatar · FAB) | `rounded-full` | ∞ | 122회 | "연속 17일" chip, 아바타, "AI에게 묻기" FAB, kind 배지 |
 
-### 4.3 알려진 hierarchy 역전 (의도된 결정 / TODO)
+### 4.3 알려진 hierarchy 역전 + 축약 권고 (2026-05-19 audit 반영)
+
+#### 4.3.1 현재 hierarchy 역전 (의도된 결정)
 
 | 비교 | 값 | 시각 |
 |---|---|---|
 | `rounded-xl` (CTA·버튼) | 20px | **더 둥글** |
 | `rounded-2xl` (Section card) | 18px | 덜 둥글 |
 
-일반 디자인 원칙: 컨테이너(카드) > 버튼 (카드가 더 둥글어야 자연). 풀림 Q는 의도적으로 **버튼을 약간 더 둥글게** 두어 CTA 친근감을 강조. hierarchy 강화가 필요해지면 `--radius-2xl` 을 `calc(--radius × 2.4)` (24px)로 조정. **이번 PR 범위 밖**.
+일반 디자인 원칙: 컨테이너(카드) > 버튼 (카드가 더 둥글어야 자연). 풀림 Q는 의도적으로 **버튼을 약간 더 둥글게** 두어 CTA 친근감을 강조.
+
+#### 4.3.2 축약 권고 (deprecate 후보)
+
+[input/design-system/DESIGN_SYSTEM.md §4.4](../../input/design-system/DESIGN_SYSTEM.md) 및 [IMPROVEMENTS.md A5](../../input/design-system/IMPROVEMENTS.md)는 3앱 공통으로 radius를 **14 / 20 / pill 3단계**로 축약 권고. 풀림 Q에서 16/18/26 픽셀 출현이 시각 일관성을 흩는다.
+
+| 토큰 | 값 | 신규 사용 정책 |
+|---|---|---|
+| `xs` 4px / `sm` 6px / `md` 10px | 유지 | atomic badge·icon container 한정 |
+| `lg` 14px | **권장 표준** | secondary 버튼·작은 카드·인풋 |
+| `xl` 20px | **권장 표준** | primary CTA·section card·hero |
+| `pill` 9999px | 유지 | chip·avatar·FAB |
+| `2xl` 18px | ⚠ **deprecate 후보** | 신규 사용 금지. 기존 67회는 `xl`(20)로 마이그레이션 검토 |
+| `3xl` 22px | ⚠ **deprecate 후보** | 신규 사용 금지 |
+| `4xl` 26px | ⚠ **deprecate 후보** | 신규 사용 금지 |
+
+> **이번 spec 변경은 정책 선언**이다. 토큰 자체 제거 + 코드 grep+치환은 별도 PR (`/q/section-card` 67건 등 영향). hierarchy 역전 문제는 축약 완료 시 `xl(20)` 단일 표준으로 자연 해소.
 
 ### 4.4 신규 컴포넌트 가이드
 
@@ -387,16 +443,46 @@ before/after 비교 캡처: [proc/research/2026-05-13_color-tone-apply/](../rese
 ## 10. 모션 / 애니메이션
 
 - **tw-animate-css** 활용 (Tailwind 기반)
-- 표준 duration:
-  - 짧음 (hover): 120ms
-  - 중간 (페이지 전환): 200ms
-  - 김 (모달): 300ms
-- easing: 기본 `ease`, 강조 시 `ease-out`
 
-### 인터랙션 표준
-- 버튼 hover: `transition-colors duration-120`
+### 10.1 Duration / Easing 토큰 (2026-05-19 audit 반영)
+
+| 토큰 | 값 | 용도 |
+|---|---|---|
+| `motion.duration.fast` | 120ms | hover·작은 transform |
+| `motion.duration.base` | 200ms | 페이지 전환·일반 transition |
+| `motion.duration.slow` | 320ms | 모달·슬라이드인 (기존 300ms → 320ms로 통일) |
+| `motion.easing.standard` | `cubic-bezier(0.4, 0, 0.2, 1)` | 기본 |
+| `motion.easing.emphasis` | `cubic-bezier(0.2, 0.8, 0.2, 1)` | spring·강조 |
+
+> 출처: [input/design-system/tokens.json](../../input/design-system/tokens.json) `motion.*`.
+
+### 10.2 인터랙션 표준
+- 버튼 hover: `transition-colors duration-120 ease-standard`
 - 슬라이더 thumb: `transition-transform 120ms`, hover `scale(1.1)`, active `scale(1.15)`
 - 카드 hover: 살짝 떠오르기 (`shadow-pullim-md` → `shadow-pullim-lg`)
+- 포커스 링: **transition 없이 즉시** 적용 (a11y — 키보드 사용자 신호 지연 금지)
+
+### 10.3 Q 학습 모션 카탈로그 (M1~M10)
+
+학생 학습 도파민 + 흐름 페이싱에 특화된 모션 패턴. 출처: [input/design-system/private-q.md §9](../../input/design-system/private-q.md).
+
+| ID | 트리거 | 변화 | duration / easing |
+|----|--------|------|-------|
+| **M1** | 정답 제출 → 정답 | 선지 카드 border `success.fg 3px`, ✓ 아이콘 우상단 spring scale(0→1.1→1), confetti 8알 | 400ms `emphasis` |
+| **M2** | 정답 제출 → 오답 | 선택 카드 shake X(-6→6→-3→0), border `danger.fg 2px`, 정답 카드 천천히 highlight | 350ms `standard` |
+| **M3** | 타이머 ≤30s | 타이머 텍스트 color → `live.fg`, 0.5s pulse loop, 마지막 10s에 `navigator.vibrate` | infinite |
+| **M4** | 점수 노출 (`exam-result`) | 점수 숫자 0 → 실제값 counter-up, 끝에 +N 부동 라벨 | 1200ms `emphasis` |
+| **M5** | 페이지 진입 카드 stagger | 카드 i 마다 delay = i × 40ms, opacity+y(8→0) | base 200ms × N |
+| **M6** | 스트릭 +1 (큐 완료) | 스트릭 뱃지 spring scale(1→1.15→1) + brand glow + 텍스트 flip | 600ms `emphasis` |
+| **M7** | 마스터리 진행바 채워짐 | width 0→target px, 그라데이션 shimmer 1회, 카운트업 동시 | 800ms `standard` |
+| **M8** | 해설 페이즈 펼침/접힘 | height 0↔auto + opacity, chevron rotate 0↔180 | 240ms `standard` |
+| **M9** | 힌트 사용 | 힌트 카드 slide-down from top, 잔여 횟수 뱃지 -1 카운트 | 280ms `emphasis` |
+| **M10** | 큐 chunk 휴식 모달 | 풀스크린 dim + 휴식 카드 spring up, 30s ring countdown | 320ms `emphasis` |
+
+#### 10.3.1 `prefers-reduced-motion` 룰
+- `M1` confetti / `M2` shake / `M3` vibrate / `M6` spring scale → **비활성**
+- `M4` counter-up → 즉시 최종값 표시
+- 그 외 transform 기반 모션 → 0.001s로 단축
 
 ---
 
@@ -425,6 +511,13 @@ before/after 비교 캡처: [proc/research/2026-05-13_color-tone-apply/](../rese
 - focus ring: `--shadow-pullim-glow` 또는 `outline: 2px solid blue-400`
 - 모든 인터랙티브 요소 키보드 접근 가능
 - focus-visible 사용 (마우스 클릭에는 안 보이게)
+
+#### 12.1.1 글로벌 `:focus-visible` 룰 (2026-05-19 audit 반영)
+
+- **글로벌 적용**: `button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])` 에 `:focus-visible` 시 `box-shadow: var(--shadow-pullim-glow)` 적용. 개별 컴포넌트에서 끄지 않는다.
+- **transition 없음**: 포커스 신호는 지연 없이 즉시 표시 (§ 10.2).
+- **아이콘 단독 버튼 `aria-label` 필수**: GNB·헤더의 알림·검색·역할 전환 등 텍스트 없이 아이콘만 있는 버튼은 모두 `aria-label` 지정. 회귀 점검 대상: `components/shell/app-header.tsx`, FAB, talk 채팅 입력 우측 액션 ([input/design-system/IMPROVEMENTS.md A9](../../input/design-system/IMPROVEMENTS.md)).
+- **Skip link**: 모든 페이지 첫 포커스 가능 요소로 "본문으로 건너뛰기" 제공 ([IMPROVEMENTS.md A10](../../input/design-system/IMPROVEMENTS.md)). 신규 회귀 점검 대상.
 
 ### 12.2 색 대비
 - 텍스트 vs 배경: 최소 WCAG AA (4.5:1)

@@ -1,0 +1,72 @@
+{
+  "discovered": {
+    "fromHome": [
+      "/q/infinity",
+      "/q/talk",
+      "/q/analysis",
+      "/q/review",
+      "/q/onboarding",
+      "/q/external/store",
+      "/q/external/studio",
+      "/q/infinity/solve?kind=free&subject=math",
+      "/q/infinity/solve?kind=free&subject=english",
+      "/q/infinity/solve?kind=free&subject=science",
+      "/q/infinity/exam-result",
+      "/q/infinity/explain/Q-MATH-CALC-0042",
+      "/q/infinity/explain/Q-ENG-RDG-1208",
+      "/q/infinity/explain/Q-SCI-PHY-0231"
+    ],
+    "fromReview": [
+      "/q/infinity",
+      "/q/talk",
+      "/q/analysis",
+      "/q/review",
+      "/q/onboarding",
+      "/q/review/conquer",
+      "/q/review/memory/m7",
+      "/q/infinity/solve?kind=retry&sku=Q-ENG-RDG-1208",
+      "/q/review/memory/m6",
+      "/q/infinity/solve?kind=retry&sku=Q-ENG-RDG-1205",
+      "/q/review/memory/m4",
+      "/q/infinity/solve?kind=retry&sku=Q-MATH-CALC-0042",
+      "/q/review/memory/m2",
+      "/q/review/memory/m5"
+    ],
+    "fromInfinity": [
+      "/q/infinity",
+      "/q/talk",
+      "/q/analysis",
+      "/q/review",
+      "/q/onboarding",
+      "/q/infinity/solve",
+      "/q/infinity/history",
+      "/q/infinity/explain",
+      "/q/infinity/explain/Q-MATH-CALC-0042",
+      "/q/infinity/explain/Q-ENG-RDG-1208",
+      "/q/infinity/explain/Q-SCI-PHY-0231",
+      "/q/infinity/exam-result"
+    ]
+  },
+  "captures": [
+    {
+      "label": "solve-realflow",
+      "url": "https://pullim-q.vercel.app/q/infinity/solve?kind=weak&subject=math&pattern=%EB%AF%B8%EC%A0%81%EB%B6%84+%E2%80%94+%EB%8F%84%ED%95%A8%EC%88%98+%EB%B6%80%ED%98%B8+%EB%B3%80%ED%99%94"
+    },
+    {
+      "label": "home-fab-clicked",
+      "url": "https://pullim-q.vercel.app/q"
+    },
+    {
+      "label": "explain-real-0",
+      "url": "https://pullim-q.vercel.app/q/infinity/explain/Q-MATH-CALC-0042"
+    },
+    {
+      "label": "explain-real-1",
+      "url": "https://pullim-q.vercel.app/q/infinity/explain/Q-ENG-RDG-1208"
+    },
+    {
+      "label": "explain-real-2",
+      "url": "https://pullim-q.vercel.app/q/infinity/explain/Q-SCI-PHY-0231"
+    }
+  ]
+}
