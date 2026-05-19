@@ -73,7 +73,7 @@ export function ExamStatusBar({ totalSec, remainingSec, onTimeout, proctorAlert 
           <Eye className="text-pullim-success h-3 w-3" />
           AI 감독관 모니터링 중
         </span>
-        <span className="text-pullim-slate-400 inline-flex items-center gap-1 text-[11px]">
+        <span className="text-pullim-slate-500 inline-flex items-center gap-1 text-[11px]">
           <Radio className="h-3 w-3" />
           탭 이탈 0건
         </span>

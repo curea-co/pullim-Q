@@ -112,7 +112,7 @@ export default function ExplainLibraryPage() {
       <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
         {filtered.map(e => <ExplainCard key={e.sku} entry={e} />)}
         {filtered.length === 0 && (
-          <li className="text-pullim-slate-400 col-span-full rounded-xl border border-dashed py-10 text-center text-xs">
+          <li className="text-pullim-slate-500 col-span-full rounded-xl border border-dashed py-10 text-center text-xs">
             조건에 맞는 해설이 없어요
           </li>
         )}
@@ -155,7 +155,7 @@ function ExplainCard({ entry }: { entry: ExplainEntry }) {
           </h3>
         </div>
 
-        <footer className="text-pullim-slate-400 mt-auto flex items-center gap-2 text-[10px]">
+        <footer className="text-pullim-slate-500 mt-auto flex items-center gap-2 text-[10px]">
           {entry.hasMyAttempt && (
             entry.myResult === 'correct' ? (
               <span className="text-pullim-success inline-flex items-center gap-0.5 font-bold">

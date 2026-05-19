@@ -88,7 +88,7 @@ export default function HistoryPage() {
       <ul className="bg-card divide-pullim-slate-100 overflow-hidden rounded-2xl border divide-y">
         {filtered.map(h => <HistoryRow key={h.id} entry={h} />)}
         {filtered.length === 0 && (
-          <li className="text-pullim-slate-400 px-4 py-8 text-center text-xs">
+          <li className="text-pullim-slate-500 px-4 py-8 text-center text-xs">
             조건에 맞는 풀이가 없어요
           </li>
         )}
@@ -120,13 +120,13 @@ function HistoryRow({ entry }: { entry: SolveHistoryEntry }) {
           {/* Primary: 단원 + 시간 */}
           <div className="text-pullim-slate-900 flex items-center gap-1.5 text-sm font-semibold">
             <span className="truncate">{entry.unit}</span>
-            <span className="text-pullim-slate-400 font-mono text-xs font-medium">
+            <span className="text-pullim-slate-500 font-mono text-xs font-medium">
               {Math.floor(entry.timeSec / 60)}:{String(entry.timeSec % 60).padStart(2, '0')}
             </span>
             {entry.isBookmarked && <BookmarkCheck className="text-pullim-blue-500 h-3 w-3" />}
           </div>
           {/* Secondary: 과목 · SKU · 힌트 · 시각 */}
-          <div className="text-pullim-slate-400 mt-0.5 flex flex-wrap items-center gap-x-1.5 text-[10px]">
+          <div className="text-pullim-slate-500 mt-0.5 flex flex-wrap items-center gap-x-1.5 text-[10px]">
             <span>{subjectLabels[entry.subject]}</span>
             <span className="text-pullim-slate-300" aria-hidden>·</span>
             <span className="font-mono">{entry.sku}</span>

@@ -57,7 +57,7 @@ export function ConquestHero() {
           </div>
           <div className="text-pullim-slate-600 text-4xl font-mono opacity-40">/</div>
           <div>
-            <div className="text-pullim-slate-400 text-xs font-bold">오늘 복습</div>
+            <div className="text-pullim-slate-500 text-xs font-bold">오늘 복습</div>
             <div className="text-pullim-slate-300 font-mono text-3xl font-bold">
               {today.length}
             </div>
@@ -74,7 +74,7 @@ export function ConquestHero() {
             지금 정복 시작
           </Link>
 
-          <div className="text-pullim-slate-400 ml-auto flex items-baseline gap-4 text-[11px]">
+          <div className="text-pullim-slate-500 ml-auto flex items-baseline gap-4 text-[11px]">
             <span>
               누적 정복
               <strong className="text-pullim-lemon ml-1 font-mono text-base">{conquestStats.totalConquered}</strong>

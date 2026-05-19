@@ -44,7 +44,7 @@ export function ProblemDisplay({
           <span className="text-pullim-slate-300">·</span>
           <span className="text-pullim-slate-500">{subjectLabels[problem.subject]}</span>
           <span className="ml-auto inline-flex items-center gap-1.5">
-            <span className="text-pullim-slate-400 font-mono text-[10px]">
+            <span className="text-pullim-slate-500 font-mono text-[10px]">
               {index + 1}/{total}
             </span>
             <span className="text-pullim-slate-300">·</span>

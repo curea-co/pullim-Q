@@ -20,7 +20,7 @@ export function AbilityHero() {
               과목별 실시간 실력 점수
             </h2>
           </div>
-          <span className="text-pullim-slate-400 text-[10px] font-mono">
+          <span className="text-pullim-slate-500 text-[10px] font-mono">
             맞춤 추정 · 표준 분포
           </span>
         </div>

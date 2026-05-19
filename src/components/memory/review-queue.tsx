@@ -50,7 +50,7 @@ export function ReviewQueue() {
       <ul className="divide-pullim-slate-100 divide-y">
         {queue.map(item => <ReviewRow key={item.id} item={item} />)}
         {queue.length === 0 && (
-          <li className="text-pullim-slate-400 px-4 py-6 text-center text-xs">
+          <li className="text-pullim-slate-500 px-4 py-6 text-center text-xs">
             오늘 복습할 항목이 없어요. 새로운 학습을 시작해보세요.
           </li>
         )}

@@ -42,7 +42,7 @@ export function MetaHero() {
           >
             <div className="bg-card flex h-24 w-24 flex-col items-center justify-center rounded-full shadow-pullim-xs">
               <span className="text-pullim-slate-900 font-mono text-3xl font-bold tracking-tight">{overallMeta.score}</span>
-              <span className="text-pullim-slate-400 text-[10px] tracking-wider">/ 100</span>
+              <span className="text-pullim-slate-500 text-[10px] tracking-wider">/ 100</span>
             </div>
           </div>
           <div className="text-pullim-success inline-flex items-center gap-1 text-xs font-bold">
@@ -80,7 +80,7 @@ export function MetaHero() {
                     <span className={cn('font-mono text-base font-bold', toneClass[d.tone])}>
                       {d.score}
                     </span>
-                    <span className="text-pullim-slate-400 text-[10px]">vs {d.peer}</span>
+                    <span className="text-pullim-slate-500 text-[10px]">vs {d.peer}</span>
                   </div>
                 </li>
               );
@@ -116,7 +116,7 @@ export function MetaDetailCards() {
                   <span className={cn('font-mono text-sm font-bold', toneClass[d.tone])}>
                     {d.score}
                   </span>
-                  <span className="text-pullim-slate-400 text-[10px]">또래 {d.peer}</span>
+                  <span className="text-pullim-slate-500 text-[10px]">또래 {d.peer}</span>
                 </div>
                 <p className="text-pullim-slate-600 mt-0.5 text-[11px] leading-relaxed">
                   {d.insight}

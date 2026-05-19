@@ -83,7 +83,7 @@ function PreviewCard({ preview }: { preview: Preview }) {
           )}>
             {isOverdue ? '복습 시간 지남' : '오늘 복습'}
           </span>
-          <span className="text-pullim-slate-400 ml-auto font-mono text-[10px]">
+          <span className="text-pullim-slate-500 ml-auto font-mono text-[10px]">
             BOX {card.box}
           </span>
         </div>
@@ -113,7 +113,7 @@ function PreviewCard({ preview }: { preview: Preview }) {
         <span className="text-pullim-warn text-[10px] font-bold tracking-wider uppercase">
           오늘 기억 재학습
         </span>
-        <span className="text-pullim-slate-400 ml-auto font-mono text-[10px]">
+        <span className="text-pullim-slate-500 ml-auto font-mono text-[10px]">
           {retentionPct}%
         </span>
       </div>

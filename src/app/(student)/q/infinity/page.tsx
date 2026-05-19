@@ -75,7 +75,7 @@ export default function InfinityHomePage() {
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="text-pullim-slate-900 truncate text-xs font-semibold">{h.unit}</div>
-                    <div className="text-pullim-slate-400 font-mono text-[10px]">{h.sku}</div>
+                    <div className="text-pullim-slate-500 font-mono text-[10px]">{h.sku}</div>
                   </div>
                   <div className="text-right">
                     <div className="text-pullim-slate-700 text-[11px] font-semibold">{h.attemptedAgo}</div>
@@ -105,7 +105,7 @@ export default function InfinityHomePage() {
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="text-pullim-slate-900 truncate text-xs font-semibold">{e.summary}</div>
-                      <div className="text-pullim-slate-400 inline-flex items-center gap-1 text-[10px]">
+                      <div className="text-pullim-slate-500 inline-flex items-center gap-1 text-[10px]">
                         <span>{subjectLabels[e.subject]}</span>
                         <span aria-hidden>·</span>
                         <Star className="text-pullim-warn h-2.5 w-2.5 fill-current" aria-hidden />

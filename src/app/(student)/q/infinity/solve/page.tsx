@@ -547,7 +547,7 @@ function AnswerFeedback({
               'inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ' +
               (isCorrect
                 ? 'bg-pullim-slate-100 hover:bg-pullim-slate-200 text-pullim-slate-700'
-                : 'bg-pullim-warn hover:bg-pullim-warn/90 text-white')
+                : 'bg-pullim-warn-cta-bg hover:bg-pullim-warn-cta-bg/90 text-white')
             }
           >
             <Target className="h-3 w-3" />
@@ -617,7 +617,7 @@ function ExamBottomBar({
         type="button"
         onClick={onNext}
         disabled={currentIdx === total - 1}
-        className="bg-pullim-warn hover:bg-pullim-warn/90 disabled:opacity-30 inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold text-white"
+        className="bg-pullim-warn-cta-bg hover:bg-pullim-warn-cta-bg/90 disabled:opacity-30 inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold text-white"
       >
         다음 문항
         <ArrowRight className="h-3 w-3" />

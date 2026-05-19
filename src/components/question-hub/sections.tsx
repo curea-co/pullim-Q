@@ -106,7 +106,7 @@ function PathColumn({ path }: { path: SolutionPath }) {
         <span className="bg-pullim-slate-900 rounded px-1.5 py-0.5 font-mono text-[10px] font-bold text-white">
           {path.tag}
         </span>
-        <span className="text-pullim-slate-400 font-mono text-[10px]">{path.estimatedSec}s</span>
+        <span className="text-pullim-slate-500 font-mono text-[10px]">{path.estimatedSec}s</span>
       </header>
 
       <h4 className="text-pullim-slate-900 text-sm font-bold tracking-tight">
@@ -378,7 +378,7 @@ export function FeynmanChallenge({ data, defaultOpen }: { data: ExplainContent; 
             <Mic className="h-4 w-4" />
             마이크 시작 (2분)
           </button>
-          <span className="text-pullim-slate-400 text-[11px]">
+          <span className="text-pullim-slate-500 text-[11px]">
             STT + AI 평가 · 체크리스트 자동 채점
           </span>
         </div>

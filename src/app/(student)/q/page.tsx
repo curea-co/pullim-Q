@@ -185,7 +185,7 @@ function ActionCard({
   const iconClass = accent === 'warn' ? 'bg-pullim-warn' : 'bg-pullim-blue-600';
   const ctaClass =
     accent === 'warn'
-      ? 'bg-pullim-warn hover:bg-pullim-warn/90'
+      ? 'bg-pullim-warn-cta-bg hover:bg-pullim-warn-cta-bg/90'
       : 'bg-pullim-blue-600 hover:bg-pullim-blue-700';
 
   return (
@@ -246,7 +246,7 @@ function TodayQueueSection() {
                       <meta.Icon className="h-3 w-3" />
                       {meta.label}
                     </span>
-                    <span className="text-pullim-slate-400 text-[11px]">
+                    <span className="text-pullim-slate-500 text-[11px]">
                       {subjectLabels[problem.subject]} · {problem.unit}
                     </span>
                   </div>
@@ -371,7 +371,7 @@ function UpcomingSection({
                   {exam.rawScore}점 · {exam.estimatedGrade}등급
                 </span>
                 <span className="text-pullim-slate-300" aria-hidden>·</span>
-                <span className="text-pullim-slate-400 text-[10px]">
+                <span className="text-pullim-slate-500 text-[10px]">
                   실력 {exam.thetaBefore.toFixed(2)} → {exam.thetaAfter.toFixed(2)}
                 </span>
                 <span className="text-pullim-success text-[10px] font-bold">
@@ -454,7 +454,7 @@ function ExplainPicks() {
               <div className="text-pullim-slate-900 line-clamp-2 text-xs font-bold leading-snug">
                 {e.summary}
               </div>
-              <div className="text-pullim-slate-400 mt-1 inline-flex items-center gap-1 text-[10px]">
+              <div className="text-pullim-slate-500 mt-1 inline-flex items-center gap-1 text-[10px]">
                 <span>{subjectLabels[e.subject]}</span>
                 <span aria-hidden>·</span>
                 <Star className="text-pullim-warn h-2.5 w-2.5 fill-current" aria-hidden />
@@ -493,7 +493,7 @@ function TimelineHeading({
       <span className={cn('h-2 w-2 rounded-full', dotClass)} />
       <Icon className={cn('h-3.5 w-3.5', iconClass)} />
       <p className="text-pullim-slate-900 text-sm font-bold tracking-tight">{time}</p>
-      <span className="text-pullim-slate-400 text-[11px]">— {sub}</span>
+      <span className="text-pullim-slate-500 text-[11px]">— {sub}</span>
     </div>
   );
 }

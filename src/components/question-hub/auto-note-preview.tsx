@@ -73,7 +73,7 @@ function CardSummary({ card, codes }: { card: LeitnerCard; codes: WrongReasonCod
           BOX {card.box}
         </span>
         <span className="text-pullim-slate-500 text-[11px]">{meta.tag}</span>
-        <span className="text-pullim-slate-400 ml-auto text-[11px]">
+        <span className="text-pullim-slate-500 ml-auto text-[11px]">
           다음 복습 {meta.interval} 후
         </span>
       </div>

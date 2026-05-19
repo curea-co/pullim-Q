@@ -332,7 +332,7 @@ function Stat({
     <div>
       <div className="text-pullim-slate-500 text-[10px] font-bold tracking-wider uppercase">{label}</div>
       <div className={`mt-0.5 ${valueWrap}`}>{value}</div>
-      {sub && <div className="text-pullim-slate-400 text-[10px]">{sub}</div>}
+      {sub && <div className="text-pullim-slate-500 text-[10px]">{sub}</div>}
     </div>
   );
 }

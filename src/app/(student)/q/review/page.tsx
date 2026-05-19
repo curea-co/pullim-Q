@@ -169,7 +169,7 @@ function Kpi({
           <span className={cn('font-mono text-lg font-bold tabular-nums', valueClass)}>
             {value}
           </span>
-          <span className="text-pullim-slate-400 text-[10px]">{sub}</span>
+          <span className="text-pullim-slate-500 text-[10px]">{sub}</span>
         </div>
       </div>
     </li>
@@ -220,7 +220,7 @@ function PriorityQueue({
               <span>
                 + {overflow}개 더 있어요 · 총 {totalQueue}개
               </span>
-              <span className="text-pullim-slate-400 text-[10px]">
+              <span className="text-pullim-slate-500 text-[10px]">
                 전체 큐 화면은 후속 단계에서 열려요
               </span>
             </div>
@@ -267,7 +267,7 @@ function QueueRow({ item, index }: { item: QueueItem; index: number }) {
                 BOX {item.box}
               </span>
               <span className="text-pullim-slate-300" aria-hidden>·</span>
-              <span className="text-pullim-slate-400 text-[10px]">
+              <span className="text-pullim-slate-500 text-[10px]">
                 {subjectShort[item.subject] ?? item.subject} · {meta.interval}
               </span>
               <WrongReasonChip sku={item.sku} />
@@ -313,7 +313,7 @@ function QueueRow({ item, index }: { item: QueueItem; index: number }) {
               남은 기억 {Math.round(item.retention * 100)}%
             </span>
             <span className="text-pullim-slate-300" aria-hidden>·</span>
-            <span className="text-pullim-slate-400 text-[10px]">
+            <span className="text-pullim-slate-500 text-[10px]">
               {sourceMeta.label}
             </span>
           </div>
@@ -396,7 +396,7 @@ function LeitnerSummary() {
                 {isMaster ? <Trophy className="h-4 w-4" /> : b}
               </div>
               <div className="text-pullim-slate-900 mt-1 font-mono text-base font-bold">{counts[b]}</div>
-              <div className="text-pullim-slate-400 text-[9px]">{meta.interval}</div>
+              <div className="text-pullim-slate-500 text-[9px]">{meta.interval}</div>
             </li>
           );
         })}
@@ -452,7 +452,7 @@ function ForgettingSummary() {
         <path d={personalPath} fill="none" strokeWidth="2.5" className="stroke-pullim-blue-500" />
         <circle cx={x(points.length - 1)} cy={y(points[points.length - 1]!.personalRetention)} r="3" className="fill-pullim-blue-600" />
       </svg>
-      <div className="text-pullim-slate-400 mt-1 flex items-center justify-center gap-3 text-[10px]">
+      <div className="text-pullim-slate-500 mt-1 flex items-center justify-center gap-3 text-[10px]">
         <span className="inline-flex items-center gap-1">
           <span className="bg-pullim-blue-500 h-0.5 w-3" /> 내 곡선
         </span>

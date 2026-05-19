@@ -26,7 +26,7 @@ export function MobileDrawer() {
         <SheetHeader className="border-b p-4">
           <SheetTitle className="flex items-center gap-2">
             <PullimLogo size={22} />
-            <span className="text-pullim-slate-400 text-[10px] font-bold uppercase">Q</span>
+            <span className="text-pullim-slate-500 text-[10px] font-bold uppercase">Q</span>
           </SheetTitle>
         </SheetHeader>
         <AppSidebar onNavigate={() => setOpen(false)} className="flex-1" />
