@@ -56,6 +56,3 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 /playwright/.cache/
-
-# docker (local postgres data volume from BE Ph1 컨테이너)
-/.docker/
