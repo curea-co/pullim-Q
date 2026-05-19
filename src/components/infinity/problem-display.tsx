@@ -14,6 +14,9 @@ type Props = {
   examMode: boolean;
   marked?: boolean;
   onToggleMark?: () => void;
+  /** 채점 후 정답 reveal (연습 모드). 시험 모드에서는 무시. */
+  correctAnswer?: number;
+  revealed?: boolean;
 };
 
 /**
@@ -22,8 +25,13 @@ type Props = {
  */
 export function ProblemDisplay({
   problem, index, total, selected, onSelect, examMode, marked, onToggleMark,
+  correctAnswer, revealed,
 }: Props) {
   const lvl = difficultyLevel(problem.difficulty);
+  // 연습 모드 정답 reveal (M1/M2 모션, spec §10.3)
+  const showReveal = !examMode && revealed && typeof correctAnswer === 'number';
+  const selectedIsCorrect = showReveal && selected === correctAnswer;
+  const selectedIsWrong = showReveal && typeof selected === 'number' && selected !== correctAnswer;
 
   return (
     <article
@@ -94,29 +102,51 @@ export function ProblemDisplay({
         <ol className="mt-3 space-y-1.5">
           {problem.choices.map((c, i) => {
             const isSelected = selected === i;
+            // reveal 상태
+            const isCorrectAnswer = showReveal && i === correctAnswer;
+            const animateOnSelf =
+              showReveal && isSelected
+                ? selectedIsCorrect
+                  ? 'animate-correct-pop'
+                  : 'animate-shake-x'
+                : '';
             return (
               <li key={i}>
                 <button
                   type="button"
                   onClick={() => onSelect(i)}
+                  disabled={showReveal}
                   className={cn(
                     'flex w-full items-center gap-2 rounded-md py-1.5 pr-2 text-left text-sm transition-colors',
-                    isSelected
-                      ? examMode
-                        ? 'bg-pullim-warn/15 text-pullim-warn font-semibold'
-                        : 'bg-pullim-blue-50 text-pullim-blue-900 font-semibold'
-                      : 'text-pullim-slate-800 hover:bg-pullim-slate-50',
+                    animateOnSelf,
+                    showReveal
+                      ? isCorrectAnswer
+                        ? 'border-pullim-success-fg bg-pullim-success-bg border-[3px] font-semibold'
+                        : isSelected && selectedIsWrong
+                          ? 'border-pullim-danger-fg bg-pullim-danger-bg/40 text-pullim-danger-fg border-2 font-semibold'
+                          : 'text-pullim-slate-600'
+                      : isSelected
+                        ? examMode
+                          ? 'bg-pullim-warn/15 text-pullim-warn font-semibold'
+                          : 'bg-pullim-blue-50 text-pullim-blue-900 font-semibold'
+                        : 'text-pullim-slate-800 hover:bg-pullim-slate-50',
                   )}
                 >
                   <span
                     aria-hidden
                     className={cn(
                       'flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold',
-                      isSelected
-                        ? examMode
-                          ? 'bg-pullim-warn text-white'
-                          : 'bg-pullim-blue-600 text-white'
-                        : 'border border-pullim-slate-300 text-pullim-slate-600',
+                      showReveal
+                        ? isCorrectAnswer
+                          ? 'bg-pullim-success-fg text-white'
+                          : isSelected && selectedIsWrong
+                            ? 'bg-pullim-danger-fg text-white'
+                            : 'border border-pullim-slate-300 text-pullim-slate-500'
+                        : isSelected
+                          ? examMode
+                            ? 'bg-pullim-warn text-white'
+                            : 'bg-pullim-blue-600 text-white'
+                          : 'border border-pullim-slate-300 text-pullim-slate-600',
                     )}
                   >
                     {['①', '②', '③', '④', '⑤'][i]}

@@ -23,7 +23,9 @@ import { CoachPane } from '@/components/infinity/coach-pane';
 import { OmrSheet } from '@/components/infinity/omr-sheet';
 import { SolveSessionBar, type SolveSourceMeta } from '@/components/infinity/solve-session-bar';
 import { SolveSessionPicker } from '@/components/infinity/solve-session-picker';
+import { FullscreenToggle } from '@/components/infinity/fullscreen-toggle';
 import { PageHeader } from '@/components/shell/page-header';
+import { cn } from '@/lib/utils';
 import { Lock } from 'lucide-react';
 
 type SolveSession = {
@@ -128,6 +130,7 @@ function InfinitySolveInner() {
   const [marked, setMarked] = useState<Set<number>>(new Set());
   const [hintsByProblem, setHintsByProblem] = useState<Record<string, number>>({});
   const [prevSessionKey, setPrevSessionKey] = useState(sessionKey);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [retryBoxMove, setRetryBoxMove] = useState<{
     prevBox: LeitnerBox; newBox: LeitnerBox; isMaster: boolean; correct: boolean;
   } | null>(null);
@@ -328,12 +331,23 @@ function InfinitySolveInner() {
         : '한 세션을 골라 시작해 주세요. 플래너 블록·약점 보강·자유 풀이 중 선택할 수 있어요.';
 
   return (
-    <div className="space-y-4">
-      <PageHeader
-        eyebrow={{ icon: Infinity, text: '풀이 워크스페이스' }}
-        title={headerTitle}
-        description={headerDescription}
-      />
+    <div
+      className={cn(
+        'space-y-4',
+        isFullscreen && 'fixed inset-0 z-50 overflow-auto bg-pullim-slate-50 p-4 lg:p-8',
+      )}
+    >
+      {!isFullscreen && (
+        <PageHeader
+          eyebrow={{ icon: Infinity, text: '풀이 워크스페이스' }}
+          title={headerTitle}
+          description={headerDescription}
+        />
+      )}
+
+      <div className="flex items-center justify-end">
+        <FullscreenToggle isOn={isFullscreen} onToggle={setIsFullscreen} />
+      </div>
 
       {/* 세션 컨텍스트 — 활성 세션이면 바, 아니면 picker */}
       {session && mode === 'practice' && (
@@ -384,6 +398,8 @@ function InfinitySolveInner() {
                 selected={answers[currentIdx]}
                 onSelect={handleSelect}
                 examMode={false}
+                revealed={answers[currentIdx] !== undefined}
+                correctAnswer={problem.answerIndex}
               />
               {answers[currentIdx] !== undefined && (
                 <AnswerFeedback
