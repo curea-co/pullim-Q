@@ -7,7 +7,7 @@ export function ActivityTimeline() {
   const sorted = [...todayActivities].sort((a, b) => b.timestamp.localeCompare(a.timestamp));
 
   return (
-    <section className="bg-card flex h-full flex-col overflow-hidden rounded-2xl border">
+    <section className="bg-card flex h-full flex-col overflow-hidden rounded-xl border">
       <header className="border-b p-3.5">
         <p className="text-pullim-blue-600 text-[10px] font-bold tracking-wider uppercase">
           오늘 코치가 본 것

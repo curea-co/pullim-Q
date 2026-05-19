@@ -22,7 +22,7 @@ export function DiagnosisHero() {
   const wrongCount = wrongAttemptDiagnoses.length;
 
   return (
-    <section className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-2xl border p-6">
+    <section className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-xl border p-6">
       <div className="relative">
         <p className="text-pullim-blue-700 inline-flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
           <ScanSearch className="h-3 w-3" />

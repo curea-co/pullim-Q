@@ -13,7 +13,7 @@ export function ErrorPatternList() {
   const sorted = [...errorPatterns].sort((a, b) => b.frequency - a.frequency);
 
   return (
-    <section className="bg-card rounded-2xl border p-4">
+    <section className="bg-card rounded-xl border p-4">
       <header className="mb-3 flex items-center gap-2">
         <span className="bg-pullim-blue-50 text-pullim-blue-600 flex h-7 w-7 items-center justify-center rounded-lg">
           <Target className="h-3.5 w-3.5" />

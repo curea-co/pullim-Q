@@ -48,7 +48,7 @@ function MistakeCard({ diagnosis }: { diagnosis: WrongAttemptDiagnosis }) {
       <Link
         href={href}
         className={cn(
-          'bg-card hover:border-pullim-blue-300 hover:shadow-pullim-sm group flex h-full flex-col gap-2 rounded-2xl border p-4 transition-all',
+          'bg-card hover:border-pullim-blue-300 hover:shadow-pullim-sm group flex h-full flex-col gap-2 rounded-xl border p-4 transition-all',
         )}
       >
         <div className="flex items-center gap-1.5">

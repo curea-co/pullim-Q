@@ -11,7 +11,7 @@ export function MetaCognitionReport() {
   const tier = aiTierMeta.T3;
 
   return (
-    <section className="bg-card overflow-hidden rounded-2xl border">
+    <section className="bg-card overflow-hidden rounded-xl border">
       <header className="border-b p-4">
         <div className="flex items-center gap-2">
           <span className="bg-pullim-blue-600 flex h-9 w-9 items-center justify-center rounded-xl text-white">

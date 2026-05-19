@@ -20,7 +20,7 @@ export function OmrSheet({ total, current, answers, marked, onJump, onSubmit }: 
   const answered = Object.keys(answers).length;
 
   return (
-    <section className="bg-card flex h-full flex-col overflow-hidden rounded-2xl border">
+    <section className="bg-card flex h-full flex-col overflow-hidden rounded-xl border">
       <header className="bg-pullim-slate-900 flex items-center gap-3 px-4 py-3 text-white">
         <span className="font-mono text-sm font-bold">OMR 답안지</span>
         <span className="bg-white/15 rounded-full px-2 py-0.5 font-mono text-[10px] font-bold">

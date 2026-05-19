@@ -65,7 +65,7 @@ function ReasonCard({
       href="#recent-mistakes"
       aria-label={`${entry.label} — 다시 봐야 할 문제로 이동`}
       className={cn(
-        'bg-card hover:border-pullim-warn/40 hover:shadow-pullim-sm group rounded-2xl border p-3 transition-all',
+        'bg-card hover:border-pullim-warn/40 hover:shadow-pullim-sm group rounded-xl border p-3 transition-all',
       )}
     >
       <div className="flex items-center gap-1.5">

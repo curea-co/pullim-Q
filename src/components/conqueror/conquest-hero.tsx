@@ -17,7 +17,7 @@ export function ConquestHero() {
     : `${Math.abs(Math.floor(mostOverdueHours))}시간째`;
 
   return (
-    <section className="relative overflow-hidden rounded-2xl bg-pullim-slate-950 p-5 text-white shadow-xl">
+    <section className="relative overflow-hidden rounded-xl bg-pullim-slate-950 p-5 text-white shadow-xl">
       {/* 배경 장식 */}
       <div
         aria-hidden

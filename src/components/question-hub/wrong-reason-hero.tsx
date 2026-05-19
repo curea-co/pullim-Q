@@ -32,7 +32,7 @@ export function WrongReasonHero({
   return (
     <section
       aria-label="오답 원인 진단"
-      className="border-pullim-warn/40 bg-pullim-warn/5 rounded-2xl border-2 p-4 sm:p-5"
+      className="border-pullim-warn/40 bg-pullim-warn/5 rounded-xl border-2 p-4 sm:p-5"
     >
       <header className="flex items-center gap-1.5">
         <AlertTriangle className="text-pullim-warn h-4 w-4" aria-hidden />

@@ -59,7 +59,7 @@ export function CoachChat() {
   }
 
   return (
-    <section className="bg-card flex flex-col rounded-2xl border h-full">
+    <section className="bg-card flex flex-col rounded-xl border h-full">
       <header className="border-b p-3.5">
         <div className="text-pullim-blue-600 text-[10px] font-bold tracking-wider uppercase">
           통합 코치 채팅
@@ -155,7 +155,7 @@ function Bubble({ turn }: { turn: Turn }) {
         )}
         <div
           className={cn(
-            'rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed whitespace-pre-wrap',
+            'rounded-xl px-3.5 py-2.5 text-sm leading-relaxed whitespace-pre-wrap',
             isStudent
               ? 'bg-pullim-blue-600 text-white rounded-tr-sm'
               : 'bg-pullim-slate-50 text-pullim-slate-800 rounded-tl-sm',
@@ -174,7 +174,7 @@ function PendingBubble() {
       <div className="bg-pullim-blue-600 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white">
         <Sparkles className="h-3.5 w-3.5" />
       </div>
-      <div className="bg-pullim-slate-50 flex items-center gap-1 rounded-2xl rounded-tl-sm px-4 py-3">
+      <div className="bg-pullim-slate-50 flex items-center gap-1 rounded-xl rounded-tl-sm px-4 py-3">
         <span className="bg-pullim-slate-400 h-1.5 w-1.5 animate-bounce rounded-full" style={{ animationDelay: '0ms' }} />
         <span className="bg-pullim-slate-400 h-1.5 w-1.5 animate-bounce rounded-full" style={{ animationDelay: '120ms' }} />
         <span className="bg-pullim-slate-400 h-1.5 w-1.5 animate-bounce rounded-full" style={{ animationDelay: '240ms' }} />

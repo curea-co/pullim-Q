@@ -13,7 +13,7 @@ import { pullimSubjectColors, pullimSlate } from '@/lib/tokens';
  */
 export function GrowthTrend() {
   return (
-    <section className="bg-card rounded-2xl border">
+    <section className="bg-card rounded-xl border">
       <header className="flex items-end justify-between border-b p-4">
         <div>
           <p className="text-pullim-blue-600 text-[10px] font-bold tracking-wider uppercase">

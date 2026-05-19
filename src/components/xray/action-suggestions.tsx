@@ -13,7 +13,7 @@ const iconByKey: Record<'review' | 'pause' | 'night', LucideIcon> = {
  */
 export function ActionSuggestions() {
   return (
-    <section className="bg-pullim-lemon/15 border-pullim-lemon-ink/20 rounded-2xl border p-4">
+    <section className="bg-pullim-lemon/15 border-pullim-lemon-ink/20 rounded-xl border p-4">
       <header className="mb-3 flex items-center gap-2">
         <span className="bg-pullim-lemon-ink text-pullim-lemon flex h-9 w-9 items-center justify-center rounded-xl">
           <Sparkles className="h-4 w-4" />

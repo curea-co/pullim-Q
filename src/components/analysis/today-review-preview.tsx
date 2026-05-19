@@ -67,7 +67,7 @@ function PreviewCard({ preview }: { preview: Preview }) {
       <Link
         href="/q/review"
         className={cn(
-          'group flex h-full flex-col gap-1.5 rounded-2xl border p-3.5 transition-all',
+          'group flex h-full flex-col gap-1.5 rounded-xl border p-3.5 transition-all',
           isOverdue
             ? 'border-pullim-warn/40 bg-pullim-warn/5 hover:border-pullim-warn/60'
             : 'bg-card hover:border-pullim-blue-300 hover:shadow-pullim-sm',
@@ -106,7 +106,7 @@ function PreviewCard({ preview }: { preview: Preview }) {
   return (
     <Link
       href={`/q/review/memory/${item.id}`}
-      className="bg-card hover:border-pullim-blue-300 hover:shadow-pullim-sm group flex h-full flex-col gap-1.5 rounded-2xl border p-3.5 transition-all"
+      className="bg-card hover:border-pullim-blue-300 hover:shadow-pullim-sm group flex h-full flex-col gap-1.5 rounded-xl border p-3.5 transition-all"
     >
       <div className="flex items-center gap-1.5">
         <Brain className="text-pullim-warn h-3.5 w-3.5" aria-hidden />

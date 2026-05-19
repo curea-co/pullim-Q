@@ -42,7 +42,7 @@ export function AutoNotePreview({
   return (
     <section
       aria-label="자동 오답노트"
-      className="bg-pullim-slate-50 border-pullim-slate-200 rounded-2xl border p-4 sm:p-5"
+      className="bg-pullim-slate-50 border-pullim-slate-200 rounded-xl border p-4 sm:p-5"
     >
       <header className="mb-3 flex items-center gap-1.5">
         <Inbox className="text-pullim-blue-600 h-4 w-4" aria-hidden />

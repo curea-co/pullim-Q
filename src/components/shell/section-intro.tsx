@@ -36,7 +36,7 @@ export function SectionIntro({ identity, values, subRoutes, preview }: Props) {
   return (
     <div className="space-y-5">
       {/* 정체성 + 핵심 가치 — soft tonal (plan §4.1 옵션 A) */}
-      <section className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-2xl border p-5 xl:p-6">
+      <section className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-xl border p-5 xl:p-6">
         <div className="relative">
           <p className="text-pullim-blue-700 text-[10px] font-bold tracking-wider uppercase">
             이 섹션의 정체성

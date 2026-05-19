@@ -52,7 +52,7 @@ export function SolveSessionBar({
   const pct = total > 0 ? Math.round((answered / total) * 100) : 0;
 
   return (
-    <section className="bg-card rounded-2xl border p-3.5 shadow-pullim-sm">
+    <section className="bg-card rounded-xl border p-3.5 shadow-pullim-sm">
       <div className="flex items-start gap-3">
         <span className="bg-pullim-blue-100 text-pullim-blue-700 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold">
           {subjectLabel[0]}

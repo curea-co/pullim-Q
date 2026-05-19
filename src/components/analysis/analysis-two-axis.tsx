@@ -28,7 +28,7 @@ export function AnalysisTwoAxis() {
 
 function ProcessCard() {
   return (
-    <article className="bg-card rounded-2xl border p-4 flex flex-col">
+    <article className="bg-card rounded-xl border p-4 flex flex-col">
       <header className="mb-3">
         <p className="text-pullim-slate-600 text-[10px] font-bold tracking-wider uppercase">
           어떻게 푸나
@@ -97,7 +97,7 @@ function HorizontalBar({ dim }: { dim: MetaDimension }) {
 
 function AbilityCard() {
   return (
-    <article className="bg-card rounded-2xl border p-4 flex flex-col">
+    <article className="bg-card rounded-xl border p-4 flex flex-col">
       <header className="mb-3">
         <p className="text-pullim-slate-600 text-[10px] font-bold tracking-wider uppercase">
           무엇이 강한가

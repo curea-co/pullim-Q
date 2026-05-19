@@ -138,7 +138,7 @@ function FrontCard({
   hintOpen: boolean; onToggleHint: () => void; onReveal: () => void;
 }) {
   return (
-    <section className="bg-card rounded-2xl border p-5 space-y-4">
+    <section className="bg-card rounded-xl border p-5 space-y-4">
       <div className="space-y-2">
         <span className="text-pullim-slate-500 text-[10px] font-bold tracking-wider uppercase">
           질문
@@ -187,7 +187,7 @@ function BackCard({
   onRemembered: () => void; onForgot: () => void;
 }) {
   return (
-    <section className="bg-card rounded-2xl border p-5 space-y-4">
+    <section className="bg-card rounded-xl border p-5 space-y-4">
       <div className="space-y-1.5">
         <span className="text-pullim-slate-500 text-[10px] font-bold tracking-wider uppercase">
           질문
@@ -250,7 +250,7 @@ function ResultCard({
     <div className="space-y-4">
       <section
         className={cn(
-          'rounded-2xl border-2 p-5 space-y-3',
+          'rounded-xl border-2 p-5 space-y-3',
           positive
             ? 'border-pullim-success bg-pullim-success-bg'
             : 'border-pullim-warn bg-pullim-warn-bg',

@@ -460,7 +460,7 @@ export function HistoryReal({ data, defaultOpen }: { data: ExplainContent; defau
 export function MemoryAnchor({ data, defaultOpen }: { data: ExplainContent; defaultOpen?: boolean }) {
   return (
     <Section id="s12" title="암기 닻" subtitle="암기 닻 + 다음 복습" defaultOpen={defaultOpen}>
-      <div className="bg-pullim-blue-50 border-pullim-blue-200 relative overflow-hidden rounded-2xl border p-6">
+      <div className="bg-pullim-blue-50 border-pullim-blue-200 relative overflow-hidden rounded-xl border p-6">
         <Pin className="text-pullim-blue-300 absolute -right-8 -bottom-4 h-32 w-32 opacity-30" aria-hidden />
         <div className="relative">
           <div className="text-pullim-blue-700 text-[10px] font-bold tracking-wider uppercase">한 줄 암기문</div>
@@ -498,11 +498,11 @@ function Section({
       id={id}
       open={defaultOpen}
       className={cn(
-        'bg-card group scroll-mt-24 rounded-2xl border',
+        'bg-card group scroll-mt-24 rounded-xl border',
         signature && 'border-pullim-warn/40',
       )}
     >
-      <summary className="hover:bg-pullim-slate-50/60 flex cursor-pointer list-none flex-wrap items-baseline gap-2 rounded-2xl p-5 transition-colors [&::-webkit-details-marker]:hidden">
+      <summary className="hover:bg-pullim-slate-50/60 flex cursor-pointer list-none flex-wrap items-baseline gap-2 rounded-xl p-5 transition-colors [&::-webkit-details-marker]:hidden">
         <ChevronRight
           aria-hidden
           className="text-pullim-slate-400 mt-1 h-4 w-4 shrink-0 transition-transform group-open:rotate-90"

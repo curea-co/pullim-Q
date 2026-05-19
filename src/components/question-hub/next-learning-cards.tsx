@@ -173,7 +173,7 @@ function Card({
     <Link
       href={href}
       data-kind={kind}
-      className={cn('group flex h-full flex-col gap-1.5 rounded-2xl border p-3.5 transition-all', toneClass)}
+      className={cn('group flex h-full flex-col gap-1.5 rounded-xl border p-3.5 transition-all', toneClass)}
     >
       <div className="flex items-center gap-1.5">
         <Icon className={cn('h-3.5 w-3.5', iconColor)} aria-hidden />

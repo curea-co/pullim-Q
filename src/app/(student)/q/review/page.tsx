@@ -105,7 +105,7 @@ function KpiBand({
   totalConquered: number; retention: number;
 }) {
   return (
-    <section className="bg-card rounded-2xl border p-4">
+    <section className="bg-card rounded-xl border p-4">
       <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
         <Kpi
           Icon={AlertTriangle}
@@ -366,7 +366,7 @@ function LeitnerSummary() {
   };
 
   return (
-    <article className="bg-card rounded-2xl border p-4">
+    <article className="bg-card rounded-xl border p-4">
       <header className="flex items-end justify-between">
         <div>
           <p className="text-pullim-slate-600 text-[10px] font-bold tracking-wider uppercase">
@@ -429,7 +429,7 @@ function ForgettingSummary() {
   const basePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${x(i)},${y(p.baseRetention)}`).join(' ');
 
   return (
-    <article className="bg-card rounded-2xl border p-4">
+    <article className="bg-card rounded-xl border p-4">
       <header className="flex items-end justify-between">
         <div>
           <p className="text-pullim-slate-600 text-[10px] font-bold tracking-wider uppercase">

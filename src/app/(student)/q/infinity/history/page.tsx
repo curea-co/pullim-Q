@@ -85,7 +85,7 @@ export default function HistoryPage() {
       </div>
 
       {/* 이력 리스트 */}
-      <ul className="bg-card divide-pullim-slate-100 overflow-hidden rounded-2xl border divide-y">
+      <ul className="bg-card divide-pullim-slate-100 overflow-hidden rounded-xl border divide-y">
         {filtered.map(h => <HistoryRow key={h.id} entry={h} />)}
         {filtered.length === 0 && (
           <li className="text-pullim-slate-500 px-4 py-8 text-center text-xs">

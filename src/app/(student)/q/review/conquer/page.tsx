@@ -108,7 +108,7 @@ function ConquerSetContent() {
 
     return (
       <div className="space-y-section">
-        <header className="bg-pullim-blue-50 ring-pullim-blue-200 relative overflow-hidden rounded-2xl ring-2 p-6">
+        <header className="bg-pullim-blue-50 ring-pullim-blue-200 relative overflow-hidden rounded-xl ring-2 p-6">
           <div className="text-pullim-blue-700 flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
             {conquered ? <><Trophy className="h-3 w-3" /> 패턴 정복!</> : <><Sparkles className="h-3 w-3" /> 세트 완료</>}
           </div>
@@ -154,7 +154,7 @@ function ConquerSetContent() {
           </div>
         </header>
 
-        <section className="bg-card rounded-2xl border p-4">
+        <section className="bg-card rounded-xl border p-4">
           <h3 className="text-pullim-slate-900 mb-2 text-sm font-bold">자동으로 일어난 일</h3>
           <ul className="space-y-1.5 text-[11px]">
             <li className="text-pullim-slate-700 flex items-center gap-2">
@@ -184,7 +184,7 @@ function ConquerSetContent() {
   return (
     <div className="space-y-4">
       {/* 정복 워크룸 헤더 — 라이트 통일 (Layer 1 단일 톤 룰) */}
-      <header className="bg-card relative overflow-hidden rounded-2xl border p-5">
+      <header className="bg-card relative overflow-hidden rounded-xl border p-5">
         <Link
           href="/q/review"
           className="text-pullim-slate-500 hover:text-pullim-blue-600 mb-2 inline-flex items-center gap-1 text-xs font-semibold"

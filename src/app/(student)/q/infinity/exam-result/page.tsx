@@ -18,7 +18,7 @@ export default function ExamResultPage() {
       />
 
       {/* 점수 hero — warn 풀톤 → warn-bg 톤다운 (plan §4.2) */}
-      <section className="bg-pullim-warn-bg border-pullim-warn/30 grid grid-cols-1 gap-3 rounded-2xl border p-5 lg:grid-cols-4">
+      <section className="bg-pullim-warn-bg border-pullim-warn/30 grid grid-cols-1 gap-3 rounded-xl border p-5 lg:grid-cols-4">
         <div className="lg:col-span-2">
           <div className="text-pullim-slate-600 text-[10px] font-bold tracking-wider uppercase">원점수</div>
           <div className="text-pullim-slate-900 font-mono text-5xl font-bold tracking-tight">
@@ -35,7 +35,7 @@ export default function ExamResultPage() {
       </section>
 
       {/* 결과 분포 — 정답/오답/미응답 */}
-      <section className="bg-card rounded-2xl border p-4">
+      <section className="bg-card rounded-xl border p-4">
         <h2 className="text-pullim-slate-900 mb-3 text-base font-bold">문항별 분포</h2>
         <div className="grid grid-cols-3 gap-3">
           <DistCard count={r.correct}    total={r.problemCount} label="정답"    tone="success" />
@@ -45,7 +45,7 @@ export default function ExamResultPage() {
       </section>
 
       {/* 오답 클러스터 — 패턴별 묶음 */}
-      <section className="bg-card rounded-2xl border p-4">
+      <section className="bg-card rounded-xl border p-4">
         <header className="mb-3 flex items-center gap-2">
           <span className="bg-pullim-danger flex h-7 w-7 items-center justify-center rounded-lg text-white">
             <AlertTriangle className="h-3.5 w-3.5" />
@@ -96,7 +96,7 @@ export default function ExamResultPage() {
       </section>
 
       {/* 다음 추천 */}
-      <section className="bg-pullim-blue-50 border-pullim-blue-100 rounded-2xl border p-4">
+      <section className="bg-pullim-blue-50 border-pullim-blue-100 rounded-xl border p-4">
         <h2 className="text-pullim-slate-900 mb-3 text-base font-bold tracking-tight">다음 추천</h2>
         <div className="grid grid-cols-1 gap-2 lg:grid-cols-3">
           <RecCard

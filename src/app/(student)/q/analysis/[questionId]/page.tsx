@@ -173,7 +173,7 @@ export default async function QuestionHubPage({ params, searchParams }: Props) {
       <NextLearningCards data={data} sku={entry.sku} subject={entry.subject} />
 
       {/* 페이지 끝 — 다음 행동 컴팩트 footer (코치 + 복습 진입만) */}
-      <section className="bg-pullim-blue-50 border-pullim-blue-100 flex flex-wrap items-center gap-3 rounded-2xl border p-4">
+      <section className="bg-pullim-blue-50 border-pullim-blue-100 flex flex-wrap items-center gap-3 rounded-xl border p-4">
         <p className="text-pullim-slate-700 text-sm">
           여기까지 봤다면 한 줄로 닫아요 — 코치에게 묻거나 복습 큐로 돌아가요.
         </p>

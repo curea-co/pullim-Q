@@ -66,7 +66,7 @@ export default function DiagnoseStartPage() {
           description={`${total}문항 · 정답률 ${accuracyPct}% · 맞춤 추정`}
         />
 
-        <section className="bg-pullim-blue-50 ring-pullim-blue-200 relative overflow-hidden rounded-2xl ring-2 p-6">
+        <section className="bg-pullim-blue-50 ring-pullim-blue-200 relative overflow-hidden rounded-xl ring-2 p-6">
           <p className="text-pullim-blue-700 flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
             <TrendingUp className="h-3 w-3" />
             실력 점수 갱신
@@ -104,7 +104,7 @@ export default function DiagnoseStartPage() {
           </div>
         </section>
 
-        <section className="bg-card rounded-2xl border p-4">
+        <section className="bg-card rounded-xl border p-4">
           <h3 className="text-pullim-slate-900 mb-2 text-sm font-bold tracking-tight">다음으로 할 것</h3>
           <ul className="space-y-2 text-xs">
             <li className="flex items-start gap-2">
@@ -135,7 +135,7 @@ export default function DiagnoseStartPage() {
           description={`${quickDiagnostic.estimatedMin}분 예상 · 맞춤 난이도 — 정답률에 따라 다음 문제 난이도 자동 조정`}
         />
 
-        <section className="bg-pullim-blue-50 ring-pullim-blue-200 relative overflow-hidden rounded-2xl ring-2 p-6">
+        <section className="bg-pullim-blue-50 ring-pullim-blue-200 relative overflow-hidden rounded-xl ring-2 p-6">
           <p className="text-pullim-blue-700 flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
             <Sparkles className="h-3 w-3" />
             시작 전 안내
@@ -174,7 +174,7 @@ export default function DiagnoseStartPage() {
         </section>
 
         {/* 진단의 의미 안내 */}
-        <section className="bg-card rounded-2xl border p-4">
+        <section className="bg-card rounded-xl border p-4">
           <h3 className="text-pullim-slate-900 mb-2 text-sm font-bold tracking-tight">진단으로 무엇을 얻나요?</h3>
           <ul className="space-y-2 text-xs">
             <li className="flex items-start gap-2">
@@ -215,7 +215,7 @@ export default function DiagnoseStartPage() {
       />
 
       {/* 진행 + 미니 KPI */}
-      <section className="bg-card rounded-2xl border p-3.5">
+      <section className="bg-card rounded-xl border p-3.5">
         <div className="flex items-center gap-3">
           <Progress value={progress} className="h-2 flex-1" />
           <span className="text-pullim-slate-700 font-mono text-sm font-bold">{currentIdx + 1}/{total}</span>

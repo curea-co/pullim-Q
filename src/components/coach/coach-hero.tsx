@@ -6,7 +6,7 @@ export function CoachHero() {
   const msg = integratedToday;
 
   return (
-    <section className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-2xl border p-5 xl:p-6">
+    <section className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-xl border p-5 xl:p-6">
       <div className="relative">
         <div className="text-pullim-blue-700 flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
           <Sparkles className="h-3 w-3" />
