@@ -21,8 +21,15 @@ declare global {
 
 // lazy: build time(page data collection) 에 DATABASE_URL 없이도 module import 통과.
 // 실제 query 호출 시점에 throw — 친절한 에러 메시지 보존.
+// production: module-scope _db 로 단일 인스턴스 보장. dev: globalThis 로 hot reload 회피.
+let _db: ReturnType<typeof drizzle<typeof schema>> | undefined;
+
 function getDb() {
-  if (globalThis.__pullim_q_db) return globalThis.__pullim_q_db;
+  if (_db) return _db;
+  if (process.env.NODE_ENV !== 'production' && globalThis.__pullim_q_db) {
+    _db = globalThis.__pullim_q_db;
+    return _db;
+  }
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
     throw new Error(
@@ -30,16 +37,16 @@ function getDb() {
     );
   }
   const pool =
-    globalThis.__pullim_q_pg_pool ??
+    (process.env.NODE_ENV !== 'production' ? globalThis.__pullim_q_pg_pool : undefined) ??
     new Pool({ connectionString, max: 10 });
   if (process.env.NODE_ENV !== 'production') {
     globalThis.__pullim_q_pg_pool = pool;
   }
-  const instance = drizzle(pool, { schema });
+  _db = drizzle(pool, { schema });
   if (process.env.NODE_ENV !== 'production') {
-    globalThis.__pullim_q_db = instance;
+    globalThis.__pullim_q_db = _db;
   }
-  return instance;
+  return _db;
 }
 
 export const db = new Proxy({} as ReturnType<typeof drizzle<typeof schema>>, {
