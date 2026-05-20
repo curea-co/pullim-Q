@@ -8,7 +8,7 @@ test.beforeEach(async ({ context }) => {
 });
 
 // C2 — 시험 모드 진입/표시/잠금 분기 (mode=exam) 회귀 가드.
-// 작성: 2026-05-19 (G3 단답 5일차 대기 — 시나리오 분기 규모 확정 후 머지)
+// 작성: 2026-05-19. 2026-05-20 룰 C 발동(G3 6일차) + 셀렉터 안정성 보강(data-exam-card) 후 머지.
 test('Q infinity solve: 시험 모드 토글 → confirm dialog → 시험 UI + 잠금 표시', async ({ page }) => {
   await page.goto('/q/infinity/solve');
   await page.waitForLoadState('networkidle');
@@ -23,11 +23,11 @@ test('Q infinity solve: 시험 모드 토글 → confirm dialog → 시험 UI + 
   await expect(dialogHeading).toBeVisible();
 
   // 시험 세트 1건 자동 선택 또는 카드 클릭 — 첫 카드 선택
-  // (currentSubject 미지정 시 전체 세트 노출, 첫 카드만 클릭)
-  const firstExamCard = page.locator('[data-exam-card], button:has-text("분")').first();
-  if (await firstExamCard.count()) {
-    await firstExamCard.click().catch(() => {});
-  }
+  // currentSubject 미지정 시 전체 세트 노출, 첫 카드만 클릭.
+  // ExamConfirmDialog 의 ExamRow 는 `data-exam-card={exam.id}` 부여됨 (5-20 보강).
+  const firstExamCard = page.locator('[data-exam-card]').first();
+  await expect(firstExamCard).toBeVisible({ timeout: 3000 });
+  await firstExamCard.click();
 
   // "시험 시작 (N분)" 버튼 클릭
   const startBtn = page.getByRole('button', { name: /시험 시작/ });

@@ -192,6 +192,7 @@ function ExamRow({
     <button
       type="button"
       onClick={onSelect}
+      data-exam-card={exam.id}
       className={cn(
         'flex w-full items-start gap-2.5 rounded-lg border-2 px-3 py-2.5 text-left transition-all',
         selected
