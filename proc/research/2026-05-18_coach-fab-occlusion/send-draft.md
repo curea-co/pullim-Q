@@ -77,3 +77,17 @@ G4 결정: [A / B / C]
 
 - 2026-05-20 EOD까지 미수신 시: **룰 C 발동 후보 추가** (G4 게이트도 5일 이월 임계 적용)
 - daily_outcome 2026-05-20 §5 블로커에 명시
+
+## 7. AI 자율 처리 결과 (2026-05-20)
+
+PM 위임 사항 (2026-05-20 09:30 카운터파트 대답: "G4 결정사항, 자의로 해석해서 판단내려") 에 따라 **G4 회신 도착 전 잠정 락인 C** 적용. G4 회신 도착 시 본 락인은 무효화.
+
+**잠정 락인 — 안 C (Q PM 추천안)**:
+- 안2 (44×44 icon-only) 단기 유지 — `src/components/coach/coach-fab.tsx` 변경 없음
+- "모바일 AI 1st-class 진입점" 별도 plan 신규 진입 — [proc/plan/2026-05-20_mobile-ai-1st-class-entry.md](../../plan/2026-05-20_mobile-ai-1st-class-entry.md)
+- G4 회신 도착 시: A 회신이면 신규 plan 보류, B 회신이면 신규 plan 즉시 진입 + 안2 revert PR, C 회신이면 본 락인 그대로 정식 합의화
+
+**룰 C 발동 후보 등록**:
+- G4 단답 6일차(2026-05-15 ~ 2026-05-20) — 룰 C 임계(2회 이월) 초과
+- daily_outcome 2026-05-20 §3 carry-over에 본 PR 송부 + 잠정 락인 명시
+- 본 락인 자체가 G4 게이트 룰 C 1차 발동 사례 (review-priority 룰 C와 동일 패턴)
