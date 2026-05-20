@@ -10,8 +10,10 @@
 - [x] I2 — AnalysisTwoAxis 또래 마커 `w-0.5`→`w-1` + slate-0 outline-1 + slate-500→slate-700 (2026-05-19)
 - [x] I3 — mode-toggle `badge` "PRACTICE"/"EXAM" 영문 약어 필드 자체 제거 (G1 위임 → PM 결정)
 - [x] N1 — `agent-card.tsx:81` `<span>Orchestrator</span>` 라벨 삭제 (G1 위임 → PM 결정)
-- [ ] I4 / I5 — 아래 §1
-- [ ] N2 / N3 / N4 — 아래 §2
+- [x] N3 — review-conquer SKU 카드 흑색 배경 — 2026-05-20 검증 결과 흑색 배경 영역 부재 (5-19 design audit a11y AA sweep 흡수 추정). finding stale 처리
+- [x] N4 — DiagnosisHero `StatChip.sub` `+/-` 시작 시 success/danger 색 자동 분기 (2026-05-20)
+- [ ] I4 / I5 — 아래 §1 (I5 별도 plan)
+- [ ] N2 — G1 D-day 임계값 합의 미도착 6일차 → 룰 C 발동 후보
 
 ## 1. Important (5건)
 
@@ -95,3 +97,7 @@
 - 2026-05-18 — sweep plan 신설. I1 본 PR 동봉 머지. 잔여 8건은 §3 진행 전략대로 분할.
 - 2026-05-18 (오후) — N1 사전 조사 완료. `agent-card.tsx:81` `Orchestrator` 1건 hit. I3 와 묶어 "G1 카피 sweep" 1 PR 로 처리 권장.
 - 2026-05-18 (오후, G1 위임) — N1 + I3 PM 채택: 둘 다 영문 라벨/badge 단순 삭제. 사유: 시각 처리·라벨·description 이 이미 신호 운반, 영문은 redundant.
+- 2026-05-19 — I2 별도 sweep 머지(PR #73). design audit PR-1~5 미흡수 확인 후 진행.
+- 2026-05-20 — N3 finding 검증: review-conquer/conqueror 영역에 `bg-pullim-slate-900` 흑색 배경 영역 0건. SKU 표시는 `text-pullim-slate-400 font-mono` 톤 통일 상태. **N3 stale 처리** — 5-19 design audit a11y AA sweep(PR-2/5)에 흡수 추정.
+- 2026-05-20 — N4 PM 자율 처리. `StatChip.sub` 자체에 `+` → `text-pullim-success font-bold`, `-` → `text-pullim-danger font-bold` 3-way 분기. 다른 sub("1등급", "이번 주" 등)은 기본 slate-500 유지. trend 외 sub에 +/- 시작값이 들어올 가능성 낮아 안전.
+- 2026-05-20 — N2 G1 D-day 임계값 합의 6일차 미도착 → 룰 C 발동 후보 등록. 다음 진입 시 잠정 락인(D-7 warn / D-3 danger)으로 첫 단계 머지.
