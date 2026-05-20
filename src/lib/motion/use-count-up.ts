@@ -11,6 +11,8 @@ export function useCountUp(target: number, durationMs = 1200): number {
 
   useEffect(() => {
     if (prefersReducedMotion()) {
+      // reduced motion: animation 없이 1회 최종값 — cascade 없음
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setValue(target);
       return;
     }
