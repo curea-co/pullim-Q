@@ -162,7 +162,18 @@ function StatChip({
       <div className="text-pullim-slate-900 mt-0.5 text-sm font-bold tracking-tight">
         {value}
       </div>
-      <div className="text-pullim-slate-500 text-[10px]">{sub}</div>
+      <div
+        className={cn(
+          'text-[10px]',
+          sub.startsWith('+')
+            ? 'text-pullim-success font-bold'
+            : sub.startsWith('-')
+              ? 'text-pullim-danger font-bold'
+              : 'text-pullim-slate-500',
+        )}
+      >
+        {sub}
+      </div>
     </li>
   );
 }
