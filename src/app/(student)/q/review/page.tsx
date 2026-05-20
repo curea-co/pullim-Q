@@ -8,7 +8,7 @@ import {
   dueItems, todayDue, memorySourceMeta,
   forgettingCurve,
   wrongAttemptDiagnoses, wrongReasonCatalog,
-  type MemoryItem, type LeitnerBox, type LeitnerCard,
+  type LeitnerBox,
 } from '@/lib/mock';
 import { useLeitnerStore } from '@/lib/store/leitner-store';
 import { useMemoryStore } from '@/lib/store/memory-store';
@@ -16,36 +16,8 @@ import { PageHeader } from '@/components/shell/page-header';
 import { SectionHeading } from '@/components/shell/section-heading';
 import { ErrorPatternList } from '@/components/conqueror/error-pattern-list';
 import { ReviewFormats } from '@/components/memory/review-formats';
+import { unifiedQueue, type QueueItem } from '@/lib/review/unified-queue';
 import { cn } from '@/lib/utils';
-
-type QueueItem =
-  | { kind: 'leitner'; key: string; sku: string; subject: string; summary: string; box: LeitnerBox; hours: number }
-  | { kind: 'memory';  key: string; id: string; label: string; source: MemoryItem['source']; retention: number; hours: number };
-
-function unifiedQueue(cards: LeitnerCard[], memoryItems: MemoryItem[]): QueueItem[] {
-  const wrong: QueueItem[] = cards.map(c => ({
-    kind: 'leitner',
-    key: `lc-${c.id}`,
-    sku: c.problemSku,
-    subject: c.subject,
-    summary: c.summary,
-    box: c.box,
-    hours: c.nextReviewInHours,
-  }));
-  const memory: QueueItem[] = memoryItems.map(m => ({
-    kind: 'memory',
-    key: `mq-${m.id}`,
-    id: m.id,
-    label: m.label,
-    source: m.source,
-    retention: m.retention,
-    hours: m.nextReviewInHours,
-  }));
-  // 24시간 안 + overdue만 — overdue 가장 먼저
-  return [...wrong, ...memory]
-    .filter(i => i.hours <= 24)
-    .sort((a, b) => a.hours - b.hours);
-}
 
 const subjectShort: Record<string, string> = {
   math: '수', english: '영', science: '과', korean: '국', social: '사', history: '한',
@@ -216,14 +188,17 @@ function PriorityQueue({
             {queue.map((item, i) => <QueueRow key={item.key} item={item} index={i} />)}
           </ol>
           {overflow > 0 && (
-            <div className="text-pullim-slate-500 mt-2 flex items-center justify-between rounded-lg border border-dashed px-3 py-2 text-[11px]">
+            <Link
+              href="/q/review/queue"
+              className="text-pullim-slate-700 hover:bg-pullim-slate-50 hover:text-pullim-slate-900 mt-2 flex items-center justify-between rounded-lg border border-dashed px-3 py-2 text-[11px] transition-colors"
+            >
               <span>
                 + {overflow}개 더 있어요 · 총 {totalQueue}개
               </span>
-              <span className="text-pullim-slate-500 text-[10px]">
-                전체 큐 화면은 후속 단계에서 열려요
+              <span className="text-pullim-slate-700 text-[11px] font-semibold">
+                전체 큐 보기 →
               </span>
-            </div>
+            </Link>
           )}
         </>
       )}
