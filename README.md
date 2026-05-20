@@ -68,3 +68,4 @@ bun dev   # http://localhost:3030
 - ✅ 다른 도메인(planner, library, classbot, studio, store, parent, teacher) 페이지·컴포넌트·mock·nav·메타데이터 모두 제거
 - ✅ Role 시스템(student/teacher/parent) → student 단일로 단순화 (role-switcher 제거)
 - ✅ Q 컴포넌트 내부의 cross-domain 참조(플래너 블록 연동 등) 정리
+- ✅ PR 자동 리뷰: `.github/workflows/codex-review.yml` (Codex 한국어 인라인 리뷰)
