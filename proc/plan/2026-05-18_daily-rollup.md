@@ -28,11 +28,12 @@
 - [x] 본 daily-rollup의 1·2·5번 plan들에 cross-reference 1줄 backfill — CoachFab plan(§1) / review-priority plan(§5) / 5-15 daily-rollup / findings.md(sweep plan 링크) 4곳
 - [x] EOD `/review` 결과 → [2026-05-18_q-review-followup.md](2026-05-18_q-review-followup.md) 신설 (Critical 5 + Important 4 일괄 처리, dev 누적 14 PR retrospective)
 
-### 4. C2 hotfix e2e 시험 모드 시나리오 추가 (G3 단답 후)
-- [ ] G3에 "C2 hotfix e2e에 시험 모드(`mode=exam`) 회귀 시나리오 필요한지" 단답 요청 (5-15 carry-over)
-- [ ] G3 OK 시: [e2e/q-infinity-solve](../../e2e/q-infinity-solve.spec.ts) 또는 동등 spec에 `mode=exam` 분기 시나리오 1건 추가 — LeaveGuard popstate 사이클 회귀 + 시험 모드 진입/이탈 통과
-- [ ] base=dev PR 머지
-- [ ] G3 미응답 시: plan 본문에 "G3 단답 대기" 명시 + 익일 이월, 14:30 보고에 차단 사유 박음
+### 4. C2 hotfix e2e 시험 모드 시나리오 추가 (G3 단답 후 → 2026-05-20 룰 C 발동 머지)
+- [x] G3에 "C2 hotfix e2e에 시험 모드(`mode=exam`) 회귀 시나리오 필요한지" 단답 요청 (5-15 carry-over) — 6일차 미도착, 룰 C 발동 사유 충족
+- [x] [e2e/q-infinity-solve-mode-exam.spec.ts](../../e2e/q-infinity-solve-mode-exam.spec.ts) 신규 spec — `mode=exam` 분기 시나리오 1건: 시험 모드 토글 → ExamConfirmDialog → 시험 카드 선택 → 시작 → 시험 UI + 잠금 표시
+- [x] 셀렉터 안정성 보강 — [src/components/infinity/exam-confirm-dialog.tsx](../../src/components/infinity/exam-confirm-dialog.tsx) ExamRow 에 `data-exam-card={exam.id}` attribute 추가 (5-20 자율 처리). spec 의 `[data-exam-card]` 단일 셀렉터로 fallback 제거.
+- [x] base=dev PR #74 머지 (룰 C 발동: G3 6일차 미도착, G1 PR #75 / G4 PR #77 과 동일 패턴)
+- [x] 분기 규모 — 1건 시나리오만으로 머지(LeaveGuard popstate / 시험 시간 만료 / 제출 사이클은 G3 회신 도착 시 추가 결정)
 
 ### 5. review-priority 다음 단계 — 페이지네이션 본격 · 필터 · 정렬 (G1 합의 후)
 - [ ] G1에 "review-priority 다음 단계(페이지네이션 본격·필터·정렬) 진입 합의 1턴" 요청 (5-15 carry-over)
