@@ -18,13 +18,17 @@ export function useBreakModal(durationSec = 30) {
 
   useEffect(() => {
     if (!isOpen) return;
-    if (remaining <= 0) {
-      setIsOpen(false);
-      return;
-    }
-    const t = setInterval(() => setRemaining((r) => r - 1), 1000);
+    const t = setInterval(() => {
+      setRemaining((r) => {
+        if (r <= 1) {
+          setIsOpen(false);
+          return 0;
+        }
+        return r - 1;
+      });
+    }, 1000);
     return () => clearInterval(t);
-  }, [isOpen, remaining]);
+  }, [isOpen]);
 
   return {
     isOpen,

@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // SPARK 입력 자료 (디자인 프로토타입 등) — production 코드 아님.
+    "input/**",
   ]),
 ]);
 
