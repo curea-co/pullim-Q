@@ -4,7 +4,7 @@
 >
 > **게이트키퍼**: G4 (UI 톤·정보 hierarchy) + G1 (BottomNav 4→5탭 구조 변경 정책)
 >
-> **상태**: 잠정 락인 직후 작성. G4 회신 도착 시 §0에서 확정/철회 결정.
+> **상태**: ✅ 마감 (2026-05-22 archive) — 1단계 stub PR #85 머지로 primary objective(모바일 AI 진입점 해소) 달성. 2-3단계는 §6 비범위 / §3.3 "별도 plan으로 분리 가능" 명시. G4 회신 도착 시 후속은 신규 plan 신설로 진입 (본 plan unarchive 아닌 새 plan reference).
 
 ## 0. 진행 현황
 
