@@ -2,7 +2,7 @@
 
 > **출처**: 2026-05-18 `/review` 결과 (PR #61) 의 "Out of scope" 묶음.
 > **PR base**: `dev`. PR #61 이 머지된 뒤에는 충돌 없이 rebase 가능 (서로 다른 라인/파일/관심사).
-> **연계**: [2026-05-18_q-review-followup.md](../plan/2026-05-18_q-review-followup.md) §"Out of scope".
+> **연계**: [2026-05-18_q-review-followup.md](2026-05-18_q-review-followup.md) §"Out of scope".
 
 ## 목표
 
