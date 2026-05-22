@@ -3,7 +3,7 @@
 > 캡처: [captures/](captures/) — 15 라우트 × desktop 1280·mobile 360 = 30장
 > 코드 검토: [src/components/shell/leave-guard.tsx](../../../src/components/shell/leave-guard.tsx), [src/components/conqueror/conquer-intro-dialog.tsx](../../../src/components/conqueror/conquer-intro-dialog.tsx), [src/components/shell/coach-fab.tsx](../../../src/components/shell/coach-fab.tsx) 외
 >
-> **잔여 처리 plan**: [proc/plan/2026-05-18_q-ux-audit-important-nit-sweep.md](../../plan/2026-05-18_q-ux-audit-important-nit-sweep.md) — Important 5 + Nit 4 sweep + 즉시 가능 I1 머지.
+> **잔여 처리 plan**: [proc/archive/2026-05-18_q-ux-audit-important-nit-sweep.md](../../archive/2026-05-18_q-ux-audit-important-nit-sweep.md) — Important 5 + Nit 4 sweep + 즉시 가능 I1 머지 (2026-05-22 전체 마감 archive).
 
 ## 우선순위 요약
 
