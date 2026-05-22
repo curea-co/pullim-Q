@@ -22,7 +22,7 @@
 - [x] base=dev PR #47 머지
 
 ### 3. UX audit 잔여 Important 5 + Nit 4 sweep plan 신설 + 즉시 가능 1건 머지
-- [x] [proc/plan/2026-05-18_q-ux-audit-important-nit-sweep.md](2026-05-18_q-ux-audit-important-nit-sweep.md) 신설 — Important 5 + Nit 4 각 항목 대응 src/ 경로 + 변경 범위 + §3 진행 전략
+- [x] [proc/plan/2026-05-18_q-ux-audit-important-nit-sweep.md](../archive/2026-05-18_q-ux-audit-important-nit-sweep.md) 신설 — Important 5 + Nit 4 각 항목 대응 src/ 경로 + 변경 범위 + §3 진행 전략
 - [x] AI 위임: findings.md Important 5 + Nit 4 추출 → 즉시 가능 항목(I1·I2·N3·N4) 분류 (sweep plan §1·§2 에 반영)
 - [x] 즉시 가능 I1 머지 — review-conquer "연속 정답 0회" 빨강 → streak 분기(0=slate, ≥1=success pill). sweep plan [x] 마감
 - [x] 본 daily-rollup의 1·2·5번 plan들에 cross-reference 1줄 backfill — CoachFab plan(§1) / review-priority plan(§5) / 5-15 daily-rollup / findings.md(sweep plan 링크) 4곳

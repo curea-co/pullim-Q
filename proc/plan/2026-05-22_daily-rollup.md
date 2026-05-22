@@ -2,7 +2,7 @@
 
 > **출처**: [daily_outcome/2026-05-22.md](../../daily_outcome/2026-05-22.md) 09:30 약속 6건 (5-21 전량 미진입 carry-over)
 > **활성 게이트키퍼**: G1 / G3 / G4
-> **선행 carry-over plan**: [2026-05-18_q-ux-audit-important-nit-sweep.md](2026-05-18_q-ux-audit-important-nit-sweep.md) · [2026-05-20_mobile-ai-1st-class-entry.md](2026-05-20_mobile-ai-1st-class-entry.md)
+> **선행 carry-over plan**: [2026-05-18_q-ux-audit-important-nit-sweep.md](../archive/2026-05-18_q-ux-audit-important-nit-sweep.md) · [2026-05-20_mobile-ai-1st-class-entry.md](2026-05-20_mobile-ai-1st-class-entry.md)
 
 ## 목표
 
@@ -19,7 +19,7 @@
 - [x] [src/components/analysis/diagnosis-hero.tsx](../../src/components/analysis/diagnosis-hero.tsx) chip padding `p-2.5`→`p-2` (모바일) + 데이터 소스 라인 압축 + section/h1/ul 모바일 spacing 축소
 - [x] PR #83 머지 (base=dev) — `feat/q-ux-audit-i4-analysis-hero-mobile`
 - [ ] 모바일 360 캡처 회귀 — PM 직접 진행 예정 (17:30 보고 검증 칸에 명시)
-- [x] sweep plan [2026-05-18_q-ux-audit-important-nit-sweep.md](2026-05-18_q-ux-audit-important-nit-sweep.md) §0 I4 [x] 마감 + §5 결정 로그 backfill (본 chore PR 동봉)
+- [x] sweep plan [2026-05-18_q-ux-audit-important-nit-sweep.md](../archive/2026-05-18_q-ux-audit-important-nit-sweep.md) §0 I4 [x] 마감 + §5 결정 로그 backfill (본 chore PR 동봉)
 
 ### 3. UX audit N2 — G1 8일차 룰 C 발동, D-day 임계값 잠정 락인
 - [x] [src/app/(student)/q/page.tsx](../../src/app/\(student\)/q/page.tsx) `ddayToneClass(dday)` helper 신설 + `DDayHero` / `UpcomingSection` 두 곳 적용 (D-3 danger / D-7 warn / 그 외 fallback)
