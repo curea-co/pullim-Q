@@ -2,7 +2,8 @@
 
 > **출처**: [daily_outcome/2026-05-18.md](../../daily_outcome/2026-05-18.md) 09:30 약속 6건 (룰화 3건 묶음 포함)
 > **활성 게이트키퍼**: G1 / G3 / G4
-> **선행 carry-over plan**: [2026-05-15_q-coach-fab-mobile-occlusion.md](2026-05-15_q-coach-fab-mobile-occlusion.md) · [2026-05-13_review-priority-queue-scalable-layout.md](2026-05-13_review-priority-queue-scalable-layout.md) · [2026-05-15_daily-rollup.md](../archive/2026-05-15_daily-rollup.md)
+> **선행 carry-over plan**: [2026-05-15_q-coach-fab-mobile-occlusion.md](2026-05-15_q-coach-fab-mobile-occlusion.md) · [2026-05-13_review-priority-queue-scalable-layout.md](../plan/2026-05-13_review-priority-queue-scalable-layout.md) · [2026-05-15_daily-rollup.md](2026-05-15_daily-rollup.md)
+> **마감 (2026-05-22)**: §1 (G4 송부 → 5-20 잠정 락인 C, PR #76/#77), §5 (G1 → 5-19 룰 C 발동, PR #75), §7 (BE Ph1/Ph2 → PR #62/#63 머지) 후속 PR 로 모두 처리. archive 이관.
 
 ## 목표
 
@@ -14,7 +15,7 @@
 - [x] [src/components/shell/coach-fab.tsx](../../src/components/shell/coach-fab.tsx) 동작 확인 후 `scripts/qa-coach-fab-occlusion-2026-05-18.mjs` 신설해 6 라우트(`/q`, `/q/infinity`, `/q/analysis`, `/q/review`, `/q/analysis/diagnose`, `/q/onboarding`) 모바일 360 캡처 — **FAB 있을 때 / 없을 때 / 44×44 축소 시** 3종 변형 (DOM 변형으로 코드 수정 없이)
 - [x] [proc/research/2026-05-18_coach-fab-occlusion/captures/](../research/2026-05-18_coach-fab-occlusion/captures/) 18장 + [measurements.md](../research/2026-05-18_coach-fab-occlusion/measurements.md) — 그대로 6238px²(2.34%) / 44×44 2288px²(0.86%) / 제거 0px²
 - [x] [proc/plan/2026-05-15_q-coach-fab-mobile-occlusion.md](../archive/2026-05-15_q-coach-fab-mobile-occlusion.md) §3 캡처 경로(`2026-05-15_coach-fab-occlusion` → `2026-05-18_coach-fab-occlusion`) 정정 + §4.1 자료 산출 [x] 마감 + §5 결정 로그 backfill
-- [ ] G4에 자료 + 안1/안2 트레이드오프 제출 → 결정 시 머지 PR, 미응답 시 자료 제출까지로 완료선 박음 (PM 송부 대기)
+- [x] G4에 자료 + 안1/안2 트레이드오프 제출 → 5-20 G4 잠정 락인 C 적용으로 후속 PR #76 (송부 draft) / #77 (안2 머지) 처리. mobile-ai-1st-class entry plan 분리됨.
 
 ### 2. C3 ConquerIntroDialog preventDefault race fix (단독 PR 머지)
 - [x] [src/components/conqueror/conquer-intro-dialog.tsx](../../src/components/conqueror/conquer-intro-dialog.tsx) `DialogTrigger` → `<button type="button" onClick>` 교체, `setOpen(true)` 명시 분기
@@ -36,9 +37,9 @@
 - [x] 분기 규모 — 1건 시나리오만으로 머지(LeaveGuard popstate / 시험 시간 만료 / 제출 사이클은 G3 회신 도착 시 추가 결정)
 
 ### 5. review-priority 다음 단계 — 페이지네이션 본격 · 필터 · 정렬 (G1 합의 후)
-- [ ] G1에 "review-priority 다음 단계(페이지네이션 본격·필터·정렬) 진입 합의 1턴" 요청 (5-15 carry-over)
-- [ ] G1 합의 시: [proc/plan/2026-05-13_review-priority-queue-scalable-layout.md](2026-05-13_review-priority-queue-scalable-layout.md) 다음 단계 진입 — 페이지네이션 본격(N=10,000+ 가정, MEMORY 룰 적용) + 필터·정렬 first cut PR 머지
-- [ ] G1 미응답 시: plan 본문에 "G1 합의 대기" 명시 + 익일 이월, 14:30 보고에 차단 사유 박음
+- [x] G1에 단답 요청 5일차 미수신 → 5-19 룰 C 강제 발동 (review-priority plan §0.1 잠정 락인). PR #75 1단계 진입점(`/q/review/queue` route stub) 머지로 정체 해소.
+- [x] G1 합의 시 본 진입: review-priority plan 의 2단계(페이지네이션 본격·필터·정렬) 는 G1 합의 도착 시 재합의 — 본 daily-rollup 범위 밖으로 위임.
+- [x] G1 미응답 처리: 룰 C 발동으로 잠정 락인. 후속 plan ([2026-05-13_review-priority-queue-scalable-layout.md](../plan/2026-05-13_review-priority-queue-scalable-layout.md)) 으로 추적 위임.
 
 ### 6. 룰화 결정 3건 (EOD까지 위치 결정)
 - [x] **룰 A**: "plan 회고 정정은 별도 chore PR로 분리" → `daily_outcome/CONVENTION.md` §6.A 신설
@@ -49,8 +50,8 @@
 
 ### 7. BE 셋업 (09:30 외 신규, 오후 추가 요청 — Ph1/Ph2 PR 분리)
 - [x] cross-ref backfill — 신규 plan: BE 인프라(Drizzle + Docker Postgres + mock seed). 입력 문서: [input/2026-05-18_be-setup-handoff.md](../../input/2026-05-18_be-setup-handoff.md) (sister project pullim-planner 패턴 차용). spec: [proc/spec/2026-05-18_q-be-api-design.md](../spec/2026-05-18_q-be-api-design.md) · 가이드: [proc/research/2026-05-18_q-be-setup-guide.md](../research/2026-05-18_q-be-setup-guide.md)
-- [ ] Ph1 PR (`feat/q-be-ph1-schema-docker`) base=dev — 10 테이블 스키마 + Docker 5433 + drizzle.config + setup guide + api spec
-- [ ] Ph2 PR (`feat/q-be-ph2-seed`) base=dev — `scripts/seed.ts` (10테이블 idempotent) + output handoff
+- [x] Ph1 PR (`feat/q-be-ph1-schema-docker`) base=dev — PR #62 머지 (Drizzle 스키마 + Docker Postgres + spec/setup guide)
+- [x] Ph2 PR (`feat/q-be-ph2-seed`) base=dev — PR #63 머지 (mock → DB seed + output handoff 문서). Ph3 read endpoints 도 후속 PR #65 머지.
 
 ## AI 우선 위임
 

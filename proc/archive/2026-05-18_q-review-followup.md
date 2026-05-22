@@ -1,7 +1,7 @@
 # 풀림 Q · /review 후속 일괄 fix (2026-05-18)
 
 > **출처**: 2026-05-18 EOD `/review` 보고 — dev vs main 전체 리뷰 (specialist 4 + adversarial 1).
-> **연계**: [2026-05-18_daily-rollup.md](../plan/2026-05-18_daily-rollup.md) §3 잔여 항목, 동일 일자 carry-over.
+> **연계**: [2026-05-18_daily-rollup.md](2026-05-18_daily-rollup.md) §3 잔여 항목, 동일 일자 carry-over.
 > **PR base**: `dev` (main은 archive — 메모리 룰 `project_pr_base_dev`).
 > **마감 (2026-05-22)**: §C1~§I9 12+ 항목 모두 5-18~5-19 중 PR 처리 완료, 검증 §도 후속 PR CI 에서 통과. 본 archive 이관 시점에 [x] backfill (체크박스 누락 정정).
 
@@ -90,4 +90,4 @@ mock 단계라 즉시 손해는 없지만 schema 드리프트 대비 보험.
 ## 메모
 
 - 본 plan은 `/review` Fix-First Auto-Fix 1건 + 사용자 batch 선택 8개(C1·C2·C3·C4·C5·I2·I4·I5+I9)의 일괄 처리.
-- 동일 일자 [2026-05-18_daily-rollup.md](../plan/2026-05-18_daily-rollup.md) §3에 cross-ref 1줄 추가됨 (carry-over plan backfill 룰).
+- 동일 일자 [2026-05-18_daily-rollup.md](2026-05-18_daily-rollup.md) §3에 cross-ref 1줄 추가됨 (carry-over plan backfill 룰).
