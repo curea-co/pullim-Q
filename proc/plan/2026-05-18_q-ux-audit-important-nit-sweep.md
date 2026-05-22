@@ -12,7 +12,8 @@
 - [x] N1 — `agent-card.tsx:81` `<span>Orchestrator</span>` 라벨 삭제 (G1 위임 → PM 결정)
 - [x] N3 — review-conquer SKU 카드 흑색 배경 — 2026-05-20 검증 결과 흑색 배경 영역 부재 (5-19 design audit a11y AA sweep 흡수 추정). finding stale 처리
 - [x] N4 — DiagnosisHero `StatChip.sub` `+/-` 시작 시 success/danger 색 자동 분기 (2026-05-20)
-- [ ] I4 / I5 — 아래 §1 (I5 별도 plan)
+- [ ] I4 — 아래 §1 (2026-05-22 진입 예정)
+- [x] I5 — 별도 plan 분리 ([2026-05-22_q-memory-single-screen-density.md](2026-05-22_q-memory-single-screen-density.md))
 - [ ] N2 — G1 D-day 임계값 합의 미도착 6일차 → 룰 C 발동 후보
 
 ## 1. Important (5건)
@@ -101,3 +102,4 @@
 - 2026-05-20 — N3 finding 검증: review-conquer/conqueror 영역에 `bg-pullim-slate-900` 흑색 배경 영역 0건. SKU 표시는 `text-pullim-slate-400 font-mono` 톤 통일 상태. **N3 stale 처리** — 5-19 design audit a11y AA sweep(PR-2/5)에 흡수 추정.
 - 2026-05-20 — N4 PM 자율 처리. `StatChip.sub` 자체에 `+` → `text-pullim-success font-bold`, `-` → `text-pullim-danger font-bold` 3-way 분기. 다른 sub("1등급", "이번 주" 등)은 기본 slate-500 유지. trend 외 sub에 +/- 시작값이 들어올 가능성 낮아 안전.
 - 2026-05-20 — N2 G1 D-day 임계값 합의 6일차 미도착 → 룰 C 발동 후보 등록. 다음 진입 시 잠정 락인(D-7 warn / D-3 danger)으로 첫 단계 머지.
+- 2026-05-22 — I5 분리 plan 신설 ([2026-05-22_q-memory-single-screen-density.md](2026-05-22_q-memory-single-screen-density.md)). sweep §0 I5 이 plan 으로 위임 마감.
