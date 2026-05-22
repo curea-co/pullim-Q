@@ -22,21 +22,20 @@ export function DiagnosisHero() {
   const wrongCount = wrongAttemptDiagnoses.length;
 
   return (
-    <section className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-xl border p-6">
+    <section className="bg-pullim-blue-50 border-pullim-blue-100 relative overflow-hidden rounded-xl border p-5 sm:p-6">
       <div className="relative">
         <p className="text-pullim-blue-700 inline-flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
           <ScanSearch className="h-3 w-3" />
           풀림 분석
         </p>
-        <h1 className="text-pullim-slate-900 mt-2 text-2xl font-bold tracking-tight">
+        <h1 className="text-pullim-slate-900 mt-1.5 text-2xl font-bold tracking-tight">
           {metaCognitionReport.learnerType}
         </h1>
-        <p className="text-pullim-slate-600 mt-1.5 text-xs leading-relaxed">
-          최근 {lastDiagnosis.questionsAnswered}문항 · {lastDiagnosis.durationMin}분 풀이 ·{' '}
-          {lastDiagnosis.daysAgo}일 전 진단 + 지난 7일 풀이 데이터
+        <p className="text-pullim-slate-600 mt-1 text-[11px] leading-snug sm:text-xs">
+          최근 {lastDiagnosis.questionsAnswered}문항·{lastDiagnosis.durationMin}분·{lastDiagnosis.daysAgo}일 전 진단 + 7일 데이터
         </p>
 
-        <ul className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <ul className="mt-3 grid grid-cols-2 gap-2 sm:mt-4 sm:grid-cols-4">
           <StatChip
             label="메타 점수"
             value={`${overallMeta.score}/100`}
@@ -150,7 +149,7 @@ function StatChip({
   tone: 'primary' | 'warn';
 }) {
   return (
-    <li className="bg-card border-pullim-blue-100 rounded-lg border p-2.5">
+    <li className="bg-card border-pullim-blue-100 rounded-lg border p-2 sm:p-2.5">
       <div className="text-pullim-slate-600 inline-flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase">
         {Icon && (
           <Icon
