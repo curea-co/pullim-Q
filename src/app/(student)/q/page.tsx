@@ -78,6 +78,22 @@ export default function QHubPage() {
 
 /* ─────────────────────────  D-day Hero  ───────────────────────── */
 
+/**
+ * D-day 시급도 톤 — N2 (sweep plan §2 N2) 2026-05-22 룰 C 발동 잠정 락인.
+ *  · D-3 이내 (1~3): danger
+ *  · D-7 이내 (4~7): warn
+ *  · 그 외:          undefined (호출부 fallback 사용)
+ * dday <= 0 은 시험 당일/종료 — danger 톤 유지(임박/지남 둘 다 강조).
+ *
+ * 사유: G1 D-day 임계값 합의 8일차 미도착 → CONVENTION §6.C 룰 C 패턴.
+ * G1 회신 도착 시 임계값 재조정 가능.
+ */
+function ddayToneClass(dday: number): string | undefined {
+  if (dday <= 3) return 'text-pullim-danger';
+  if (dday <= 7) return 'text-pullim-warn';
+  return undefined;
+}
+
 function DDayHero({
   persona, dday,
 }: { persona: typeof currentPersona; dday: number }) {
@@ -93,7 +109,7 @@ function DDayHero({
             {persona.name} 학생, 안녕하세요
           </h1>
           <p className="text-pullim-slate-700 mt-1 text-sm">
-            {persona.examLabel}까지 <strong className="text-pullim-blue-700 font-mono">D-{dday}</strong> · {persona.streakDays}일 연속 학습 중 · 오늘 {todaySession.problemsSolved}/{todaySession.totalToday}문항
+            {persona.examLabel}까지 <strong className={cn('font-mono', ddayToneClass(dday) ?? 'text-pullim-blue-700')}>D-{dday}</strong> · {persona.streakDays}일 연속 학습 중 · 오늘 {todaySession.problemsSolved}/{todaySession.totalToday}문항
           </p>
         </div>
         <div className="bg-card border-pullim-blue-200 text-pullim-slate-700 inline-flex items-center gap-1.5 self-start rounded-full border px-3 py-1.5 text-xs font-bold">
@@ -388,7 +404,7 @@ function UpcomingSection({
               <Calendar className="h-4 w-4" />
             </span>
             <div className="min-w-0 flex-1">
-              <div className="text-pullim-slate-600 text-[10px] font-bold tracking-wider uppercase">
+              <div className={cn('text-[10px] font-bold tracking-wider uppercase', ddayToneClass(dday) ?? 'text-pullim-slate-600')}>
                 D-{dday}
               </div>
               <h4 className="text-pullim-slate-900 mt-0.5 text-sm font-bold">{persona.examLabel}</h4>
