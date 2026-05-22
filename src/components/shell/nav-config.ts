@@ -5,7 +5,7 @@
 
 import {
   Home, Infinity, Activity, Target, Brain, Repeat,
-  Users, ScanSearch,
+  Users, ScanSearch, Sparkles,
   Pencil, Eye, History, Award, BookOpen,
   type LucideIcon,
 } from 'lucide-react';
@@ -103,12 +103,16 @@ export function navForRole(_role: Role): NavGroup[] {
   return studentNav;
 }
 
-/** 모바일 하단 4탭 (학생 도메인 핵심 4) — /me placeholder 는 룰 D 위반으로 제거 */
+/** 모바일 하단 5탭 — 2026-05-22 룰 C 발동 (G4 8일차, mobile-ai-1st-class plan §3.1 1단계 stub).
+ *  /q/talk 슬롯 추가 = 모바일 AI 진입점을 BottomNav 1탭화 → CoachFab 모바일 hide 와 짝.
+ *  /me placeholder 는 룰 D 위반으로 제거 (히스토리).
+ */
 export const studentBottomTabs = [
   { href: '/q',           label: 'Q 홈',      icon: Home,       matchPrefix: ['/q'] },
   { href: '/q/infinity',  label: '무한풀기',  icon: Infinity,   matchPrefix: ['/q/infinity'] },
   { href: '/q/analysis',  label: '분석',      icon: ScanSearch, matchPrefix: ['/q/analysis'] },
   { href: '/q/review',    label: '복습',      icon: Repeat,     matchPrefix: ['/q/review'] },
+  { href: '/q/talk',      label: '풀림 AI',   icon: Sparkles,   matchPrefix: ['/q/talk'] },
 ] as const;
 
 /** 현재 pathname이 어떤 섹션 안에 있는지 — sidebar swap 판단 */
