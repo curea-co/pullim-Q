@@ -84,7 +84,7 @@ PM 위임 사항 (2026-05-20 09:30 카운터파트 대답: "G4 결정사항, 자
 
 **잠정 락인 — 안 C (Q PM 추천안)**:
 - 안2 (44×44 icon-only) 단기 유지 — `src/components/coach/coach-fab.tsx` 변경 없음
-- "모바일 AI 1st-class 진입점" 별도 plan 신규 진입 — [proc/plan/2026-05-20_mobile-ai-1st-class-entry.md](../../plan/2026-05-20_mobile-ai-1st-class-entry.md)
+- "모바일 AI 1st-class 진입점" 별도 plan 신규 진입 — [proc/archive/2026-05-20_mobile-ai-1st-class-entry.md](../../archive/2026-05-20_mobile-ai-1st-class-entry.md) (2026-05-22 1단계 stub PR #85 머지 후 archive)
 - G4 회신 도착 시: A 회신이면 신규 plan 보류, B 회신이면 신규 plan 즉시 진입 + 안2 revert PR, C 회신이면 본 락인 그대로 정식 합의화
 
 **룰 C 발동 후보 등록**:

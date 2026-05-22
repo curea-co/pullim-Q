@@ -2,7 +2,7 @@
 
 > **출처**: [daily_outcome/2026-05-22.md](../../daily_outcome/2026-05-22.md) 09:30 약속 6건 (5-21 전량 미진입 carry-over)
 > **활성 게이트키퍼**: G1 / G3 / G4
-> **선행 carry-over plan**: [2026-05-18_q-ux-audit-important-nit-sweep.md](../archive/2026-05-18_q-ux-audit-important-nit-sweep.md) · [2026-05-20_mobile-ai-1st-class-entry.md](2026-05-20_mobile-ai-1st-class-entry.md)
+> **선행 carry-over plan**: [2026-05-18_q-ux-audit-important-nit-sweep.md](../archive/2026-05-18_q-ux-audit-important-nit-sweep.md) · [2026-05-20_mobile-ai-1st-class-entry.md](../archive/2026-05-20_mobile-ai-1st-class-entry.md)
 
 ## 목표
 
@@ -32,7 +32,7 @@
 - [x] [src/components/shell/bottom-nav.tsx](../../src/components/shell/bottom-nav.tsx) `GRID_COLS_BY_LENGTH` lookup 5탭 대응 확인 — 추가 변경 불필요
 - [x] [src/components/shell/coach-fab.tsx](../../src/components/shell/coach-fab.tsx) `hidden md:flex` 적용 (모바일 비노출, 데스크탑 라벨 pill 유지)
 - [x] PR #85 머지 (base=dev) — `feat/q-mobile-ai-1st-class-stage-1`. "G4 8일차 룰 C 발동, 1단계 stub 머지" 본문 명시
-- [x] plan [2026-05-20_mobile-ai-1st-class-entry.md](2026-05-20_mobile-ai-1st-class-entry.md) §0.1 + §0.2 backfill (본 chore PR 동봉)
+- [x] plan [2026-05-20_mobile-ai-1st-class-entry.md](../archive/2026-05-20_mobile-ai-1st-class-entry.md) §0.1 + §0.2 backfill (본 chore PR 동봉)
 
 ### 5. 단답 채널 자체 점검 — G1/G3/G4 9일차
 - [ ] PM 직접 확인 — 단답 채널 실체(Slack DM / Discord / 카톡 등) 파악 및 G1/G3/G4 회신 누적 9일차 상태 점검
