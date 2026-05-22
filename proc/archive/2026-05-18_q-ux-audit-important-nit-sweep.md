@@ -2,7 +2,7 @@
 
 > **출처**: [proc/research/2026-05-14_ux-audit/findings.md](../research/2026-05-14_ux-audit/findings.md) 잔여 Important 5 + Nit 4 (Critical 3건은 5-15·5-18 별도 처리)
 > **게이트키퍼**: G4 (UI 톤·정보 hierarchy 변경) / G1 (O1 도메인 placeholder 결정)
-> **연관 daily-rollup**: [2026-05-18_daily-rollup.md](../plan/2026-05-18_daily-rollup.md) §3
+> **연관 daily-rollup**: [2026-05-18_daily-rollup.md](2026-05-18_daily-rollup.md) §3
 
 ## 0. 진행 현황 (2026-05-18)
 
