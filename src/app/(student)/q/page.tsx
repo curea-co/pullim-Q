@@ -7,7 +7,7 @@ import {
   overdueCards, dueItems, prescriptions, lastDiagnosis,
   currentPersona, getDday, solveHistory, explainLibrary, subjectLabels,
   todaySession, thetaTrend, conquestStats, leitnerCards,
-  countByBox, personalForgettingProfile,
+  countByBox, personalForgettingProfile, quickDiagnostic,
   type LeitnerCard, type Prescription, type LeitnerBox,
 } from '@/lib/mock';
 import { cn } from '@/lib/utils';
@@ -69,14 +69,14 @@ export default function QHubPage() {
   const nowDetail =
     now.kind === 'prescription' ? `${now.rx.description}` :
     now.kind === 'memory_overdue' ? '기억이 사라지기 전 한 번 더 볼 시점이에요. 5분이면 다시 끌어올릴 수 있어요.' :
-    now.kind === 'diagnose_stale' ? `마지막 진단 ${now.daysAgo}일 전 · 18분이면 끝나요` :
+    now.kind === 'diagnose_stale' ? `마지막 진단 ${now.daysAgo}일 전 · ${quickDiagnostic.estimatedMin}분이면 끝나요` :
     now.kind === 'free' ? '자유 풀이로 가볍게 올려보세요.' :
     '잊혀가는 오답들. 잠깐만 잡으면 돼요.';
   const nowMeta =
     now.kind === 'prescription' ? [`실력 +${now.rx.expectedThetaGain.toFixed(2)} 예상`, `약 ${now.rx.effortMin}분`] :
     now.kind === 'leitner_overdue' ? ['실력 +0.5 예상', '약 5분'] :
     now.kind === 'memory_overdue' ? ['기억 회복', '약 5분'] :
-    now.kind === 'diagnose_stale' ? ['약점 재파악', '약 18분'] :
+    now.kind === 'diagnose_stale' ? ['약점 재파악', `약 ${quickDiagnostic.estimatedMin}분`] :
     null;
   const nowHref =
     now.kind === 'leitner_overdue' || now.kind === 'memory_overdue' ? '/q/review' :
@@ -225,7 +225,7 @@ export default function QHubPage() {
           </span>
           <div className="min-w-0 flex-1">
             <p className="text-pullim-slate-900 text-sm font-bold">진단 받은 지 {lastDiagnosis.daysAgo}일 — 약점이 바뀌었을 수도 있어요</p>
-            <p className="text-pullim-slate-500 text-[11px]">18분이면 끝 · 다음 처방의 정확도가 올라가요</p>
+            <p className="text-pullim-slate-500 text-[11px]">{quickDiagnostic.estimatedMin}분이면 끝 · 다음 처방의 정확도가 올라가요</p>
           </div>
           <span className="text-pullim-blue-700 text-[11px] font-bold inline-flex items-center gap-0.5 shrink-0">
             재진단 시작 <ArrowRight className="h-3 w-3" />
