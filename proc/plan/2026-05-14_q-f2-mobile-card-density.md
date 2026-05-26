@@ -83,12 +83,14 @@ after 캡처는 후속 PR (`density-trial-A` / `B` 등) 에서 별도.
 - 별도 plan `2026-MM-DD_q-f2-density-apply.md` 신설 또는 본 plan 안에 §7 절 추가
 - 후속 PR `feat/q-mobile-card-density-{routes}` 머지 + after 캡처 + 회귀 e2e
 
-## 6. 결과 (캡처 후 채움)
+## 6. 결과 (2026-05-26 G1·G4 회신 도착)
 
-- 캡처: (TBD)
-- 측정 표: (TBD)
-- G1 판단: (a) / (b) / (c) 중 (TBD)
-- 후속 plan 또는 PR: (TBD)
+- 캡처: (미수행 — G1 a안 사전 선택으로 캡처 게이트 우회)
+- 측정 표: (미수행 — 동일 사유)
+- **G1 판단**: **(a) 유지** — 현재 밀도가 모바일 360 에서 학생 친화적, 별도 후속 작업 없음
+- **G4 동의**: a안 유지 동의, F-2 별도 회귀 작업 진입 없음
+- 후속 plan 또는 PR: 없음 — plan 닫음 ([x])
+- design-audit F-2: [findings.md](../research/2026-05-14_ux-audit/findings.md) §O2 종결 표시 (G1 (a) 결정으로 닫음)
 
 ## 7. 비범위 (이번 plan)
 
