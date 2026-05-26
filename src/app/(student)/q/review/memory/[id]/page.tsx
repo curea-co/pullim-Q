@@ -4,7 +4,7 @@ import { use, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Brain, Eye, Check, X, Sparkles, Lightbulb, Repeat } from 'lucide-react';
 import { toast } from 'sonner';
-import { memorySourceMeta } from '@/lib/mock';
+import { dueItems, memorySourceMeta } from '@/lib/mock';
 import { useMemoryStore } from '@/lib/store/memory-store';
 import { PageHeader } from '@/components/shell/page-header';
 import { cn } from '@/lib/utils';
@@ -31,8 +31,15 @@ function formatNextReview(hours: number): string {
 
 export default function MemoryRetryPage({ params }: Props) {
   const { id } = use(params);
-  const item = useMemoryStore((s) => s.items.find((m) => m.id === id));
+  const items = useMemoryStore((s) => s.items);
+  const item = items.find((m) => m.id === id);
   const applyResult = useMemoryStore((s) => s.applyResult);
+
+  const queue = dueItems(items);
+  const queueIndex = queue.findIndex((m) => m.id === id);
+  const queueTotal = queue.length;
+  const positionLabel =
+    queueIndex >= 0 && queueTotal > 0 ? ` · ${queueIndex + 1}/${queueTotal}번째` : '';
 
   const [phase, setPhase] = useState<Phase>('front');
   const [hintOpen, setHintOpen] = useState(false);
@@ -87,7 +94,7 @@ export default function MemoryRetryPage({ params }: Props) {
       <PageHeader
         eyebrow={{ icon: Brain, text: '풀림 기억장치 · 단일 학습' }}
         title={item.label}
-        description={`출처: ${sourceMeta.label} · 첫 학습 ${item.daysAgo}일 전 · 현재 기억 ${Math.round(item.retention * 100)}%`}
+        description={`출처: ${sourceMeta.label} · 첫 학습 ${item.daysAgo}일 전 · 현재 기억 ${Math.round(item.retention * 100)}%${positionLabel}`}
       />
 
       <Link
