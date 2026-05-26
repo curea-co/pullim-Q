@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import {
-  ArrowRight, AlertTriangle, Target, Sparkles,
+  ArrowRight, AlertTriangle, Target, Sparkles, BookOpen,
   Calendar, Star, Flame, Trophy, Brain, TrendingUp,
 } from 'lucide-react';
 import {
@@ -49,7 +49,8 @@ export default function QHubPage() {
   const prev = thetaTrend[thetaTrend.length - 2]!;
   const avgDelta = ((last.math - prev.math) + (last.english - prev.english) + (last.science - prev.science)) / 3;
   const masterImminent = leitnerCards.filter(c => c.box === 5).length;
-  const overdueCount = overdueCards().length;
+  const memoryOverdueCount = dueItems().filter(i => i.nextReviewInHours < 0).length;
+  const overdueCount = overdueCards().length + memoryOverdueCount;
   const boxCounts = countByBox();
   const retention30 = Math.round(personalForgettingProfile.retention30d.me * 100);
   const peerRetention = Math.round(personalForgettingProfile.retention30d.peer * 100);
@@ -215,6 +216,23 @@ export default function QHubPage() {
         <KeyStat Icon={Brain} value={`${retention30}%`} label="한 달 뒤 기억" tone="primary" sub={`${retentionDelta >= 0 ? '+' : ''}${retentionDelta}p 친구 대비`} />
       </section>
 
+      {/* 진단 권장 — 독립 banner (NowAction이 다른 케이스를 잡고 있어도 항상 노출) */}
+      {isDiagnoseStale && now.kind !== 'diagnose_stale' && (
+        <Link href="/q/analysis/diagnose"
+          className="bg-pullim-blue-50 hover:bg-pullim-blue-100 border border-pullim-blue-200 rounded-xl p-3 flex items-center gap-3 transition-colors group">
+          <span className="bg-pullim-blue-100 text-pullim-blue-700 inline-flex h-9 w-9 items-center justify-center rounded-lg shrink-0">
+            <BookOpen className="h-4 w-4" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-pullim-slate-900 text-sm font-bold">진단 받은 지 {lastDiagnosis.daysAgo}일 — 약점이 바뀌었을 수도 있어요</p>
+            <p className="text-pullim-slate-500 text-[11px]">18분이면 끝 · 다음 처방의 정확도가 올라가요</p>
+          </div>
+          <span className="text-pullim-blue-700 text-[11px] font-bold inline-flex items-center gap-0.5 shrink-0">
+            재진단 시작 <ArrowRight className="h-3 w-3" />
+          </span>
+        </Link>
+      )}
+
       {/* 추천 풀림 해설 — 라임 (시그니처) */}
       <section className="bg-pullim-lemon/10 border-2 border-dashed border-pullim-lemon/40 rounded-2xl p-4">
         <div className="flex items-center justify-between">
@@ -228,7 +246,7 @@ export default function QHubPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2.5">
           {signatures.map(e => (
-            <Link key={e.sku} href={`/q/analysis/${e.sku}?from=library`}
+            <Link key={e.sku} href={`/q/analysis/${e.sku}?from=q`}
               className="bg-white hover:bg-pullim-lemon/20 border-pullim-lemon/40 group flex items-start gap-2 rounded-xl border p-2.5 transition-colors">
               <span className="bg-pullim-lemon flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-pullim-lemon-ink">
                 <Star className="h-3.5 w-3.5 fill-current" aria-hidden />
@@ -252,8 +270,11 @@ export default function QHubPage() {
             </p>
             <p className="text-base font-bold mt-1">{persona.examLabel} · <span className="font-mono text-pullim-lemon">D-{dday}</span></p>
             <p className="text-pullim-blue-200 text-[11px]">남은 학습 약 {dday * persona.weeklyHours / 7 | 0}시간 · 주 {persona.weeklyHours}시간 페이스</p>
-            <Link href="/q/infinity/exam-result" className="text-pullim-lemon hover:underline mt-1.5 inline-flex items-center gap-0.5 text-[11px] font-bold">
-              지난 시험 결과 보기 <ArrowRight className="h-3 w-3" />
+            <Link href="/q/infinity/exam-result"
+              className="bg-pullim-blue-800 hover:bg-pullim-blue-700 mt-2 inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-bold text-pullim-lemon transition-colors">
+              <Trophy className="h-3 w-3" />
+              지난 시험 결과 보기
+              <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
           <div className="flex items-start gap-4 text-[11px]">
@@ -269,14 +290,6 @@ export default function QHubPage() {
                   {overdueCount}개
                 </p>
               </div>
-            )}
-            {isDiagnoseStale && now.kind !== 'diagnose_stale' && (
-              <Link href="/q/analysis/diagnose" className="hover:opacity-90 transition-opacity">
-                <p className="text-pullim-blue-200">진단 다시 받기</p>
-                <p className="text-pullim-lemon font-bold inline-flex items-center gap-0.5">
-                  마지막 {lastDiagnosis.daysAgo}일 전 <ArrowRight className="h-3 w-3" />
-                </p>
-              </Link>
             )}
           </div>
         </div>
