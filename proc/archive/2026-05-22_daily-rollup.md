@@ -25,7 +25,7 @@
 - [x] [src/app/(student)/q/page.tsx](../../src/app/\(student\)/q/page.tsx) `ddayToneClass(dday)` helper 신설 + `DDayHero` / `UpcomingSection` 두 곳 적용 (D-3 danger / D-7 warn / 그 외 fallback)
 - [x] PR #84 머지 (base=dev) — `feat/q-ux-audit-n2-dday-rule-c-lockin`. "G1 8일차 룰 C 발동, D-7 warn / D-3 danger" 본문 명시
 - [x] sweep plan §0 N2 [x] 마감 + §5 결정 로그 backfill (본 chore PR 동봉)
-- [x] mock persona D-13 기준 평시 톤 회귀 — 2026-05-26 17:30 회귀 캡처 완료 ([proc/research/2026-05-26_carry-over-regression/B_q-home_dday-fallback.png](../research/2026-05-26_carry-over-regression/B_q-home_dday-fallback.png)). 현재 D-9 (`examDate=2026-06-04`) 영역에서 D-day가 dark blue footer 안에서 `text-pullim-lemon` 라임 톤으로 렌더 → D-13 (가상) 도 동일 라임으로 표시되어 warn/danger 미발동(평시 톤) 회귀 확인. 단 PR #96 `/q` 홈 재설계에서 N2 `ddayToneClass(dday)` 헬퍼 자체는 제거됨 (D-day가 dark footer 보조 영역으로 격하 → urgency 신호는 NowCard hero(`isUrgent`) 단일 집중). N2 D-7 warn / D-3 danger 분기 동작 여부는 별도 follow-up plan 필요 (오늘 이월 마감용 회귀 자체는 "평시 톤 발동 없음"으로 충족) (이월 4일차 마감)
+- [x] mock persona D-13 기준 평시 톤 회귀 — 2026-05-26 17:30 회귀 캡처 완료. 데스크탑 1280×2400 fullPage ([proc/research/2026-05-26_carry-over-regression/B_q-home_dday-fallback.png](../research/2026-05-26_carry-over-regression/B_q-home_dday-fallback.png)) + 모바일 360×800 보조 캡처 ([proc/research/2026-05-26_carry-over-regression/B_q-home_mobile360.png](../research/2026-05-26_carry-over-regression/B_q-home_mobile360.png)) — 두 viewport 모두에서 D-day가 dark blue footer 안 `text-pullim-lemon` 라임 톤으로 동일 렌더, warn/danger 미발동(평시 톤) 회귀 확인. 현재 D-9 (`examDate=2026-06-04`) 영역에서 검증, D-13 (가상) 도 동일 라임으로 표시됨. 단 PR #96 `/q` 홈 재설계에서 N2 `ddayToneClass(dday)` 헬퍼 자체는 제거됨 (D-day가 dark footer 보조 영역으로 격하 → urgency 신호는 NowCard hero(`isUrgent`) 단일 집중). N2 D-7 warn / D-3 danger 분기 동작 여부는 별도 follow-up plan 필요 (오늘 이월 마감용 회귀 자체는 "평시 톤 발동 없음"으로 충족) (이월 4일차 마감)
 
 ### 4. mobile-ai-1st-class — G4 8일차 룰 C 발동, 1단계 stub 머지
 - [x] [src/components/shell/nav-config.ts](../../src/components/shell/nav-config.ts) `studentBottomTabs` 5번째 슬롯 추가 (`/q/talk` · `풀림 AI` · `Sparkles` · `matchPrefix: ['/q/talk']`)
@@ -39,7 +39,7 @@
 - [x] 17:30 §3 또는 §4에 결과 한 줄 박음 — 2026-05-26 daily_outcome 17:30 보고 §4 (배운 점) 에 "단답 채널 회신 = G1·G3·G4 6항 일괄 답변 도착 (14일차 해소). 룰 C 잠정 락인 2건(review-priority §0.1·I5 §0) 정식 승인 승급, F-2 plan a안 결정으로 닫음" 박기 예정 — [chore/q-2026-05-26-gate-decisions-backfill] PR로 review-priority/F-2/I5 plan + findings.md 일괄 backfill 처리
 
 ### 6. I5 plan 신설 — /q/review/memory 단일 학습 화면 밀도
-- [x] [proc/plan/2026-05-22_q-memory-single-screen-density.md](2026-05-22_q-memory-single-screen-density.md) 신설 — 현황·방향·단계·AI 위임·위험·결정 로그 풀세트
+- [x] [proc/plan/2026-05-22_q-memory-single-screen-density.md](../plan/2026-05-22_q-memory-single-screen-density.md) 신설 — 현황·방향·단계·AI 위임·위험·결정 로그 풀세트
 - [x] sweep plan §0 I5 항목을 별도 plan 링크로 마감 표시 (commit a7ab2d0)
 
 ## AI 우선 위임
