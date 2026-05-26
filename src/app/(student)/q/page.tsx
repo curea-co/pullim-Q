@@ -59,6 +59,10 @@ export default function QHubPage() {
   // 위급 여부 (NowCard만 warn 톤 허용)
   const isUrgent = now.kind === 'leitner_overdue' || now.kind === 'memory_overdue';
   const isDiagnoseStale = lastDiagnosis.daysAgo >= lastDiagnosis.nextRecommendedIn;
+  // 오늘 진도 진행률 — 0 분모와 목표 초과 방어 (Codex 리뷰 #96)
+  const todayProgressPct = todaySession.totalToday > 0
+    ? Math.min(100, Math.max(0, (todaySession.problemsSolved / todaySession.totalToday) * 100))
+    : 0;
 
   const nowTitle =
     now.kind === 'leitner_overdue' ? `오답 ${now.count}개, 복습 시간이 지났어요` :
@@ -107,7 +111,7 @@ export default function QHubPage() {
             </div>
             <div className="mt-2 h-2.5 bg-pullim-slate-200 rounded-full overflow-hidden ring-1 ring-pullim-slate-300">
               <div className="h-full bg-gradient-to-r from-pullim-blue-500 to-pullim-blue-700 rounded-full transition-all"
-                style={{ width: `${(todaySession.problemsSolved / todaySession.totalToday) * 100}%` }} />
+                style={{ width: `${todayProgressPct}%` }} />
             </div>
             <p className="text-pullim-slate-600 mt-1 text-[11px]">
               오늘 진도 <strong className="font-mono">{todaySession.problemsSolved}/{todaySession.totalToday}문항</strong> ·
