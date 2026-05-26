@@ -35,8 +35,8 @@
 - [x] plan [2026-05-20_mobile-ai-1st-class-entry.md](../archive/2026-05-20_mobile-ai-1st-class-entry.md) §0.1 + §0.2 backfill (본 chore PR 동봉)
 
 ### 5. 단답 채널 자체 점검 — G1/G3/G4 9일차
-- [ ] PM 직접 확인 — 단답 채널 실체(Slack DM / Discord / 카톡 등) 파악 및 G1/G3/G4 회신 누적 9일차 상태 점검
-- [ ] 17:30 §3 (내일 이어서 할 일) 또는 §4 (배운 점) 에 "단답 채널 확인 결과 = <결과>" 한 줄 박음. 점검 불가 시 사유 명시
+- [x] PM 직접 확인 — 2026-05-26 단답 채널 일괄 회신 도착 (14일차에서 해소). G1/G3/G4 6항 일괄 답변 수신: G1 페이지네이션 디폴트=20 / F-2 a안 유지, G3 페이지네이션 API 시그니처 합의 Y / C2 e2e 시험모드 회귀 시나리오 추가 N, G4 F-2 a안 동의 / I5 1단계 룰 C 발동 retroactive Y
+- [x] 17:30 §3 또는 §4에 결과 한 줄 박음 — 2026-05-26 daily_outcome 17:30 보고 §4 (배운 점) 에 "단답 채널 회신 = G1·G3·G4 6항 일괄 답변 도착 (14일차 해소). 룰 C 잠정 락인 2건(review-priority §0.1·I5 §0) 정식 승인 승급, F-2 plan a안 결정으로 닫음" 박기 예정 — [chore/q-2026-05-26-gate-decisions-backfill] PR로 review-priority/F-2/I5 plan + findings.md 일괄 backfill 처리
 
 ### 6. I5 plan 신설 — /q/review/memory 단일 학습 화면 밀도
 - [x] [proc/plan/2026-05-22_q-memory-single-screen-density.md](2026-05-22_q-memory-single-screen-density.md) 신설 — 현황·방향·단계·AI 위임·위험·결정 로그 풀세트

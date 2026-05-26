@@ -12,7 +12,7 @@
 | 🚨 Critical (기능 결함) | 3 | LeaveGuard popstate 사이클, CoachFab 모바일 점유, Dialog trigger 회피 |
 | 🟡 Important (UX/접근성) | 5 | 색 신호 오용, 마커 가시성, 영문 카피, 모바일 hero 비중, 빈 화면 |
 | 🟢 Nit (polish) | 4 | 영문 라벨, D-day 색, SKU 무게, trend 색 신호 |
-| 📋 Open (디자인 결정) | 2 | 외부 도메인 placeholder, F-2 G1 판단 |
+| 📋 Open (디자인 결정) | 1 | 외부 도메인 placeholder (F-2는 2026-05-26 G1 (a) 결정으로 종결) |
 
 ---
 
@@ -140,11 +140,13 @@ PR-A 에서 환경 텍스트로 처리됐지만 D-day 자체는 시급도 의미
 
 **제안**: G1 결정 — (a) 외부 URL 명시 연결 + chip 보강 (b) 카드 자체 제거 (Q 단독 환경에서는 노이즈) (c) "곧 출시" placeholder 로 명시
 
-### O2. F-2 모바일 카드 밀도 — G1 판단 대기
+### O2. F-2 모바일 카드 밀도 — 종결 ✅ (2026-05-26 G1 (a) 결정)
 
 [PR #37 캡처 + 측정](https://github.com/curea-co/pullim-Q/pull/37) — `/q/review` 가 가장 빡빡 (KpiBand 4개 2×2 + 큐 행 압박). 권장 (b) 단계적 감소 대기.
 
 → **본 audit 이 F-2 자료를 보완**: KpiBand 4개가 모바일 360 의 viewport 1/4 차지하는 현실을 audit 캡처에서 재확인. 진행 권장.
+
+**2026-05-26 결정**: G1 (a) 유지 선택 + G4 동의 — 현재 밀도 유지, 별도 후속 작업 없음. plan [2026-05-14_q-f2-mobile-card-density.md](../../plan/2026-05-14_q-f2-mobile-card-density.md) §6 결과 절 확정 후 닫음. design-audit O2 종결.
 
 ---
 
