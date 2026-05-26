@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import {
-  ArrowRight, AlertTriangle, Clock, Target, Sparkles, BookOpen,
-  Calendar, Check, X, Star, Flame, Trophy, Brain, TrendingUp,
+  ArrowRight, AlertTriangle, Target, Sparkles,
+  Calendar, Star, Flame, Trophy, Brain, TrendingUp,
 } from 'lucide-react';
 import {
   overdueCards, dueItems, prescriptions, lastDiagnosis,
@@ -228,7 +228,7 @@ export default function QHubPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2.5">
           {signatures.map(e => (
-            <Link key={e.sku} href="/q/infinity/explain"
+            <Link key={e.sku} href={`/q/analysis/${e.sku}?from=library`}
               className="bg-white hover:bg-pullim-lemon/20 border-pullim-lemon/40 group flex items-start gap-2 rounded-xl border p-2.5 transition-colors">
               <span className="bg-pullim-lemon flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-pullim-lemon-ink">
                 <Star className="h-3.5 w-3.5 fill-current" aria-hidden />
