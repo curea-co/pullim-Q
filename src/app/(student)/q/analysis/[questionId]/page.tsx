@@ -57,16 +57,19 @@ export default async function QuestionHubPage({ params, searchParams }: Props) {
   const depthMeta = getDepthMeta(predictedGrade);
 
   const isFromLibrary = from === 'library';
+  const isFromQHub = from === 'q';
+  const backHref = isFromLibrary ? '/q/infinity/explain' : isFromQHub ? '/q' : '/q/analysis';
+  const backLabel = isFromLibrary ? '해설 라이브러리' : isFromQHub ? '풀림 Q 홈' : '풀림 분석';
 
   return (
     <div className="space-y-4">
       <header>
         <Link
-          href={isFromLibrary ? '/q/infinity/explain' : '/q/analysis'}
+          href={backHref}
           className="text-pullim-slate-500 hover:text-pullim-blue-600 mb-2 inline-flex items-center gap-1 text-xs font-semibold"
         >
           <ArrowLeft className="h-3 w-3" />
-          {isFromLibrary ? '해설 라이브러리' : '풀림 분석'}
+          {backLabel}
         </Link>
 
         <div className="flex flex-wrap items-end justify-between gap-3">
