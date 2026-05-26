@@ -85,6 +85,7 @@ jobs:
           - 이슈가 없으면 action을 "APPROVE"로, comments는 빈 배열로 설정
           - 모든 인라인 코멘트 body 끝에 반드시 `— Reviewed by Codex` 서명 포함
           - JSON 파일에는 순수 JSON만 출력 (마크다운 펜스나 부가 텍스트 금지)
+          - body 안의 nested 따옴표는 `\"`로 escape하고, body 자체의 시작·끝은 plain `"`로 감싸라. 이중 escape (`\\\"...\\\"`로 body 감싸기) 금지.
           PROMPT
 
       # 사전 sweep: Codex 산출 JSON 보관 — 디버깅·감사·회귀 추적용.
@@ -121,11 +122,40 @@ jobs:
               return;
             }
 
+            const rawText = fs.readFileSync(path, 'utf8');
             let review;
+            let parseError = null;
             try {
-              review = JSON.parse(fs.readFileSync(path, 'utf8'));
+              review = JSON.parse(rawText);
             } catch (e) {
-              core.setFailed('JSON 파싱 실패: ' + e.message);
+              parseError = e.message;
+            }
+
+            // LLM JSON escape 불안정성 대응 — 파싱 실패 시 원본을 raw fallback 으로 게시하고 success 종료.
+            // 인라인 코멘트 매핑은 잃지만 리뷰 자체는 PR 에 노출, 워크플로 재실행으로 흐름 차단 안 됨.
+            if (parseError) {
+              const MAX_BODY = 60000;
+              const truncated = rawText.length > MAX_BODY
+                ? rawText.slice(0, MAX_BODY) + '\n...(truncated)'
+                : rawText;
+              const fallbackBody = [
+                '## Codex Review (raw fallback)',
+                '',
+                `JSON 파싱 실패: ${parseError}`,
+                '',
+                'Codex 원본 출력:',
+                '```',
+                truncated,
+                '```',
+              ].join('\n');
+              await github.rest.pulls.createReview({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                event: 'COMMENT',
+                body: fallbackBody,
+              });
+              console.log('raw fallback 게시 — JSON 파싱 실패: ' + parseError);
               return;
             }
 
