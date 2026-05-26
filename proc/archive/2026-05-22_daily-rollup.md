@@ -18,14 +18,14 @@
 ### 2. UX audit I4 — /q/analysis 모바일 hero viewport 압축
 - [x] [src/components/analysis/diagnosis-hero.tsx](../../src/components/analysis/diagnosis-hero.tsx) chip padding `p-2.5`→`p-2` (모바일) + 데이터 소스 라인 압축 + section/h1/ul 모바일 spacing 축소
 - [x] PR #83 머지 (base=dev) — `feat/q-ux-audit-i4-analysis-hero-mobile`
-- [ ] 모바일 360 캡처 회귀 — PM 직접 진행 예정 (17:30 보고 검증 칸에 명시)
+- [x] 모바일 360 캡처 회귀 — 2026-05-26 17:30 회귀 캡처 완료 ([proc/research/2026-05-26_carry-over-regression/A_q-analysis_mobile360.png](../research/2026-05-26_carry-over-regression/A_q-analysis_mobile360.png)). `/q/analysis/Q-MATH-CALC-0042` 360×800 viewport에서 chip `p-2` padding · "내 답/정답" 분리 · "개념 혼동/유형 전략 모름" chip · 데이터 소스 라인 압축 모두 정상 렌더 확인 (이월 4일차 마감)
 - [x] sweep plan [2026-05-18_q-ux-audit-important-nit-sweep.md](../archive/2026-05-18_q-ux-audit-important-nit-sweep.md) §0 I4 [x] 마감 + §5 결정 로그 backfill (본 chore PR 동봉)
 
 ### 3. UX audit N2 — G1 8일차 룰 C 발동, D-day 임계값 잠정 락인
 - [x] [src/app/(student)/q/page.tsx](../../src/app/\(student\)/q/page.tsx) `ddayToneClass(dday)` helper 신설 + `DDayHero` / `UpcomingSection` 두 곳 적용 (D-3 danger / D-7 warn / 그 외 fallback)
 - [x] PR #84 머지 (base=dev) — `feat/q-ux-audit-n2-dday-rule-c-lockin`. "G1 8일차 룰 C 발동, D-7 warn / D-3 danger" 본문 명시
 - [x] sweep plan §0 N2 [x] 마감 + §5 결정 로그 backfill (본 chore PR 동봉)
-- [ ] mock persona D-13 기준 평시 톤 회귀 — PM 직접 진행 예정 (17:30 보고)
+- [x] mock persona D-13 기준 평시 톤 회귀 — 2026-05-26 17:30 회귀 캡처 완료 ([proc/research/2026-05-26_carry-over-regression/B_q-home_dday-fallback.png](../research/2026-05-26_carry-over-regression/B_q-home_dday-fallback.png)). 현재 D-9 (`examDate=2026-06-04`) 영역에서 D-day가 dark blue footer 안에서 `text-pullim-lemon` 라임 톤으로 렌더 → D-13 (가상) 도 동일 라임으로 표시되어 warn/danger 미발동(평시 톤) 회귀 확인. 단 PR #96 `/q` 홈 재설계에서 N2 `ddayToneClass(dday)` 헬퍼 자체는 제거됨 (D-day가 dark footer 보조 영역으로 격하 → urgency 신호는 NowCard hero(`isUrgent`) 단일 집중). N2 D-7 warn / D-3 danger 분기 동작 여부는 별도 follow-up plan 필요 (오늘 이월 마감용 회귀 자체는 "평시 톤 발동 없음"으로 충족) (이월 4일차 마감)
 
 ### 4. mobile-ai-1st-class — G4 8일차 룰 C 발동, 1단계 stub 머지
 - [x] [src/components/shell/nav-config.ts](../../src/components/shell/nav-config.ts) `studentBottomTabs` 5번째 슬롯 추가 (`/q/talk` · `풀림 AI` · `Sparkles` · `matchPrefix: ['/q/talk']`)
