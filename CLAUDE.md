@@ -29,26 +29,25 @@ pullim-Q/
 
 | 영역 | 경로 |
 |---|---|
-| **풀림 Q 페이지** | `apps/q/src/app/(student)/q/{infinity,talk,analysis,review,onboarding}/` |
-| **풀림 Q 컴포넌트** | `apps/q/src/components/{infinity,coach,conqueror,memory,study-index,xray}/` |
-| **풀림 Q mock** | `apps/q/src/lib/mock/{infinity,coach,tutor,conqueror,memory,irt,xray,phase1}.ts` |
+| **풀림 Q 페이지** | `apps/q/app/(student)/q/{infinity,talk,analysis,review}/` |
+| **풀림 Q 컴포넌트** | `apps/q/components/{infinity,coach,conqueror,memory,study-index,xray}/` |
+| **풀림 Q mock** | `apps/q/lib/mock/{infinity,coach,tutor,conqueror,memory,irt,xray,phase1}.ts` |
 
 학생 홈 `/`은 `/q`로 redirect.
 
 ## 2. 공유 영역 (자유롭게 편집)
 
-- `apps/q/src/components/shell/*` — AppHeader, AppSidebar, BottomNav, nav-config 등 셸 골격 (Q 전용으로 단순화됨)
-- `apps/q/src/components/ui/*` — shadcn/ui 프리미티브
-- `apps/q/src/components/study/coming-soon.tsx` — `/me` 페이지 placeholder
-- `apps/q/src/components/brand/*` — 로고
-- `apps/q/src/lib/mock/{features,domains,persona,curriculum}.ts` — Q 메타 + 공통 데이터
-- `apps/q/src/lib/tokens/*`, `apps/q/src/lib/utils.ts`
-- `apps/q/src/app/layout.tsx`, `apps/q/src/app/(student)/layout.tsx`
+- `apps/q/components/shell/*` — AppHeader, AppSidebar, BottomNav, nav-config 등 셸 골격 (Q 전용으로 단순화됨)
+- `apps/q/components/ui/*` — shadcn/ui 프리미티브
+- `apps/q/components/brand/*` — 로고
+- `apps/q/lib/mock/{features,domains,persona,curriculum}.ts` — Q 메타 + 공통 데이터
+- `apps/q/lib/tokens/*`, `apps/q/lib/utils.ts`
+- `apps/q/app/layout.tsx`, `apps/q/app/(student)/layout.tsx`
 - `apps/q/{next.config.ts, eslint.config.mjs, package.json, tsconfig.json}`
 
 ## 3. mock 구조
 
-`apps/q/src/lib/mock/index.ts`는 Q 도메인이 사용하는 mock만 barrel export. 정리 시 함께 갱신.
+`apps/q/lib/mock/index.ts`는 Q 도메인이 사용하는 mock만 barrel export. 정리 시 함께 갱신.
 
 ## 4. 명령어
 

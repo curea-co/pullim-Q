@@ -142,3 +142,67 @@ jobs:
             FILTER="$FILTER --filter=@pullim-q/backend"
           fi
           bunx turbo build $FILTER
+
+  # ─────────────────────────────────────────────────────────────
+  # Job 4. Unit test (Jest) — Q 앱 영향 시
+  # apps/q/CLAUDE.md 가 작업 규칙으로 mandating — 회귀 방지 위해 CI 에 남김
+  # ─────────────────────────────────────────────────────────────
+  test:
+    name: test (Jest)
+    needs: [detect-changes, validate]
+    runs-on: ubuntu-latest
+    if: needs.detect-changes.outputs.q == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+      - run: bun install --frozen-lockfile
+      - name: Unit test
+        run: bun --filter @pullim-q/q test
+
+  # ─────────────────────────────────────────────────────────────
+  # Job 5. E2E (Playwright) — Q 앱 영향 시
+  # apps/q/CLAUDE.md 가 작업 규칙으로 mandating — 라우팅/상호작용 회귀 방지
+  # ─────────────────────────────────────────────────────────────
+  e2e:
+    name: e2e (Playwright)
+    needs: [detect-changes, validate]
+    runs-on: ubuntu-latest
+    if: needs.detect-changes.outputs.q == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+      - run: bun install --frozen-lockfile
+
+      - name: Resolve Playwright version
+        id: pw
+        working-directory: apps/q
+        run: |
+          VERSION=$(node -p "require('@playwright/test/package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ steps.pw.outputs.version }}
+
+      - name: Install Playwright Chromium + system deps
+        working-directory: apps/q
+        run: bunx playwright install --with-deps chromium
+
+      - name: Run e2e
+        run: bun --filter @pullim-q/q test:e2e
+
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            apps/q/playwright-report/
+            apps/q/test-results/
+          retention-days: 7
