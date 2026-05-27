@@ -13,6 +13,10 @@ WORKDIR /app
 COPY package.json bun.lock ./
 COPY apps/q/package.json ./apps/q/
 COPY packages ./packages
+# tsconfig.base.json — apps/q/tsconfig.json 과 packages/*/tsconfig.json 이
+# `../../tsconfig.base.json` 으로 extends. 누락 시 build 단계에서 TS 설정
+# resolve 실패. install 캐시 layer 와 함께 묶어 같이 복사.
+COPY tsconfig.base.json ./
 RUN bun install --frozen-lockfile --filter @pullim-q/q
 
 ENV NEXT_TELEMETRY_DISABLED=1

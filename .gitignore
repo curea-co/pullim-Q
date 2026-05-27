@@ -1,7 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+# Codex 지적(PR #100 2차): workspace 내부 node_modules/캐시 산출물 차단을 위해
+# 재귀 패턴 사용. 루트 only 패턴(`/node_modules`)은 apps/*/node_modules,
+# packages/*/node_modules 를 막지 못해 PR 에 대량 산출물 누적됨.
+**/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -11,15 +14,21 @@
 !.yarn/versions
 
 # testing
-/coverage
+**/coverage
+**/test-results
+**/playwright-report
+**/playwright/.cache
 
 # next.js
-/.next/
-/.next-*/
-/out/
+**/.next/
+**/.next-*/
+**/out/
+
+# turbo cache
+**/.turbo
 
 # production
-/build
+**/build
 
 # misc
 .DS_Store
@@ -52,7 +61,4 @@ next-env.d.ts
 # docker postgres volume (local DB data, not tracked)
 /.docker/
 
-# playwright
-/test-results/
-/playwright-report/
-/playwright/.cache/
+# playwright — workspace 재귀 패턴은 위 testing 섹션 참조 (`**/test-results` 등)
