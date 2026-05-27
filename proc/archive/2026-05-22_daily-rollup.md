@@ -45,7 +45,7 @@
 - [x] 17:30 §3 또는 §4에 결과 한 줄 박음 — 2026-05-26 daily_outcome 17:30 보고 §4 (배운 점) 에 "단답 채널 회신 = G1·G3·G4 6항 일괄 답변 도착 (14일차 해소). 룰 C 잠정 락인 2건(review-priority §0.1·I5 §0) 정식 승인 승급, F-2 plan a안 결정으로 닫음" 박기 예정 — [chore/q-2026-05-26-gate-decisions-backfill] PR로 review-priority/F-2/I5 plan + findings.md 일괄 backfill 처리
 
 ### 6. I5 plan 신설 — /q/review/memory 단일 학습 화면 밀도
-- [x] [proc/archive/2026-05-22_q-memory-single-screen-density.md](./2026-05-22_q-memory-single-screen-density.md) 신설 — 현황·방향·단계·AI 위임·위험·결정 로그 풀세트
+- [x] [proc/plan/2026-05-22_q-memory-single-screen-density.md](../plan/2026-05-22_q-memory-single-screen-density.md) 신설 — 현황·방향·단계·AI 위임·위험·결정 로그 풀세트
 - [x] sweep plan §0 I5 항목을 별도 plan 링크로 마감 표시 (commit a7ab2d0)
 
 ## AI 우선 위임
