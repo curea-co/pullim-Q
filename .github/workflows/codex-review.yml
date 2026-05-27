@@ -70,6 +70,27 @@ jobs:
           done
           ls -la "${RULES_DIR}"
 
+      # Codex 지적(PR #100 3차 보안): prompt 만으로 "head 규칙 무시" 지시해도
+      # Codex CLI 가 cwd 의 AGENTS.md/CLAUDE.md 를 자동 로드하면 모델 컨텍스트에
+      # 이미 들어온 뒤라 방어 불완전. 신뢰 경계를 닫기 위해 head checkout 의
+      # 모든 AGENTS.md/CLAUDE.md 를 codex exec 호출 전 물리 제거.
+      # base 규칙은 /tmp/codex-rules-${UNIQ}/ 격리 위치에서만 적용.
+      - name: Strip head ruleset (security defense in depth)
+        run: |
+          set -euo pipefail
+          # .git 영역은 보존 (commit 메타 손상 방지).
+          # nested(apps/*/CLAUDE.md, packages/*/AGENTS.md 등) 도 동일 신뢰 경계라 일괄 제거.
+          find . -type f \( -name "AGENTS.md" -o -name "CLAUDE.md" \) \
+            -not -path "./.git/*" -print -delete || true
+          # 제거 결과 확인 — 0건이어야 정상.
+          remaining=$(find . -type f \( -name "AGENTS.md" -o -name "CLAUDE.md" \) -not -path "./.git/*" | wc -l)
+          if [[ "${remaining}" -ne 0 ]]; then
+            echo "ERROR: ${remaining} head ruleset file(s) survived strip — security boundary not closed"
+            find . -type f \( -name "AGENTS.md" -o -name "CLAUDE.md" \) -not -path "./.git/*"
+            exit 1
+          fi
+          echo "head ruleset stripped (defense in depth)"
+
       # safety_strategy=unsafe 정당화:
       # Codex CLI 가 /tmp/pr-diff*.txt 읽기 · /tmp/codex-review*.json 쓰기 필요.
       # workspace-write sandbox + unsafe = 워크스페이스 외부 파일 시스템 접근 허용.
@@ -173,20 +194,24 @@ jobs:
               core.setFailed('스키마 검증 실패: body 는 문자열');
               return;
             }
-            const rawComments = Array.isArray(review.comments) ? review.comments : [];
+            // Codex 지적(PR #100 3차): 스키마 불일치 시 silent skip 은 가장 중요한
+            // 이슈를 조용히 유실시킬 수 있음. 리뷰 산출물은 외부 입력이자 품질 게이트
+            // 이므로 스키마 위반은 워크플로 실패로 전환 → 재시도 강제.
+            if (review.comments !== undefined && !Array.isArray(review.comments)) {
+              core.setFailed('스키마 검증 실패: comments 는 배열이어야 함');
+              return;
+            }
+            const rawComments = review.comments ?? [];
             const validatedComments = [];
-            let skipped = 0;
             for (let i = 0; i < rawComments.length; i++) {
               const c = rawComments[i];
               if (!c || typeof c !== 'object') {
-                console.warn(`comment[${i}] 객체 아님 — 건너뜀`);
-                skipped++;
-                continue;
+                core.setFailed(`스키마 검증 실패: comment[${i}] 가 객체가 아님 (Codex JSON 재생성 필요)`);
+                return;
               }
               if (!isString(c.path) || !isNumber(c.line) || !isString(c.body)) {
-                console.warn(`comment[${i}] 필드 누락/형식 오류 — 건너뜀`, c);
-                skipped++;
-                continue;
+                core.setFailed(`스키마 검증 실패: comment[${i}] 필드 누락/형식 오류 — path/line/body 필수. 실제: ${JSON.stringify(c)}`);
+                return;
               }
               validatedComments.push(c);
             }
@@ -260,4 +285,4 @@ jobs:
             }
 
             await github.rest.pulls.createReview(params);
-            console.log(`인라인: ${validComments.length}, fallback: ${fallbackComments.length}, 스키마 검증 거른 코멘트: ${skipped}`);
+            console.log(`인라인: ${validComments.length}, fallback: ${fallbackComments.length} (스키마 검증 실패 시 워크플로 전체 fail)`);
