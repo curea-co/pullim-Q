@@ -3,7 +3,7 @@
 > **출처**: [proc/plan/2026-05-18_q-ux-audit-important-nit-sweep.md](../archive/2026-05-18_q-ux-audit-important-nit-sweep.md) §1 I5 분리
 > **연관 audit 항목**: [proc/research/2026-05-14_ux-audit/findings.md](../research/2026-05-14_ux-audit/findings.md) Important 5번
 > **게이트키퍼**: G4 (UI 톤·정보 hierarchy 변경)
-> **연관 daily-rollup**: [2026-05-22_daily-rollup.md](2026-05-22_daily-rollup.md) §6
+> **연관 daily-rollup**: [2026-05-22_daily-rollup.md](../archive/2026-05-22_daily-rollup.md) §6
 
 ## 0. 진행 현황 (2026-05-26 갱신)
 
