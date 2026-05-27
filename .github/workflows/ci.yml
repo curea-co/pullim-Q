@@ -43,6 +43,7 @@ jobs:
             q:
               - 'apps/q/**'
               - 'packages/**'
+              - 'config/jest.setup.ts'
               - 'tsconfig.base.json'
               - 'turbo.json'
               - 'package.json'
