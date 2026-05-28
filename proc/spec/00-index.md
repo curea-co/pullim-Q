@@ -36,3 +36,8 @@
 - **2026-05-06**: 기존 `docs/` 11개 문서 + `pullim-study-screens` 스킬을 본 spec으로 합성 (역설계 마이그레이션)
 - **2026-05-06**: UX/디자인 베이스라인 보강 — `04 § 6.6` 오버플로 처리 규칙 신설, `08 § 7.3` 버튼 어포던스 규칙 신설, `07 § 5.2` 학술 기호·약어 매핑 추가, `07 § 6` UX writing(한자어 정책) 신설. 트리거: `/q/infinity/solve` 시험 모드 다이얼로그 viewport 초과 버그, `/q/review` "정복 세트 풀이" 버튼 어포던스 미달, θ 등 학술 기호 노출 + 한자어("잔존" 등) 사용성 이슈.
 - **2026-05-07**: 명세 회귀 사례 closing — `04 § 6.6.3/6.6.4` (오버플로·다이얼로그 footer cleanup), `08 § 7.3.5` (버튼 어포던스 회귀: Q·라이브러리·클래스봇·플래너 처리 완료), `07 § 5.2` (학술 기호 회귀: 2026-05-06 시점 5건 + 2026-05-07 시점 신규 도메인 발견 처리 완료) 갱신. [2026-05-07 spec-regression-closing plan](../archive/2026-05-07_spec-regression-closing.md).
+- **2026-05-19**: input/design-system + input/q audit 반영 풀스코프 SPEC 갱신.
+  - **08-design-system.md**: §1.1 Primary 교차 참조 노트 (Q `#3B6FF6` 의도 유지 vs 3앱 통합 audit `#2854D8` 권고) · §1.2.1 slate-400 사용 룰 (<14px 금지) · §1.3.1 시맨틱 fg/bg/cta-bg AA 분리 룰 (`#F59E0B`+흰글자 2.6:1 → CTA bg `#D97706`) · §3.4.1 9~12.5px 금지 룰 · §4.3 radius 9단계 → 14/20/pill 축약 deprecate 명시 · §10.1 easing 토큰 + §10.3 Q 학습 모션 카탈로그 M1~M10 신설 · §12.1.1 글로벌 `:focus-visible` 룰
+  - **04-ux-flow.md**: §6.2.1 해설 12-섹션 → 3페이즈 묶음(이해→재시도→강화) · §6.7 Solve 화면 캔버스 명세 신설 (선지 카드·타이머·힌트·풀스크린 모드) · §6.8 복습 3-bucket 그룹화(즉시/오늘/이번 주, 행 80px 고정)
+  - **07-branding.md**: §5.3 해설 12-섹션 라벨 영↔한 매핑 표 신설 ("Hero Recap · 핵심 한눈에" 페어) + 5.3.1 그 외 영문 노출 회귀 점검 대상(`Scope L1~L5` 등)
+  - 출처: [input/design-system/](../../input/design-system/) (DESIGN_SYSTEM.md / IMPROVEMENTS.md / private-q.md / tokens.json), [input/q/private/](../../input/q/private/) (53장 캡처 + private-metrics.json, 일자 2026-05-19). 토큰값 자체 변경은 본 spec 변경이 정책 합의에 그치므로 [src/app/globals.css](../../src/app/globals.css) 코드 갱신은 별도 PR.
