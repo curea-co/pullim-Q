@@ -22,7 +22,7 @@
 - `grep -r "from '@/lib/mock" apps/q/components apps/q/app` 결과 0건
 - `grep -r "from 'drizzle-orm'" apps/q` 결과 0건
 - `apps/backend/src/modules/q/` 가 read+mutation endpoint 전체에 대해 use-case+service+repository 분리 보유
-- `bun run typecheck && bun run lint && bun run test` 4 워크스페이스 전부 통과 (`@pullim-q/{q,backend,types,api-client,auth}`)
+- `bun run typecheck && bun run lint && bun run test` 5 워크스페이스 전부 통과 (`@pullim-q/{q,backend,types,api-client,auth}`)
 - `proc/spec/2026-05-18_q-be-api-design.md` §결정 사항의 ORM 행이 **TypeORM 0.3**, API 스타일 행이 **NestJS 11 — apps/backend** 로 갱신
 
 ---
@@ -193,7 +193,7 @@ pullim-Q/
 - Phase γ 머지 시: `apps/q/drizzle/`, `apps/q/drizzle.config.ts`
 - Phase γ~δ 진행 중: `apps/q/lib/db/{schema,index}.ts`
 - Phase η 완료 시: `apps/q/app/api/` 전체, `apps/q/lib/mock/` 전체 (PR 마지막 단계)
-- Phase α 완료 시: `apps/q/package.json` 의 `drizzle-orm` / `drizzle-kit` / `pg` / `@types/pg` (단, Phase γ 까지는 잔존 필요할 수 있음 — Phase α 의 동봉 결정 필요)
+- **Phase γ 머지 직후** (즉, `apps/q/lib/db/` 와 `apps/q/app/api/` 의 drizzle 직접 호출이 모두 BE 로 이전된 시점): `apps/q/package.json` 의 `drizzle-orm` / `drizzle-kit` / `pg` / `@types/pg` 제거 — Phase α 단계에서는 **제외** (Phase α 는 BE 스캐폴딩만 다루고 drizzle 의존성은 잔존시킴)
 
 ---
 
