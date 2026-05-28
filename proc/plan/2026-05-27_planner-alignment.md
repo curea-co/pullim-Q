@@ -18,11 +18,11 @@
 
 **완료 기준** (이 plan 전체):
 
-- `find apps/q/components/features -type d` 가 `q-infinity / q-coach / q-conqueror / q-memory / q-xray / q-study-index / q-analysis / q-question-hub` 폴더를 반환
+- `find apps/q/components/features -type d` 가 `q-home / q-infinity / q-coach / q-conqueror / q-memory / q-xray / q-study-index / q-analysis / q-question-hub` 폴더를 반환
 - `grep -r "from '@/lib/mock" apps/q/components apps/q/app` 결과 0건
 - `grep -r "from 'drizzle-orm'" apps/q` 결과 0건
 - `apps/backend/src/modules/q/` 가 read+mutation endpoint 전체에 대해 use-case+service+repository 분리 보유
-- `bun run typecheck && bun run lint && bun run test` 5 워크스페이스 전부 통과 (`@pullim-q/{q,backend,types,api-client,auth}`)
+- `bun run typecheck` 5 워크스페이스 전부 통과 (`@pullim-q/{q,backend,types,api-client,auth}`) + `bun run lint && bun run test` 는 `apps/{q,backend}` 2 워크스페이스 통과 (`packages/*` 는 typecheck 만 — planner 기준과 동일)
 - `proc/spec/2026-05-18_q-be-api-design.md` §결정 사항의 ORM 행이 **TypeORM 0.3**, API 스타일 행이 **NestJS 11 — apps/backend** 로 갱신
 
 ---
@@ -81,7 +81,7 @@
 | **drizzle → TypeORM 이식** | 완료 (스키마 byte-equal diff 0) | **미시작** — drizzle 잔존, TypeORM 미도입 | **대형 갭** |
 | **FE mock 제거** | Phase η 진행 중 (`@pullim-planner/api-client` 전환) | **미시작** — 페이지·컴포넌트가 `@/lib/mock` 직접 import | **대형 갭** |
 | **`@vercel/analytics`** | 일부 도입 (planner FE) | **미도입** | 비목표 — 별 트랙 |
-| **앱별 docs** (`apps/{q,backend}/CLAUDE.md`, `AGENTS.md`) | `apps/planner/CLAUDE.md`, `AGENTS.md` 완비 | `apps/q/CLAUDE.md`·`AGENTS.md` 완비 (D-Lite). `apps/backend/CLAUDE.md` **부재** | 소형 — Phase α 끝에 추가 |
+| **앱별 docs** (`apps/{q,backend}/CLAUDE.md`, `AGENTS.md`) | `apps/planner/CLAUDE.md`, `AGENTS.md` 완비 | `apps/q/CLAUDE.md`·`AGENTS.md` 완비 (D-Lite). `apps/backend/CLAUDE.md` **부재** | 소형 — Phase β PR 에 동봉 |
 | **응답 envelope** (`{success, data}` / `{success, error}` + ResponseInterceptor + 2 Filter) | 옵션 A 채택, 적용 완료 | **불일치** — 현 `apps/q/app/api/*` 의 raw JSON (`{ data: T }` / `{ error: {...} }`) | 중형 — Phase β 에서 일괄 |
 
 ---
@@ -172,7 +172,7 @@ pullim-Q/
 │       │   ├── app.controller.ts / app.module.ts / main.ts
 │       ├── test/
 │       ├── nest-cli.json / tsconfig.json / tsconfig.build.json / eslint.config.mjs
-│       ├── CLAUDE.md (신규 — Phase α 끝에 추가)
+│       ├── CLAUDE.md (신규 — Phase β PR 에 동봉)
 │       └── package.json (@pullim-q/backend)
 ├── packages/
 │   ├── types/                              # Q 도메인 BE↔FE 공유 타입
@@ -190,10 +190,9 @@ pullim-Q/
 
 폐기 대상 (각 Phase 에서 단계적 제거):
 
-- Phase γ 머지 시: `apps/q/drizzle/`, `apps/q/drizzle.config.ts`
-- Phase γ~δ 진행 중: `apps/q/lib/db/{schema,index}.ts`
-- Phase η 완료 시: `apps/q/app/api/` 전체, `apps/q/lib/mock/` 전체 (PR 마지막 단계)
-- **Phase γ 머지 직후** (즉, `apps/q/lib/db/` 와 `apps/q/app/api/` 의 drizzle 직접 호출이 모두 BE 로 이전된 시점): `apps/q/package.json` 의 `drizzle-orm` / `drizzle-kit` / `pg` / `@types/pg` 제거 — Phase α 단계에서는 **제외** (Phase α 는 BE 스캐폴딩만 다루고 drizzle 의존성은 잔존시킴)
+- Phase γ 머지 시: `apps/q/drizzle/`, `apps/q/drizzle.config.ts` (마이그레이션 자산만 — TypeORM 으로 byte-equal 이식 완료 후)
+- Phase η 완료 시 (PR 마지막 단계, 동일 PR 내): `apps/q/app/api/` 전체 + `apps/q/lib/db/{schema,index}.ts` + `apps/q/lib/mock/` 전체 — 셋은 **한 묶음**으로 제거 (`apps/q/app/api/*/route.ts` 가 `@/lib/db` 와 `drizzle-orm` 을 직접 import 하므로, lib/db 만 먼저 빼면 route 가 즉시 깨짐)
+- **Phase η 완료 직후** (드리즐 직접 호출이 모두 사라진 시점): `apps/q/package.json` 의 `drizzle-orm` / `drizzle-kit` / `pg` / `@types/pg` 제거 — Phase α·β·γ 단계에서는 **제외** (drizzle 자산이 여전히 import 되는 동안 의존성을 빼면 빌드가 실패함)
 
 ---
 
@@ -294,7 +293,7 @@ Q 도메인 최대 logic 보유. planner 의 `manage/[id]/edit/page.tsx` (239줄
 #### Phase α — 모노레포 재편 (이미 D-Lite 완료)
 
 - 본 plan 진입 시점에 이미 머지됨 (`refactor/monorepo-migration`)
-- 추가 작업: **없음** (단 §5 의 "폐기 대상" 중 Phase α 단계 drizzle 의존성 정리는 Phase γ 와 함께 처리)
+- 추가 작업: **없음** (단 §5 의 "폐기 대상" 중 drizzle 의존성 정리는 Phase γ 머지 직후, `apps/backend/CLAUDE.md` 신규 작성은 Phase β PR 에 동봉)
 
 #### Phase β — pullim common 패턴 차용 (PR #β)
 
