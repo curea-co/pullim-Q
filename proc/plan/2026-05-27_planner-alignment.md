@@ -481,7 +481,7 @@ planner 정본의 §7 과 동일 구조:
 - **G4 (FE 게이트키퍼)** — Phase η 진입 시점에서 데이터 페칭 패턴 확정 (Server Component fetch vs Server Action vs client `@pullim-q/api-client`). envelope 분기 처리 합의
 - **G1** — 본 plan 은 내부 구조 작업이므로 §6 진척 보고 시점에 일괄
 
-본 plan 은 **Phase α 는 이미 완료, Phase β·1·2·3·4·5·γ·δ 는 G3·G4 *기술* 합의 게이트 없이 연속 *착수* 가능** (단 Phase 1 의 spec 갱신 머지가 BE/FE 마이그레이션 phase 의 선행 조건 — §0 라인 20). Phase ε·ζ·η 는 위 합의 게이트 통과 후 진입.
+본 plan 은 **Phase α 는 이미 완료, Phase 1 이 첫 단계(FE 컨벤션 + spec 갱신)이며, 그 머지 후 Phase β·2·3·4·5·γ·δ 가 G3·G4 *기술* 합의 게이트 없이 연속 *착수* 가능** (Phase 1 의 spec 갱신 머지가 모든 BE/FE 마이그레이션 phase 의 선행 조건 — §0 라인 20·§10. 따라서 β 도 Phase 1 머지 후에 열린다). Phase ε·ζ·η 는 위 합의 게이트 통과 후 진입.
 
 > ⚠ **단 기술 게이트(G3·G4) 부재 ≠ 무승인 착수.** 현행 루트 `CLAUDE.md` 의 **글로벌 작업 사용자 승인 규칙은 별도로 그대로 적용**된다 — 루트 문서 수정, `packages/*` 인터페이스 변경, `apps/backend/src/{common,config,database}/*` 편집 등은 사용자 명시 확인 필요. 본 plan 의 Phase 1/5(루트·CLAUDE.md·AGENTS.md 갱신), β(`apps/backend/src/common` 등 신설), γ(`database`), η(`packages/*` 본격 구현)는 정확히 이 범주를 포함하므로, 해당 PR 은 기술 게이트와 무관하게 **루트 승인 규칙을 먼저 충족**해야 착수한다. (이 문장은 §0 authority 의 루트 규칙 우선과 일관 — plan 이 루트 승인 규칙을 우회하지 않는다.)
 
@@ -502,9 +502,9 @@ planner 와 마찬가지로:
 
 ## 10. 다음 단계
 
-본 plan 동의 시 — Phase 1 (FE 파일럿) 또는 Phase β (BE common 차용) 진입. 사용자 결정 필요 항목:
+본 plan 동의 시 — **Phase 1(FE 컨벤션 문서화 + spec 갱신)이 항상 선행**한다. §0(라인 20)·§8 대로 Phase 1 PR 의 spec 갱신 머지가 이후 모든 BE/FE 마이그레이션 phase(β·γ·δ·1차 이후 FE…)의 선행 조건이기 때문이다. 사용자 결정 필요 항목:
 
-1. **첫 Phase 진입 방향** — FE 트랙 (Phase 1) 우선 vs BE 트랙 (Phase β) 우선 vs 병렬
+1. **Phase 1 이후의 진입 순서** — Phase 1 머지 후 BE 트랙(β) 먼저 vs FE 트랙(Phase 2~5) 먼저 vs 병렬. (Phase 1 자체는 선택지가 아니라 항상 첫 단계 — β·병렬 옵션은 모두 "Phase 1 spec 머지 후" 를 전제로 한다. Phase 1 보다 β 를 먼저 여는 선택지는 §0/§8 선행 조건과 충돌하므로 제외)
 2. **Phase 1 파일럿 페이지** — 후보 A (`analysis/ability` 66줄, mock 1개, route 보유) / 후보 B (`review/queue` 92줄, store 2개) / 후보 C (`infinity` 인덱스 154줄, mock 5개) 중 어느 것
 3. **drizzle freeze 룰 명문화 시점** — Phase α 머지 직후 vs Phase β 진입 시점 (freeze 종료는 라인 470 대로 Phase η 완료로 고정 — 레거시 `app/api`+`lib/db` 제거 시점)
 
