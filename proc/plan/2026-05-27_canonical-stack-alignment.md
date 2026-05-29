@@ -16,7 +16,7 @@
 
 1. **각 리포 루트 `AGENTS.md` / `CLAUDE.md`** — 현행 운영 규칙. 본 문서가 충돌하는 항목은 항상 패배한다.
 2. **각 리포 `proc/spec/`** — 도메인 SOT. 본 문서는 spec 변경 제안일 뿐, spec 자체가 아니다.
-3. **각 리포 `proc/plan/2026-05-26_pullim-be-adoption.md` / `2026-05-26_container-presenter-adoption.md`** — 이미 채택된 BE/FE 정본 plan. 본 문서가 충돌하는 항목은 패배한다.
+3. **이미 채택된 BE/FE 정본 plan** — `curea-co/pullim-planner` 의 `proc/plan/2026-05-26_pullim-be-adoption.md` / `2026-05-26_container-presenter-adoption.md` (planner 리포에 존재하는 원본). 다른 리포(Q 등)에는 이 파일이 없을 수 있으며, 각 리포는 자신의 `proc/plan/`·`proc/spec/` 정본을 따른다 — 본 문서가 이 채택된 plan 과 충돌하는 항목은 패배한다. (Q 리포의 정렬 작업 정본은 이 바이블과 별개로 `curea-co/pullim-Q` 의 `proc/plan/2026-05-27_planner-alignment.md`)
 4. **본 문서** — PROPOSAL. §15 게이트(G1/G3/G4) 합의 + 각 리포의 spec 갱신 PR이 머지된 뒤에만 실행 게이트로 승격된다.
 
 **구체 패배 사례** (현재 권위 우선 항목 — 본 문서가 다르게 적었더라도 무시):
@@ -152,7 +152,7 @@
 | Gap-11 | 관측 | Sentry (Next.js + browser 두 SDK) | 0건 | **M** | 5건 모두 신규 도입 |
 | Gap-12 | AWS SDK | client-s3 + client-ses + s3-presigned | 0건 | **M** | 사용처별 — 5 도메인 모두 즉시 필요한지 평가 후 |
 | Gap-13 | 배포 | AWS ECS Fargate + ECR + Secrets Manager + CW Logs | Vercel manual 5건 | **XL** (DNS/SSL/모니터링 재구성) | 5건 모두 전환, AWS cluster 결정 §8 |
-| Gap-14 | CI/CD | GitHub Actions → Docker → ECR → ECS update | Vercel 자동 비활성, manual | **L** | 5건 모두 신규 작성 |
+| Gap-14 | CI/CD | GitHub Actions → Docker → ECR → ECS update | Vercel 자동 비활성, manual (단 Q 등 일부는 Bun 기반 CI workflow 보유) | **L** | CI 템플릿(P0-4a)은 기존 CI 보유 리포는 pnpm 기준 개편, 미보유는 신규. 배포 전환(P0-4b)은 5건 모두 신규(§16 보류) |
 | Gap-15 | 패키지 분리 | **목표 6개 = 기존 3(`types`/`api-client`/`auth`) + 신규 3** (신규 3개는 본체의 `analytics/config/logging/remote-config/ui` 중 5 도메인 공통 필요분으로 P2-4 에서 확정 — 총개수는 6 으로 고정) | placeholder 3건 (planner/Q), classbot·games 부재 | **M** | 5건 모두 목표 6개로 정렬 (목록·총개수는 §6 P2-4 가 단일 기준) |
 
 총 15 영역(Gap-1~Gap-15) 갭. P0/P1/P2 분류는 §6.
@@ -185,7 +185,7 @@
 | **P0-1** | bun → pnpm 전환 | 5 도메인 일괄 | bun.lock 삭제·pnpm-lock.yaml 생성, `packageManager: "pnpm@10.26.1"`, scripts `bun --filter` → `pnpm -C` 또는 `pnpm --filter`, `predev`의 `bun run` → `pnpm`, Dockerfile pnpm 베이스, CI workflow pnpm/action-setup |
 | **P0-2** | AWS ECS Fargate 셋업 | 5 도메인 또는 공유 cluster | cluster·service·task definition·ALB·target group·security group. cluster 옵션은 §8 결정 후 |
 | **P0-3** | RDS PostgreSQL 셋업 | 5 도메인 또는 공유 RDS | RDS 인스턴스·VPC·subnet group·parameter group·migrations. RDS 옵션은 §9 결정 후 |
-| **P0-4a** (AWS 비의존 CI) | CI 템플릿 (배포 무관) | 5 도메인 각자 | `.github/workflows/ci.yml`: actions/setup-pnpm·typecheck·lint·test — **AWS 보류와 무관, 옵션 C 의 'CI 템플릿' 선행 게이트**(§10·§13 PR7a). planner 의 이것이 'AWS 비의존 P0 완료' 판정 기준 |
+| **P0-4a** (AWS 비의존 CI) | CI 템플릿 (배포 무관) | 5 도메인 각자 | `.github/workflows/ci.yml` 을 **pnpm 기준으로 정렬**: actions/setup-pnpm·typecheck·lint·test. **이미 CI 가 있는 리포(예: Q 는 Bun 기반 ci.yml — 변경 감지·typecheck/lint/build·Jest·Playwright 보유)는 '신규 작성'이 아니라 '기존 CI 를 pnpm 기준으로 개편'**, 없는 리포만 신규. — **AWS 보류와 무관, 옵션 C 의 'CI 템플릿' 선행 게이트**(§10·§13 PR7a). planner 의 이것이 'AWS 비의존 P0 완료' 판정 기준 |
 | **P0-4b** (AWS 결합 배포) | 배포 전환 (Vercel 폐기 → Docker → ECR → ECS) | 5 도메인 각자 | `.github/workflows/deploy.yml`: docker build → aws-actions/configure-aws-credentials → ECR push → ECS service update — **§16 인프라 보류 대상**(§13 PR7b) |
 | **P0-5** | Secrets Manager + CloudWatch Logs + S3 + SES | 5 도메인 또는 공유 | env 추출·Secrets Manager rotation policy·로그 그룹·S3 버킷 정책·SES verified identity |
 
@@ -337,7 +337,7 @@
 | 4 | P0-1 | games | `chore(games): bun → pnpm + alignment Phase 0a 흡수` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
 | 5 | P0-1 | arcade | `chore(arcade): bun → pnpm 10.26.1` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
 | 6 | P0-2/3 | (인프라) | `infra: 병합 토폴로지 확정 후 ECS/RDS 셋업` (구체 cluster/RDS 값은 §16 보류 해제 시 결정 — superseded 된 `pullim-domains`/shared-instance 를 기본값으로 복사 금지) | §16 보류 해제 + §8/§9 재평가 후 | **대기(보류 §16.3)** |
-| 7a | P0-4 | 5 도메인 | `ci(<scope>): AWS 비의존 CI 템플릿` — pnpm setup + typecheck/lint/test workflow (배포 무관) | spec 채택 | spec 채택 후 후보 (**AWS 비의존 — 옵션 C 의 'CI 템플릿' 선행 검증 PR. §16 보류와 무관**) |
+| 7a | P0-4 | 5 도메인 | `ci(<scope>): AWS 비의존 CI 템플릿` — pnpm setup + typecheck/lint/test workflow (배포 무관). 기존 CI 보유 리포(Q 등)는 신규 아닌 **pnpm 기준 개편** | spec 채택 | spec 채택 후 후보 (**AWS 비의존 — 옵션 C 의 'CI 템플릿' 선행 검증 PR. §16 보류와 무관**) |
 | 7b | P0-4 | 5 도메인 | `ci(<scope>): 배포 전환 — Vercel → Docker → ECR → ECS` (5 PR) | PR6 + PR7a | **대기(보류 §16.3 — AWS 결합 배포)** |
 | 8 | P0-5 | 5 도메인 | `infra(<scope>): Secrets Manager + CloudWatch + S3 + SES` | PR6 | **대기(보류 §16.3)** |
 | 9 | P1-1 | 5 도메인 | `feat(<scope>): MockAuth → Passport/JWT 인증` (5 PR) | spec 채택 (PR8 의 AWS Secrets 의존 아님) | spec 채택 후 후보. **BE 코드 구조 작업은 로컬 docker 로 검증 가능(§16.5) → AWS 인프라 보류와 무관하게 선행 가능.** 단 운영 시크릿(Secrets Manager) 주입은 PR8 보류 해제 후 |
