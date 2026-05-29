@@ -21,7 +21,7 @@
 
 **구체 패배 사례** (현재 권위 우선 항목 — 본 문서가 다르게 적었더라도 무시):
 
-- planner 의 `bun` 워크스페이스 결정 (현행) vs 본 문서의 `pnpm` 제안 — planner 는 **계속 bun**, pnpm 전환은 G4 (인프라 결정) 게이트 통과 후에만.
+- planner 의 `bun` 워크스페이스 결정 (현행) vs 본 문서의 `pnpm` 제안 — planner 는 **계속 bun**, pnpm 전환은 **G1 (패키지 매니저 게이트, §12)** 통과 후에만. (G4 는 §12·§15 에서 BE/FE 게이트이므로 패키지 매니저 결정 주체가 아니다.)
 - planner / Q / classbot 의 현행 scope-out (JWT / Redis / BullMQ / Design System / i18n / Sentry) — 본 문서가 정본 스택으로 적었더라도, 채택은 각 리포의 별도 spec 갱신 PR을 통해서만. 본 문서 자체로 채택 효력 없음.
 - classbot 의 Drizzle 기반 현행 BE 로드맵 — 본 문서의 TypeORM 정본 항목은 G4 통과 후 별도 마이그레이션 plan 으로 처리. 즉시 전환 아님.
 - games 의 `proc/spec/01~10` 독립 거버넌스 / "다른 풀림 프로젝트 코드 참조 금지" 규칙 — 본 문서로 무효화되지 않는다. games 의 본 문서 채택은 games 의 spec 갱신을 통해서만.
@@ -48,7 +48,9 @@
 
 ## 2. 정본 스택 — 본체 의존성 매트릭스 (확인 기준)
 
-본체 리포(`curea-co/pullim`)의 `package.json`, `apps/web/package.json`, `apps/backend/package.json` 을 본 문서 작성 시점(2026-05-27)에 정독한 관찰값이다. 후속 PR 은 해당 본체의 *최신* commit 을 다시 확인해야 한다.
+### 2.1 관찰된 기준선 (본체 정독값)
+
+본체 리포(`curea-co/pullim`)의 `package.json`, `apps/web/package.json`, `apps/backend/package.json` 을 본 문서 작성 시점(2026-05-27)에 **실제로 정독해 확인한 관찰값**이다. 이 표의 모든 행은 본체에 현재 존재하는 의존성이며, 후속 PR 은 해당 본체의 *최신* commit 을 다시 확인해야 한다. (본체에 아직 없는 항목은 이 표에 넣지 않고 §2.2 로 분리한다.)
 
 | 영역 | 정본 값 | 본체 출처 |
 |---|---|---|
@@ -65,7 +67,7 @@
 | BE 프레임워크 | **NestJS 11** (common 11.0.1 + core + platform-express) + TypeScript | apps/backend |
 | BE ORM | **TypeORM 0.3.28** + typeorm-naming-strategies + @nestjs/typeorm 11.0.0 | apps/backend |
 | BE DB | **PostgreSQL** (pg 8.20.0) | apps/backend |
-| BE 캐시/큐 | **ioredis 5.10.0** + BullMQ (BE 의존성 — pullim 본체에 BullMQ 가 직접 없으나 정본 표 명시) | apps/backend + 사용자 정본 표 |
+| BE 캐시 | **ioredis 5.10.0** | apps/backend |
 | BE 인증 | **@nestjs/passport 11.0.5** + **@nestjs/jwt 11.0.2** + passport 0.7.0 + passport-jwt 4.0.1 + bcrypt 6.0.0 | apps/backend |
 | BE Swagger | **@nestjs/swagger 11.2.6** | apps/backend |
 | BE 스케줄 | @nestjs/schedule 6.1.1 | apps/backend |
@@ -75,13 +77,21 @@
 | BE 검증 | class-validator 0.15.1 + class-transformer 0.5.1 + joi 18.0.2 | apps/backend |
 | BE 시간 | luxon 3.7.2 | apps/backend |
 | BE HTTP | @nestjs/axios 4.0.1 + axios 1.15.0 | apps/backend |
-| 배포 | **AWS ECS Fargate + ECR + Secrets Manager + CloudWatch Logs + RDS + S3 + SES** | 사용자 정본 표 |
-| CI/CD | GitHub Actions → Docker build → ECR push → ECS service update | 사용자 정본 표 |
-| dev ECS 서비스명 패턴 | `pullim-web-dev` / `pullim-backend-dev` | 사용자 정본 표 |
-| AWS 리전 | **ap-northeast-2** | 사용자 정본 표 |
 | 패키지 빌드 정책 | `pnpm.onlyBuiltDependencies: ["@pullim/design-system", "bcrypt"]` | root package.json |
 
-본 표가 5 도메인 정합의 기준선. 갱신은 본체 PR 머지 시점에 본 plan 의 §2 를 먼저 정정한 뒤 5 도메인에 전파한다.
+### 2.2 목표 스택 (사용자 제안 — 본체 미관찰)
+
+다음 항목은 **본체 리포를 정독한 결과 현재 존재하지 않으나**, 사용자가 정본 표로 제시한 **목표(target) 스택**이다. 즉 §2.1 의 "본체와 맞추는 작업"이 아니라 "사용자 제안 스택을 5 도메인에 새로 도입하는 작업"이다. 후속 PR 은 이 둘을 구분해 해석한다 — 이 표의 항목은 관찰된 기준선이 아니므로, 본체 정합이 아닌 신규 도입(게이트 §12 의 G7/G12/G13/G14)으로 다룬다.
+
+| 영역 | 목표 값 | 근거 | 본체 현황 |
+|---|---|---|---|
+| BE 큐 | **BullMQ** (ioredis 위에 도입 예정) | 사용자 정본 표 (제안) | pullim 본체에 직접 의존성 없음 |
+| 배포 | **AWS ECS Fargate + ECR + Secrets Manager + CloudWatch Logs + RDS + S3 + SES** | 사용자 정본 표 (제안) | 본체는 현재 Vercel manual |
+| CI/CD | GitHub Actions → Docker build → ECR push → ECS service update | 사용자 정본 표 (제안) | 본체 미관찰 |
+| dev ECS 서비스명 패턴 | `pullim-web-dev` / `pullim-backend-dev` | 사용자 정본 표 (제안) | 본체 미관찰 |
+| AWS 리전 | **ap-northeast-2** | 사용자 정본 표 (제안) | 본체 미관찰 |
+
+§2.1 표가 5 도메인 정합의 관찰 기준선이다. §2.1 갱신은 본체 PR 머지 시점에 본 plan 의 §2.1 을 먼저 정정한 뒤 5 도메인에 전파한다. §2.2 목표 스택의 채택은 §12 게이트 합의 + 각 리포 spec 갱신 PR 을 통해서만 효력이 생긴다.
 
 ---
 
@@ -157,7 +167,7 @@
 | N2 | 5 도메인 간 데이터 공유 (cross-domain user/auth/payments 등) | 5 모두 별도 RDS·schema 유지. 데이터 공유는 §9 RDS 결정 + 별 plan |
 | N3 | studio / store 작업 | 사용자 컨트롤타워 범위 외 (본체 monorepo 안의 모듈) |
 | N4 | games 자체 SPEC 폐기 | games 자율성 보존 — `proc/spec/01~10` + `audit/` 패턴 유지. 본 plan 은 인프라·스택만 정렬 |
-| N5 | bun → pnpm 전환을 게이트키퍼 합의 없이 강행 | G3 합의 필요 (§12) |
+| N5 | bun → pnpm 전환을 게이트키퍼 합의 없이 강행 | G1 (패키지 매니저 게이트) 합의 필요 (§12) |
 | N6 | Vercel 무중단 전환 보장 | 도메인 cutover 는 maintenance window 가 정상 패턴. SLA 정의는 별 plan |
 | N7 | 5 도메인의 도메인 모델 통합 (user/account/payment 통합) | 데이터 흡수 트랙 — 본 plan 은 구조 인프라만 |
 | N8 | 본체 `@pullim/design-system` 의 5 도메인 외부 공개 정책 | 본체팀 결정 사안 — 본 plan §11 R-DS 리스크에 반영, 본체팀과 협의 |
@@ -182,7 +192,7 @@
 |---|---|---|---|
 | **P1-1** | Passport/JWT 인증 도입 | 5 도메인 | MockAuth → @nestjs/passport + @nestjs/jwt, refresh token rotation, bcrypt password hashing. classbot·arcade 의 bcryptjs → bcrypt 전환 |
 | **P1-2** | Redis + BullMQ 도입 (BE) | 5 도메인 | ioredis connection, BullMQ queue 셋업, ElastiCache 또는 Redis container 모두 |
-| **P1-3** | shadcn 로컬 → @pullim/design-system 마이그레이션 (FE) | 5 도메인 | Button/Card/Dialog/Input/Tabs/Heading/Text/toast import 전환, lucide-react → @pullim/design-system/icons, sonner → @pullim/design-system. 도메인별 GitHub Action으로 release tag 핀 |
+| **P1-3** | shadcn 로컬 → @pullim/design-system 마이그레이션 (FE) | 5 도메인 | §2.1 이 확인한 DS export(Button/Card/Dialog/Input/Tabs/Heading/Text/toast) import 전환, sonner → @pullim/design-system. **아이콘은 `lucide-react` 유지(예외)** — §2.1 기준선에 DS 아이콘 export 보장이 없고 D-DS(§15) 미해결이므로, `@pullim/design-system/icons` 전환은 D-DS 에서 DS 쪽 아이콘 export 계약이 확정된 뒤 별도 단계로 분리한다. 도메인별 GitHub Action으로 release tag 핀 |
 | **P1-4** | next-intl 도입 (i18n) | 5 도메인 | `messages/{ko,en}.json` 단일 파일, `useTranslations()` / `getTranslations()` 적용, 하드코딩 텍스트 전수 추출. mock 데이터의 한글은 예외 |
 | **P1-5** | TanStack Query 도입 (FE 서버 state) | 4 도메인 (classbot 제외 — 이미 보유) | QueryClient provider, hydration boundary, queryKey 컨벤션 |
 
@@ -264,9 +274,9 @@
 |---|---|---|---|
 | **A** | 5 도메인 동시 P0-1 → 동시 P0-2 → ... 5-track 병렬 | 본체팀 1 단계씩 같이 굴림. 컨벤션 표류 zero | 5 도메인 동시 PM/AI 리소스. 한 도메인 막히면 모두 막힘 |
 | **B** | 1 도메인 끝까지 (P0~P2 전부) → 다음 도메인 | 한 도메인의 회고로 다음 도메인 개선. 리소스 집중 | 5 도메인 합류 시점 컨벤션 표류 위험 |
-| **C** | 우선 도메인(planner) 선행 → 회고 후 4 도메인 병렬 | 1 도메인 학습 + 4 도메인 병렬의 절충 | 1 도메인이 끝나는 데까지 4 도메인 대기 |
+| **C** | 우선 도메인(planner) 의 **P0(인프라·구조 토대) 완료** 후 회고 → 4 도메인 병렬 진입 | 1 도메인이 P0 템플릿(pnpm·모노레포·CI)을 먼저 검증 + 4 도메인 병렬의 절충 | planner P0 완료까지 4 도메인 대기 (단 P1 인증까지 기다리지는 않음) |
 
-**권장 (PM 의견)**: 옵션 C. planner 는 이미 Phase β 진행 중 → 자연스러운 1 선행. P1-1 머지 후 4 도메인 일제 P0 시작.
+**권장 (PM 의견)**: 옵션 C. planner 는 이미 Phase β 진행 중 → 자연스러운 1 선행. **4 도메인 병렬 진입 기준은 planner 의 P0 완료(공통 인프라·워크스페이스 전환 템플릿 확정) 시점**으로 잡는다. (P1-1 JWT 머지를 기준으로 잡으면 4 도메인이 planner 인증 구현까지 직렬 대기하게 되어 §10 옵션 C 의 "공통 인프라 템플릿 빠른 확산" 의도와 어긋나므로, 병렬 게이트는 P0 완료로 고정한다.)
 **결정자**: G1 (대표 — 일정 사안).
 **결정 시점**: 본 plan 합의 시점.
 
@@ -280,7 +290,7 @@
 | R-VRC | P0-4 | Vercel → ECS: 도메인 cutover 시 DNS·SSL·모니터링 재구성 | H | maintenance window 사전 공지. Route53 alias TTL 단축 → ALB 전환 → TTL 복구 |
 | R-AUT | P1-1 | Mock → JWT: 토큰 발행/검증/refresh 흐름 신설, 기존 mock user 일관성 깨짐 | H | MockAuthProvider 인터페이스 유지 → JwtAuthProvider 구현으로 교체. `IAuthProvider` 추상화는 planner 가 packages/auth 에 이미 placeholder |
 | R-DS | P1-3 | shadcn → DS: UI 시각 회귀 (특히 games 의 toolset/spacing/border-radius 룰) | H | games 는 `bun run ui:audit` 4 viewport (320/390/768/1280) 머지 전 필수. critical overflow 0 까지 fix |
-| R-I18N | P1-4 | i18n 추출: 모든 텍스트 마이그레이션 — 시간 큼 (planner 28+, games 21 게임 + 셸) | H | 도메인별 별 PR. mock 데이터 한글 예외 컨벤션 (apps/web/CLAUDE.md 명시). `useTranslations` 검사 lint rule 도입 |
+| R-I18N | P1-4 | i18n 추출: 모든 텍스트 마이그레이션 — 시간 큼 (planner 28+, games 21 게임 + 셸) | H | 도메인별 별 PR. mock 데이터 한글 예외 컨벤션 (`curea-co/pullim` 의 `apps/web/CLAUDE.md` 명시). `useTranslations` 검사 lint rule 도입 |
 | R-TQ | P1-5 | TanStack Query: 데이터 패칭 일괄 전환. classbot 만 보유 → version drift | M | classbot 5.100.1 → 정본 5.90.21 호환성 확인. queryKey 컨벤션 5 도메인 통일 |
 | R-DS-EXT | P1-3 | `@pullim/design-system` 외부 노출 정책: 본체팀 발행·버전·breaking change 정책 부재 | H | 본체팀과 별 합의 PR — `@pullim/design-system` GitHub release tag pin 정책 + semver + 5 도메인 향한 deprecation lead time. 본 plan §8/§9 와 동급 미해결 |
 | R-DRIZ | P0-3 | classbot drizzle → TypeORM: schema 재작성. 기존 drizzle migrations 폐기 | H | classbot drizzle 보유분 SQL dump → TypeORM entities 재생성 + migration 첫 generate. data preserving plan 필요 |
@@ -395,7 +405,7 @@
 | D-SEQ | cluster 결정 후 | 동일 | — |
 | D-DS (DS 외부 노출) | 본체팀 합의 필요 | 본체팀 외부 패키지 발행 정책 협의 | shadcn 유지 |
 | D-CB-ORM | classbot drizzle → TypeORM 마이그레이션 | Phase γ 진입 시 결정 | drizzle 유지 |
-| D-GM-BE | games BE 신설 | 이미 옵션 B (자체 NestJS) 결정됨 | — |
+| D-GM-BE | games BE 신설 여부 | **미결정** — G1+G3 가 P0-2 시점에 결정(§15 결정 요약 표). 권장안은 신설(자체 NestJS), SPA 유지는 옵션 | BE 신설 전까지 SPA 유지 |
 | D-GM-N16 | games Next 16 시점 | 진행 중 PR 마무리 후 | Next 15 유지 |
 | D-COST | AWS 청구 상한 | AWS 계정 셋업 후 | — |
 
@@ -416,10 +426,10 @@
 - 5 도메인은 **현재** 별도 레포·독립 운영(§1 "본체 흡수 아님")이지만, **미래에 일부/전체가 한 인프라로 병합될 가능성**이 살아 있다.
 - 따라서 지금 5 개 독립 ECS cluster + 5 개 독립 RDS 를 셋업하면, 병합 시 (i) cluster/서비스 재배치, (ii) RDS 스키마 통합 또는 분리, (iii) 도메인 URL/시크릿/CI 파이프라인 재작성 — **재마이그레이션 비용이 두 번** 든다.
 - 이 보류는 §1 의 "구조 모방, 본체 흡수 아님" 원칙과 **모순되지 않는다**: 코드/디렉토리/CI 구조는 지금 정본과 동형으로 맞추되(이식성 확보), **물리 인프라 토폴로지만** 병합 결정까지 미룬다. 구조가 동형이면 어느 병합 토폴로지로 가든 인프라 적용이 싸진다.
-- 임시방편 Vercel 은 이 보류 기간 동안의 FE 미리보기/데모 용도로만 사용. BE 서버 상주가 필요한 단계(Phase ε mutation 이후)는 병합 결정 전까지 로컬 docker 로 검증.
+- 임시방편 Vercel 은 이 보류 기간 동안의 FE 미리보기/데모 용도로만 사용. BE 서버 상주가 필요한 단계(**P1-1 BE 도입 이후의 mutation 엔드포인트** — §6 P0/P1/P2 체계 기준)는 병합 결정 전까지 로컬 docker 로 검증.
 
 ### 16.4 코덱스 review 통과 정책 (확인)
 
-사용자 직접 명시 (2026-05-27): **"코덱스 리뷰는 받아야지"** — close / 강제 머지 / 보류 모두 거부. **PR 머지는 코덱스 APPROVE 후에만**. 룰: `~/.claude/projects/-Users-curea/memory/feedback_codex_review_required.md` 와 일치.
+사용자 직접 명시 (2026-05-27): **"코덱스 리뷰는 받아야지"** — close / 강제 머지 / 보류 모두 거부. **PR 머지는 코덱스 APPROVE 후에만**. 이 규칙은 본 plan §0(권위 우선순위)·§16.4 의 **plan 내부 결정**으로 고정한다. (작성자 로컬 절대경로를 권위 근거로 인용하지 않는다 — §0·부록 A 의 "리포 식별자 + 리포 상대경로" 원칙 일관. 외부 협업자는 GitHub UI 또는 동일 checkout 만으로 이 정책을 재현·검증할 수 있어야 한다.)
 
 → 진행 중 3 alignment PR (#101, #82, #108) 처리는 별 사안 — 코덱스가 매 round 새 지적 발견 패턴이라 *어떤 정상 흐름이 가능한지* 사용자 명확화 필요 (close X · 강제 X · 보류 X 모두 잘못된 선택지로 인식).
