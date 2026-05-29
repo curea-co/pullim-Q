@@ -23,7 +23,7 @@
 
 - planner 의 `bun` 워크스페이스 결정 (현행) vs 본 문서의 `pnpm` 제안 — planner 는 **계속 bun**, pnpm 전환은 **G1 (패키지 매니저 게이트, §12)** 통과 후에만. (G4 는 §12·§15 에서 BE/FE 게이트이므로 패키지 매니저 결정 주체가 아니다.)
 - planner / Q / classbot 의 현행 scope-out (JWT / Redis / BullMQ / Design System / i18n / Sentry) — 본 문서가 정본 스택으로 적었더라도, 채택은 각 리포의 별도 spec 갱신 PR을 통해서만. 본 문서 자체로 채택 효력 없음.
-- classbot 의 Drizzle 기반 현행 BE 로드맵 — 본 문서의 TypeORM 정본 항목은 G4 통과 후 별도 마이그레이션 plan 으로 처리. 즉시 전환 아님.
+- classbot 의 Drizzle 기반 현행 BE 로드맵 — 본 문서의 TypeORM 정본 항목은 **G3 (BE 게이트)** 합의 후 별도 마이그레이션 plan(D-CB-ORM, §15) 으로 처리. 즉시 전환 아님. (ORM 은 BE 사안이므로 결정자는 G3 — §12·§15 와 일치. FE 게이트 G4 와 무관.)
 - games 의 `proc/spec/01~10` 독립 거버넌스 / "다른 풀림 프로젝트 코드 참조 금지" 규칙 — 본 문서로 무효화되지 않는다. games 의 본 문서 채택은 games 의 spec 갱신을 통해서만.
 - arcade 의 부트스트랩 단계 — 본 문서의 5 도메인 동기 가정은 arcade 의 Phase 1 (mini-monorepo) 완료 전까지 적용 보류.
 
@@ -88,7 +88,7 @@
 | BE 큐 | **BullMQ** (ioredis 위에 도입 예정) | 사용자 정본 표 (제안) | pullim 본체에 직접 의존성 없음 |
 | 배포 | **AWS ECS Fargate + ECR + Secrets Manager + CloudWatch Logs + RDS + S3 + SES** | 사용자 정본 표 (제안) | 본체는 현재 Vercel manual |
 | CI/CD | GitHub Actions → Docker build → ECR push → ECS service update | 사용자 정본 표 (제안) | 본체 미관찰 |
-| dev ECS 서비스명 패턴 | `pullim-web-dev` / `pullim-backend-dev` | 사용자 정본 표 (제안) | 본체 미관찰 |
+| dev ECS 서비스명 패턴 | `pullim-<domain>-web-dev` / `pullim-<domain>-backend-dev` (5 도메인 동시 운영 시 도메인 식별자 필수 — §14 와 동일 규칙) | 사용자 정본 표 (제안) | 본체 미관찰 |
 | AWS 리전 | **ap-northeast-2** | 사용자 정본 표 (제안) | 본체 미관찰 |
 
 §2.1 표가 5 도메인 정합의 관찰 기준선이다. §2.1 갱신은 본체 PR 머지 시점에 본 plan 의 §2.1 을 먼저 정정한 뒤 5 도메인에 전파한다. §2.2 목표 스택의 채택은 §12 게이트 합의 + 각 리포 spec 갱신 PR 을 통해서만 효력이 생긴다.
@@ -102,7 +102,7 @@
 | 항목 | planner | Q | classbot | games | arcade |
 |---|---|---|---|---|---|
 | **레포** | `curea-co/pullim-planner` | `curea-co/pullim-Q` | `curea-co/pullim-classbot` | `curea-co/pullim-games` | `curea-co/pullim-arcade` |
-| **모노레포** | ✅ bun workspace + Turborepo | ✅ bun workspace + Turborepo | ❌ 단일 앱 (D-Lite 진행) | ❌ 단일 앱 (alignment PR #108 작성) | ✅ Turborepo 없음, 단일 앱 (D-Lite 머지) |
+| **모노레포** | ✅ bun workspace + Turborepo | ✅ bun workspace + Turborepo | ❌ 단일 앱 (D-Lite 진행) | ❌ 단일 앱 (alignment PR #108 작성) | △ D-Lite 머지 (bun workspace 보유, **Turborepo 미도입** — 정본 ≠, G2 에서 Turborepo 추가 필요) |
 | **패키지 매니저** | bun 1.3.12 | bun 1.3.12 | bun | bun | bun |
 | **Next.js** | 16 (apps/planner) | 16 (apps/q) | 16 | **15** (정본 ≠) | 16.2.4 |
 | **React** | 19 | 19 | 19 | 19 | 19.2.4 |
@@ -133,7 +133,7 @@
 
 ---
 
-## 4. 갭 분석 (12 영역)
+## 4. 갭 분석 (15 영역 — G1~G15)
 
 | # | 영역 | 정본 | 5 도메인 평균 | 갭 크기 | 도메인별 차이 |
 |---|---|---|---|---|---|
@@ -153,7 +153,7 @@
 | G14 | CI/CD | GitHub Actions → Docker → ECR → ECS update | Vercel 자동 비활성, manual | **L** | 5건 모두 신규 작성 |
 | G15 | 패키지 분리 | packages/{types,api-client,auth} + (본체엔 analytics/config/logging/remote-config/ui) | placeholder 3건 (planner/Q), classbot·games 부재 | **M** | 5건 모두 packages 6개로 정렬 |
 
-총 12+ 영역 갭. P0/P1/P2 분류는 §6.
+총 15 영역(G1~G15) 갭. P0/P1/P2 분류는 §6.
 
 ---
 
@@ -320,9 +320,9 @@
 
 > ⚠ **제안서 단계 — 어떤 PR 도 "즉시 착수 가능"이 아니다.** §0 대로 본 문서는 PROPOSAL 이며, **각 리포의 spec 갱신 PR 이 머지되기 전까지 실행 게이트로 승격되지 않는다.** 따라서 아래 `상태` 열은 "지금 착수 가능"이 아니라 **"해당 spec 채택 후 착수 후보"** 의미다. 두 단계 게이트가 모두 충족돼야 착수한다:
 > 1. **spec 게이트** — 각 항목의 정책을 채택하는 리포별 spec 갱신 PR 머지 (예: pnpm → 각 리포 인프라 spec, i18n/Sentry → 각 리포 FE spec). 미충족 시 어떤 PR 도 착수 금지.
-> 2. **§16 인프라 게이트** — AWS 의존 PR(6·7·8 과 그 위 9·10)은 추가로 §16.3 병합 토폴로지 확정까지 **`대기(보류)`**.
+> 2. **§16 인프라 게이트** — **물리 AWS 인프라 작업**(PR6 ECS/RDS, PR7 ECR→ECS, PR8 Secrets/CloudWatch/S3/SES)은 §16.3 병합 토폴로지 확정까지 **`대기(보류)`**. 단 §16.5 대로 **코드 구조 작업(P1-1 JWT, P1-2 Redis/BullMQ 등)은 로컬 docker 로 검증 가능하므로 AWS 보류와 무관하게 spec 채택 후 선행 가능** — 보류되는 것은 그 작업의 *관리형 AWS 자원 전환*(Secrets Manager 주입·ElastiCache 등)뿐이다.
 >
-> 즉 spec 미채택 상태에서 pnpm/i18n/Sentry 작업을 선행해서는 안 된다. 아래 `상태` 열을 이 두 게이트 기준으로 읽을 것.
+> 즉 (a) spec 미채택 상태에서 pnpm/i18n/Sentry 작업을 선행하지 말 것, (b) BE 코드 구조는 로컬 검증으로 선행 가능하되 물리 AWS 인프라 전환은 §16 보류. 아래 `상태` 열을 이 기준으로 읽을 것.
 
 | PR # | Phase | 도메인 | 제목 (안) | 의존 | 상태 (§16) |
 |---|---|---|---|---|---|
@@ -334,8 +334,8 @@
 | 6 | P0-2/3 | (인프라) | `infra: ECS cluster pullim-domains + RDS shared instance 셋업` | §8/§9 결정 후 | **대기(보류 §16.3)** |
 | 7 | P0-4 | 5 도메인 | `ci(<scope>): Vercel → Docker → ECR → ECS workflow` (5 PR) | PR6 | **대기(보류 §16.3)** |
 | 8 | P0-5 | 5 도메인 | `infra(<scope>): Secrets Manager + CloudWatch + S3 + SES` | PR6 | **대기(보류 §16.3)** |
-| 9 | P1-1 | 5 도메인 | `feat(<scope>): MockAuth → Passport/JWT 인증` (5 PR) | PR8 | **대기(PR8 보류에 종속)** |
-| 10 | P1-2 | 5 도메인 | `feat(<scope>): Redis + BullMQ 도입` (5 PR) | PR8 | **대기(PR8 보류에 종속)** |
+| 9 | P1-1 | 5 도메인 | `feat(<scope>): MockAuth → Passport/JWT 인증` (5 PR) | spec 채택 (PR8 의 AWS Secrets 의존 아님) | spec 채택 후 후보. **BE 코드 구조 작업은 로컬 docker 로 검증 가능(§16.5) → AWS 인프라 보류와 무관하게 선행 가능.** 단 운영 시크릿(Secrets Manager) 주입은 PR8 보류 해제 후 |
+| 10 | P1-2 | 5 도메인 | `feat(<scope>): Redis + BullMQ 도입` (5 PR) | spec 채택 (ElastiCache 는 PR6 의존) | spec 채택 후 후보. **ioredis/BullMQ 코드·로컬 Redis container 검증은 선행 가능(§16.5).** 단 ElastiCache(관리형) 전환은 §16 인프라 보류 해제 후 |
 | 11 | P1-3 | 5 도메인 | `refactor(<scope>): shadcn → @pullim/design-system 마이그레이션` (5 PR — games 는 4 viewport audit 첨부) | DS 외부 정책 합의 | spec 채택 + DS 정책 합의 후 후보 |
 | 12 | P1-4 | 5 도메인 | `feat(<scope>): next-intl ko/en 도입 + 텍스트 추출` (5 PR) | — | spec 채택 후 후보 (i18n spec) |
 | 13 | P1-5 | 3 도메인 | `feat(<scope>): TanStack Query 도입` (3 PR — Q·classbot 제외, 이미 보유) | — | spec 채택 후 후보 (FE spec) |
