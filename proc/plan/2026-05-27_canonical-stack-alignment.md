@@ -107,11 +107,11 @@
 | **Next.js** | 16 (apps/planner) | 16 (apps/q) | 16 | **15** (정본 ≠) | 16.2.4 |
 | **React** | 19 | 19 | 19 | 19 | 19.2.4 |
 | **BE** | NestJS 11 (common 차용, Cls만 진행 중) | NestJS 11 skeleton | skeleton | (없음) | skeleton |
-| **DB** | Postgres 16 docker-compose | Postgres 16 docker-compose | Postgres + **drizzle-orm 0.36.4** (정본 ≠ TypeORM) | (없음) | Postgres docker-compose (host 5435) |
-| **ORM** | TypeORM 예정 | TypeORM 예정 | **drizzle** (정본 ≠) | (없음) | (드라이버 pg 만) |
+| **DB** | Postgres 16 docker-compose | Postgres + **drizzle-orm 0.45.2** (`apps/q/lib/db`, `apps/q/drizzle/`) (정본 ≠ TypeORM) | Postgres + **drizzle-orm 0.36.4** (정본 ≠ TypeORM) | (없음) | Postgres docker-compose (host 5435) |
+| **ORM** | TypeORM 예정 (BE 도입 시) | **drizzle 현행** (`drizzle-orm 0.45.2` + `drizzle-kit`, `lib/db/{schema,index}.ts`) (정본 ≠) — BE TypeORM 전환은 별도 결정(D-Q-ORM, §15) | **drizzle** (정본 ≠) | (없음) | (드라이버 pg 만) |
 | **i18n** | (없음) | (없음) | (없음) | (없음) | (없음) |
 | **DS** | shadcn 로컬 | shadcn 로컬 | shadcn 로컬 + sonner | shadcn (new-york/slate, 자체 토큰) | shadcn 4.4.0 |
-| **TanStack Query** | (없음) | (없음) | ✅ 5.100.1 | (없음) | (없음) |
+| **TanStack Query** | (없음) | ✅ 5.100.1 (`@tanstack/react-query`, 서버 상태 — `apps/q/AGENTS.md`) | ✅ 5.100.1 | (없음) | (없음) |
 | **Sentry** | (없음) | (없음) | (없음) | (없음) | (없음) |
 | **Redis** | (없음) | (없음) | (없음) | (없음) | (없음) |
 | **BullMQ** | (없음) | (없음) | (없음) | (없음) | (없음) |
@@ -125,11 +125,11 @@
 
 핵심 갭 (분류는 §4):
 - **5 도메인 전체 — pnpm/i18n/Sentry/Redis/BullMQ/AWS SDK 0%**
-- **classbot — drizzle 채택**: 정본 TypeORM 과 ORM 충돌 (가장 큰 단일 이슈)
+- **classbot·Q — drizzle 현행**: 정본 TypeORM 과 ORM 충돌 (가장 큰 단일 이슈). Q 도 `drizzle-orm 0.45.2` + `lib/db/` 보유 → Q 의 BE TypeORM 전환은 별도 결정(D-Q-ORM, §15)
 - **classbot — bcryptjs ≠ bcrypt**: native bcrypt 로 전환 또는 본 plan 에서 예외 인정 결정 필요
 - **games — Next.js 15**: 정본 16 과 한 단계 lag
 - **games — BE 없음**: 5 중 유일 (BE 신설 vs 영구 SPA 결정 필요)
-- **TanStack Query 보유는 classbot 만**: 정본 패턴이 아닌 채택임 (FE 데이터 계층 통합 시 일관성 확보 필요)
+- **TanStack Query 보유는 Q + classbot**: 정본 패턴 부분 채택. FE 데이터 계층 통합 시 일관성 확보 필요. P1-5 신규 도입 대상은 planner/games/arcade **3 도메인** (Q·classbot 제외)
 
 ---
 
@@ -141,12 +141,12 @@
 | G2 | 모노레포 | Turborepo + apps/{web,backend} + packages/* | planner/Q/arcade 일부 / classbot·games 미완 | **M** | classbot/games 가 모노레포 전환 선행 필요 |
 | G3 | Next.js | 16.1.2 | 16 (games 만 15) | **S** (games 만 1 단계) | games — Next 15 → 16 |
 | G4 | BE 프레임워크 | NestJS 11 (common·config·database 표준 모듈) | planner/Q/classbot/arcade skeleton, games 부재 | **L** | games — BE 신설 결정 필요 |
-| G5 | ORM | TypeORM 0.3.28 + naming-strategies | classbot drizzle, 나머지 미적용 | **L** | classbot — drizzle → TypeORM 마이그레이션 |
+| G5 | ORM | TypeORM 0.3.28 + naming-strategies | classbot·Q drizzle 현행, 나머지 미적용 | **L** | classbot·Q — drizzle → TypeORM 마이그레이션(각각 D-CB-ORM·D-Q-ORM, §15) |
 | G6 | 인증 | Passport/JWT + bcrypt | Mock 4건, arcade bcryptjs, games 없음 | **L** | 5건 모두 JWT 도입 |
 | G7 | 캐시·큐 | Redis(ioredis) + BullMQ | 0건 | **L** | 5건 모두 신규 도입 |
 | G8 | FE DS | @pullim/design-system + DS 강제 import | shadcn 로컬 5건 | **L** | 5건 모두 마이그레이션 + 본체 DS 외부 노출 정책 확정 필요 |
 | G9 | FE i18n | next-intl + ko/en 단일 messages | 0건 (모두 한글 하드코딩) | **L** | 5건 모두 신규 도입, 텍스트 추출 비용 큼 |
-| G10 | FE 데이터 | TanStack Query | classbot 만 보유 | **M** | 4건 신규 도입 + classbot 패턴 정합 |
+| G10 | FE 데이터 | TanStack Query | Q + classbot 보유 | **M** | 3건 신규 도입(planner/games/arcade) + Q·classbot 패턴 정합 |
 | G11 | 관측 | Sentry (Next.js + browser 두 SDK) | 0건 | **M** | 5건 모두 신규 도입 |
 | G12 | AWS SDK | client-s3 + client-ses + s3-presigned | 0건 | **M** | 사용처별 — 5 도메인 모두 즉시 필요한지 평가 후 |
 | G13 | 배포 | AWS ECS Fargate + ECR + Secrets Manager + CW Logs | Vercel manual 5건 | **XL** (DNS/SSL/모니터링 재구성) | 5건 모두 전환, AWS cluster 결정 §8 |
@@ -194,7 +194,7 @@
 | **P1-2** | Redis + BullMQ 도입 (BE) | 5 도메인 | ioredis connection, BullMQ queue 셋업, ElastiCache 또는 Redis container 모두 |
 | **P1-3** | shadcn 로컬 → @pullim/design-system 마이그레이션 (FE) | 5 도메인 | §2.1 이 확인한 DS export(Button/Card/Dialog/Input/Tabs/Heading/Text/toast) import 전환, sonner → @pullim/design-system. **아이콘은 `lucide-react` 유지(예외)** — §2.1 기준선에 DS 아이콘 export 보장이 없고 D-DS(§15) 미해결이므로, `@pullim/design-system/icons` 전환은 D-DS 에서 DS 쪽 아이콘 export 계약이 확정된 뒤 별도 단계로 분리한다. 도메인별 GitHub Action으로 release tag 핀 |
 | **P1-4** | next-intl 도입 (i18n) | 5 도메인 | `messages/{ko,en}.json` 단일 파일, `useTranslations()` / `getTranslations()` 적용, 하드코딩 텍스트 전수 추출. mock 데이터의 한글은 예외 |
-| **P1-5** | TanStack Query 도입 (FE 서버 state) | 4 도메인 (classbot 제외 — 이미 보유) | QueryClient provider, hydration boundary, queryKey 컨벤션 |
+| **P1-5** | TanStack Query 도입 (FE 서버 state) | 3 도메인 (Q·classbot 제외 — 이미 보유) | QueryClient provider, hydration boundary, queryKey 컨벤션 |
 
 ### P2 — 추가 도입 (P1 완료 후, 도메인 필요도별)
 
@@ -218,14 +218,14 @@
 |---|---|---|---|---|---|
 | P0-1 pnpm | 신규 적용 | 신규 적용 | D-Lite 모노레포 전환과 합쳐 1 PR | alignment plan 의 Phase 0a 로 흡수 | 신규 적용 |
 | P0-2 ECS | 신규 적용 | 신규 적용 | 신규 적용 | BE 신설 + ECS 동시 (§8 결정) | 신규 적용 |
-| P0-3 RDS | 기존 docker compose → RDS | 기존 docker compose → RDS | drizzle 분리 결정 + RDS | 신규 (BE 신설 시) | 기존 docker compose → RDS |
+| P0-3 RDS | 기존 docker compose → RDS | drizzle 분리 결정(D-Q-ORM) + RDS | drizzle 분리 결정(D-CB-ORM) + RDS | 신규 (BE 신설 시) | 기존 docker compose → RDS |
 | P0-4 CI/CD | Vercel workflow 폐기 | Vercel workflow 폐기 | Vercel workflow 폐기 | Vercel workflow 폐기 + codex-review.yml 유지 | Vercel workflow 폐기 |
 | P0-5 Secrets·Logs·S3·SES | 신규 적용 | 신규 적용 | 신규 적용 | 신규 적용 | 신규 적용 |
 | P1-1 JWT | Phase γ 의 BE 도입 시점 | BE 본격 시점 | bcryptjs → bcrypt + JWT | BE 신설 시 신규 | bcryptjs → bcrypt + JWT |
 | P1-2 Redis·BullMQ | BE 신규 | BE 신규 | BE 신규 + drizzle 호환성 검토 | BE 신설 시 | BE 신규 |
 | P1-3 DS | shadcn 28+ 컴포넌트 마이그레이션 | shadcn 마이그레이션 | shadcn 마이그레이션 + sonner | shadcn (new-york/slate) → DS (시각 회귀 위험 — `bun run ui:audit` 4 viewport 필수) | shadcn 마이그레이션 |
 | P1-4 i18n | hard-coded 한글 추출 (planner-home/reports/manage/onboarding 28+ 컴포넌트) | hard-coded 한글 추출 (q/{infinity,talk,analysis,review}) | hard-coded 한글 추출 (classbot/builder 13 파일) | hard-coded 한글 추출 (21 게임 + 셸 + 메커니즘) — **mock 한글 데이터는 예외 컨벤션 적용** | placeholder 라 비용 작음 |
-| P1-5 TanStack Query | 신규 | 신규 | **이미 보유 (5.100.1)** — 정본 5.90.21 과 minor 호환 확인 | 신규 (BE 신설 시) | 신규 |
+| P1-5 TanStack Query | 신규 | **이미 보유 (5.100.1)** — 정본 5.90.21 과 minor 호환 확인 | **이미 보유 (5.100.1)** — 정본 5.90.21 과 minor 호환 확인 | 신규 (BE 신설 시) | 신규 |
 | P2-1 Sentry | 신규 | 신규 | 신규 | 신규 | 신규 |
 | P2-2 AWS SDK | 리포트 PDF S3 + 이메일 알림 SES | 학습 자료 S3 | 봇 미디어 S3 + 알림 SES | (사용처 평가 후 — 게임 콘텐츠 이미지는 정적 호스팅으로 우선) | 사용처 평가 후 |
 | P2-3 Tiptap | 메모/회고 영역 가능성 | (미적용 후보) | **봇 빌더 핵심** — 우선 도입 | (미적용 — 게임은 인터랙션 위주) | (미적용) |
@@ -291,7 +291,7 @@
 | R-AUT | P1-1 | Mock → JWT: 토큰 발행/검증/refresh 흐름 신설, 기존 mock user 일관성 깨짐 | H | MockAuthProvider 인터페이스 유지 → JwtAuthProvider 구현으로 교체. `IAuthProvider` 추상화는 planner 가 packages/auth 에 이미 placeholder |
 | R-DS | P1-3 | shadcn → DS: UI 시각 회귀 (특히 games 의 toolset/spacing/border-radius 룰) | H | games 는 `bun run ui:audit` 4 viewport (320/390/768/1280) 머지 전 필수. critical overflow 0 까지 fix |
 | R-I18N | P1-4 | i18n 추출: 모든 텍스트 마이그레이션 — 시간 큼 (planner 28+, games 21 게임 + 셸) | H | 도메인별 별 PR. mock 데이터 한글 예외 컨벤션 (`curea-co/pullim` 의 `apps/web/CLAUDE.md` 명시). `useTranslations` 검사 lint rule 도입 |
-| R-TQ | P1-5 | TanStack Query: 데이터 패칭 일괄 전환. classbot 만 보유 → version drift | M | classbot 5.100.1 → 정본 5.90.21 호환성 확인. queryKey 컨벤션 5 도메인 통일 |
+| R-TQ | P1-5 | TanStack Query: 데이터 패칭 일괄 전환. Q + classbot 보유 → version drift | M | Q·classbot 5.100.1 → 정본 5.90.21 호환성 확인. queryKey 컨벤션 5 도메인 통일 |
 | R-DS-EXT | P1-3 | `@pullim/design-system` 외부 노출 정책: 본체팀 발행·버전·breaking change 정책 부재 | H | 본체팀과 별 합의 PR — `@pullim/design-system` GitHub release tag pin 정책 + semver + 5 도메인 향한 deprecation lead time. 본 plan §8/§9 와 동급 미해결 |
 | R-DRIZ | P0-3 | classbot drizzle → TypeORM: schema 재작성. 기존 drizzle migrations 폐기 | H | classbot drizzle 보유분 SQL dump → TypeORM entities 재생성 + migration 첫 generate. data preserving plan 필요 |
 | R-N15 | P2-5 | games Next 15 → 16: 21 게임 회귀 | M | major bump 별 PR. games §7 (`audit/` 트리거 T5 메이저 의존성) 자동 발동 |
@@ -318,54 +318,59 @@
 
 ## 13. PR 분할 제안 — 15+ PR
 
-| PR # | Phase | 도메인 | 제목 (안) | 의존 |
-|---|---|---|---|---|
-| 1 | P0-1 | planner | `chore(planner): bun → pnpm 10.26.1 전환` | — |
-| 2 | P0-1 | Q | `chore(q): bun → pnpm 10.26.1 전환` | PR1 회고 |
-| 3 | P0-1 | classbot | `chore(classbot): D-Lite 모노레포 + pnpm 동시 적용` | PR1 회고 |
-| 4 | P0-1 | games | `chore(games): bun → pnpm + alignment Phase 0a 흡수` | PR1 회고 |
-| 5 | P0-1 | arcade | `chore(arcade): bun → pnpm 10.26.1` | PR1 회고 |
-| 6 | P0-2/3 | (인프라) | `infra: ECS cluster pullim-domains + RDS shared instance 셋업` | §8/§9 결정 후 |
-| 7 | P0-4 | 5 도메인 | `ci(<scope>): Vercel → Docker → ECR → ECS workflow` (5 PR) | PR6 |
-| 8 | P0-5 | 5 도메인 | `infra(<scope>): Secrets Manager + CloudWatch + S3 + SES` | PR6 |
-| 9 | P1-1 | 5 도메인 | `feat(<scope>): MockAuth → Passport/JWT 인증` (5 PR) | PR8 |
-| 10 | P1-2 | 5 도메인 | `feat(<scope>): Redis + BullMQ 도입` (5 PR) | PR8 |
-| 11 | P1-3 | 5 도메인 | `refactor(<scope>): shadcn → @pullim/design-system 마이그레이션` (5 PR — games 는 4 viewport audit 첨부) | DS 외부 정책 합의 |
-| 12 | P1-4 | 5 도메인 | `feat(<scope>): next-intl ko/en 도입 + 텍스트 추출` (5 PR) | — |
-| 13 | P1-5 | 4 도메인 | `feat(<scope>): TanStack Query 도입` (4 PR — classbot 제외) | — |
-| 14 | P2-1 | 5 도메인 | `feat(<scope>): Sentry instrumentation` (5 PR) | — |
-| 15 | P2-* | 도메인별 | AWS SDK / Tiptap / packages / Next16 (games 단독) | — |
+> ⚠ **§16 반영 상태**: §16.3 가 AWS 인프라 보류(P0-2/3/4 진입 보류, §16.5)를 선언했으므로, 인프라에 의존하는 PR(6·7·8 과 그 위에 쌓이는 9·10)은 **`대기(보류)`** 상태다. 병합 토폴로지 확정(§16.3 (a)/(b)) 전에는 착수하지 않는다. 인프라 비의존 PR(1~5 pnpm, 11~15 FE/관측 — 단 배포 의존 없는 부분)만 즉시 착수 가능. 아래 표의 `상태` 열을 §16 기준으로 읽을 것.
 
-총 **30+ 개별 PR** 예상 (5 도메인 × 6 Phase 기본 + 도메인별 별도).
+| PR # | Phase | 도메인 | 제목 (안) | 의존 | 상태 (§16) |
+|---|---|---|---|---|---|
+| 1 | P0-1 | planner | `chore(planner): bun → pnpm 10.26.1 전환` | — | 착수 가능 |
+| 2 | P0-1 | Q | `chore(q): bun → pnpm 10.26.1 전환` | PR1 회고 | 착수 가능 |
+| 3 | P0-1 | classbot | `chore(classbot): D-Lite 모노레포 + pnpm 동시 적용` | PR1 회고 | 착수 가능 |
+| 4 | P0-1 | games | `chore(games): bun → pnpm + alignment Phase 0a 흡수` | PR1 회고 | 착수 가능 |
+| 5 | P0-1 | arcade | `chore(arcade): bun → pnpm 10.26.1` | PR1 회고 | 착수 가능 |
+| 6 | P0-2/3 | (인프라) | `infra: ECS cluster pullim-domains + RDS shared instance 셋업` | §8/§9 결정 후 | **대기(보류 §16.3)** |
+| 7 | P0-4 | 5 도메인 | `ci(<scope>): Vercel → Docker → ECR → ECS workflow` (5 PR) | PR6 | **대기(보류 §16.3)** |
+| 8 | P0-5 | 5 도메인 | `infra(<scope>): Secrets Manager + CloudWatch + S3 + SES` | PR6 | **대기(보류 §16.3)** |
+| 9 | P1-1 | 5 도메인 | `feat(<scope>): MockAuth → Passport/JWT 인증` (5 PR) | PR8 | **대기(PR8 보류에 종속)** |
+| 10 | P1-2 | 5 도메인 | `feat(<scope>): Redis + BullMQ 도입` (5 PR) | PR8 | **대기(PR8 보류에 종속)** |
+| 11 | P1-3 | 5 도메인 | `refactor(<scope>): shadcn → @pullim/design-system 마이그레이션` (5 PR — games 는 4 viewport audit 첨부) | DS 외부 정책 합의 | DS 정책 합의 후 착수 가능 |
+| 12 | P1-4 | 5 도메인 | `feat(<scope>): next-intl ko/en 도입 + 텍스트 추출` (5 PR) | — | 착수 가능 |
+| 13 | P1-5 | 3 도메인 | `feat(<scope>): TanStack Query 도입` (3 PR — Q·classbot 제외, 이미 보유) | — | 착수 가능 |
+| 14 | P2-1 | 5 도메인 | `feat(<scope>): Sentry instrumentation` (5 PR) | — | 착수 가능 |
+| 15 | P2-* | 도메인별 | AWS SDK / Tiptap / packages / Next16 (games 단독) | — | AWS SDK 부분만 인프라 의존 → 그 부분 대기 |
+
+총 **30+ 개별 PR** 예상 (5 도메인 × 6 Phase 기본 + 도메인별 별도). **단 위 `상태` 열대로 인프라 보류(§16) PR 은 병합 토폴로지 확정 전까지 착수하지 않는다.**
 
 ---
 
 ## 14. 본 plan 완료 정의
 
-다음 모두 충족 시 `archive/` 이관 — PM 명시 시점에:
+다음 모두 충족 시 `archive/` 이관 — PM 명시 시점에. **단 AWS 인프라 의존 항목(아래 ⓐ 표시)은 §16.2/§16.5 무기한 보류가 해제(병합 토폴로지 확정)된 뒤에만 평가한다 — 보류가 유지되는 동안은 완료 정의에서 제외하고, FE/구조/비인프라 항목만으로 부분 완료 판정한다.**
 
 - [ ] 5 도메인 `package.json` 의 `packageManager` 가 `pnpm@10.26.1`
-- [ ] 5 도메인 모두 ECS Fargate 에서 dev 서비스 운영 (`pullim-<domain>-{web,backend}-dev` 패턴)
-- [ ] 5 도메인 모두 GitHub Actions → ECR → ECS 파이프라인 통과
-- [ ] 5 도메인 모두 JWT 인증 + Redis 연결 + Sentry DSN 활성
+- [ ] ⓐ (보류) 5 도메인 모두 ECS Fargate 에서 dev 서비스 운영 (`pullim-<domain>-{web,backend}-dev` 패턴) — §16 보류 해제 후 평가
+- [ ] ⓐ (보류) 5 도메인 모두 GitHub Actions → ECR → ECS 파이프라인 통과 — §16 보류 해제 후 평가
+- [ ] 5 도메인 모두 JWT 인증 + Sentry DSN 활성 / ⓐ (보류) Redis 연결 — Redis 는 §16 보류 해제 후 평가
 - [ ] 5 도메인 모두 `@pullim/design-system` 사용 + `messages/{ko,en}.json` 단일 파일 + TanStack Query QueryClient 활성
-- [ ] §8/§9/§10 결정 사항이 본 plan 본문에 반영 + DECISIONS.md 결정 이력 누적
+- [ ] §8/§9/§10 결정 사항이 본 plan 본문에 반영 (§8/§9 의 AWS 결정은 §16 보류로 superseded — 보류 해제 시 재평가). **결정 이력의 정본은 본 plan §15/§16** (리포 내 추적). 부록 A 의 `.pullim-meta/DECISIONS.md` 는 권위 출처가 아닌 메모용이며 완료 판정 기준이 아니다.
 - [ ] §11 모든 H 리스크 mitigation 적용 완료 또는 잔여 리스크 별 plan 으로 이관
 
 ---
 
 ## 15. 즉시 결정 필요 사안
 
+> ⚠ **§16 우선**: 아래 표의 D-CLU·D-RDS·D-COST 는 §16.2/§16.5 에서 **AWS 인프라 무기한 보류**로 뒤집혔다(2026-05-29). 이 세 행의 권장안은 **superseded** — §16 이 최신 의사결정이다. 후속 작업자는 §15 권장안만 보고 cluster/RDS/비용 결정을 밀어붙이지 말고, 반드시 §16.2/§16.3/§16.5 의 보류 조건(병합 토폴로지 확정)을 먼저 확인할 것. 나머지 행(D-SEQ·D-DS·D-CB-ORM·D-Q-ORM·D-GM-BE·D-GM-N16)은 유효하다.
+
 | # | 사안 | 결정자 | Phase 영향 | 권장안 |
 |---|---|---|---|---|
-| **D-CLU** | AWS ECS cluster 토폴로지 (옵션 A/B/C) | G1 + G3 | P0-2 시작 | **옵션 C** — 신규 공유 cluster `pullim-domains` |
-| **D-RDS** | RDS 운영 방식 (옵션 A/B/C) | G1 + G3 | P0-3 시작 | **옵션 B** — 공유 instance + DB 분리 |
+| **D-CLU** | AWS ECS cluster 토폴로지 (옵션 A/B/C) | G1 + G3 | P0-2 시작 | ~~옵션 C — 신규 공유 cluster `pullim-domains`~~ **(§16.2/§16.5 무기한 보류로 superseded)** |
+| **D-RDS** | RDS 운영 방식 (옵션 A/B/C) | G1 + G3 | P0-3 시작 | ~~옵션 B — 공유 instance + DB 분리~~ **(§16.2/§16.5 무기한 보류로 superseded)** |
 | **D-SEQ** | 출시 시퀀스 (옵션 A/B/C) | G1 | 본 plan 합의 시 | **옵션 C** — planner 선행 → 4 도메인 병렬 |
 | **D-DS** | `@pullim/design-system` 외부 노출·발행·deprecation 정책 | 본체팀 + G4 | P1-3 시작 | GitHub release tag pin + semver + 5 도메인 deprecation lead time 1 sprint |
 | **D-CB-ORM** | classbot drizzle → TypeORM 전환 방식 (data migration) | G3 | P0-3 시작 | drizzle schema SQL dump → TypeORM entities 재생성 + 첫 migration generate |
+| **D-Q-ORM** | Q 현행 drizzle(`apps/q/lib/db`, `drizzle/`) → 정본 TypeORM 전환 여부·방식 | G3 | P0-3 시작 (Q BE 도입 시점) | classbot 과 동일 방식(drizzle dump → TypeORM 재생성). Q 는 BE 본격 도입 시점까지 drizzle 현행 유지 |
 | **D-GM-BE** | games BE 신설 여부 (5 중 유일 BE 없음) | G1 + G3 | P0-2 + alignment plan #108 정합 | 신설 — 추후 진척·점수·랭킹·콘텐츠 메타 backend 후보. SPA 유지는 옵션 |
 | **D-GM-N16** | games Next 15 → 16 시점 | G4 + games audit T5 | P2-5 | P1 완료 후 별 PR. 21 게임 회귀 audit 필수 |
-| **D-COST** | 월 AWS 청구 상한선 (CW Logs retention, S3 lifecycle, RDS 인스턴스 사이즈) | G1 | P0-5 | retention 7d, S3 90d → IA → 1y Glacier, RDS db.t4g.small 시작 |
+| **D-COST** | 월 AWS 청구 상한선 (CW Logs retention, S3 lifecycle, RDS 인스턴스 사이즈) | G1 | P0-5 | ~~retention 7d, S3 90d → IA → 1y Glacier, RDS db.t4g.small 시작~~ **(§16.2/§16.5 AWS 무기한 보류로 superseded)** |
 
 ---
 
@@ -404,7 +409,7 @@
 | D-RDS | 동일 (cluster 결정과 동반) | 동일 — 병합 토폴로지 확정 전 RDS 인스턴스 분할/통합 결정 불가 | RDS 셋업 전까지 docker postgres 로컬 dev |
 | D-SEQ | cluster 결정 후 | 동일 | — |
 | D-DS (DS 외부 노출) | 본체팀 합의 필요 | 본체팀 외부 패키지 발행 정책 협의 | shadcn 유지 |
-| D-CB-ORM | classbot drizzle → TypeORM 마이그레이션 | Phase γ 진입 시 결정 | drizzle 유지 |
+| D-CB-ORM | classbot drizzle → TypeORM 마이그레이션 | P0-3 시작 시 결정 (§15) | drizzle 유지 |
 | D-GM-BE | games BE 신설 여부 | **미결정** — G1+G3 가 P0-2 시점에 결정(§15 결정 요약 표). 권장안은 신설(자체 NestJS), SPA 유지는 옵션 | BE 신설 전까지 SPA 유지 |
 | D-GM-N16 | games Next 16 시점 | 진행 중 PR 마무리 후 | Next 15 유지 |
 | D-COST | AWS 청구 상한 | AWS 계정 셋업 후 | — |
