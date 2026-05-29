@@ -274,9 +274,9 @@
 |---|---|---|---|
 | **A** | 5 도메인 동시 P0-1 → 동시 P0-2 → ... 5-track 병렬 | 본체팀 1 단계씩 같이 굴림. 컨벤션 표류 zero | 5 도메인 동시 PM/AI 리소스. 한 도메인 막히면 모두 막힘 |
 | **B** | 1 도메인 끝까지 (P0~P2 전부) → 다음 도메인 | 한 도메인의 회고로 다음 도메인 개선. 리소스 집중 | 5 도메인 합류 시점 컨벤션 표류 위험 |
-| **C** | 우선 도메인(planner) 의 **P0(인프라·구조 토대) 완료** 후 회고 → 4 도메인 병렬 진입 | 1 도메인이 P0 템플릿(pnpm·모노레포·CI)을 먼저 검증 + 4 도메인 병렬의 절충 | planner P0 완료까지 4 도메인 대기 (단 P1 인증까지 기다리지는 않음) |
+| **C** | 우선 도메인(planner) 의 **AWS 비의존 P0 작업(P0-1 pnpm + 구조·CI 템플릿) 완료** 후 회고 → 4 도메인 병렬 진입 | 1 도메인이 P0 템플릿(pnpm·모노레포·CI)을 먼저 검증 + 4 도메인 병렬의 절충 | planner 의 AWS 비의존 P0 완료까지 4 도메인 대기 (단 P1 인증·AWS 인프라까지 기다리지는 않음) |
 
-**권장 (PM 의견)**: 옵션 C. planner 는 이미 Phase β 진행 중 → 자연스러운 1 선행. **4 도메인 병렬 진입 기준은 planner 의 P0 완료(공통 인프라·워크스페이스 전환 템플릿 확정) 시점**으로 잡는다. (P1-1 JWT 머지를 기준으로 잡으면 4 도메인이 planner 인증 구현까지 직렬 대기하게 되어 §10 옵션 C 의 "공통 인프라 템플릿 빠른 확산" 의도와 어긋나므로, 병렬 게이트는 P0 완료로 고정한다.)
+**권장 (PM 의견)**: 옵션 C. planner 는 이미 Phase β 진행 중 → 자연스러운 1 선행. **4 도메인 병렬 진입 기준은 planner 의 *AWS 비의존* P0 작업 완료(P0-1 pnpm + 모노레포·CI 구조 템플릿 확정) 시점**으로 잡는다. (P0-2/3/4 AWS 인프라는 §16.2/§16.5 에서 무기한 보류되었으므로 진입 게이트로 쓰면 planner P0 가 영영 완료되지 못해 4 도메인이 영구 대기에 빠진다 — 따라서 게이트는 *AWS 비의존* P0 작업 완료로 정의한다. P1-1 JWT 머지를 기준으로 잡지 않는 것도 동일 이유 — §10 옵션 C 의 "공통 인프라 템플릿 빠른 확산" 의도와 어긋남.)
 **결정자**: G1 (대표 — 일정 사안).
 **결정 시점**: 본 plan 합의 시점.
 
@@ -295,7 +295,7 @@
 | R-DS-EXT | P1-3 | `@pullim/design-system` 외부 노출 정책: 본체팀 발행·버전·breaking change 정책 부재 | H | 본체팀과 별 합의 PR — `@pullim/design-system` GitHub release tag pin 정책 + semver + 5 도메인 향한 deprecation lead time. 본 plan §8/§9 와 동급 미해결 |
 | R-DRIZ | P0-3 | classbot drizzle → TypeORM: schema 재작성. 기존 drizzle migrations 폐기 | H | classbot drizzle 보유분 SQL dump → TypeORM entities 재생성 + migration 첫 generate. data preserving plan 필요 |
 | R-N15 | P2-5 | games Next 15 → 16: 21 게임 회귀 | M | major bump 별 PR. games §7 (`audit/` 트리거 T5 메이저 의존성) 자동 발동 |
-| R-AWS-COST | P0-2/3/5 | AWS 청구 폭증 (5 도메인 RDS+ECS+ALB+CloudWatch) | M | 옵션 B(RDS 공유) + 옵션 C(cluster 공유) 권장 §8/§9. CW Logs retention 7d, S3 lifecycle policy |
+| R-AWS-COST | P0-2/3/5 | AWS 청구 폭증 (5 도메인 RDS+ECS+ALB+CloudWatch) | M | **§16.2/§16.5 에서 AWS 인프라(D-CLU·D-RDS·D-COST) 무기한 보류 — 비용·토폴로지 결정은 병합 토폴로지 확정 전까지 보류(superseded).** 보류 해제 시 옵션 B(RDS 공유)+옵션 C(cluster 공유)·retention/lifecycle 을 재평가한다 (§15 superseded 표기 참조) |
 | R-SECRETS | P0-5 | Secrets Manager: rotation 누락·DB password drift | M | terraform 또는 CDK 로 IaC. rotation lambda는 P0-5 후속 |
 | R-BMQ | P1-2 | BullMQ: 기존 BE 에 큐 없음 → 단순 도입 (큰 리스크 아님). 단 producer/consumer 분리 시점 결정 필요 | L | 도메인별 큐 prefix (`planner:`/`q:`/`classbot:` 등) Redis 공유 시 충돌 방지 |
 | R-S3-CDN | P2-2 | S3 public + CloudFront 또는 presigned URL 정책 미정 | M | 도메인별 결정. games 게임 콘텐츠 이미지는 CDN, classbot 봇 미디어는 presigned |
@@ -411,7 +411,7 @@
 |---|---|---|---|
 | D-CLU (ECS cluster) | AWS ECS cluster **무기한 보류** (2026-05-29 사용자 재확인) | **추후 프로젝트 병합 가능성** 때문 — 지금 5 도메인 각자 ECS cluster 를 붙여도 병합 시 재마이그레이션 高확률. 비용·마이그레이션 부담 이중 발생 → 인프라 확정 자체를 보류 (§16.5) | **Vercel 임시 사용** (서버 배포 차질 시) |
 | D-RDS | 동일 (cluster 결정과 동반) | 동일 — 병합 토폴로지 확정 전 RDS 인스턴스 분할/통합 결정 불가 | RDS 셋업 전까지 docker postgres 로컬 dev |
-| D-SEQ | cluster 결정 후 | 동일 | — |
+| D-SEQ | **(보류 대상 아님)** 출시 시퀀스(옵션 C)는 §15 대로 유효·결정됨 — 보류되는 것은 그 시퀀스 안의 AWS 인프라 단계(P0-2/3/4)뿐. AWS 비의존 작업(P0-1·구조·CI)은 옵션 C 순서대로 선행 가능 | 시퀀스 자체는 미보류, AWS 단계만 §16 보류 | — |
 | D-DS (DS 외부 노출) | 본체팀 합의 필요 | 본체팀 외부 패키지 발행 정책 협의 | shadcn 유지 |
 | D-CB-ORM | classbot drizzle → TypeORM 마이그레이션 | P0-3 시작 시 결정 (§15) | drizzle 유지 |
 | D-GM-BE | games BE 신설 여부 | **미결정** — G1+G3 가 P0-2 시점에 결정(§15 결정 요약 표). 권장안은 신설(자체 NestJS), SPA 유지는 옵션 | BE 신설 전까지 SPA 유지 |
@@ -425,7 +425,7 @@
 > - (a) 프로젝트 병합 계획이 **하지 않는 것으로** 확정 → 5 도메인 각자 ECS 셋업 진입 가능
 > - (b) 프로젝트 병합 **토폴로지가 확정** (몇 개로 합치는지, 어느 도메인이 한 cluster 를 공유하는지) → 그 토폴로지에 맞춰 ECS/RDS 셋업 진입
 >
-> 충족 시 동시 해결: P0-2 ECS Fargate / P0-3 RDS / P0-4 CI/CD 전환 / §16.2 D-CLU·D-RDS·D-SEQ·D-COST.
+> 충족 시 동시 해결: P0-2 ECS Fargate / P0-3 RDS / P0-4 CI/CD 전환 / §16.2 D-CLU·D-RDS·D-COST. (D-SEQ 출시 시퀀스 자체는 §15 대로 이미 결정(옵션 C) — 보류 해제 대상이 아니라 그 시퀀스의 AWS 단계만 여기서 해소된다.)
 
 ### 16.5 인프라 보류의 구조적 근거 (2026-05-29 사용자 직접)
 
