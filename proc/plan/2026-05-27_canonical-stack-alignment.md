@@ -308,8 +308,8 @@
 
 | Gate | 합의 시점 | 합의 대상 |
 |---|---|---|
-| **G1** | 본 plan 통과 + §8/§9/§10 결정 | 5 도메인 동시 마이그레이션 정책, 비용 |
-| **G3** (BE) | P0-2/3 결정 + P1-1·P1-2 시작 | AWS 토폴로지, RDS 옵션, JWT 흐름 설계, Redis/BullMQ |
+| **G1** | 본 plan 통과 + §8/§9/§10 의 **결정 또는 §16 보류 확정** (AWS 토폴로지(§8)·RDS(§9)는 §16.2/§16.5 에서 "보류 확정"으로 충족됨 — "결정"만이 충족 조건이 아니다. §10 시퀀스는 옵션 C 로 결정됨) | 5 도메인 동시 마이그레이션 정책, 비용(보류 시 비용은 보류 해제 후) |
+| **G3** (BE) | P0-2/3 의 **결정 또는 §16 보류 확정** + P1-1·P1-2 *코드* 시작 (관리형 AWS 전환은 §16 보류) | AWS 토폴로지(보류), RDS 옵션(보류), JWT 흐름 설계, Redis/BullMQ 코드 |
 | **G4** (FE) | P1-3·P1-4·P1-5 시작 | DS 마이그레이션 베이스라인 (특히 games 시각 회귀), i18n 추출 정책, TanStack Query 컨벤션 |
 
 각 Phase 시작 PR 에 합의 게이트키퍼 명시.
@@ -320,7 +320,7 @@
 
 > ⚠ **제안서 단계 — 어떤 PR 도 "즉시 착수 가능"이 아니다.** §0 대로 본 문서는 PROPOSAL 이며, **각 리포의 spec 갱신 PR 이 머지되기 전까지 실행 게이트로 승격되지 않는다.** 따라서 아래 `상태` 열은 "지금 착수 가능"이 아니라 **"해당 spec 채택 후 착수 후보"** 의미다. 두 단계 게이트가 모두 충족돼야 착수한다:
 > 1. **spec 게이트** — 각 항목의 정책을 채택하는 리포별 spec 갱신 PR 머지 (예: pnpm → 각 리포 인프라 spec, i18n/Sentry → 각 리포 FE spec). 미충족 시 어떤 PR 도 착수 금지.
-> 2. **§16 인프라 게이트** — **물리 AWS 인프라 작업**(PR6 ECS/RDS, PR7 ECR→ECS, PR8 Secrets/CloudWatch/S3/SES)은 §16.3 병합 토폴로지 확정까지 **`대기(보류)`**. 단 §16.5 대로 **코드 구조 작업(P1-1 JWT, P1-2 Redis/BullMQ 등)은 로컬 docker 로 검증 가능하므로 AWS 보류와 무관하게 spec 채택 후 선행 가능** — 보류되는 것은 그 작업의 *관리형 AWS 자원 전환*(Secrets Manager 주입·ElastiCache 등)뿐이다.
+> 2. **§16 인프라 게이트** — **물리 AWS 인프라 작업**(PR6 ECS/RDS, PR7b 배포 전환 Docker→ECR→ECS, PR8 Secrets/CloudWatch/S3/SES)은 §16.3 병합 토폴로지 확정까지 **`대기(보류)`**. 단 §16.5 대로 **AWS 비의존 작업(PR7a CI 템플릿, P1-1 JWT 코드, P1-2 Redis/BullMQ 코드 등)은 로컬 docker 로 검증 가능하므로 AWS 보류와 무관하게 spec 채택 후 선행 가능** — 보류되는 것은 그 작업의 *관리형 AWS 자원 전환*(Secrets Manager 주입·ElastiCache·ECS 배포 등)뿐이다.
 >
 > 즉 (a) spec 미채택 상태에서 pnpm/i18n/Sentry 작업을 선행하지 말 것, (b) BE 코드 구조는 로컬 검증으로 선행 가능하되 물리 AWS 인프라 전환은 §16 보류. 아래 `상태` 열을 이 기준으로 읽을 것.
 
@@ -332,7 +332,8 @@
 | 4 | P0-1 | games | `chore(games): bun → pnpm + alignment Phase 0a 흡수` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
 | 5 | P0-1 | arcade | `chore(arcade): bun → pnpm 10.26.1` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
 | 6 | P0-2/3 | (인프라) | `infra: 병합 토폴로지 확정 후 ECS/RDS 셋업` (구체 cluster/RDS 값은 §16 보류 해제 시 결정 — superseded 된 `pullim-domains`/shared-instance 를 기본값으로 복사 금지) | §16 보류 해제 + §8/§9 재평가 후 | **대기(보류 §16.3)** |
-| 7 | P0-4 | 5 도메인 | `ci(<scope>): Vercel → Docker → ECR → ECS workflow` (5 PR) | PR6 | **대기(보류 §16.3)** |
+| 7a | P0-4 | 5 도메인 | `ci(<scope>): AWS 비의존 CI 템플릿` — pnpm setup + typecheck/lint/test workflow (배포 무관) | spec 채택 | spec 채택 후 후보 (**AWS 비의존 — 옵션 C 의 'CI 템플릿' 선행 검증 PR. §16 보류와 무관**) |
+| 7b | P0-4 | 5 도메인 | `ci(<scope>): 배포 전환 — Vercel → Docker → ECR → ECS` (5 PR) | PR6 + PR7a | **대기(보류 §16.3 — AWS 결합 배포)** |
 | 8 | P0-5 | 5 도메인 | `infra(<scope>): Secrets Manager + CloudWatch + S3 + SES` | PR6 | **대기(보류 §16.3)** |
 | 9 | P1-1 | 5 도메인 | `feat(<scope>): MockAuth → Passport/JWT 인증` (5 PR) | spec 채택 (PR8 의 AWS Secrets 의존 아님) | spec 채택 후 후보. **BE 코드 구조 작업은 로컬 docker 로 검증 가능(§16.5) → AWS 인프라 보류와 무관하게 선행 가능.** 단 운영 시크릿(Secrets Manager) 주입은 PR8 보류 해제 후 |
 | 10 | P1-2 | 5 도메인 | `feat(<scope>): Redis + BullMQ 도입` (5 PR) | spec 채택 (ElastiCache 는 PR6 의존) | spec 채택 후 후보. **ioredis/BullMQ 코드·로컬 Redis container 검증은 선행 가능(§16.5).** 단 ElastiCache(관리형) 전환은 §16 인프라 보류 해제 후 |
@@ -372,7 +373,7 @@
 | **D-DS** | `@pullim/design-system` 외부 노출·발행·deprecation 정책 | 본체팀 + G4 | P1-3 시작 | GitHub release tag pin + semver + 5 도메인 deprecation lead time 1 sprint |
 | **D-CB-ORM** | classbot drizzle → TypeORM 전환 방식 (data migration) | G3 | P0-3 시작 | drizzle schema SQL dump → TypeORM entities 재생성 + 첫 migration generate |
 | **D-Q-ORM** | Q 현행 drizzle(`apps/q/lib/db`, `drizzle/`) → 정본 TypeORM 전환 여부·방식 | G3 | P0-3 시작 (Q BE 도입 시점) | classbot 과 동일 방식(drizzle dump → TypeORM 재생성). Q 는 BE 본격 도입 시점까지 drizzle 현행 유지 |
-| **D-GM-BE** | games BE 신설 여부 (5 중 유일 BE 없음) | G1 + G3 | P0-2 + alignment plan #108 정합 | 신설 — 추후 진척·점수·랭킹·콘텐츠 메타 backend 후보. SPA 유지는 옵션 |
+| **D-GM-BE** | games BE 신설 여부 (5 중 유일 BE 없음) | G1 + G3 | **spec 채택 시점 (P0-2 AWS 보류와 분리 — §16.2 와 정합, alignment plan #108 정합)** | 신설 — 추후 진척·점수·랭킹·콘텐츠 메타 backend 후보. SPA 유지는 옵션 |
 | **D-GM-N16** | games Next 15 → 16 시점 | G4 + games audit T5 | P2-5 | P1 완료 후 별 PR. 21 게임 회귀 audit 필수 |
 | **D-COST** | 월 AWS 청구 상한선 (CW Logs retention, S3 lifecycle, RDS 인스턴스 사이즈) | G1 | P0-5 | ~~retention 7d, S3 90d → IA → 1y Glacier, RDS db.t4g.small 시작~~ **(§16.2/§16.5 AWS 무기한 보류로 superseded)** |
 
@@ -414,7 +415,7 @@
 | D-SEQ | **(보류 대상 아님)** 출시 시퀀스(옵션 C)는 §15 대로 유효·결정됨 — 보류되는 것은 그 시퀀스 안의 AWS 인프라 단계(P0-2/3/4)뿐. AWS 비의존 작업(P0-1·구조·CI)은 옵션 C 순서대로 선행 가능 | 시퀀스 자체는 미보류, AWS 단계만 §16 보류 | — |
 | D-DS (DS 외부 노출) | 본체팀 합의 필요 | 본체팀 외부 패키지 발행 정책 협의 | shadcn 유지 |
 | D-CB-ORM | classbot drizzle → TypeORM 마이그레이션 | P0-3 시작 시 결정 (§15) | drizzle 유지 |
-| D-GM-BE | games BE 신설 여부 | **미결정** — G1+G3 가 P0-2 시점에 결정(§15 결정 요약 표). 권장안은 신설(자체 NestJS), SPA 유지는 옵션 | BE 신설 전까지 SPA 유지 |
+| D-GM-BE | games BE 신설 여부 | **미결정** — G1+G3 가 결정. **단 이 결정은 AWS 인프라(P0-2 보류)와 분리해 더 앞 단계(spec 채택 시점)에 내린다** — BE 신설 여부는 구조·거버넌스 사안이라 물리 인프라 없이도 결정 가능하고, games 트랙의 비AWS 구조 작업 범위(P1/P2 의 'BE 신설 시' 조건)를 확정하려면 선행돼야 하기 때문. P0-2 보류에 묶지 않는다. 권장안은 신설(자체 NestJS), SPA 유지는 옵션 | BE 신설 전까지 SPA 유지 |
 | D-GM-N16 | games Next 16 시점 | 진행 중 PR 마무리 후 | Next 15 유지 |
 | D-COST | AWS 청구 상한 | AWS 계정 셋업 후 | — |
 
