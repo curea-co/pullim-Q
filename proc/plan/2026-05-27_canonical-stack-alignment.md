@@ -199,7 +199,7 @@
 | **P1-2** | Redis + BullMQ 도입 (BE) | 5 도메인 | ioredis connection, BullMQ queue 셋업, ElastiCache 또는 Redis container 모두 |
 | **P1-3** | shadcn 로컬 → @pullim/design-system 마이그레이션 (FE) | 5 도메인 | §2.1 이 확인한 DS export(Button/Card/Dialog/Input/Tabs/Heading/Text/toast) import 전환, sonner → @pullim/design-system. **아이콘은 `lucide-react` 유지(예외)** — §2.1 기준선에 DS 아이콘 export 보장이 없고 D-DS(§15) 미해결이므로, `@pullim/design-system/icons` 전환은 D-DS 에서 DS 쪽 아이콘 export 계약이 확정된 뒤 별도 단계로 분리한다. 도메인별 GitHub Action으로 release tag 핀 |
 | **P1-4** | next-intl 도입 (i18n) | 5 도메인 | `messages/{ko,en}.json` 단일 파일, `useTranslations()` / `getTranslations()` 적용, 하드코딩 텍스트 전수 추출. mock 데이터의 한글은 예외 |
-| **P1-5** | TanStack Query 도입 (FE 서버 state) | **4 도메인 (classbot 만 제외 — 실사용)**. Q 는 dependency 설치됨이나 baseline 미구현이라 포함 | QueryClient provider, hydration boundary, queryKey 컨벤션 (Q 는 dependency 설치 생략, 나머지는 설치+baseline) |
+| **P1-5** | TanStack Query 도입 (FE 서버 state) | **classbot 제외(실사용) + 나머지 — 대상 수는 D-GM-BE 에 따라 조건부** (games 포함 시 4, games 가 서버 state 불필요한 순수 SPA 로 결정되면 3). Q 는 dependency 설치됨이나 baseline 미구현이라 포함. **games 는 FE 작업이므로 D-GM-BE 가 'SPA 유지'여도 *FE 서버 state 가 필요한 화면이 있으면* P1-5 포함, 순수 클라이언트 state 만이면 제외** — D-GM-BE 결정 시 games 의 P1-5 포함 여부를 함께 확정 | QueryClient provider, hydration boundary, queryKey 컨벤션 (Q 는 dependency 설치 생략, 나머지는 설치+baseline) |
 
 ### P2 — 추가 도입 (P1 완료 후, 도메인 필요도별)
 
@@ -251,7 +251,7 @@
 
 **권장 (PM 의견)**: ~~옵션 C (본체 격리 + 비용 효율 절충, 도메인별 service)~~ — ⚠ **§16.2/§16.5 에서 AWS ECS cluster(D-CLU) 무기한 보류로 superseded.** cluster 토폴로지는 병합 토폴로지 확정 전까지 결정하지 않는다. 보류 해제 시 옵션 C 를 출발점으로 재평가.
 **결정자**: G1 + G3 (BE 게이트키퍼).
-**결정 시점**: P0-2 시작 전 — 본 plan §15 즉시 결정 사안.
+**결정 시점**: ⚠ **§16.2/§16.5 무기한 보류로 superseded — "즉시 결정" 아님.** D-CLU 는 병합 토폴로지(§16.3) 확정 전까지 결정하지 않으며, 그 전에는 P0-2(AWS 의존)도 보류 상태다. 보류 해제(병합 토폴로지 확정) 후에야 옵션 C 를 출발점으로 재평가·결정한다. (§15 의 D-CLU 행도 동일하게 superseded — 즉시 결정 사안 아님)
 
 ---
 
@@ -267,7 +267,7 @@
 
 **권장 (PM 의견)**: ~~옵션 B (비용 절약 + 도메인 격리, 1 인스턴스·DB 분리)~~ — ⚠ **§16.2/§16.5 에서 RDS 운영 방식(D-RDS) 무기한 보류로 superseded.** RDS 인스턴스 분할/통합은 병합 토폴로지 확정 전까지 결정하지 않는다. 보류 해제 시 옵션 B 를 출발점으로 재평가.
 **결정자**: G1 + G3.
-**결정 시점**: P0-3 시작 전.
+**결정 시점**: ⚠ **§16.2/§16.5 무기한 보류로 superseded — "P0-3 시작 전 결정" 아님.** D-RDS 는 병합 토폴로지(§16.3) 확정 전까지 결정하지 않으며, 그 전에는 P0-3(AWS 의존)도 보류다. 보류 해제 후 옵션 B 를 출발점으로 재평가·결정한다. (§15 의 D-RDS 행도 동일 superseded)
 
 ---
 
@@ -348,7 +348,7 @@
 | 10 | P1-2 | 5 도메인 | `feat(<scope>): Redis + BullMQ 도입` (5 PR) | spec 채택 + **G3 합의 완료(§12)** (ElastiCache 는 PR6 의존) | spec 채택 후 후보. **§12 대로 P1-2 착수 *전* G3 합의 완료 필수.** ioredis/BullMQ 코드·로컬 Redis container 검증은 선행 가능(§16.5). 단 ElastiCache(관리형) 전환은 §16 인프라 보류 해제 후 |
 | 11 | P1-3 | 5 도메인 | `refactor(<scope>): shadcn → @pullim/design-system 마이그레이션` (5 PR — games 는 4 viewport audit 첨부) | spec 채택 + **G4 합의 완료(§12 — DS 베이스라인)** | spec 채택 + G4 합의 후 후보 (DS 정책 = G4 합의 대상) |
 | 12 | P1-4 | 5 도메인 | `feat(<scope>): next-intl ko/en 도입 + 텍스트 추출` (5 PR) | spec 채택 + **G4 합의 완료(§12 — i18n 추출 정책)** | spec 채택 + G4 합의 후 후보 (i18n spec) |
-| 13 | P1-5 | 4 도메인 | `feat(<scope>): TanStack Query 도입` (4 PR — classbot 만 제외 실사용. Q 는 dependency 설치됨이나 baseline 미구현이라 포함) | spec 채택 + **G4 합의 완료(§12 — TanStack Query 컨벤션)** | spec 채택 + G4 합의 후 후보 (FE spec) |
+| 13 | P1-5 | 3~4 도메인 (D-GM-BE 조건부) | `feat(<scope>): TanStack Query 도입` (classbot 제외 실사용. Q 는 baseline 미구현이라 포함. **games 는 D-GM-BE/§3 P1-5 기준대로 서버 state 필요 시만 포함 → PR 수 3 또는 4**) | spec 채택 + **G4 합의 완료(§12 — TanStack Query 컨벤션)** + games 포함여부 D-GM-BE 확정 | spec 채택 + G4 합의 후 후보 (FE spec) |
 | 14 | P2-1 | 5 도메인 | `feat(<scope>): Sentry instrumentation` (5 PR) | — | spec 채택 후 후보 (관측 spec) |
 | 15 | P2-* | 도메인별 | AWS SDK / Tiptap / packages / Next16 (games 단독) | — | spec 채택 후 후보. 단 AWS SDK 부분은 추가로 §16 인프라 보류 대기 |
 
@@ -361,7 +361,7 @@
 다음 모두 충족 시 `archive/` 이관 — PM 명시 시점에. **단 AWS 인프라 의존 항목(아래 ⓐ 표시)은 §16.2/§16.5 무기한 보류가 해제(병합 토폴로지 확정)된 뒤에만 평가한다 — 보류가 유지되는 동안은 완료 정의에서 제외하고, FE/구조/비인프라 항목만으로 부분 완료 판정한다.**
 
 - [ ] 5 도메인 `package.json` 의 `packageManager` 가 `pnpm@10.26.1`
-- [ ] ⓐ (보류) 5 도메인 모두 ECS Fargate 에서 dev 서비스 운영 (`pullim-<domain>-{web,backend}-dev` 패턴) — §16 보류 해제 후 평가
+- [ ] ⓐ (보류) 5 도메인 모두 ECS Fargate 에서 dev 서비스 운영 — **`web` 서비스(`pullim-<domain>-web-dev`)는 5 도메인 전부, `backend` 서비스(`pullim-<domain>-backend-dev`)는 BE 보유 도메인만**(planner/Q/classbot/arcade + games 는 D-GM-BE='신설' 시만). **games 가 D-GM-BE 에서 SPA 유지로 결정되면 games 는 `web` 서비스만으로 충족**(backend 서비스 부재가 미완료로 잡히지 않도록 — 366행 BE 분기와 동일 기준). §16 보류 해제 후 평가
 - [ ] ⓐ (보류) 5 도메인 모두 GitHub Actions → ECR → ECS 파이프라인 통과 — §16 보류 해제 후 평가
 - [ ] **BE 보유 도메인**(planner/Q/classbot/arcade + games는 D-GM-BE 가 '신설'로 결정된 경우만) JWT 인증 + Sentry DSN 활성 + **Redis/BullMQ 코드 레벨 도입(ioredis 연결 코드 + BullMQ 큐 셋업, 로컬 Redis container 로 검증 — §13/§16.5 선행 가능)** / ⓐ (보류) **관리형 Redis(ElastiCache) 전환**만 §16 보류 해제 후 평가 (코드 도입과 관리형 전환을 분리 — 코드가 없으면 부분 완료로도 인정하지 않는다). **games 가 D-GM-BE 에서 SPA 유지로 결정되면 games 는 JWT/Redis/BullMQ 완료 대상에서 제외**(대체 완료 조건: games 는 FE/Sentry/DS/i18n 항목만 충족) — D-GM-BE 미결정 상태로는 본 항목 완료 판정 불가
 - [ ] **ORM 정렬 (Gap-5 — 정본 TypeORM 0.3.28)**: classbot 의 drizzle → TypeORM 전환(D-CB-ORM)이 완료(schema dump → TypeORM entities 재생성 + 첫 migration generate)되고, Q 의 drizzle → TypeORM 전환(D-Q-ORM)은 **Q-track BE 본격 도입(Q-track Phase γ 상당) 후 평가** — 두 트랙 모두 완료돼야 ORM 정렬 충족. **(D-Q-ORM 이 미착수/진행 중이면 ORM 항목은 미충족이며, 본 항목 미충족 시 archive 불가** — JWT/Redis/Sentry/DS/i18n 만으로는 '정본 스택 정렬'의 핵심인 ORM 정렬을 달성하지 못하므로). 단 D-Q-ORM 은 §15 대로 Q 단독 후속 의제이므로, classbot ORM 전환 완료 + Q ORM 전환이 Q-track 일정에 *명시적으로 잡혀 진행 중*이면 **부분 완료(ORM: classbot done / Q in-progress)** 로 기록하되 full archive 는 Q ORM 완료 후
