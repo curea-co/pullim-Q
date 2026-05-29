@@ -111,7 +111,7 @@
 | **ORM** | TypeORM 예정 (BE 도입 시) | **drizzle 현행** (`drizzle-orm 0.45.2` + `drizzle-kit`, `lib/db/{schema,index}.ts`) (정본 ≠) — BE TypeORM 전환은 별도 결정(D-Q-ORM, §15) | **drizzle** (정본 ≠) | (없음) | (드라이버 pg 만) |
 | **i18n** | (없음) | (없음) | (없음) | (없음) | (없음) |
 | **DS** | shadcn 로컬 | shadcn 로컬 | shadcn 로컬 + sonner | shadcn (new-york/slate, 자체 토큰) | shadcn 4.4.0 |
-| **TanStack Query** | (없음) | △ **dependency 만 설치** (`@tanstack/react-query 5.100.1`, `apps/q/AGENTS.md` 의도) — but `QueryClientProvider`·`useQuery`/`QueryClient` 사용처 부재, **baseline 미구현** | ✅ 5.100.1 (classbot — 사용처 확인 전제) | (없음) | (없음) |
+| **TanStack Query** | (없음) | △ **dependency 설치됨, 런타임 baseline 미구현** (`@tanstack/react-query 5.100.1`). **근거 = 코드 확인**(`QueryClientProvider`·`useQuery`/`QueryClient` 사용처 부재). ⚠ `apps/q/AGENTS.md` 는 앱 상태를 `TanStack Query (서버)` 로 적고 있어 **이 코드 확인 결과와 불일치** — AGENTS.md 의 표기는 *의도/도입 선언* 이고 실 런타임 미배선이므로, 본 표는 AGENTS.md 가 아니라 코드 확인을 근거로 'baseline 미구현' 으로 판정한다(P1-5 범위 산정 §3/§4/§6/§13 도 이 코드 근거를 따른다) | ✅ 5.100.1 (classbot — 사용처 확인 전제) | (없음) | (없음) |
 | **Sentry** | (없음) | (없음) | (없음) | (없음) | (없음) |
 | **Redis** | (없음) | (없음) | (없음) | (없음) | (없음) |
 | **BullMQ** | (없음) | (없음) | (없음) | (없음) | (없음) |
@@ -189,7 +189,9 @@
 | **P0-4b** (AWS 결합 배포) | 배포 전환 (Vercel 폐기 → Docker → ECR → ECS) | 5 도메인 각자 | `.github/workflows/deploy.yml`: docker build → aws-actions/configure-aws-credentials → ECR push → ECS service update — **§16 인프라 보류 대상**(§13 PR7b) |
 | **P0-5** | Secrets Manager + CloudWatch Logs + S3 + SES | 5 도메인 또는 공유 | env 추출·Secrets Manager rotation policy·로그 그룹·S3 버킷 정책·SES verified identity |
 
-### P1 — 코드 마이그레이션 (P0 완료 후)
+### P1 — 코드 마이그레이션 (AWS 비의존 P0 완료 후 — *P0 전체* 완료 아님)
+
+> ⚠ **착수 조건 정정**: P1 은 **P0 전체 완료를 기다리지 않는다**. §13/§16.5 대로 AWS 인프라 의존 P0(P0-2/3, P0-4b, P0-5)는 §16 병합 토폴로지 확정까지 무기한 보류이므로, P1 을 'P0 전체 완료 후' 로 읽으면 P1 을 영구히 못 여는 잘못된 해석이 된다. **정확한 조건: P1 은 (해당 리포의) AWS 비의존 P0 — 즉 P0-1(pnpm 전환)·P0-4a(AWS 비의존 CI) — 완료 후 착수 가능**하며, AWS 의존 P0(P0-2/3/4b/5) 보류와는 무관하게 선행한다(JWT/Redis/BullMQ 코드는 로컬 docker 로 검증). 단 각 P1 작업의 *관리형 AWS 자원 전환* 부분(Secrets 주입·ElastiCache 등)만 §16 보류를 따른다.
 
 | Phase | 이름 | 대상 | 산출물 |
 |---|---|---|---|
@@ -339,14 +341,14 @@
 | 4 | P0-1 | games | `chore(games): bun → pnpm + alignment Phase 0a 흡수` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
 | 5 | P0-1 | arcade | `chore(arcade): bun → pnpm 10.26.1` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
 | 6 | P0-2/3 | (인프라) | `infra: 병합 토폴로지 확정 후 ECS/RDS 셋업` (구체 cluster/RDS 값은 §16 보류 해제 시 결정 — superseded 된 `pullim-domains`/shared-instance 를 기본값으로 복사 금지) | §16 보류 해제 + §8/§9 재평가 후 | **대기(보류 §16.3)** |
-| 7a | P0-4 | 5 도메인 | `ci(<scope>): AWS 비의존 CI 템플릿` — pnpm setup + typecheck/lint/test workflow (배포 무관). 기존 CI 보유 리포(Q 등)는 신규 아닌 **pnpm 기준 개편** | spec 채택 | spec 채택 후 후보 (**AWS 비의존 — 옵션 C 의 'CI 템플릿' 선행 검증 PR. §16 보류와 무관**) |
+| 7a | P0-4 | 5 도메인 | `ci(<scope>): AWS 비의존 CI 템플릿` — pnpm setup + typecheck/lint/test workflow (배포 무관). 기존 CI 보유 리포(Q 등)는 신규 아닌 **pnpm 기준 개편** | spec 채택 + **해당 리포 P0-1(bun→pnpm) 완료** | spec 채택 후 후보 (**AWS 비의존 — 옵션 C 의 'CI 템플릿' 선행 검증 PR. §16 보류와 무관**). ⚠ CI 가 `pnpm setup`·pnpm lockfile·pnpm 스크립트를 전제하므로 **해당 리포 P0-1 머지 전에는 착수 불가**(미충족 시 CI 가 없는 lockfile/명령 참조) — 리포별로 PR1~5(P0-1)와 동일 트랙 |
 | 7b | P0-4 | 5 도메인 | `ci(<scope>): 배포 전환 — Vercel → Docker → ECR → ECS` (5 PR) | PR6 + PR7a | **대기(보류 §16.3 — AWS 결합 배포)** |
 | 8 | P0-5 | 5 도메인 | `infra(<scope>): Secrets Manager + CloudWatch + S3 + SES` | PR6 | **대기(보류 §16.3)** |
-| 9 | P1-1 | 5 도메인 | `feat(<scope>): MockAuth → Passport/JWT 인증` (5 PR) | spec 채택 (PR8 의 AWS Secrets 의존 아님) | spec 채택 후 후보. **BE 코드 구조 작업은 로컬 docker 로 검증 가능(§16.5) → AWS 인프라 보류와 무관하게 선행 가능.** 단 운영 시크릿(Secrets Manager) 주입은 PR8 보류 해제 후 |
-| 10 | P1-2 | 5 도메인 | `feat(<scope>): Redis + BullMQ 도입` (5 PR) | spec 채택 (ElastiCache 는 PR6 의존) | spec 채택 후 후보. **ioredis/BullMQ 코드·로컬 Redis container 검증은 선행 가능(§16.5).** 단 ElastiCache(관리형) 전환은 §16 인프라 보류 해제 후 |
-| 11 | P1-3 | 5 도메인 | `refactor(<scope>): shadcn → @pullim/design-system 마이그레이션` (5 PR — games 는 4 viewport audit 첨부) | DS 외부 정책 합의 | spec 채택 + DS 정책 합의 후 후보 |
-| 12 | P1-4 | 5 도메인 | `feat(<scope>): next-intl ko/en 도입 + 텍스트 추출` (5 PR) | — | spec 채택 후 후보 (i18n spec) |
-| 13 | P1-5 | 4 도메인 | `feat(<scope>): TanStack Query 도입` (4 PR — classbot 만 제외 실사용. Q 는 dependency 설치됨이나 baseline 미구현이라 포함) | — | spec 채택 후 후보 (FE spec) |
+| 9 | P1-1 | 5 도메인 | `feat(<scope>): MockAuth → Passport/JWT 인증` (5 PR) | spec 채택 + **G3 합의 완료(§12)** + 해당 리포 P0-1·P0-4a (PR8 의 AWS Secrets 의존 아님) | spec 채택 후 후보. **§12 대로 P1-1 착수 *전* G3(BE 게이트) 합의 완료 필수.** BE 코드 구조 작업은 로컬 docker 로 검증 가능(§16.5) → AWS 인프라 보류와 무관하게 선행 가능. 단 운영 시크릿(Secrets Manager) 주입은 PR8 보류 해제 후 |
+| 10 | P1-2 | 5 도메인 | `feat(<scope>): Redis + BullMQ 도입` (5 PR) | spec 채택 + **G3 합의 완료(§12)** (ElastiCache 는 PR6 의존) | spec 채택 후 후보. **§12 대로 P1-2 착수 *전* G3 합의 완료 필수.** ioredis/BullMQ 코드·로컬 Redis container 검증은 선행 가능(§16.5). 단 ElastiCache(관리형) 전환은 §16 인프라 보류 해제 후 |
+| 11 | P1-3 | 5 도메인 | `refactor(<scope>): shadcn → @pullim/design-system 마이그레이션` (5 PR — games 는 4 viewport audit 첨부) | spec 채택 + **G4 합의 완료(§12 — DS 베이스라인)** | spec 채택 + G4 합의 후 후보 (DS 정책 = G4 합의 대상) |
+| 12 | P1-4 | 5 도메인 | `feat(<scope>): next-intl ko/en 도입 + 텍스트 추출` (5 PR) | spec 채택 + **G4 합의 완료(§12 — i18n 추출 정책)** | spec 채택 + G4 합의 후 후보 (i18n spec) |
+| 13 | P1-5 | 4 도메인 | `feat(<scope>): TanStack Query 도입` (4 PR — classbot 만 제외 실사용. Q 는 dependency 설치됨이나 baseline 미구현이라 포함) | spec 채택 + **G4 합의 완료(§12 — TanStack Query 컨벤션)** | spec 채택 + G4 합의 후 후보 (FE spec) |
 | 14 | P2-1 | 5 도메인 | `feat(<scope>): Sentry instrumentation` (5 PR) | — | spec 채택 후 후보 (관측 spec) |
 | 15 | P2-* | 도메인별 | AWS SDK / Tiptap / packages / Next16 (games 단독) | — | spec 채택 후 후보. 단 AWS SDK 부분은 추가로 §16 인프라 보류 대기 |
 
