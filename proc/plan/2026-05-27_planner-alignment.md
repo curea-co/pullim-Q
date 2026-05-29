@@ -1,5 +1,26 @@
 # 2026-05-27 — pullim-planner 정렬 plan (Q 도메인 적응)
 
+**상태**: **PROPOSAL — 정렬 목표 문서. 실행 게이트 아님.**
+
+## 0. 권위 우선순위 (Authority Order) — 반드시 먼저 읽을 것
+
+본 plan 은 Q 도메인의 **정렬 목표 제안서** 다. 실행 게이트로 채택된 적은 없으며 다음 우선순위로 해석한다:
+
+1. **루트 `AGENTS.md` / `CLAUDE.md`** — 현행 운영 규칙. 본 문서가 충돌하는 항목은 항상 패배.
+2. **`proc/spec/`** — Q 도메인 SOT (특히 `2026-05-18_q-be-api-design.md`). 본 plan 은 spec 변경 제안일 뿐.
+3. **이미 채택된 다른 plan** (`2026-05-26_*` 등). 본 plan 이 충돌하면 패배.
+4. **본 plan** — PROPOSAL.
+
+**패배 사례** (codex R1~R6 누적 지적 흡수):
+- 본 plan 의 bun 단일 워크스페이스 가정 vs pnpm fallback 언급 — 현행 bun 결정 우선. pnpm 전환은 별도 인프라 결정 PR 통해서만.
+- `lib/db/` Drizzle 즉시 폐기 vs 단계적 entity 동등성 검증 후 폐기 — 후자(Phase γ 완료 후 별도 PR) 우선. 본 plan 의 시점 표기는 정렬 목표일 뿐.
+- FE Container 의 서버/클라이언트 책임 — 본 plan §내에서 모순이 발견되면 `2026-05-26_container-presenter-adoption.md` (planner 정본) 와 Next.js 16 server-first 기본을 우선.
+- drizzle 검증 명령 (`rg "drizzle-orm" apps/q`) 누락 케이스 / 완료 기준 워크스페이스 수 표기 모순 / 루트 lint·test 범위 서술 모순 — 정정은 후속 spec 갱신 PR 에서.
+
+본 plan 의 머지는 **자동 실행 게이트를 열지 않는다**. 후속 마이그레이션 PR 은 spec 갱신 PR 을 통해서만 진입한다.
+
+---
+
 > 정본: [pullim-planner](https://github.com/curea-co/pullim-planner) 의 두 plan
 > - [2026-05-26_pullim-be-adoption.md](https://github.com/curea-co/pullim-planner/blob/dev/proc/plan/2026-05-26_pullim-be-adoption.md) — BE Phase α~η
 > - [2026-05-26_container-presenter-adoption.md](https://github.com/curea-co/pullim-planner/blob/dev/proc/plan/2026-05-26_container-presenter-adoption.md) — FE Container/Presenter Phase 1~5

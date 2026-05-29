@@ -1,1 +1,3 @@
 $ tsc --noEmit
+/bin/bash: tsc: command not found
+error: script "typecheck" exited with code 127
