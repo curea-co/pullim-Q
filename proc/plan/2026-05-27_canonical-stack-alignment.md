@@ -244,7 +244,7 @@
 | **B** | 공유 cluster `pullim` + 도메인별 service | 본체와 같은 cluster. NAT/ALB 공유로 비용 효율 | "본체 흡수 아님" 원칙과 운영 경계 충돌. 본체 incident 가 5 도메인 전파 |
 | **C** | 신규 공유 cluster `pullim-domains` + 도메인별 service | 본체와 분리 + 5 묶음. 비용 효율 + 본체 격리 | cluster 1 추가 운영. 5 도메인 cross-team 권한 정책 필요 |
 
-**권장 (PM 의견)**: 옵션 C. 본체 격리 의도와 비용 효율의 절충. 도메인별 service 라 무중단 deploy 와 capacity 독립.
+**권장 (PM 의견)**: ~~옵션 C (본체 격리 + 비용 효율 절충, 도메인별 service)~~ — ⚠ **§16.2/§16.5 에서 AWS ECS cluster(D-CLU) 무기한 보류로 superseded.** cluster 토폴로지는 병합 토폴로지 확정 전까지 결정하지 않는다. 보류 해제 시 옵션 C 를 출발점으로 재평가.
 **결정자**: G1 + G3 (BE 게이트키퍼).
 **결정 시점**: P0-2 시작 전 — 본 plan §15 즉시 결정 사안.
 
@@ -260,7 +260,7 @@
 | **B** | 공유 RDS instance + DB 분리 (database-per-domain) | 비용 절약. 인스턴스 1 운영 | RDS connection 한계, IOPS 경합 |
 | **C** | 공유 RDS + 공유 DB + schema 분리 (schema-per-domain) | 최저 비용. cross-domain JOIN 가능 | schema migration 충돌. 도메인 격리 약화 — "본체 흡수 아님" 원칙과 충돌 |
 
-**권장 (PM 의견)**: 옵션 B. 비용 절약 + 도메인 격리 보존. 인스턴스는 1 이지만 DB 가 분리되어 권한·dump 도 분리 가능.
+**권장 (PM 의견)**: ~~옵션 B (비용 절약 + 도메인 격리, 1 인스턴스·DB 분리)~~ — ⚠ **§16.2/§16.5 에서 RDS 운영 방식(D-RDS) 무기한 보류로 superseded.** RDS 인스턴스 분할/통합은 병합 토폴로지 확정 전까지 결정하지 않는다. 보류 해제 시 옵션 B 를 출발점으로 재평가.
 **결정자**: G1 + G3.
 **결정 시점**: P0-3 시작 전.
 
@@ -331,7 +331,7 @@
 | 3 | P0-1 | classbot | `chore(classbot): D-Lite 모노레포 + pnpm 동시 적용` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
 | 4 | P0-1 | games | `chore(games): bun → pnpm + alignment Phase 0a 흡수` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
 | 5 | P0-1 | arcade | `chore(arcade): bun → pnpm 10.26.1` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
-| 6 | P0-2/3 | (인프라) | `infra: ECS cluster pullim-domains + RDS shared instance 셋업` | §8/§9 결정 후 | **대기(보류 §16.3)** |
+| 6 | P0-2/3 | (인프라) | `infra: 병합 토폴로지 확정 후 ECS/RDS 셋업` (구체 cluster/RDS 값은 §16 보류 해제 시 결정 — superseded 된 `pullim-domains`/shared-instance 를 기본값으로 복사 금지) | §16 보류 해제 + §8/§9 재평가 후 | **대기(보류 §16.3)** |
 | 7 | P0-4 | 5 도메인 | `ci(<scope>): Vercel → Docker → ECR → ECS workflow` (5 PR) | PR6 | **대기(보류 §16.3)** |
 | 8 | P0-5 | 5 도메인 | `infra(<scope>): Secrets Manager + CloudWatch + S3 + SES` | PR6 | **대기(보류 §16.3)** |
 | 9 | P1-1 | 5 도메인 | `feat(<scope>): MockAuth → Passport/JWT 인증` (5 PR) | spec 채택 (PR8 의 AWS Secrets 의존 아님) | spec 채택 후 후보. **BE 코드 구조 작업은 로컬 docker 로 검증 가능(§16.5) → AWS 인프라 보류와 무관하게 선행 가능.** 단 운영 시크릿(Secrets Manager) 주입은 PR8 보류 해제 후 |
@@ -353,7 +353,7 @@
 - [ ] 5 도메인 `package.json` 의 `packageManager` 가 `pnpm@10.26.1`
 - [ ] ⓐ (보류) 5 도메인 모두 ECS Fargate 에서 dev 서비스 운영 (`pullim-<domain>-{web,backend}-dev` 패턴) — §16 보류 해제 후 평가
 - [ ] ⓐ (보류) 5 도메인 모두 GitHub Actions → ECR → ECS 파이프라인 통과 — §16 보류 해제 후 평가
-- [ ] 5 도메인 모두 JWT 인증 + Sentry DSN 활성 / ⓐ (보류) Redis 연결 — Redis 는 §16 보류 해제 후 평가
+- [ ] 5 도메인 모두 JWT 인증 + Sentry DSN 활성 + **Redis/BullMQ 코드 레벨 도입(ioredis 연결 코드 + BullMQ 큐 셋업, 로컬 Redis container 로 검증 — §13/§16.5 선행 가능)** / ⓐ (보류) **관리형 Redis(ElastiCache) 전환**만 §16 보류 해제 후 평가 (코드 도입과 관리형 전환을 분리 — 코드가 없으면 부분 완료로도 인정하지 않는다)
 - [ ] 5 도메인 모두 `@pullim/design-system` 사용 + `messages/{ko,en}.json` 단일 파일 + TanStack Query QueryClient 활성
 - [ ] §8/§9/§10 결정 사항이 본 plan 본문에 반영 (§8/§9 의 AWS 결정은 §16 보류로 superseded — 보류 해제 시 재평가). **결정 이력의 정본은 본 plan §15/§16** (리포 내 추적). 부록 A 의 `.pullim-meta/DECISIONS.md` 는 권위 출처가 아닌 메모용이며 완료 판정 기준이 아니다.
 - [ ] §11 모든 H 리스크 mitigation 적용 완료 또는 잔여 리스크 별 plan 으로 이관
