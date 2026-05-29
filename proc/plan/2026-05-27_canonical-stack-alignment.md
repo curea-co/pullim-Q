@@ -2,7 +2,7 @@
 
 **작성일**: 2026-05-27
 **작성자**: PM (박승훈) + 컨트롤타워 AI
-**적용 대상**: `pullim-planner` / `pullim-Q` / `pullim-classbot` / `pullim-games` / `pullim-games-arcade`
+**적용 대상**: `pullim-planner` / `pullim-Q` / `pullim-classbot` / `pullim-games` / `pullim-arcade`
 **상태**: **PROPOSAL — 합의·게이트 대기 중. 실행 문서 아님.**
 **완료 정의**: §1 목표 충족 후 PM 명시 시점에 archive 이관
 
@@ -81,7 +81,7 @@
 
 ### 2.2 목표 스택 (사용자 제안 — 본체 미관찰)
 
-다음 항목은 **본체 리포를 정독한 결과 현재 존재하지 않으나**, 사용자가 정본 표로 제시한 **목표(target) 스택**이다. 즉 §2.1 의 "본체와 맞추는 작업"이 아니라 "사용자 제안 스택을 5 도메인에 새로 도입하는 작업"이다. 후속 PR 은 이 둘을 구분해 해석한다 — 이 표의 항목은 관찰된 기준선이 아니므로, 본체 정합이 아닌 신규 도입(게이트 §12 의 G7/G12/G13/G14)으로 다룬다.
+다음 항목은 **본체 리포를 정독한 결과 현재 존재하지 않으나**, 사용자가 정본 표로 제시한 **목표(target) 스택**이다. 즉 §2.1 의 "본체와 맞추는 작업"이 아니라 "사용자 제안 스택을 5 도메인에 새로 도입하는 작업"이다. 후속 PR 은 이 둘을 구분해 해석한다 — 이 표의 항목은 관찰된 기준선이 아니므로, 본체 정합이 아닌 신규 도입(§4 갭 분석의 Gap-7 캐시·큐 / Gap-12 AWS SDK / Gap-13 배포 / Gap-14 CI/CD)으로 다룬다.
 
 | 영역 | 목표 값 | 근거 | 본체 현황 |
 |---|---|---|---|
@@ -102,7 +102,7 @@
 | 항목 | planner | Q | classbot | games | arcade |
 |---|---|---|---|---|---|
 | **레포** | `curea-co/pullim-planner` | `curea-co/pullim-Q` | `curea-co/pullim-classbot` | `curea-co/pullim-games` | `curea-co/pullim-arcade` |
-| **모노레포** | ✅ bun workspace + Turborepo | ✅ bun workspace + Turborepo | ❌ 단일 앱 (D-Lite 진행) | ❌ 단일 앱 (alignment PR #108 작성) | △ D-Lite 머지 (bun workspace 보유, **Turborepo 미도입** — 정본 ≠, G2 에서 Turborepo 추가 필요) |
+| **모노레포** | ✅ bun workspace + Turborepo | ✅ bun workspace + Turborepo | ❌ 단일 앱 (D-Lite 진행) | ❌ 단일 앱 (alignment PR #108 작성) | △ D-Lite 머지 (bun workspace 보유, **Turborepo 미도입** — 정본 ≠, Gap-2(모노레포)에서 Turborepo 추가 필요) |
 | **패키지 매니저** | bun 1.3.12 | bun 1.3.12 | bun | bun | bun |
 | **Next.js** | 16 (apps/planner) | 16 (apps/q) | 16 | **15** (정본 ≠) | 16.2.4 |
 | **React** | 19 | 19 | 19 | 19 | 19.2.4 |
@@ -133,27 +133,29 @@
 
 ---
 
-## 4. 갭 분석 (15 영역 — G1~G15)
+## 4. 갭 분석 (15 영역 — Gap-1~Gap-15)
+
+> ⚠ **네임스페이스 주의**: 본 §4 의 `Gap-N` 은 **갭 분석 식별자**(영역 번호)다. §12 의 `G1/G3/G4` 는 별개의 **게이트키퍼 승인 코드**다 — 두 체계는 무관하니 혼동하지 말 것. (예: "Gap-7 캐시·큐" ≠ "§12 G1 패키지 매니저 게이트".)
 
 | # | 영역 | 정본 | 5 도메인 평균 | 갭 크기 | 도메인별 차이 |
 |---|---|---|---|---|---|
-| G1 | 패키지 매니저 | pnpm 10.26.1 | bun 1.3.12 | **L** (lockfile/Dockerfile/workflow 동시 갱신) | 5 도메인 동일 — 5건 일괄 |
-| G2 | 모노레포 | Turborepo + apps/{web,backend} + packages/* | planner/Q/arcade 일부 / classbot·games 미완 | **M** | classbot/games 가 모노레포 전환 선행 필요 |
-| G3 | Next.js | 16.1.2 | 16 (games 만 15) | **S** (games 만 1 단계) | games — Next 15 → 16 |
-| G4 | BE 프레임워크 | NestJS 11 (common·config·database 표준 모듈) | planner/Q/classbot/arcade skeleton, games 부재 | **L** | games — BE 신설 결정 필요 |
-| G5 | ORM | TypeORM 0.3.28 + naming-strategies | classbot·Q drizzle 현행, 나머지 미적용 | **L** | classbot·Q — drizzle → TypeORM 마이그레이션(각각 D-CB-ORM·D-Q-ORM, §15) |
-| G6 | 인증 | Passport/JWT + bcrypt | Mock 4건, arcade bcryptjs, games 없음 | **L** | 5건 모두 JWT 도입 |
-| G7 | 캐시·큐 | Redis(ioredis) + BullMQ | 0건 | **L** | 5건 모두 신규 도입 |
-| G8 | FE DS | @pullim/design-system + DS 강제 import | shadcn 로컬 5건 | **L** | 5건 모두 마이그레이션 + 본체 DS 외부 노출 정책 확정 필요 |
-| G9 | FE i18n | next-intl + ko/en 단일 messages | 0건 (모두 한글 하드코딩) | **L** | 5건 모두 신규 도입, 텍스트 추출 비용 큼 |
-| G10 | FE 데이터 | TanStack Query | Q + classbot 보유 | **M** | 3건 신규 도입(planner/games/arcade) + Q·classbot 패턴 정합 |
-| G11 | 관측 | Sentry (Next.js + browser 두 SDK) | 0건 | **M** | 5건 모두 신규 도입 |
-| G12 | AWS SDK | client-s3 + client-ses + s3-presigned | 0건 | **M** | 사용처별 — 5 도메인 모두 즉시 필요한지 평가 후 |
-| G13 | 배포 | AWS ECS Fargate + ECR + Secrets Manager + CW Logs | Vercel manual 5건 | **XL** (DNS/SSL/모니터링 재구성) | 5건 모두 전환, AWS cluster 결정 §8 |
-| G14 | CI/CD | GitHub Actions → Docker → ECR → ECS update | Vercel 자동 비활성, manual | **L** | 5건 모두 신규 작성 |
-| G15 | 패키지 분리 | packages/{types,api-client,auth} + (본체엔 analytics/config/logging/remote-config/ui) | placeholder 3건 (planner/Q), classbot·games 부재 | **M** | 5건 모두 packages 6개로 정렬 |
+| Gap-1 | 패키지 매니저 | pnpm 10.26.1 | bun 1.3.12 | **L** (lockfile/Dockerfile/workflow 동시 갱신) | 5 도메인 동일 — 5건 일괄 |
+| Gap-2 | 모노레포 | Turborepo + apps/{web,backend} + packages/* | planner/Q/arcade 일부 / classbot·games 미완 | **M** | classbot/games 가 모노레포 전환 선행 필요 |
+| Gap-3 | Next.js | 16.1.2 | 16 (games 만 15) | **S** (games 만 1 단계) | games — Next 15 → 16 |
+| Gap-4 | BE 프레임워크 | NestJS 11 (common·config·database 표준 모듈) | planner/Q/classbot/arcade skeleton, games 부재 | **L** | games — BE 신설 결정 필요 |
+| Gap-5 | ORM | TypeORM 0.3.28 + naming-strategies | classbot·Q drizzle 현행, 나머지 미적용 | **L** | classbot·Q — drizzle → TypeORM 마이그레이션(각각 D-CB-ORM·D-Q-ORM, §15) |
+| Gap-6 | 인증 | Passport/JWT + bcrypt | Mock 4건, arcade bcryptjs, games 없음 | **L** | 5건 모두 JWT 도입 |
+| Gap-7 | 캐시·큐 | Redis(ioredis) + BullMQ | 0건 | **L** | 5건 모두 신규 도입 |
+| Gap-8 | FE DS | @pullim/design-system + DS 강제 import | shadcn 로컬 5건 | **L** | 5건 모두 마이그레이션 + 본체 DS 외부 노출 정책 확정 필요 |
+| Gap-9 | FE i18n | next-intl + ko/en 단일 messages | 0건 (모두 한글 하드코딩) | **L** | 5건 모두 신규 도입, 텍스트 추출 비용 큼 |
+| Gap-10 | FE 데이터 | TanStack Query | Q + classbot 보유 | **M** | 3건 신규 도입(planner/games/arcade) + Q·classbot 패턴 정합 |
+| Gap-11 | 관측 | Sentry (Next.js + browser 두 SDK) | 0건 | **M** | 5건 모두 신규 도입 |
+| Gap-12 | AWS SDK | client-s3 + client-ses + s3-presigned | 0건 | **M** | 사용처별 — 5 도메인 모두 즉시 필요한지 평가 후 |
+| Gap-13 | 배포 | AWS ECS Fargate + ECR + Secrets Manager + CW Logs | Vercel manual 5건 | **XL** (DNS/SSL/모니터링 재구성) | 5건 모두 전환, AWS cluster 결정 §8 |
+| Gap-14 | CI/CD | GitHub Actions → Docker → ECR → ECS update | Vercel 자동 비활성, manual | **L** | 5건 모두 신규 작성 |
+| Gap-15 | 패키지 분리 | packages/{types,api-client,auth} + (본체엔 analytics/config/logging/remote-config/ui) | placeholder 3건 (planner/Q), classbot·games 부재 | **M** | 5건 모두 packages 6개로 정렬 |
 
-총 15 영역(G1~G15) 갭. P0/P1/P2 분류는 §6.
+총 15 영역(Gap-1~Gap-15) 갭. P0/P1/P2 분류는 §6.
 
 ---
 
@@ -305,6 +307,8 @@
 ---
 
 ## 12. 게이트키퍼 합의 포인트
+
+> ⚠ **네임스페이스 주의**: 본 §12 의 `G1/G3/G4` 는 **게이트키퍼(승인 주체) 코드**다 (G1=대표/정책, G3=BE, G4=FE). §4 의 `Gap-1~Gap-15` 는 별개의 **갭 분석 영역 번호**다 — 두 체계는 무관하다. 문서 전반의 "G1 통과", "G3 합의", "G4 무관" 같은 표현은 모두 **이 §12 게이트키퍼 코드**를 가리킨다(갭 ID 아님).
 
 | Gate | 합의 시점 | 합의 대상 |
 |---|---|---|
