@@ -17,7 +17,7 @@
 - FE Container 의 서버/클라이언트 책임 — 본 plan §내에서 모순이 발견되면 `2026-05-26_container-presenter-adoption.md` (planner 정본) 와 Next.js 16 server-first 기본을 우선.
 - drizzle 검증 명령 (`rg "drizzle-orm" apps/q`) 누락 케이스 / 완료 기준 워크스페이스 수 표기 모순 / 루트 lint·test 범위 서술 모순 — 정정은 후속 spec 갱신 PR 에서.
 
-본 plan 의 머지는 **자동 실행 게이트를 열지 않는다**. 후속 마이그레이션 PR 은 spec 갱신 PR 을 통해서만 진입한다.
+본 plan 의 머지는 **자동 실행 게이트를 열지 않는다**. spec 갱신(§1 완료 기준의 `proc/spec/2026-05-18_q-be-api-design.md` ORM·API 행 갱신)은 **별도 선행 PR 이 아니라 Phase 1(컨벤션 문서화 PR)의 산출물**로 수행한다 — 즉 Phase 1 PR 이 컨벤션 문서화와 함께 spec 을 갱신하고, 그 머지 이후에 BE/FE 마이그레이션 Phase(β·γ·δ…)가 진입한다. (실행 순서는 Phase 1 → 이후 phase 단일 흐름. 별도 spec PR 을 따로 만들 필요는 없다.)
 
 ---
 
@@ -243,6 +243,7 @@ pullim-Q/
   - `AGENTS.md` 에 §Container/Presenter 컨벤션 표 추가 (planner AGENTS.md 의 표 그대로 차용, "planner-*" 를 "q-*" 로 치환)
   - `CLAUDE.md` §1 도메인 범위 표에 `apps/q/components/features/q-*/{containers,presenters,components,hooks,lib}/` 추가 (`lib/` = 순수 유틸/도출 로직, 옵션)
   - `apps/q/CLAUDE.md` 에 cross-feature import 정책 + `shared/` 정책 추가
+  - **`proc/spec/2026-05-18_q-be-api-design.md` 갱신** (§1 완료 기준 항목) — §결정 사항의 ORM 행 → **TypeORM 0.3**, API 스타일 행 → **NestJS 11 — apps/backend**. 이 spec 갱신이 이후 BE/FE 마이그레이션 phase 의 선행 조건이므로 Phase 1 PR 에 포함한다 (별도 선행 PR 아님)
 
 - 파일럿 코드:
   - `apps/q/components/features/q-<도메인>/containers/<페이지명>Container.tsx` 신규 (Container 순수성: 마크업 0줄, 원시값 props 만 전달)
@@ -333,7 +334,7 @@ planner Phase β 와 거의 1:1. 차이는 에러 코드 prefix 만 (`PLANNER_*`
   - `bun run dev:backend` → `http://localhost:4031/api-docs` Swagger UI 노출
   - 임의 throw → `AllExceptionsFilter` 응답 일관 `{success: false, error: {...}}`
   - `X-User-Id` 헤더 가드 동작 (헤더 미존재 → `student_001` fallback)
-  - 30분 bun + NestJS spike 결과 PR 본문에 명시. **spike 성공이 Phase β 진입 전제** — 이 PR 안에서는 어떤 경우에도 package manager 를 바꾸지 않는다(§2.3 `bun 유지, pnpm 분기 안 함` 결정 = §0 authority). spike 실패 시: 이 Phase β PR 은 보류하고, package manager 정책 변경(backend 만 node + pnpm 분기) 또는 NestJS 버전 다운은 **별도 인프라 결정 PR** 에서만 처리한다(상단 authority 와 동일 규칙). 즉 fallback 은 Phase β 흐름 안 자동 분기가 아니라 별도 PR 게이트다.
+  - 30분 bun + NestJS spike 결과 PR 본문에 명시. spike 는 Phase β PR 의 **첫 작업**이며 (PR 착수는 게이트 없이 가능, 라인 483), **spike 성공이 Phase β 완료(머지)의 전제**다 — 이 PR 안에서는 어떤 경우에도 package manager 를 바꾸지 않는다(§2.3 `bun 유지, pnpm 분기 안 함` 결정 = §0 authority). spike 실패 시: 이 Phase β PR 은 보류하고, package manager 정책 변경(backend 만 node + pnpm 분기) 또는 NestJS 버전 다운은 **별도 인프라 결정 PR** 에서만 처리한다(상단 authority 와 동일 규칙). 즉 fallback 은 Phase β 흐름 안 자동 분기가 아니라 별도 PR 게이트다.
 
 #### Phase γ — Q entity 설계 + 마이그레이션 1개 (PR #γ — 1~2 PR 가능)
 
@@ -480,7 +481,9 @@ planner 정본의 §7 과 동일 구조:
 - **G4 (FE 게이트키퍼)** — Phase η 진입 시점에서 데이터 페칭 패턴 확정 (Server Component fetch vs Server Action vs client `@pullim-q/api-client`). envelope 분기 처리 합의
 - **G1** — 본 plan 은 내부 구조 작업이므로 §6 진척 보고 시점에 일괄
 
-본 plan 은 **Phase α 는 이미 완료, Phase β·1·2·3·4·5·γ·δ 는 G3·G4 합의 게이트 부재 상태로 연속 진입 가능**. Phase ε·ζ·η 는 위 합의 게이트 통과 후 진입.
+본 plan 은 **Phase α 는 이미 완료, Phase β·1·2·3·4·5·γ·δ 는 G3·G4 합의 게이트 없이 연속 *착수* 가능** (단 Phase 1 의 spec 갱신 머지가 BE/FE 마이그레이션 phase 의 선행 조건 — §0 라인 20). Phase ε·ζ·η 는 위 합의 게이트 통과 후 진입.
+
+단 **Phase β 는 "착수"와 "완료(머지)"의 조건이 다르다**: 게이트 없이 *착수*(PR open)는 가능하나, PR 진입 직후 30분 bun+NestJS spike 가 첫 작업이며 **spike 성공이 Phase β 완료(머지)의 전제**다(라인 336). spike 실패 시 해당 Phase β PR 은 보류되고 package manager 변경은 별도 인프라 결정 PR 로 분리된다. 즉 β 는 "바로 착수 가능하되, spike 성공 없이는 머지 불가"인 단계로 정의한다.
 
 ---
 
