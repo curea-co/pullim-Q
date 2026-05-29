@@ -17,7 +17,7 @@
 1. **각 리포 루트 `AGENTS.md` / `CLAUDE.md`** — 현행 운영 규칙. 본 문서가 충돌하는 항목은 항상 패배한다.
 2. **각 리포 `proc/spec/`** — 도메인 SOT. 본 문서는 spec 변경 제안일 뿐, spec 자체가 아니다.
 3. **이미 채택된 BE/FE 정본 plan** — `curea-co/pullim-planner` 의 `proc/plan/2026-05-26_pullim-be-adoption.md` / `2026-05-26_container-presenter-adoption.md` (planner 리포에 존재하는 원본). 다른 리포(Q 등)에는 이 파일이 없을 수 있으며, 각 리포는 자신의 `proc/plan/`·`proc/spec/` 정본을 따른다 — 본 문서가 이 채택된 plan 과 충돌하는 항목은 패배한다. (Q 리포의 정렬 작업 정본은 이 바이블과 별개로 `curea-co/pullim-Q` 의 `proc/plan/2026-05-27_planner-alignment.md`)
-4. **본 문서** — PROPOSAL. §15 게이트(G1/G3/G4) 합의 + 각 리포의 spec 갱신 PR이 머지된 뒤에만 실행 게이트로 승격된다.
+4. **본 문서** — PROPOSAL. §12 게이트키퍼(G1/G3/G4) 합의 + 각 리포의 spec 갱신 PR이 머지된 뒤에만 실행 게이트로 승격된다.
 
 **구체 패배 사례** (현재 권위 우선 항목 — 본 문서가 다르게 적었더라도 무시):
 
@@ -314,10 +314,12 @@
 | Gate | 합의 시점 | 합의 대상 |
 |---|---|---|
 | **G1** | 본 plan 통과 + §8/§9/§10 의 **결정 또는 §16 보류 확정** (AWS 토폴로지(§8)·RDS(§9)는 §16.2/§16.5 에서 "보류 확정"으로 충족됨 — "결정"만이 충족 조건이 아니다. §10 시퀀스는 옵션 C 로 결정됨) | 5 도메인 동시 마이그레이션 정책, 비용(보류 시 비용은 보류 해제 후) |
-| **G3** (BE) | P0-2/3 의 **결정 또는 §16 보류 확정** + P1-1·P1-2 *코드* 시작 (관리형 AWS 전환은 §16 보류) | AWS 토폴로지(보류), RDS 옵션(보류), JWT 흐름 설계, Redis/BullMQ 코드 |
-| **G4** (FE) | P1-3·P1-4·P1-5 시작 | DS 마이그레이션 베이스라인 (특히 games 시각 회귀), i18n 추출 정책, TanStack Query 컨벤션 |
+| **G3** (BE) | **P1-1·P1-2 PR *착수 전*** 에 합의 완료 — P0-2/3 의 **결정 또는 §16 보류 확정** 을 전제로, JWT 흐름 설계·Redis/BullMQ 코드 도입 방침에 G3 가 승인. (관리형 AWS 전환은 §16 보류) | AWS 토폴로지(보류), RDS 옵션(보류), JWT 흐름 설계, Redis/BullMQ 코드 |
+| **G4** (FE) | **P1-3·P1-4·P1-5 PR *착수 전*** 에 합의 완료 | DS 마이그레이션 베이스라인 (특히 games 시각 회귀), i18n 추출 정책, TanStack Query 컨벤션 |
 
-각 Phase 시작 PR 에 합의 게이트키퍼 명시.
+> ⚠ **승인 시점 vs 착수 시점 분리**: 위 "합의 시점" 은 **승인이 완료돼야 하는 시점 = 해당 Phase PR *착수 직전***을 뜻한다(코드 시작 *이후*가 아니다). §13 대로 각 Phase 시작 PR 본문에 합의 게이트키퍼를 명시하려면, 그 합의가 **PR open 전에 이미 완료**돼 있어야 한다. 즉 "G3 합의 → P1-1/P1-2 착수" 순서이지, "착수해야 G3 합의 충족" 의 원형 의존이 아니다. (게이트 합의는 코드가 아니라 설계·방침 문서로 충족하며, 코드 PR 은 그 승인 후 열린다.)
+
+각 Phase 시작 PR 에 합의 게이트키퍼 명시 (해당 게이트 합의가 PR 착수 전에 완료돼 있어야 함).
 
 ---
 
@@ -360,6 +362,7 @@
 - [ ] ⓐ (보류) 5 도메인 모두 ECS Fargate 에서 dev 서비스 운영 (`pullim-<domain>-{web,backend}-dev` 패턴) — §16 보류 해제 후 평가
 - [ ] ⓐ (보류) 5 도메인 모두 GitHub Actions → ECR → ECS 파이프라인 통과 — §16 보류 해제 후 평가
 - [ ] **BE 보유 도메인**(planner/Q/classbot/arcade + games는 D-GM-BE 가 '신설'로 결정된 경우만) JWT 인증 + Sentry DSN 활성 + **Redis/BullMQ 코드 레벨 도입(ioredis 연결 코드 + BullMQ 큐 셋업, 로컬 Redis container 로 검증 — §13/§16.5 선행 가능)** / ⓐ (보류) **관리형 Redis(ElastiCache) 전환**만 §16 보류 해제 후 평가 (코드 도입과 관리형 전환을 분리 — 코드가 없으면 부분 완료로도 인정하지 않는다). **games 가 D-GM-BE 에서 SPA 유지로 결정되면 games 는 JWT/Redis/BullMQ 완료 대상에서 제외**(대체 완료 조건: games 는 FE/Sentry/DS/i18n 항목만 충족) — D-GM-BE 미결정 상태로는 본 항목 완료 판정 불가
+- [ ] **ORM 정렬 (Gap-5 — 정본 TypeORM 0.3.28)**: classbot 의 drizzle → TypeORM 전환(D-CB-ORM)이 완료(schema dump → TypeORM entities 재생성 + 첫 migration generate)되고, Q 의 drizzle → TypeORM 전환(D-Q-ORM)은 **Q-track BE 본격 도입(Q-track Phase γ 상당) 후 평가** — 두 트랙 모두 완료돼야 ORM 정렬 충족. **(D-Q-ORM 이 미착수/진행 중이면 ORM 항목은 미충족이며, 본 항목 미충족 시 archive 불가** — JWT/Redis/Sentry/DS/i18n 만으로는 '정본 스택 정렬'의 핵심인 ORM 정렬을 달성하지 못하므로). 단 D-Q-ORM 은 §15 대로 Q 단독 후속 의제이므로, classbot ORM 전환 완료 + Q ORM 전환이 Q-track 일정에 *명시적으로 잡혀 진행 중*이면 **부분 완료(ORM: classbot done / Q in-progress)** 로 기록하되 full archive 는 Q ORM 완료 후
 - [ ] 5 도메인 모두 `@pullim/design-system` 사용 + `messages/{ko,en}.json` 단일 파일 + TanStack Query QueryClient 활성
 - [ ] §8/§9/§10 결정 사항이 본 plan 본문에 반영 (§8/§9 의 AWS 결정은 §16 보류로 superseded — 보류 해제 시 재평가). **권위 구분**: (a) *도메인 의사결정의 SOT 는 §0 대로 각 리포의 `proc/spec/`* — 본 plan 은 그 spec 을 바꾸는 제안일 뿐이고, games/classbot 등 어느 리포 spec 이 먼저 갱신되면 그 리포 spec 이 권위다. (b) *본 바이블 문서(이 plan 파일 자체)의 분산 사본 중에서는* `curea-co/pullim-Q` 사본을 **집계 mirror-of-record** 로 두어 동기화 기준점으로 삼는다(§16.1 옵션 B 의 5 사본이 서로 어긋나지 않도록) — 이는 *문서 사본 동기화* 기준일 뿐 *도메인 권위* 가 아니다. 따라서 결정 갱신은 항상 ① 해당 리포 spec(권위) → ② pullim-Q 바이블 사본(mirror) → ③ 나머지 4 사본 전파 순. 부록 A 의 `.pullim-meta/DECISIONS.md` 는 권위 출처가 아닌 메모용이며 완료 판정 기준이 아니다.
 - [ ] §11 모든 H 리스크 mitigation 적용 완료 또는 잔여 리스크 별 plan 으로 이관
