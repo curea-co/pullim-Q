@@ -111,7 +111,7 @@
 | **ORM** | TypeORM 예정 (BE 도입 시) | **drizzle 현행** (`drizzle-orm 0.45.2` + `drizzle-kit`, `lib/db/{schema,index}.ts`) (정본 ≠) — BE TypeORM 전환은 별도 결정(D-Q-ORM, §15) | **drizzle** (정본 ≠) | (없음) | (드라이버 pg 만) |
 | **i18n** | (없음) | (없음) | (없음) | (없음) | (없음) |
 | **DS** | shadcn 로컬 | shadcn 로컬 | shadcn 로컬 + sonner | shadcn (new-york/slate, 자체 토큰) | shadcn 4.4.0 |
-| **TanStack Query** | (없음) | ✅ 5.100.1 (`@tanstack/react-query`, 서버 상태 — `apps/q/AGENTS.md`) | ✅ 5.100.1 | (없음) | (없음) |
+| **TanStack Query** | (없음) | △ **dependency 만 설치** (`@tanstack/react-query 5.100.1`, `apps/q/AGENTS.md` 의도) — but `QueryClientProvider`·`useQuery`/`QueryClient` 사용처 부재, **baseline 미구현** | ✅ 5.100.1 (classbot — 사용처 확인 전제) | (없음) | (없음) |
 | **Sentry** | (없음) | (없음) | (없음) | (없음) | (없음) |
 | **Redis** | (없음) | (없음) | (없음) | (없음) | (없음) |
 | **BullMQ** | (없음) | (없음) | (없음) | (없음) | (없음) |
@@ -129,7 +129,7 @@
 - **classbot — bcryptjs ≠ bcrypt**: native bcrypt 로 전환 또는 본 plan 에서 예외 인정 결정 필요
 - **games — Next.js 15**: 정본 16 과 한 단계 lag
 - **games — BE 없음**: 5 중 유일 (BE 신설 vs 영구 SPA 결정 필요)
-- **TanStack Query 보유는 Q + classbot**: 정본 패턴 부분 채택. FE 데이터 계층 통합 시 일관성 확보 필요. P1-5 신규 도입 대상은 planner/games/arcade **3 도메인** (Q·classbot 제외)
+- **TanStack Query**: classbot 만 실사용(전제), **Q 는 dependency 만 설치되고 Provider/hydration/queryKey baseline 미구현**. 따라서 P1-5 신규 도입 대상은 planner/games/arcade + **Q(설치는 됐으나 baseline 구축 필요)** — 즉 classbot 만 제외. Q 는 dependency 설치 단계만 생략하고 Provider/hydration/queryKey 는 P1-5 에서 구축
 
 ---
 
@@ -148,7 +148,7 @@
 | Gap-7 | 캐시·큐 | Redis(ioredis) + BullMQ | 0건 | **L** | 5건 모두 신규 도입 |
 | Gap-8 | FE DS | @pullim/design-system + DS 강제 import | shadcn 로컬 5건 | **L** | 5건 모두 마이그레이션 + 본체 DS 외부 노출 정책 확정 필요 |
 | Gap-9 | FE i18n | next-intl + ko/en 단일 messages | 0건 (모두 한글 하드코딩) | **L** | 5건 모두 신규 도입, 텍스트 추출 비용 큼 |
-| Gap-10 | FE 데이터 | TanStack Query | Q + classbot 보유 | **M** | 3건 신규 도입(planner/games/arcade) + Q·classbot 패턴 정합 |
+| Gap-10 | FE 데이터 | TanStack Query | classbot 실사용 / Q 는 dependency 만(baseline 미구현) | **M** | planner/games/arcade 신규 + **Q baseline 구축**(설치 외 Provider/hydration/queryKey) + classbot 패턴 정합. 실질 도입 대상 4건(classbot 만 제외) |
 | Gap-11 | 관측 | Sentry (Next.js + browser 두 SDK) | 0건 | **M** | 5건 모두 신규 도입 |
 | Gap-12 | AWS SDK | client-s3 + client-ses + s3-presigned | 0건 | **M** | 사용처별 — 5 도메인 모두 즉시 필요한지 평가 후 |
 | Gap-13 | 배포 | AWS ECS Fargate + ECR + Secrets Manager + CW Logs | Vercel manual 5건 | **XL** (DNS/SSL/모니터링 재구성) | 5건 모두 전환, AWS cluster 결정 §8 |
@@ -196,7 +196,7 @@
 | **P1-2** | Redis + BullMQ 도입 (BE) | 5 도메인 | ioredis connection, BullMQ queue 셋업, ElastiCache 또는 Redis container 모두 |
 | **P1-3** | shadcn 로컬 → @pullim/design-system 마이그레이션 (FE) | 5 도메인 | §2.1 이 확인한 DS export(Button/Card/Dialog/Input/Tabs/Heading/Text/toast) import 전환, sonner → @pullim/design-system. **아이콘은 `lucide-react` 유지(예외)** — §2.1 기준선에 DS 아이콘 export 보장이 없고 D-DS(§15) 미해결이므로, `@pullim/design-system/icons` 전환은 D-DS 에서 DS 쪽 아이콘 export 계약이 확정된 뒤 별도 단계로 분리한다. 도메인별 GitHub Action으로 release tag 핀 |
 | **P1-4** | next-intl 도입 (i18n) | 5 도메인 | `messages/{ko,en}.json` 단일 파일, `useTranslations()` / `getTranslations()` 적용, 하드코딩 텍스트 전수 추출. mock 데이터의 한글은 예외 |
-| **P1-5** | TanStack Query 도입 (FE 서버 state) | 3 도메인 (Q·classbot 제외 — 이미 보유) | QueryClient provider, hydration boundary, queryKey 컨벤션 |
+| **P1-5** | TanStack Query 도입 (FE 서버 state) | **4 도메인 (classbot 만 제외 — 실사용)**. Q 는 dependency 설치됨이나 baseline 미구현이라 포함 | QueryClient provider, hydration boundary, queryKey 컨벤션 (Q 는 dependency 설치 생략, 나머지는 설치+baseline) |
 
 ### P2 — 추가 도입 (P1 완료 후, 도메인 필요도별)
 
@@ -227,7 +227,7 @@
 | P1-2 Redis·BullMQ | BE 신규 | BE 신규 | BE 신규 + drizzle 호환성 검토 | BE 신설 시 | BE 신규 |
 | P1-3 DS | shadcn 28+ 컴포넌트 마이그레이션 | shadcn 마이그레이션 | shadcn 마이그레이션 + sonner | shadcn (new-york/slate) → DS (시각 회귀 위험 — `bun run ui:audit` 4 viewport 필수) | shadcn 마이그레이션 |
 | P1-4 i18n | hard-coded 한글 추출 (planner-home/reports/manage/onboarding 28+ 컴포넌트) | hard-coded 한글 추출 (q/{infinity,talk,analysis,review}) | hard-coded 한글 추출 (classbot/builder 13 파일) | hard-coded 한글 추출 (21 게임 + 셸 + 메커니즘) — **mock 한글 데이터는 예외 컨벤션 적용** | placeholder 라 비용 작음 |
-| P1-5 TanStack Query | 신규 | **이미 보유 (5.100.1)** — 정본 5.90.21 과 minor 호환 확인 | **이미 보유 (5.100.1)** — 정본 5.90.21 과 minor 호환 확인 | 신규 (BE 신설 시) | 신규 |
+| P1-5 TanStack Query | 신규 | **dependency 설치됨(5.100.1)이나 baseline 미구현** → Provider/hydration/queryKey 구축 필요 (설치만 생략) | **이미 보유 실사용 (5.100.1)** — 정본 5.90.21 과 minor 호환 확인 | 신규 (BE 신설 시) | 신규 |
 | P2-1 Sentry | 신규 | 신규 | 신규 | 신규 | 신규 |
 | P2-2 AWS SDK | 리포트 PDF S3 + 이메일 알림 SES | 학습 자료 S3 | 봇 미디어 S3 + 알림 SES | (사용처 평가 후 — 게임 콘텐츠 이미지는 정적 호스팅으로 우선) | 사용처 평가 후 |
 | P2-3 Tiptap | 메모/회고 영역 가능성 | (미적용 후보) | **봇 빌더 핵심** — 우선 도입 | (미적용 — 게임은 인터랙션 위주) | (미적용) |
@@ -293,7 +293,7 @@
 | R-AUT | P1-1 | Mock → JWT: 토큰 발행/검증/refresh 흐름 신설, 기존 mock user 일관성 깨짐 | H | MockAuthProvider 인터페이스 유지 → JwtAuthProvider 구현으로 교체. `IAuthProvider` 추상화는 planner 가 packages/auth 에 이미 placeholder |
 | R-DS | P1-3 | shadcn → DS: UI 시각 회귀 (특히 games 의 toolset/spacing/border-radius 룰) | H | games 는 `bun run ui:audit` 4 viewport (320/390/768/1280) 머지 전 필수. critical overflow 0 까지 fix |
 | R-I18N | P1-4 | i18n 추출: 모든 텍스트 마이그레이션 — 시간 큼 (planner 28+, games 21 게임 + 셸) | H | 도메인별 별 PR. mock 데이터 한글 예외 컨벤션 (`curea-co/pullim` 의 `apps/web/CLAUDE.md` 명시). `useTranslations` 검사 lint rule 도입 |
-| R-TQ | P1-5 | TanStack Query: 데이터 패칭 일괄 전환. Q + classbot 보유 → version drift | M | Q·classbot 5.100.1 → 정본 5.90.21 호환성 확인. queryKey 컨벤션 5 도메인 통일 |
+| R-TQ | P1-5 | TanStack Query: 데이터 패칭 일괄 전환. Q·classbot 5.100.1 설치(Q 는 baseline 미구현) → version drift | M | Q·classbot 5.100.1 → 정본 5.90.21 호환성 확인 + Q baseline 구축. queryKey 컨벤션 5 도메인 통일 |
 | R-DS-EXT | P1-3 | `@pullim/design-system` 외부 노출 정책: 본체팀 발행·버전·breaking change 정책 부재 | H | 본체팀과 별 합의 PR — `@pullim/design-system` GitHub release tag pin 정책 + semver + 5 도메인 향한 deprecation lead time. 본 plan §8/§9 와 동급 미해결 |
 | R-DRIZ | P0-3 | classbot drizzle → TypeORM: schema 재작성. 기존 drizzle migrations 폐기 | H | classbot drizzle 보유분 SQL dump → TypeORM entities 재생성 + migration 첫 generate. data preserving plan 필요 |
 | R-N15 | P2-5 | games Next 15 → 16: 21 게임 회귀 | M | major bump 별 PR. games §7 (`audit/` 트리거 T5 메이저 의존성) 자동 발동 |
@@ -343,7 +343,7 @@
 | 10 | P1-2 | 5 도메인 | `feat(<scope>): Redis + BullMQ 도입` (5 PR) | spec 채택 (ElastiCache 는 PR6 의존) | spec 채택 후 후보. **ioredis/BullMQ 코드·로컬 Redis container 검증은 선행 가능(§16.5).** 단 ElastiCache(관리형) 전환은 §16 인프라 보류 해제 후 |
 | 11 | P1-3 | 5 도메인 | `refactor(<scope>): shadcn → @pullim/design-system 마이그레이션` (5 PR — games 는 4 viewport audit 첨부) | DS 외부 정책 합의 | spec 채택 + DS 정책 합의 후 후보 |
 | 12 | P1-4 | 5 도메인 | `feat(<scope>): next-intl ko/en 도입 + 텍스트 추출` (5 PR) | — | spec 채택 후 후보 (i18n spec) |
-| 13 | P1-5 | 3 도메인 | `feat(<scope>): TanStack Query 도입` (3 PR — Q·classbot 제외, 이미 보유) | — | spec 채택 후 후보 (FE spec) |
+| 13 | P1-5 | 4 도메인 | `feat(<scope>): TanStack Query 도입` (4 PR — classbot 만 제외 실사용. Q 는 dependency 설치됨이나 baseline 미구현이라 포함) | — | spec 채택 후 후보 (FE spec) |
 | 14 | P2-1 | 5 도메인 | `feat(<scope>): Sentry instrumentation` (5 PR) | — | spec 채택 후 후보 (관측 spec) |
 | 15 | P2-* | 도메인별 | AWS SDK / Tiptap / packages / Next16 (games 단독) | — | spec 채택 후 후보. 단 AWS SDK 부분은 추가로 §16 인프라 보류 대기 |
 
