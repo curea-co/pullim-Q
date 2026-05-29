@@ -318,27 +318,31 @@
 
 ## 13. PR 분할 제안 — 15+ PR
 
-> ⚠ **§16 반영 상태**: §16.3 가 AWS 인프라 보류(P0-2/3/4 진입 보류, §16.5)를 선언했으므로, 인프라에 의존하는 PR(6·7·8 과 그 위에 쌓이는 9·10)은 **`대기(보류)`** 상태다. 병합 토폴로지 확정(§16.3 (a)/(b)) 전에는 착수하지 않는다. 인프라 비의존 PR(1~5 pnpm, 11~15 FE/관측 — 단 배포 의존 없는 부분)만 즉시 착수 가능. 아래 표의 `상태` 열을 §16 기준으로 읽을 것.
+> ⚠ **제안서 단계 — 어떤 PR 도 "즉시 착수 가능"이 아니다.** §0 대로 본 문서는 PROPOSAL 이며, **각 리포의 spec 갱신 PR 이 머지되기 전까지 실행 게이트로 승격되지 않는다.** 따라서 아래 `상태` 열은 "지금 착수 가능"이 아니라 **"해당 spec 채택 후 착수 후보"** 의미다. 두 단계 게이트가 모두 충족돼야 착수한다:
+> 1. **spec 게이트** — 각 항목의 정책을 채택하는 리포별 spec 갱신 PR 머지 (예: pnpm → 각 리포 인프라 spec, i18n/Sentry → 각 리포 FE spec). 미충족 시 어떤 PR 도 착수 금지.
+> 2. **§16 인프라 게이트** — AWS 의존 PR(6·7·8 과 그 위 9·10)은 추가로 §16.3 병합 토폴로지 확정까지 **`대기(보류)`**.
+>
+> 즉 spec 미채택 상태에서 pnpm/i18n/Sentry 작업을 선행해서는 안 된다. 아래 `상태` 열을 이 두 게이트 기준으로 읽을 것.
 
 | PR # | Phase | 도메인 | 제목 (안) | 의존 | 상태 (§16) |
 |---|---|---|---|---|---|
-| 1 | P0-1 | planner | `chore(planner): bun → pnpm 10.26.1 전환` | — | 착수 가능 |
-| 2 | P0-1 | Q | `chore(q): bun → pnpm 10.26.1 전환` | PR1 회고 | 착수 가능 |
-| 3 | P0-1 | classbot | `chore(classbot): D-Lite 모노레포 + pnpm 동시 적용` | PR1 회고 | 착수 가능 |
-| 4 | P0-1 | games | `chore(games): bun → pnpm + alignment Phase 0a 흡수` | PR1 회고 | 착수 가능 |
-| 5 | P0-1 | arcade | `chore(arcade): bun → pnpm 10.26.1` | PR1 회고 | 착수 가능 |
+| 1 | P0-1 | planner | `chore(planner): bun → pnpm 10.26.1 전환` | — | spec 채택 후 후보 (pnpm spec) |
+| 2 | P0-1 | Q | `chore(q): bun → pnpm 10.26.1 전환` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
+| 3 | P0-1 | classbot | `chore(classbot): D-Lite 모노레포 + pnpm 동시 적용` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
+| 4 | P0-1 | games | `chore(games): bun → pnpm + alignment Phase 0a 흡수` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
+| 5 | P0-1 | arcade | `chore(arcade): bun → pnpm 10.26.1` | PR1 회고 | spec 채택 후 후보 (pnpm spec) |
 | 6 | P0-2/3 | (인프라) | `infra: ECS cluster pullim-domains + RDS shared instance 셋업` | §8/§9 결정 후 | **대기(보류 §16.3)** |
 | 7 | P0-4 | 5 도메인 | `ci(<scope>): Vercel → Docker → ECR → ECS workflow` (5 PR) | PR6 | **대기(보류 §16.3)** |
 | 8 | P0-5 | 5 도메인 | `infra(<scope>): Secrets Manager + CloudWatch + S3 + SES` | PR6 | **대기(보류 §16.3)** |
 | 9 | P1-1 | 5 도메인 | `feat(<scope>): MockAuth → Passport/JWT 인증` (5 PR) | PR8 | **대기(PR8 보류에 종속)** |
 | 10 | P1-2 | 5 도메인 | `feat(<scope>): Redis + BullMQ 도입` (5 PR) | PR8 | **대기(PR8 보류에 종속)** |
-| 11 | P1-3 | 5 도메인 | `refactor(<scope>): shadcn → @pullim/design-system 마이그레이션` (5 PR — games 는 4 viewport audit 첨부) | DS 외부 정책 합의 | DS 정책 합의 후 착수 가능 |
-| 12 | P1-4 | 5 도메인 | `feat(<scope>): next-intl ko/en 도입 + 텍스트 추출` (5 PR) | — | 착수 가능 |
-| 13 | P1-5 | 3 도메인 | `feat(<scope>): TanStack Query 도입` (3 PR — Q·classbot 제외, 이미 보유) | — | 착수 가능 |
-| 14 | P2-1 | 5 도메인 | `feat(<scope>): Sentry instrumentation` (5 PR) | — | 착수 가능 |
-| 15 | P2-* | 도메인별 | AWS SDK / Tiptap / packages / Next16 (games 단독) | — | AWS SDK 부분만 인프라 의존 → 그 부분 대기 |
+| 11 | P1-3 | 5 도메인 | `refactor(<scope>): shadcn → @pullim/design-system 마이그레이션` (5 PR — games 는 4 viewport audit 첨부) | DS 외부 정책 합의 | spec 채택 + DS 정책 합의 후 후보 |
+| 12 | P1-4 | 5 도메인 | `feat(<scope>): next-intl ko/en 도입 + 텍스트 추출` (5 PR) | — | spec 채택 후 후보 (i18n spec) |
+| 13 | P1-5 | 3 도메인 | `feat(<scope>): TanStack Query 도입` (3 PR — Q·classbot 제외, 이미 보유) | — | spec 채택 후 후보 (FE spec) |
+| 14 | P2-1 | 5 도메인 | `feat(<scope>): Sentry instrumentation` (5 PR) | — | spec 채택 후 후보 (관측 spec) |
+| 15 | P2-* | 도메인별 | AWS SDK / Tiptap / packages / Next16 (games 단독) | — | spec 채택 후 후보. 단 AWS SDK 부분은 추가로 §16 인프라 보류 대기 |
 
-총 **30+ 개별 PR** 예상 (5 도메인 × 6 Phase 기본 + 도메인별 별도). **단 위 `상태` 열대로 인프라 보류(§16) PR 은 병합 토폴로지 확정 전까지 착수하지 않는다.**
+총 **30+ 개별 PR** 예상 (5 도메인 × 6 Phase 기본 + 도메인별 별도). **단 위 `상태` 열대로, 모든 PR 은 (1) 해당 리포 spec 갱신 PR 채택 후에만 후보가 되고, (2) AWS 인프라 의존 PR 은 §16 병합 토폴로지 확정까지 추가 대기한다. 제안서 단계에서 선행 착수 금지.**
 
 ---
 
@@ -433,8 +437,10 @@
 - 이 보류는 §1 의 "구조 모방, 본체 흡수 아님" 원칙과 **모순되지 않는다**: 코드/디렉토리/CI 구조는 지금 정본과 동형으로 맞추되(이식성 확보), **물리 인프라 토폴로지만** 병합 결정까지 미룬다. 구조가 동형이면 어느 병합 토폴로지로 가든 인프라 적용이 싸진다.
 - 임시방편 Vercel 은 이 보류 기간 동안의 FE 미리보기/데모 용도로만 사용. BE 서버 상주가 필요한 단계(**P1-1 BE 도입 이후의 mutation 엔드포인트** — §6 P0/P1/P2 체계 기준)는 병합 결정 전까지 로컬 docker 로 검증.
 
-### 16.4 코덱스 review 통과 정책 (확인)
+### 16.4 코덱스 review 통과 정책 (사용자 운영 원칙 메모 — 본 plan 의 신규 게이트 아님)
 
-사용자 직접 명시 (2026-05-27): **"코덱스 리뷰는 받아야지"** — close / 강제 머지 / 보류 모두 거부. **PR 머지는 코덱스 APPROVE 후에만**. 이 규칙은 본 plan §0(권위 우선순위)·§16.4 의 **plan 내부 결정**으로 고정한다. (작성자 로컬 절대경로를 권위 근거로 인용하지 않는다 — §0·부록 A 의 "리포 식별자 + 리포 상대경로" 원칙 일관. 외부 협업자는 GitHub UI 또는 동일 checkout 만으로 이 정책을 재현·검증할 수 있어야 한다.)
+> ⚠ 이 항목은 **본 제안서가 만들어내는 머지 게이트가 아니다.** §0 대로 본 문서는 PROPOSAL 이라 자체로 실행/머지 효력이 없다. 아래는 본 plan 의 채택 여부와 **무관하게 이미 존재하는** 사용자/조직 운영 원칙을 *기록*해 둔 메모이며, 적용 범위·강제력은 본 plan 이 아니라 그 운영 원칙(및 각 리포의 기여 규칙)에서 나온다.
+
+사용자 직접 명시 (2026-05-27): **"코덱스 리뷰는 받아야지"** — close / 강제 머지 / 보류 모두 거부, **PR 머지는 코덱스 APPROVE 후에** 라는 것이 사용자 운영 원칙이다. 본 plan 은 이 원칙을 *새로 제정*하지 않고, 위 메모로 *참조*만 한다. (참조 시에도 작성자 로컬 절대경로가 아닌 — §0·부록 A 의 "리포 식별자 + 리포 상대경로" 원칙대로 — 재현 가능한 형태로 기록한다. 외부 협업자는 GitHub UI 또는 동일 checkout 만으로 확인할 수 있어야 한다.)
 
 → 진행 중 3 alignment PR (#101, #82, #108) 처리는 별 사안 — 코덱스가 매 round 새 지적 발견 패턴이라 *어떤 정상 흐름이 가능한지* 사용자 명확화 필요 (close X · 강제 X · 보류 X 모두 잘못된 선택지로 인식).
