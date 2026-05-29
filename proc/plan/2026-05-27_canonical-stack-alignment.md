@@ -153,7 +153,7 @@
 | Gap-12 | AWS SDK | client-s3 + client-ses + s3-presigned | 0건 | **M** | 사용처별 — 5 도메인 모두 즉시 필요한지 평가 후 |
 | Gap-13 | 배포 | AWS ECS Fargate + ECR + Secrets Manager + CW Logs | Vercel manual 5건 | **XL** (DNS/SSL/모니터링 재구성) | 5건 모두 전환, AWS cluster 결정 §8 |
 | Gap-14 | CI/CD | GitHub Actions → Docker → ECR → ECS update | Vercel 자동 비활성, manual | **L** | 5건 모두 신규 작성 |
-| Gap-15 | 패키지 분리 | packages/{types,api-client,auth} + (본체엔 analytics/config/logging/remote-config/ui) | placeholder 3건 (planner/Q), classbot·games 부재 | **M** | 5건 모두 packages 6개로 정렬 |
+| Gap-15 | 패키지 분리 | **목표 6개 = 기존 3(`types`/`api-client`/`auth`) + 신규 3** (신규 3개는 본체의 `analytics/config/logging/remote-config/ui` 중 5 도메인 공통 필요분으로 P2-4 에서 확정 — 총개수는 6 으로 고정) | placeholder 3건 (planner/Q), classbot·games 부재 | **M** | 5건 모두 목표 6개로 정렬 (목록·총개수는 §6 P2-4 가 단일 기준) |
 
 총 15 영역(Gap-1~Gap-15) 갭. P0/P1/P2 분류는 §6.
 
@@ -205,7 +205,7 @@
 | **P2-1** | Sentry 도입 | 5 도메인 | `instrumentation.ts` + sentry.client/server/edge.config.ts, DSN Secret 관리 |
 | **P2-2** | AWS SDK (S3 / SES) 도입 | 사용처별 (classbot 봇 미디어, planner 리포트 PDF, Q 학습 자료 등) | presigned URL 패턴, SES verified sender |
 | **P2-3** | Tiptap 도입 | classbot builder, planner 메모 (필요 도메인만) | @tiptap/react + extensions |
-| **P2-4** | packages 6개 정렬 (analytics/config/logging/remote-config/ui/utils) | 5 도메인 각자 | placeholder → 실제 구현, types/api-client/auth 기존 3 + 신규 3 |
+| **P2-4** | packages **6개** 정렬 (= 기존 3 `types`/`api-client`/`auth` + 신규 3) | 5 도메인 각자 | placeholder → 실제 구현. **신규 3개 선정은 본체의 `analytics`/`config`/`logging`/`remote-config`/`ui` 후보 중 5 도메인 공통 필요분으로 이 PR 에서 확정** (총 6개 고정 — Gap-15 와 동일 기준). `utils` 등 추가가 필요하면 별도 항목으로 분리하되 본 plan 의 목표 총개수는 6 |
 | **P2-5** | Next.js 15 → 16 (games 한정) | games | next major bump, app router 검증, 21 게임 회귀 |
 
 **총 Phase 수**: P0=5, P1=5, P2=5 → **15 Phase**
@@ -220,7 +220,7 @@
 |---|---|---|---|---|---|
 | P0-1 pnpm | 신규 적용 | 신규 적용 | D-Lite 모노레포 전환과 합쳐 1 PR | alignment plan 의 Phase 0a 로 흡수 | 신규 적용 |
 | P0-2 ECS | 신규 적용 | 신규 적용 | 신규 적용 | BE 신설 + ECS 동시 (§8 결정) | 신규 적용 |
-| P0-3 RDS | 기존 docker compose → RDS | drizzle 분리 결정(D-Q-ORM) + RDS | drizzle 분리 결정(D-CB-ORM) + RDS | 신규 (BE 신설 시) | 기존 docker compose → RDS |
+| P0-3 RDS | 기존 docker compose → RDS | 기존 docker compose → RDS (drizzle→TypeORM 결정 D-Q-ORM 은 Q BE 본격 도입 시점 의제 — P0-3 블로커 아님) | drizzle 분리 결정(D-CB-ORM) + RDS | 신규 (BE 신설 시) | 기존 docker compose → RDS |
 | P0-4 CI/CD | Vercel workflow 폐기 | Vercel workflow 폐기 | Vercel workflow 폐기 | Vercel workflow 폐기 + codex-review.yml 유지 | Vercel workflow 폐기 |
 | P0-5 Secrets·Logs·S3·SES | 신규 적용 | 신규 적용 | 신규 적용 | 신규 적용 | 신규 적용 |
 | P1-1 JWT | Phase γ 의 BE 도입 시점 | BE 본격 시점 | bcryptjs → bcrypt + JWT | BE 신설 시 신규 | bcryptjs → bcrypt + JWT |
@@ -358,9 +358,9 @@
 - [ ] 5 도메인 `package.json` 의 `packageManager` 가 `pnpm@10.26.1`
 - [ ] ⓐ (보류) 5 도메인 모두 ECS Fargate 에서 dev 서비스 운영 (`pullim-<domain>-{web,backend}-dev` 패턴) — §16 보류 해제 후 평가
 - [ ] ⓐ (보류) 5 도메인 모두 GitHub Actions → ECR → ECS 파이프라인 통과 — §16 보류 해제 후 평가
-- [ ] 5 도메인 모두 JWT 인증 + Sentry DSN 활성 + **Redis/BullMQ 코드 레벨 도입(ioredis 연결 코드 + BullMQ 큐 셋업, 로컬 Redis container 로 검증 — §13/§16.5 선행 가능)** / ⓐ (보류) **관리형 Redis(ElastiCache) 전환**만 §16 보류 해제 후 평가 (코드 도입과 관리형 전환을 분리 — 코드가 없으면 부분 완료로도 인정하지 않는다)
+- [ ] **BE 보유 도메인**(planner/Q/classbot/arcade + games는 D-GM-BE 가 '신설'로 결정된 경우만) JWT 인증 + Sentry DSN 활성 + **Redis/BullMQ 코드 레벨 도입(ioredis 연결 코드 + BullMQ 큐 셋업, 로컬 Redis container 로 검증 — §13/§16.5 선행 가능)** / ⓐ (보류) **관리형 Redis(ElastiCache) 전환**만 §16 보류 해제 후 평가 (코드 도입과 관리형 전환을 분리 — 코드가 없으면 부분 완료로도 인정하지 않는다). **games 가 D-GM-BE 에서 SPA 유지로 결정되면 games 는 JWT/Redis/BullMQ 완료 대상에서 제외**(대체 완료 조건: games 는 FE/Sentry/DS/i18n 항목만 충족) — D-GM-BE 미결정 상태로는 본 항목 완료 판정 불가
 - [ ] 5 도메인 모두 `@pullim/design-system` 사용 + `messages/{ko,en}.json` 단일 파일 + TanStack Query QueryClient 활성
-- [ ] §8/§9/§10 결정 사항이 본 plan 본문에 반영 (§8/§9 의 AWS 결정은 §16 보류로 superseded — 보류 해제 시 재평가). **결정 이력의 정본은 본 plan §15/§16** (리포 내 추적). 부록 A 의 `.pullim-meta/DECISIONS.md` 는 권위 출처가 아닌 메모용이며 완료 판정 기준이 아니다.
+- [ ] §8/§9/§10 결정 사항이 본 plan 본문에 반영 (§8/§9 의 AWS 결정은 §16 보류로 superseded — 보류 해제 시 재평가). **결정 이력의 정본(single source of truth)은 `curea-co/pullim-Q` 의 `proc/plan/2026-05-27_canonical-stack-alignment.md` §15/§16 한 사본으로 고정**한다 — §16.1 의 "5 도메인 분산 배치"(옵션 B)에서 나머지 4 리포 사본은 **동기화 대상 사본(read-only mirror)** 일 뿐 정본이 아니다(split-brain 방지: 결정 갱신은 항상 pullim-Q 정본에 먼저 반영 후 나머지로 전파). 부록 A 의 `.pullim-meta/DECISIONS.md` 는 권위 출처가 아닌 메모용이며 완료 판정 기준이 아니다.
 - [ ] §11 모든 H 리스크 mitigation 적용 완료 또는 잔여 리스크 별 plan 으로 이관
 
 ---
@@ -376,7 +376,7 @@
 | **D-SEQ** | 출시 시퀀스 (옵션 A/B/C) | G1 | 본 plan 합의 시 | **옵션 C** — planner 선행 → 4 도메인 병렬 |
 | **D-DS** | `@pullim/design-system` 외부 노출·발행·deprecation 정책 | 본체팀 + G4 | P1-3 시작 | GitHub release tag pin + semver + 5 도메인 deprecation lead time 1 sprint |
 | **D-CB-ORM** | classbot drizzle → TypeORM 전환 방식 (data migration) | G3 | P0-3 시작 | drizzle schema SQL dump → TypeORM entities 재생성 + 첫 migration generate |
-| **D-Q-ORM** | Q 현행 drizzle(`apps/q/lib/db`, `drizzle/`) → 정본 TypeORM 전환 여부·방식 | G3 | P0-3 시작 (Q BE 도입 시점) | classbot 과 동일 방식(drizzle dump → TypeORM 재생성). Q 는 BE 본격 도입 시점까지 drizzle 현행 유지 |
+| **D-Q-ORM** | Q 현행 drizzle(`apps/q/lib/db`, `drizzle/`) → 정본 TypeORM 전환 여부·방식 | G3 | **Q 의 BE 본격 도입 시점(Q-track Phase γ 상당) — P0-3 공통 블로커 아님** | classbot 과 동일 방식(drizzle dump → TypeORM 재생성). Q 는 BE 본격 도입 전까지 drizzle 현행 유지하므로, 이 결정은 현재 5 도메인 공통 P0 트랙을 막지 않는다(Q 단독 후속 의제) |
 | **D-GM-BE** | games BE 신설 여부 (5 중 유일 BE 없음) | G1 + G3 | **spec 채택 시점 (P0-2 AWS 보류와 분리 — §16.2 와 정합, alignment plan #108 정합)** | 신설 — 추후 진척·점수·랭킹·콘텐츠 메타 backend 후보. SPA 유지는 옵션 |
 | **D-GM-N16** | games Next 15 → 16 시점 | G4 + games audit T5 | P2-5 | P1 완료 후 별 PR. 21 게임 회귀 audit 필수 |
 | **D-COST** | 월 AWS 청구 상한선 (CW Logs retention, S3 lifecycle, RDS 인스턴스 사이즈) | G1 | P0-5 | ~~retention 7d, S3 90d → IA → 1y Glacier, RDS db.t4g.small 시작~~ **(§16.2/§16.5 AWS 무기한 보류로 superseded)** |
@@ -408,7 +408,7 @@
 
 | 결정 | 답 |
 |---|---|
-| 본 plan 배치 방식 | **옵션 B — 5 도메인 각 `proc/plan/` 에 바이블 배치** (분산 보관, 동기화 부담 인정. 추후 구조 변경 시 바이블로 작업 진행) |
+| 본 plan 배치 방식 | **옵션 B — 5 도메인 각 `proc/plan/` 에 바이블 배치** (분산 보관, 동기화 부담 인정). **단 정본 1 사본 = `curea-co/pullim-Q`**(§14 참조), 나머지 4 리포는 동기화 대상 read-only mirror — 결정 갱신은 pullim-Q 정본에 먼저, 그 후 전파(split-brain 방지) |
 
 ### 16.2 명시적 보류 (사용자 직접 셋업 대기)
 
