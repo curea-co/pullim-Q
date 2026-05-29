@@ -39,13 +39,13 @@
 
 **완료 기준** (이 plan 전체):
 
-- `find apps/q/components/features -type d` 가 `q-home / q-infinity / q-coach / q-conqueror / q-memory / q-xray / q-study-index / q-analysis / q-question-hub` 폴더를 반환
+- `find apps/q/components/features -mindepth 1 -maxdepth 1 -type d` 가 정확히 `q-home / q-infinity / q-coach / q-conqueror / q-memory / q-xray / q-study-index / q-analysis / q-question-hub` 9개 top-level feature 폴더만 반환 (하위 `containers/`·`presenters/`·`components/` 까지 세지 않도록 `-maxdepth 1` 로 top-level 만 검사)
 - `rg '@/lib/mock' apps/q/components apps/q/app` 결과 0건 (single/double quote, `import`·`export ... from`, 서브패스 import 전부 포함하도록 따옴표·`from` 한정 없이 패키지 경로 전체를 검사)
 - `rg "drizzle-orm" apps/q` 결과 0건 (서브패스 `drizzle-orm/pg-core`·`drizzle-orm/node-postgres` 포함)
 - `apps/backend/src/modules/q/` 가 read+mutation endpoint 전체에 대해 use-case+service+repository 분리 보유
 - 검증 명령 (루트):
   - `bun run typecheck` (= `turbo typecheck`) — 5 워크스페이스 전부 (`@pullim-q/{q,backend,types,api-client,auth}`) 통과
-  - `bun run lint` 와 `bun run test` — **5 워크스페이스 전부** (`@pullim-q/{q,backend,types,api-client,auth}`) 통과. Phase η 가 `packages/{types,api-client,auth}` 를 placeholder → **본격 구현**으로 전환하므로, **Phase η 작업 항목에 해당 packages 의 `lint`/`test` 스크립트 추가를 포함**하고 완료 기준도 5 워크스페이스 lint/test 통과로 고정한다. (packages 가 본 plan 산출물인 이상 검증 범위에서 제외하면 깨진 패키지 코드로도 완료 판정될 수 있으므로 제외하지 않는다.) **단 루트 `bun run test`(= `turbo test`) 가 동작하려면 루트 `turbo.json` 에 `test` task 정의 + 루트 `package.json` 에 `"test": "turbo test"` 스크립트가 있어야 하므로, 그 정비를 Phase 1 작업 항목에 포함한다**(현재 루트엔 `test` task 부재 — 이게 없으면 마지막 게이트가 실행 불가). 루트 작업이므로 §0 루트 승인 규칙 적용.
+  - `bun run lint` 와 `bun run test` — **5 워크스페이스 전부** (`@pullim-q/{q,backend,types,api-client,auth}`) 통과. 루트 `package.json` 에는 이미 `"lint": "turbo lint"` / `"test": "turbo test"` 가, `turbo.json` 에는 `test`/`lint` task 가 **존재**하므로 루트 파이프라인 정비는 불필요. 다만 Phase η 가 `packages/{types,api-client,auth}` 를 placeholder → **본격 구현**으로 전환하므로, **Phase η 작업 항목에 해당 packages 의 `lint`/`test` 스크립트 추가를 포함**하고(현재 packages 엔 `typecheck` 만 있음) 완료 기준도 5 워크스페이스 lint/test 통과로 고정한다. (packages 가 본 plan 산출물인 이상 검증 범위에서 제외하면 깨진 패키지 코드로도 완료 판정될 수 있으므로 제외하지 않는다.)
 - `proc/spec/2026-05-18_q-be-api-design.md` §결정 사항의 ORM 행이 **TypeORM 0.3**, API 스타일 행이 **NestJS 11 — apps/backend** 로 갱신
 
 ---
@@ -63,7 +63,7 @@
 | drizzle ORM | **잔존** — `apps/q/drizzle/`, `apps/q/drizzle.config.ts`, `apps/q/lib/db/{schema,index}.ts` (10 tables) |
 | Next.js API routes | **잔존** — `apps/q/app/api/me/route.ts`, `/api/q/{analysis,review,infinity}/...` 9건 (drizzle 직접 호출) |
 | FE mock | **잔존** — `apps/q/lib/mock/{persona,curriculum,features,domains,memory,irt,tutor,conqueror,infinity,coach,xray,phase1,wrong-reason}.ts` 13개 |
-| Container/Presenter | **미도입** — 모든 페이지가 `'use client'` + mock 직접 import |
+| Container/Presenter | **미도입** — `/q` 이하 `page.tsx` 16개 중 `'use client'` 선언 8개, `@/lib/mock` 직접 import 12개 (`analysis/page.tsx`·`talk/page.tsx` 등은 thin mount 라 예외). Container/Presenter 분리는 0건 |
 | `apps/backend/` 내용 | NestJS skeleton 만 (`main.ts`, `app.module.ts`, `app.controller.ts`) — 도메인 모듈 0건 |
 | `packages/{types,api-client,auth}` | 빈 placeholder (`src/index.ts` exports 만) |
 | port | q FE 3031, backend 4031, Postgres 5433 (planner 와 충돌 회피) |
@@ -244,7 +244,6 @@ pullim-Q/
   - `CLAUDE.md` §1 도메인 범위 표에 `apps/q/components/features/q-*/{containers,presenters,components,hooks,lib}/` 추가 (`lib/` = 순수 유틸/도출 로직, 옵션)
   - `apps/q/CLAUDE.md` 에 cross-feature import 정책 + `shared/` 정책 추가
   - **`proc/spec/2026-05-18_q-be-api-design.md` 갱신** (§1 완료 기준 항목) — §결정 사항의 ORM 행 → **TypeORM 0.3**, API 스타일 행 → **NestJS 11 — apps/backend**. 이 spec 갱신이 이후 BE/FE 마이그레이션 phase 의 선행 조건이므로 Phase 1 PR 에 포함한다 (별도 선행 PR 아님)
-  - **루트 테스트 파이프라인 정비** (§1 완료 기준의 `bun run test` 게이트 전제) — 루트 `turbo.json` 에 `test` task 추가 + 루트 `package.json` 에 `"test": "turbo test"`(+ 필요 시 `"lint": "turbo lint"`) 스크립트 정의. 현재 루트엔 `test` task 가 없어 이게 없으면 최종 게이트 실행 불가. 루트 파일 수정이므로 §0 루트 승인 규칙 적용
 
 - 파일럿 코드:
   - `apps/q/components/features/q-<도메인>/containers/<페이지명>Container.tsx` 신규 (Container 순수성: 마크업 0줄, 원시값 props 만 전달)
